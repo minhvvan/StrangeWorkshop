@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CharacterInputHandler : BaseInputHandler
@@ -9,11 +10,15 @@ public class CharacterInputHandler : BaseInputHandler
     [NonSerialized] public Action OnInteract;  //만약 매개변수를 넘길경우 Action<자료형> 으로 추가하면 가능
     [NonSerialized] public Action OnAttack;
 
-    void Awake()
+    IEnumerator Start()
     {
         _controller = GetComponent<CharacterController>();
         OnActions += DirectControl;
 
+        _controller.SetInputHandler(this);
+
+        //초기화 안될경우가 있어서 대기시간을 주고 초기화
+        yield return new WaitForSeconds(0.1f);
         _controller.SetInputHandler(this);
     }
     
