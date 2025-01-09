@@ -12,16 +12,16 @@ public enum CONTROLL_MODE
 /// Update 에서 지속적인 값을 체크하여 사용
 /// </summary>
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(SampleCharacterController))]
 public class CharacterMovement : BaseAction
 {
     [SerializeField] public CONTROLL_MODE controlMode = CONTROLL_MODE.FIRST_PERSON;
 
-    CharacterController _controller;
+    SampleCharacterController _controller;
 
     void Awake()
     {
-        _controller = GetComponent<CharacterController>();
+        _controller = GetComponent<SampleCharacterController>();
 
         _controller.AddAction(this);
     }

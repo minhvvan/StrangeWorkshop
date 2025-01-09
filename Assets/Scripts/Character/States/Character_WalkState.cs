@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Character_WalkState : BaseState<CharacterController>
+public class Character_WalkState : BaseState<SampleCharacterController>
 {
-    public Character_WalkState(CharacterController controller) : base(controller) { }
+    public Character_WalkState(SampleCharacterController controller) : base(controller) { }
 
     public override void Enter()
     {

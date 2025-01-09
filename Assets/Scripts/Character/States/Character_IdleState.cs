@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Character_IdleState : BaseState<CharacterController>
+public class Character_IdleState : BaseState<SampleCharacterController>
 {
-    public Character_IdleState(CharacterController controller) : base(controller) { }
+    public Character_IdleState(SampleCharacterController controller) : base(controller) { }
 
     public override void Enter()
     {

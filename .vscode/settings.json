@@ -51,6 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "RunAndBlock.sln",
+    "dotnet.defaultSolution": "StrangeWorkshop.sln",
     "git.ignoreLimitWarning": true
 }

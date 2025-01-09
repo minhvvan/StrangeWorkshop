@@ -6,17 +6,17 @@ using UnityEngine;
 /// 상호작용을 위한 클래스
 /// OnInteract에 이벤트를 등록하여 사용
 /// </summary>
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(SampleCharacterController))]
 public class CharacterInteraction : BaseAction
 {
-    CharacterController _controller;
+    SampleCharacterController _controller;
 
     [SerializeField] float playerInteractDistance = 1f;
     [SerializeField] LayerMask playerInteractLayerMask;
 
     void Awake()
     {
-        _controller = GetComponent<CharacterController>();
+        _controller = GetComponent<SampleCharacterController>();
 
         _controller.AddAction(this);
     }    

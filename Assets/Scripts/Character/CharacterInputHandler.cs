@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterInputHandler : BaseInputHandler
 {
-    CharacterController _controller;
+    SampleCharacterController _controller;
 
     //Events   //필요한 이벤트를 Action으로  추가하여 연결해서 class 붙여주면 코드 분리가 편하게 될 것으로 예상됨
     [NonSerialized] public Action OnInteract;  //만약 매개변수를 넘길경우 Action<자료형> 으로 추가하면 가능
@@ -12,7 +12,7 @@ public class CharacterInputHandler : BaseInputHandler
 
     IEnumerator Start()
     {
-        _controller = GetComponent<CharacterController>();
+        _controller = GetComponent<SampleCharacterController>();
         OnActions += DirectControl;
 
         _controller.SetInputHandler(this);
