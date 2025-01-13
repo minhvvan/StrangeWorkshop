@@ -7,11 +7,13 @@ namespace Managers
 {
     public class DataManager
     {
+        //Load ScriptableObject
         public async UniTask<T> LoadDataAsync<T>(string address) where T : ScriptableObject
         {
             return await DataLoader.LoadAsync<T>(address);
         }
 
+        //Load Prefab
         public async UniTask<GameObject> LoadPrefabAsync(string address)
         {
             return await PrefabLoader.LoadAsync(address);
@@ -19,6 +21,7 @@ namespace Managers
         
         private static class DataLoader
         {
+            //cache
             private static readonly Dictionary<string, ScriptableObject> _caches = new();
 
             public static async UniTask<T> LoadAsync<T>(string address) where T : ScriptableObject
@@ -48,6 +51,7 @@ namespace Managers
         
         private static class PrefabLoader
         {
+            //cache
             private static readonly Dictionary<string, GameObject> _caches = new();
 
             public static async UniTask<GameObject> LoadAsync(string address)
