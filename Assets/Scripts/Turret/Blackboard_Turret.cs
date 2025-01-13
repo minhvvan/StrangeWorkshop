@@ -3,14 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TurretType
+{
+    SINGLE
+}
+
 public class Blackboard_Turret : MonoBehaviour
 {
-    [NonSerialized] public float damage;
-    [NonSerialized] public float attackRange;
-    [NonSerialized] public float fireRate;
+    // turret head position
+    public Transform turretHead;
+    public float lookSpeed;
     
-    [NonSerialized] public int remainingBulletsNum = 50;
-    [NonSerialized] public bool isOnCounter = true;
-    [NonSerialized] public bool isCrashed = false;
-    [NonSerialized] public GameObject target = null;
+    // turret status
+    public float damage;
+    public float attackRange;
+    public float fireRate;
+    public int maxBulletNum;
+
+    // shooting prefabs
+    [Header("Shooting")]
+    public TurretType turretType = TurretType.SINGLE;
+    public Transform muzzleMain;
+    public GameObject bullet;
+    public GameObject muzzleEff;
 }
