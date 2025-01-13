@@ -19,7 +19,7 @@ public class Turret_AttackState : BaseState<Turret>
     public override void UpdateState()
     {
         _timer += Time.deltaTime;
-        if (_controller.target != null)
+        if (_controller.target != null && _controller.remainingBulletsNum > 0)
         {
             FollowTarget(_controller.target);
             if (_controller.turret.fireRate <= _timer)
@@ -77,6 +77,7 @@ public class Turret_AttackState : BaseState<Turret>
             Projectile projectile = missleGo.GetComponent<Projectile>();
             projectile.target = target.transform;
         }
+        _controller.remainingBulletsNum--;
     }
 
     public void FollowTarget(GameObject target)

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    public GameObject a;
-    
     // 터렛 정보를 담고있는 블랙보드
     public Blackboard_Turret turret { get; private set; }
     
@@ -29,8 +27,6 @@ public class Turret : MonoBehaviour
     {
         InitComponents();
         InitStates();
-        // for debugging
-        StartCoroutine(StateChangeDebugging());
     }
 
     private void InitComponents()
@@ -58,30 +54,21 @@ public class Turret : MonoBehaviour
 
     void Update()
     {
+        UpdateTarget();
         _stateMachine.Update();
     }
-    
-    // statemachine 디버깅용
-    IEnumerator StateChangeDebugging()
+
+    void UpdateTarget()
     {
-        // 예상되는 state 변화 idle -> attack -> crash -> hold -> empty -> attack -> idle -> hold
-        yield return new WaitForSeconds(2f);
-        target = a;
-        yield return new WaitForSeconds(2f);
-        isCrashed = true;
-        yield return new WaitForSeconds(2f);
-        remainingBulletsNum = 0;
-        yield return new WaitForSeconds(2f);
-        isOnCounter = false;
-        yield return new WaitForSeconds(2f);
-        isOnCounter = true;
-        isCrashed = false;
-        yield return new WaitForSeconds(2f);
-        remainingBulletsNum = 50;
-        yield return new WaitForSeconds(2f);
-        yield return new WaitForSeconds(2f);
-        isOnCounter = false;
-        isCrashed = true;
-        remainingBulletsNum = 0;
+        int layerMask = LayerMask.GetMask("Enemy");
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, turret.attackRange, layerMask);
+
+        // no enemy in range
+        if (hitColliders.Length <= 0)
+        {
+            target = null;
+            return;
+        }
+        target = turret.targetStrategy.SelectTarget(hitColliders, gameObject);
     }
 }

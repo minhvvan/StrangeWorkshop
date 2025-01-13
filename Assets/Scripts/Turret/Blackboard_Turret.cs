@@ -26,4 +26,7 @@ public class Blackboard_Turret : MonoBehaviour
     public Transform muzzleMain;
     public GameObject bullet;
     public GameObject muzzleEff;
+    
+    // 타겟팅 전략
+    public ITargetStrategy targetStrategy = new ClosestTargetStrategy();
 }
