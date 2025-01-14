@@ -5,24 +5,30 @@ using UnityEngine;
 public class TurretManager : MonoBehaviour
 {
     List<Turret> _turrets = new List<Turret>();
+    TurretFactory _turretFactory = new TurretFactory();
 
-    void CreateTurret(Turret turret)
+    void Awake()
     {
-        Instantiate(turret);
+        CreateTurret(TurretType.BASIC);
     }
-
-    void CreateTurret(Turret turret, Vector3 position)
+    
+    void CreateTurret(TurretType turretType)
     {
-        Instantiate(turret, position, Quaternion.identity);
+        _turrets.Add(_turretFactory.CreateTurret(turretType, transform));
     }
 
     void DestroyTurret(Turret turret)
     {
-        Destroy(turret);
+        _turrets.Remove(turret);
+        Destroy(turret.gameObject);
     }
 
     void ClearTurrets()
     {
-        
+        foreach (Turret turret in _turrets)
+        {
+            Destroy(turret.gameObject);
+        }
+        _turrets.Clear();
     }
 }

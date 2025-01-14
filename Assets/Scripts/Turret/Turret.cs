@@ -27,13 +27,14 @@ public class Turret : MonoBehaviour
     {
         InitComponents();
         InitStates();
+        SetRangeEffectSize();
     }
 
     private void InitComponents()
     {
         turret = GetComponent<Blackboard_Turret>();
         remainingBulletsNum = turret.maxBulletNum;
-        turret.targetStrategy = new ClosestTargetStrategy();
+        SetTargetStrategy(new ClosestTargetStrategy());
         turret.shootingStrategy = new SingleShootingStrategy(this);
     }
     private void InitStates()
@@ -62,6 +63,11 @@ public class Turret : MonoBehaviour
     public void SetShootingStrategy(ShootingStrategy newStrategy)
     {
         turret.shootingStrategy = newStrategy;
+    }
+
+    public void SetRangeEffectSize()
+    {
+        turret.rangeEff.transform.localScale = new Vector3(turret.attackRange * 2f, turret.attackRange * 2f, 1f);
     }
     
     void Update()
