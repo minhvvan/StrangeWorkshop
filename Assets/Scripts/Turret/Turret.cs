@@ -33,6 +33,8 @@ public class Turret : MonoBehaviour
     {
         turret = GetComponent<Blackboard_Turret>();
         remainingBulletsNum = turret.maxBulletNum;
+        turret.targetStrategy = new ClosestTargetStrategy();
+        turret.shootingStrategy = new SingleShootingStrategy(this);
     }
     private void InitStates()
     {
@@ -52,6 +54,16 @@ public class Turret : MonoBehaviour
         _stateMachine.ChangeState(newState);
     }
 
+    public void SetTargetStrategy(ITargetStrategy newStrategy)
+    {
+        turret.targetStrategy = newStrategy;
+    }
+
+    public void SetShootingStrategy(ShootingStrategy newStrategy)
+    {
+        turret.shootingStrategy = newStrategy;
+    }
+    
     void Update()
     {
         UpdateTarget();

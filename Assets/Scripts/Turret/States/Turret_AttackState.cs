@@ -21,10 +21,12 @@ public class Turret_AttackState : BaseState<Turret>
         _timer += Time.deltaTime;
         if (_controller.target != null && _controller.remainingBulletsNum > 0)
         {
-            FollowTarget(_controller.target);
+            _controller.turret.shootingStrategy.FollowTarget(_controller.target);
+            // FollowTarget(_controller.target);
             if (_controller.turret.fireRate <= _timer)
             {
-                Shoot(_controller.target);
+                _controller.turret.shootingStrategy.Shoot(_controller.target);
+                // Shoot(_controller.target);
                 _timer = 0f;
             }
         }
