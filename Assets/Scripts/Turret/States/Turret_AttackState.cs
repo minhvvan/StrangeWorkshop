@@ -68,35 +68,4 @@ public class Turret_AttackState : BaseState<Turret>
             _controller.SetState(_controller.idleState);
         }
     }
-    
-    public void Shoot(GameObject target)
-    {
-        // target 향해서 총알 발사
-        if (_controller.turret.turretType == TurretType.SINGLE)
-        {
-            Object.Instantiate(_controller.turret.muzzleEff, _controller.turret.muzzleMain);
-            GameObject missleGo = Object.Instantiate(_controller.turret.bullet, _controller.turret.muzzleMain);
-            Projectile projectile = missleGo.GetComponent<Projectile>();
-            projectile.target = target.transform;
-        }
-        _controller.remainingBulletsNum--;
-    }
-
-    public void FollowTarget(GameObject target)
-    {
-        // target 방향으로 터렛 헤드 돌리기
-        Transform turretHead = _controller.turret.turretHead;
-        Vector3 targetDir = target.transform.position - turretHead.position;
-        targetDir.y = 0;
-        
-        //turreyHead.forward = targetDir;
-        if (_controller.turret.turretType == TurretType.SINGLE)
-        {
-            turretHead.forward = targetDir;
-        }
-        else
-        {
-           turretHead.transform.rotation = Quaternion.RotateTowards(turretHead.rotation, Quaternion.LookRotation(targetDir), _controller.turret.lookSpeed * Time.deltaTime);
-        }
-    }
 }
