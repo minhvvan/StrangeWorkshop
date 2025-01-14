@@ -87,6 +87,6 @@ public class Turret : MonoBehaviour
             target = null;
             return;
         }
-        target = turret.targetStrategy.SelectTarget(hitColliders, gameObject);
+        target = turret.targetStrategy.SelectTarget(hitColliders, this);
     }
 }

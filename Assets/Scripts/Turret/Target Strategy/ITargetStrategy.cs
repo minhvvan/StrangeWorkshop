@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ITargetStrategy
 {
-    GameObject SelectTarget(Collider[] targets, GameObject turret);
+    GameObject SelectTarget(Collider[] targets, Turret turret);
 }

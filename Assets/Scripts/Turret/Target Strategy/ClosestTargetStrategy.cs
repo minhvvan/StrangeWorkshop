@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClosestTargetStrategy : ITargetStrategy
 {
     // 가장 가까운 object를 반환한다.
-    public GameObject SelectTarget(Collider[] targets, GameObject turret)
+    public GameObject SelectTarget(Collider[] targets, Turret turret)
     {
         GameObject closestTarget = null;
         float closestDist = Mathf.Infinity;
