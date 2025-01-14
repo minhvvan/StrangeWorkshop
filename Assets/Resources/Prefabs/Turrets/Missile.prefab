@@ -5255,7 +5255,7 @@ GameObject:
   - component: {fileID: 1976511688670177153}
   - component: {fileID: 2074097076724818613}
   m_Layer: 0
-  m_Name: FattyMissileGSingle
+  m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5313,7 +5313,7 @@ MonoBehaviour:
   muzzleMain: {fileID: 9002484081553748919}
   bullet: {fileID: 1773485284122676, guid: 9e0d59e1858a95d4aafcfc9ef7e94671, type: 3}
   muzzleEff: {fileID: 1497772684437746, guid: bd75ef4ae186f454a90b2de71bed2854, type: 3}
-  turretType: 0
+  turretType: 1
 --- !u!1 &6974951911868648942
 GameObject:
   m_ObjectHideFlags: 0
