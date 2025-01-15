@@ -13,19 +13,19 @@ public class Turret_AttackState : BaseState<Turret>
     {
         Debug.Log("Enter AttackState");
         // timer 초기화
-        _timer = _controller.turret.fireRate;
+        _timer = _controller.turretData.fireRate;
     }
 
     public override void UpdateState()
     {
         _timer += Time.deltaTime;
-        if (_controller.target != null && _controller.remainingBulletsNum > 0)
+        if (_controller.turretData.target != null && _controller.turretData.curretBulletNum > 0)
         {
-            _controller.turret.shootingStrategy.FollowTarget(_controller.target);
+            _controller.turretData.shootingStrategy.FollowTarget(_controller.turretData.target);
             // FollowTarget(_controller.target);
-            if (_controller.turret.fireRate <= _timer)
+            if (_controller.turretData.fireRate <= _timer)
             {
-                _controller.turret.shootingStrategy.Shoot(_controller.target);
+                _controller.turretData.shootingStrategy.Shoot(_controller.turretData.target);
                 // Shoot(_controller.target);
                 _timer = 0f;
             }
@@ -37,7 +37,7 @@ public class Turret_AttackState : BaseState<Turret>
     {
         Debug.Log("Exit AttackState");
         // timer 초기화
-        _timer = _controller.turret.fireRate;
+        _timer = _controller.turretData.fireRate;
     }
     
     private void ChangeState()
@@ -47,22 +47,22 @@ public class Turret_AttackState : BaseState<Turret>
          state 변경 여부 체크 순서:
          turret이 counter에 있는가? -> turret이 고장났는가? -> turret이 총알이 없는가? -> 적이 있는가?
          */
-        if (!_controller.isOnCounter)
+        if (!_controller.turretData.isOnCounter)
         {
             Debug.Log("Change to HoldState");
             _controller.SetState(_controller.holdState);
         }
-        else if (_controller.isCrashed)
+        else if (_controller.turretData.isCrashed)
         {
             Debug.Log("Change to CrashState");
             _controller.SetState(_controller.crashState);
         }
-        else if (_controller.remainingBulletsNum <= 0)
+        else if (_controller.turretData.curretBulletNum <= 0)
         {
             Debug.Log("Change to EmptyState");
             _controller.SetState(_controller.emptyState);
         }
-        else if (_controller.target is null)
+        else if (_controller.turretData.target is null)
         {
             Debug.Log("Change to IdleState");
             _controller.SetState(_controller.idleState);

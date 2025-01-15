@@ -5188,17 +5188,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a36d0822669444c9b5123742940d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretHead: {fileID: 3914571465200952606}
+  fixSpeed: 10
+  crashedColor: {r: 1, g: 0, b: 0, a: 1}
   lookSpeed: 100
+  turretType: 0
   damage: 1
   attackRange: 5
   fireRate: 1
   maxBulletNum: 10
+  maxHealth: 10
+  turretHead: {fileID: 3914571465200952606}
   rangeEff: {fileID: 2758993099124444116}
+  renderers:
+  - {fileID: 8022025058266528089}
+  - {fileID: 1552936531079539993}
+  - {fileID: 9045293710144000394}
   muzzleMain: {fileID: 3683984735190666069}
   bullet: {fileID: 1230967522142342, guid: eb167afc8ab53774898a71ad9c87e1e8, type: 3}
   muzzleEff: {fileID: 1497772684437746, guid: bd75ef4ae186f454a90b2de71bed2854, type: 3}
-  turretType: 0
+  playerHandTransform: {fileID: 0}
 --- !u!1 &6949506697220348682
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TurretActions
+{
+    private Turret _turret;
+
+    public TurretActions(Turret turret)
+    {
+        _turret = turret;
+    }
+
+    public void Reload()
+    {
+        _turret.turretData.curretBulletNum = _turret.turretData.maxBulletNum;
+    }
+
+    public void Hold(Transform playerHandTransform)
+    {
+        _turret.turretData.playerHandTransform = playerHandTransform;
+        _turret.turretData.isOnCounter = false;
+    }
+
+    public void Fix()
+    {
+        _turret.turretData.currentHealth = _turret.turretData.maxHealth;
+    }
+
+    public void Fix(float time)
+    {
+        _turret.turretData.currentHealth += _turret.turretData.fixSpeed * time;
+    }
+
+    public void ReduceHealth()
+    {
+        _turret.turretData.currentHealth -= 0.1f;
+    }
+
+    public void Crash()
+    {
+        _turret.turretData.isCrashed = true;
+    }
+
+    public void Upgrade(string upgradeName, float upgradeLevel)
+    {
+
+    }
+
+    public void SetTargetStrategy(ITargetStrategy newStrategy)
+    {
+        _turret.turretData.targetStrategy = newStrategy;
+    }
+
+    public void SetShootingStrategy(ShootingStrategy newStrategy)
+    {
+        _turret.turretData.shootingStrategy = newStrategy;
+    }
+
+    public void SetRangeEffectSize()
+    {
+        float size = _turret.turretData.attackRange * 2f;
+        _turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);
+    }
+}

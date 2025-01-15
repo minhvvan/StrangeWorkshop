@@ -6,7 +6,8 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
     // 터렛 정보를 담고있는 블랙보드
-    public Blackboard_Turret turret { get; private set; }
+    public Blackboard_Turret turretData { get; private set; }
+    public TurretActions turretActions { get; private set; }
     
     StateMachine _stateMachine;
     
@@ -16,27 +17,19 @@ public class Turret : MonoBehaviour
     [NonSerialized] public Turret_HoldState holdState;
     [NonSerialized] public Turret_EmptyState emptyState;
     [NonSerialized] public Turret_CrashState crashState;
-
-    // turret status
-    [NonSerialized] public GameObject target;
-    [NonSerialized] public int remainingBulletsNum;
-    [NonSerialized] public bool isOnCounter = true;
-    [NonSerialized] public bool isCrashed = false;
     
     void Awake()
     {
         InitComponents();
         InitStates();
-        SetRangeEffectSize();
+        InitTurretData();
     }
 
     private void InitComponents()
     {
-        turret = GetComponent<Blackboard_Turret>();
-        remainingBulletsNum = turret.maxBulletNum;
-        SetTargetStrategy(new ClosestTargetStrategy());
-        turret.shootingStrategy = new SingleShootingStrategy(this);
+        turretData = GetComponent<Blackboard_Turret>();
     }
+    
     private void InitStates()
     {
         _stateMachine = new StateMachine();
@@ -50,43 +43,43 @@ public class Turret : MonoBehaviour
         _stateMachine.ChangeState(idleState);
     }
 
+    private void InitTurretData()
+    {
+        turretActions = new TurretActions(this);
+        turretActions.Reload();
+        turretActions.Fix();
+        turretActions.SetTargetStrategy(new ClosestTargetStrategy());
+        turretActions.SetShootingStrategy(new SingleShootingStrategy(this));
+        turretActions.SetRangeEffectSize();
+    }
+
     public void SetState(IState newState)
     {
         _stateMachine.ChangeState(newState);
-    }
-
-    public void SetTargetStrategy(ITargetStrategy newStrategy)
-    {
-        turret.targetStrategy = newStrategy;
-    }
-
-    public void SetShootingStrategy(ShootingStrategy newStrategy)
-    {
-        turret.shootingStrategy = newStrategy;
-    }
-
-    public void SetRangeEffectSize()
-    {
-        turret.rangeEff.transform.localScale = new Vector3(turret.attackRange * 2f, turret.attackRange * 2f, 1f);
     }
     
     void Update()
     {
         UpdateTarget();
         _stateMachine.Update();
+        turretActions.ReduceHealth();
+        if (turretData.currentHealth <= 0)
+        {
+            turretActions.Crash();
+        }
     }
 
     void UpdateTarget()
     {
         int layerMask = LayerMask.GetMask("Enemy");
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, turret.attackRange, layerMask);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, turretData.attackRange, layerMask);
 
         // no enemy in range
         if (hitColliders.Length <= 0)
         {
-            target = null;
+            turretData.target = null;
             return;
         }
-        target = turret.targetStrategy.SelectTarget(hitColliders, this);
+        turretData.target = turretData.targetStrategy.SelectTarget(hitColliders, this);
     }
 }

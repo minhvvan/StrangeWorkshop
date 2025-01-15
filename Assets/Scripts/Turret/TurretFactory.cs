@@ -21,13 +21,13 @@ public class TurretFactory
         switch (turretType)
         {
             case TurretType.BASIC:
-                turret.SetShootingStrategy(new SingleShootingStrategy(turret));
+                turret.turretActions.SetShootingStrategy(new SingleShootingStrategy(turret));
                 break;
             case TurretType.MISSILE:
-                turret.SetShootingStrategy(new SingleShootingStrategy(turret));
+                turret.turretActions.SetShootingStrategy(new SingleShootingStrategy(turret));
                 break;
             case TurretType.MORTAR:
-                turret.SetShootingStrategy(new SingleShootingStrategy(turret));
+                turret.turretActions.SetShootingStrategy(new SingleShootingStrategy(turret));
                 break;
             default:
                 break;
