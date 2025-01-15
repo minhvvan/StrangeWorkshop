@@ -62,4 +62,18 @@ public class TurretActions
         float size = _turret.turretData.attackRange * 2f;
         _turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);
     }
+    
+    public void UpdateTarget()
+    {
+        int layerMask = LayerMask.GetMask("Enemy");
+        Collider[] hitColliders = Physics.OverlapSphere(_turret.transform.position, _turret.turretData.attackRange, layerMask);
+
+        // no enemy in range
+        if (hitColliders.Length <= 0)
+        {
+            _turret.turretData.target = null;
+            return;
+        }
+        _turret.turretData.target = _turret.turretData.targetStrategy.SelectTarget(hitColliders, _turret);
+    }
 }

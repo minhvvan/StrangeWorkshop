@@ -14,6 +14,7 @@ public class Blackboard_Turret : MonoBehaviour
 {
     // 모든 turret 공통
     public float fixSpeed = 10;
+    public float resizeScale = 2f;
     public Color crashedColor = Color.red;
     public float lookSpeed;
     
@@ -33,20 +34,22 @@ public class Blackboard_Turret : MonoBehaviour
     [NonSerialized] public bool isCrashed = false;
     [NonSerialized] public float currentHealth;
     
-    // Prefabs
-    [Header("caching")]
-    public Transform turretHead;
-    public GameObject rangeEff;
-    public MeshRenderer[] renderers;
-    
-    public Transform muzzleMain;
-    public GameObject bullet;
-    public GameObject muzzleEff;
-    
     // 전략패턴
     public ITargetStrategy targetStrategy;
     public ShootingStrategy shootingStrategy;
     
     // player (손)위치
     public Transform playerHandTransform;
+    
+    // caching
+    [Header("caching")]
+    public Transform turretHead;
+    public GameObject rangeEff;
+    public MeshRenderer[] renderers;
+    public GameObject noAmmoImage;
+    
+    public Transform muzzleMain;
+    public GameObject bullet;
+    public GameObject muzzleEff;
+
 }

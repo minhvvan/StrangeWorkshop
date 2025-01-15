@@ -12,7 +12,7 @@ public class Turret_CrashState : BaseState<Turret>
         Debug.Log("Enter CrashState");
         _previousColors = new Color[_controller.turretData.renderers.Length];
         
-        // 터렛 crash 색으로 변경
+        // 터렛 색 변경
         for (int i = 0; i < _controller.turretData.renderers.Length; i++)
         {
             _previousColors[i] = _controller.turretData.renderers[i].material.color;
@@ -35,6 +35,7 @@ public class Turret_CrashState : BaseState<Turret>
             _controller.turretData.renderers[i].material.color = _previousColors[i];
         }
         _controller.turretData.rangeEff.SetActive(true);
+        
         // 메모리 해제
         _previousColors = null;
     }

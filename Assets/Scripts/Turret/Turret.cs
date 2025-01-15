@@ -51,6 +51,8 @@ public class Turret : MonoBehaviour
         turretActions.SetTargetStrategy(new ClosestTargetStrategy());
         turretActions.SetShootingStrategy(new SingleShootingStrategy(this));
         turretActions.SetRangeEffectSize();
+        
+        // player hand transform 초기화 필요
     }
 
     public void SetState(IState newState)
@@ -60,26 +62,9 @@ public class Turret : MonoBehaviour
     
     void Update()
     {
-        UpdateTarget();
+        turretActions.UpdateTarget();
         _stateMachine.Update();
-        turretActions.ReduceHealth();
-        if (turretData.currentHealth <= 0)
-        {
-            turretActions.Crash();
-        }
     }
 
-    void UpdateTarget()
-    {
-        int layerMask = LayerMask.GetMask("Enemy");
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, turretData.attackRange, layerMask);
 
-        // no enemy in range
-        if (hitColliders.Length <= 0)
-        {
-            turretData.target = null;
-            return;
-        }
-        turretData.target = turretData.targetStrategy.SelectTarget(hitColliders, this);
-    }
 }

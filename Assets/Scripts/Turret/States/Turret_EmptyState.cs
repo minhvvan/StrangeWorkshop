@@ -9,15 +9,18 @@ public class Turret_EmptyState : BaseState<Turret>
     public override void Enter()
     {
         Debug.Log("Enter EmptyState");
+        _controller.turretData.noAmmoImage.SetActive(true);
     }
 
     public override void UpdateState()
     {
+        // image 깜빡거리게?
         ChangeState();
     }
 
     public override void Exit()
     {
+        _controller.turretData.noAmmoImage.SetActive(false);
         Debug.Log("Exit EmptyState");
     }
     
