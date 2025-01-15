@@ -5,7 +5,9 @@ using UnityEngine;
 
 public enum TurretType
 {
-    SINGLE
+    BASIC,
+    MISSILE,
+    MORTAR
 }
 
 public class Blackboard_Turret : MonoBehaviour
@@ -15,15 +17,21 @@ public class Blackboard_Turret : MonoBehaviour
     public float lookSpeed;
     
     // turret status
+    // Todo: scriptable Object로 관리
+    public TurretType turretType;
     public float damage;
     public float attackRange;
     public float fireRate;
     public int maxBulletNum;
 
-    // shooting prefabs
-    [Header("Shooting")]
-    public TurretType turretType = TurretType.SINGLE;
+    // Prefabs
+    [Header("Prefabs")] 
+    public GameObject rangeEff;
     public Transform muzzleMain;
     public GameObject bullet;
     public GameObject muzzleEff;
+    
+    // 전략패턴
+    public ITargetStrategy targetStrategy;
+    public ShootingStrategy shootingStrategy;
 }

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    public GameObject a;
-    
     // 터렛 정보를 담고있는 블랙보드
     public Blackboard_Turret turret { get; private set; }
     
@@ -29,14 +27,15 @@ public class Turret : MonoBehaviour
     {
         InitComponents();
         InitStates();
-        // for debugging
-        StartCoroutine(StateChangeDebugging());
+        SetRangeEffectSize();
     }
 
     private void InitComponents()
     {
         turret = GetComponent<Blackboard_Turret>();
         remainingBulletsNum = turret.maxBulletNum;
+        SetTargetStrategy(new ClosestTargetStrategy());
+        turret.shootingStrategy = new SingleShootingStrategy(this);
     }
     private void InitStates()
     {
@@ -56,32 +55,38 @@ public class Turret : MonoBehaviour
         _stateMachine.ChangeState(newState);
     }
 
-    void Update()
+    public void SetTargetStrategy(ITargetStrategy newStrategy)
     {
-        _stateMachine.Update();
+        turret.targetStrategy = newStrategy;
+    }
+
+    public void SetShootingStrategy(ShootingStrategy newStrategy)
+    {
+        turret.shootingStrategy = newStrategy;
+    }
+
+    public void SetRangeEffectSize()
+    {
+        turret.rangeEff.transform.localScale = new Vector3(turret.attackRange * 2f, turret.attackRange * 2f, 1f);
     }
     
-    // statemachine 디버깅용
-    IEnumerator StateChangeDebugging()
+    void Update()
     {
-        // 예상되는 state 변화 idle -> attack -> crash -> hold -> empty -> attack -> idle -> hold
-        yield return new WaitForSeconds(2f);
-        target = a;
-        yield return new WaitForSeconds(2f);
-        isCrashed = true;
-        yield return new WaitForSeconds(2f);
-        remainingBulletsNum = 0;
-        yield return new WaitForSeconds(2f);
-        isOnCounter = false;
-        yield return new WaitForSeconds(2f);
-        isOnCounter = true;
-        isCrashed = false;
-        yield return new WaitForSeconds(2f);
-        remainingBulletsNum = 50;
-        yield return new WaitForSeconds(2f);
-        yield return new WaitForSeconds(2f);
-        isOnCounter = false;
-        isCrashed = true;
-        remainingBulletsNum = 0;
+        UpdateTarget();
+        _stateMachine.Update();
+    }
+
+    void UpdateTarget()
+    {
+        int layerMask = LayerMask.GetMask("Enemy");
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, turret.attackRange, layerMask);
+
+        // no enemy in range
+        if (hitColliders.Length <= 0)
+        {
+            target = null;
+            return;
+        }
+        target = turret.targetStrategy.SelectTarget(hitColliders, this);
     }
 }
