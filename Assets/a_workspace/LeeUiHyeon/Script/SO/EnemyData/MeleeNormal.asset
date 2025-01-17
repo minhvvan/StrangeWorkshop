@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
+  m_Name: MeleeNormal
+  m_EditorClassIdentifier: 
+  enemytype: 0
+  enemyPrefab: {fileID: 8399592120908221331, guid: d0157e30fbe654f4fb378c6e83368513,
+    type: 3}
+  animator: {fileID: 0}
+  animSpeed: 0
+  name: MeleeNormal
+  hp: 10
+  armor: 0
+  attackDamage: 1
+  attackRange: 1
+  attackSpeed: 5
+  moveSpeed: 5
