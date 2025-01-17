@@ -15,11 +15,16 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 63bb53700a2b9424983d9663ba1286db
-  m_SerializeEntries: []
+  m_GUID: ce7fd60e045593145b168f4fc3657b6b
+  m_SerializeEntries:
+  - m_GUID: fde2db5b18db17e49a3aa318de4d8de8
+    m_Address: PlayerData/DefaultStats
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
-  m_Settings: {fileID: 11400000, guid: 680eecc9ea67bbd439c17b667ef4d62c, type: 2}
+  m_Settings: {fileID: 11400000, guid: 92d102a8dfb08f04db59e4e3517fb950, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: ff87d6076c8a27f47aff89342a36584b, type: 2}
-    - {fileID: 11400000, guid: 2eb4f665b20e53d44b04eebfaf062466, type: 2}
+    - {fileID: 11400000, guid: 5b3b69aca4ce1da42a4b7cc28acb9fa1, type: 2}
+    - {fileID: 11400000, guid: 1324adb5c0e448547bef20bb6f3dbf55, type: 2}
