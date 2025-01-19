@@ -65,6 +65,4 @@ public class Turret : MonoBehaviour
         turretActions.UpdateTarget();
         _stateMachine.Update();
     }
-
-
 }

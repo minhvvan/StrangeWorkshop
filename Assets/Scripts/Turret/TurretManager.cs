@@ -9,7 +9,7 @@ public class TurretManager : MonoBehaviour
 
     void Awake()
     {
-        CreateTurret(TurretType.MORTAR);
+        CreateTurret(TurretType.BASIC);
     }
     
     void CreateTurret(TurretType turretType)
