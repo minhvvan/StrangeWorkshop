@@ -6,12 +6,13 @@ public abstract class BaseInputHandler : MonoBehaviour
 {
 
     public Vector2 MovementInput { get; protected set; } 
-
-    public bool IsJumping { get; protected set; }
+    
     public bool IsRunning { get; protected set; }
     public float Horizontal { get; protected set; }
     public float Vertical { get; protected set; } 
     public bool IsWalking { get; protected set; } 
+    
+    public bool IsDashing { get; protected set; }
     public bool IsGrounded { get; protected set; } 
 
     [SerializeField] public float groundCheckDistance = 0.1f;

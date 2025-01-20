@@ -11,6 +11,7 @@ public class SampleCharacterController : MonoBehaviour
     [NonSerialized] public Character_IdleState idleState;
     [NonSerialized] public Character_WalkState walkState;
     [NonSerialized] public Character_RunState runState;
+    [NonSerialized] public Character_DashState dashState;
 
     //사용할 액션들을 저장하고 등록하기 위함
     List<BaseAction> _actions = new List<BaseAction>();
@@ -22,9 +23,15 @@ public class SampleCharacterController : MonoBehaviour
     
     public CharacterInputHandler inputHandler;
 
-
+    [Header("Speed Settings")]
     [SerializeField] public float walkSpeed = 5f;
     [SerializeField] public float runSpeed = 10f;
+    [SerializeField] public float dashSpeed = 15f; // 대쉬 시 최고 속도
+    
+    [Header("Dash Timings")]
+    [SerializeField] public float dashAccelTime = 0.5f;
+    [SerializeField] public float dashDecelTime = 0.5f;
+    
 
 
     void Awake()
@@ -48,6 +55,7 @@ public class SampleCharacterController : MonoBehaviour
         idleState = new Character_IdleState(this);
         walkState = new Character_WalkState(this);
         runState = new Character_RunState(this);
+        dashState = new Character_DashState(this);
 
         //초기 State 설정
         _stateMachine.ChangeState(new Character_IdleState(this));

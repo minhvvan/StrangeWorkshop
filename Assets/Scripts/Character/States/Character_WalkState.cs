@@ -24,5 +24,9 @@ public class Character_WalkState : BaseState<SampleCharacterController>
         {
             _controller.SetState(_controller.runState);
         }
+        else if (_controller.inputHandler.IsDashing)
+        {
+            _controller.SetState(_controller.dashState);
+        }
     }
 }
