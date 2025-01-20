@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "NewSpawnData", menuName = "SO/SpawnData")]
+
+//적 스폰에 관한 데이터를 저장하는 SO
 public class SpawnDataSO : ScriptableObject
 {
     //생설될 위치 리스트.

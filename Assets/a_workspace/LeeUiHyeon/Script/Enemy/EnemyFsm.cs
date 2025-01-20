@@ -3,33 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Enemy의 State를 제어하는 클래스입니다.
 public class EnemyFsm : MonoBehaviour
 {
-    private IBlackboardEnemy _blackboardEnemy;
+    //enemy의 blackboard 접근
+    private Enemy enemy;
     public BlackboardEnemy blackboard;
-    StateMachine _stateMachine;
     
     //State캐싱
+    private StateMachine _stateMachine;
     [NonSerialized] public Enemy_IdleState idleState;
     [NonSerialized] public Enemy_ChaseState chaseState;
     [NonSerialized] public Enemy_AttackState attackState;
     
-    List<BaseAction> enemyActions = new();
+    //List<BaseAction> enemyActions = new();
     
-    public Rigidbody rb;
-    public Animator anim;
-
     void Awake()
     {
         InitComponents();
-        InitStates();
     }
 
     void InitComponents()
     {
-        _blackboardEnemy = GetComponent<IBlackboardEnemy>();
-        rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        enemy = GetComponent<Enemy>();
     }
     
     public void InitStates()
@@ -41,12 +37,11 @@ public class EnemyFsm : MonoBehaviour
         chaseState = new (this);
         attackState = new (this);
 
-        
-        _blackboardEnemy.InitBlackboard();
-        blackboard = _blackboardEnemy as BlackboardEnemy;
-
         //초기 State 설정
         _stateMachine.ChangeState(idleState);
+        
+        //블랙보드 할당
+        blackboard = enemy.blackboard;
     }
     
     public void ChangeEnemyState(IState newState)

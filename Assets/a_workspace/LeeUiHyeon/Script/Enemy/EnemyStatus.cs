@@ -12,7 +12,7 @@ public class EnemyStatus
 
     //애니메이터
     public Animator animator;
-    public float animSpeed = 1;
+    public float animSpeed = 0;
 
     //적 이름
     public string name;

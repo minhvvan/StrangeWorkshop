@@ -27,6 +27,8 @@ public enum TargetCode
 
 //코드 최상단에 테스트용 코드를 활성화 하는 전처리문이 있습니다. 사용 시에는 주석처리 해주세요.
 
+//스크립트 하단에 기본 사용순서 있습니다.
+
 //적 스폰위치를 설정하고 원하는 적 데이터를 불러와 생성할 수 있는 클래스 입니다.
 public class EnemySpawner : MonoBehaviour
 {
@@ -37,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
     private List<GameObject> _enemyPrefab = new();
     
     //풀링용 프리팹 List -- 미구현 --
-    private List<GameObject> _enemyPrefabPool = new();
+    private List<GameObject> _enemyPrefabPool;
     
     //생성할 적의 정보, 스탯
     private EnemyStatus _status;
@@ -66,9 +68,9 @@ public class EnemySpawner : MonoBehaviour
     //생성 후 따라갈 타켓 넘버.
     private TargetCode _targetCode;
     
-    //EnemyData SO 생성파일 경로를 지정해주세요.
-    [NonSerialized] public string enemyDataSOpath = "Assets/a_workspace/LeeUiHyeon/Script/SO/EnemyData/MeleeNormal.asset";
-    [NonSerialized] public string spawnDataSOpath = "Assets/a_workspace/LeeUiHyeon/Script/SO/SpawnData/SpawnDataA.asset";
+    //각 SO 생성파일 경로를 지정해주세요.
+    public string enemyDataSOpath = "Assets/a_workspace/LeeUiHyeon/Script/SO/EnemyData/MeleeNormal.asset";
+    public string spawnDataSOpath = "Assets/a_workspace/LeeUiHyeon/Script/SO/SpawnData/SpawnDataA.asset";
     
     //적 스폰위치를 하나씩 추가합니다.
     public void AddSpawnPosition(Vector3 position)
@@ -124,7 +126,7 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log(loadPath);
         
         //EnemyDataSO내의 스탯, 생성할 프리팹 정보를 받아옵니다.
-        GameObject prefab = new();
+        GameObject prefab;
         (_status, prefab) = await EnemyFactory.LoadEnemyStatus(loadPath);
         
         //이거 안해주면 받아오기전에 null을 Add 해버린다. 
@@ -147,7 +149,13 @@ public class EnemySpawner : MonoBehaviour
         
         (spawnPoints, _spawnIndex, _selectPrefabIndex, _spawnAmount, _targetCode)
             = await EnemyFactory.LoadSpawnData(loadPath);
+        
+        //기존 spawnPoint를 싹 지우고 새 데이터로 채워넣는다.
         BatchAddSpawnPositions(spawnPoints);
+        
+        //그냥 이어서 추가한다.
+        //AddAllSpawnPositions(spawnPoints);
+        //AddSpawnPosition(spawnPoints);
     }
 
     //Target 트랜스폼을 List에 추가합니다.
@@ -162,24 +170,20 @@ public class EnemySpawner : MonoBehaviour
         _target.Clear();
     }
     
-    //값을 받아 적을 생성합니다. **인자를 별도로 검사하는 구문이 없습니다. 단독으로 사용하는걸 권장하지 않습니다.**
-    public void CreateEnemy(int prefabIndex, List<Vector3> spawnPoints, int spawnIndex, Transform targets)
-    {
-        var newEnemy = 
-            Instantiate(_enemyPrefab[prefabIndex], spawnPoints[spawnIndex], Quaternion.identity);
-        var enemy = newEnemy.GetComponent<Enemy>();
-        Debug.Log("Instantiate");
-        enemy.blackboardEnemy.enemyStatus = _status;
-        enemy.blackboardEnemy.SetTarget(targets);
-        Debug.Log("EndSett");
-    }
-    
-    public void SpawnEnemyPointPick(int prefabIndex)
+    //생성 전 값 검사.
+    public void CheckValue()
     {
         //스폰 포인트 비어있으면 실행 안함.
         if (_spawnPoints == null) 
         {
             Debug.Log($"Cannot Find SpawnPoint");
+            return;
+        }
+        
+        //각 포인트 활성/비활성화 체크리스트 비어있으면 실행 안함.
+        if (_spawnCheck == null) 
+        {
+            Debug.Log($"Cannot Find SpawnCheck");
             return;
         }
         
@@ -190,34 +194,51 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
         
+        //타겟 안들어 있으면 중지.
+        if (_target == null)
+        {
+            Debug.Log($"Cannot Find Targets.");
+            return;
+        }
+    }
+    
+    //값을 받아 적을 생성합니다. **인자를 별도로 검사하는 구문이 없습니다. 단독으로 사용하는걸 권장하지 않습니다.**
+    public void CreateEnemy(int prefabIndex, List<Vector3> spawnPoints, int spawnIndex, Transform targets)
+    {
+        var newEnemy = 
+            Instantiate(_enemyPrefab[prefabIndex], spawnPoints[spawnIndex], Quaternion.identity);
+        var enemy = newEnemy.GetComponent<Enemy>();
+        Debug.Log("Instantiate");
+        enemy.blackboard.enemyStatus = _status;
+        enemy.blackboard.SetTarget(targets);
+        Debug.Log("EndSett");
+    }
+    
+    //단일지점 소환 / 원하는 한 지점에, 한 종류의 몬스터를 원하는 양만큼 생성한다.
+    public void SpawnEnemyPointPick(int prefabIndex)
+    {
+        //실행 전 자료 검사.
+        CheckValue();
+        
         //생성 후 최초 추적할 타겟 지정
         Transform targets = _target[(int)_targetCode];
 
         Debug.Log($"Target Code: {_targetCode}");
         
+        //입력 받은 수 만큼
         for (int a = 0; a < _spawnAmount; a++) 
         {
+            //적을 생성한다.
             CreateEnemy(prefabIndex,_spawnPoints,_spawnIndex,targets);
         }
     }
-
+    
+    //다방면 일괄 소환 / 단일 개체를 여기저기에 일제히 물량으로 뽑고싶을 때 씀.
     //모든 위치, 생성여부등을 정한 후 특정 프리팹만 대량 생산 할때 사용하는 생성 함수.
-    //쉽게말해 단일 개체를 여기저기 물량으로 뽑고싶을 때 씀.
     public void SpawnEnemyRollout(int prefabIndex)
     {
-        //스폰 포인트 비어있으면 실행 안함.
-        if (_spawnPoints == null || _spawnPoints.Count == 0)
-        {
-            Debug.Log($"Cannot Find SpawnPoint");
-            return;
-        }
-        
-        //프리팹 안들어 있으면 중지.
-        if (_enemyPrefab == null || _spawnPoints.Count == 0)
-        {
-            Debug.Log($"Cannot Find EnemyPrefab");
-            return;
-        }
+        //실행 전 자료 검사.
+        CheckValue();
         
         //활성화 된 스폰 포인트만 받기 위한 리스트
         List<Vector3> spawnPos = new();
@@ -245,16 +266,26 @@ public class EnemySpawner : MonoBehaviour
         
         Debug.Log($"All Point Set Complete");
         
+        //할당된 스폰 포인트 횟수만큼 반복.
         for (int i = 0; i < _spawnPoints.Count; i++)
         {
+            //입력 받은 수 만큼
             for (int a = 0; a < _spawnAmount; a++)
             {
+                //적을 생성한다.
                 CreateEnemy(prefabIndex, spawnPos, i, targets);
-                Debug.Log($"LALA");
             }
         }
         
         Debug.Log($"Enemy Create Rollout Complete");
+    }
+    
+    //적 생성 사전작업
+    async UniTask SetUp() 
+    {
+        await GetEnemyData(enemyDataSOpath);
+        await GetSpawnData(spawnDataSOpath);
+        ResetActivateSpawnPoints(true);  
     }
 
     void Awake()
@@ -262,21 +293,13 @@ public class EnemySpawner : MonoBehaviour
         //TargetObject가 Transform을 보내기위한 인스턴스 캐싱
         Instance = this;
     }
-
-    async UniTask SetUp() 
-    {
-        await GetEnemyData(enemyDataSOpath);
-        await GetSpawnData(spawnDataSOpath);
-        ResetActivateSpawnPoints(true);  
-    }
     
-
-    //test
-    //실사용시에는 외부클래스에서 함수를 불러사용할 수 있도록 할 예정.
+    //TEST
     void Start()
     {
         #if TestMode
-        _= SetUp();
+        //적 생성 사전시퀀스.
+        _ = SetUp();
         #endif
 
     }
@@ -284,15 +307,29 @@ public class EnemySpawner : MonoBehaviour
     private void Update()
     {
         #if TestMode
-        if (Input.GetKeyDown(KeyCode.Space))
+        //다방면 일괄 소환
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SpawnEnemyPointPick(_selectPrefabIndex);
+        }
+        
+        //단일지점 소환
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SpawnEnemyRollout(_selectPrefabIndex);
         }
         #endif
     }
     /* 기본 사용 방법.
-     GetEnemyData에 
+     생성할 적 데이터 불러오기.
+     #1 GetEnemyData(enemyDataSOpath)로 EnemyDataSO 불러오기.
+     #2 GetSpawnData(spawnDataSOpath)로 SpawnDataSO 불러오기. 
+        *이때, _spawnPoint의 값이 모두 제거된 후 입력된다.*
+     #3 ResetActivateSpawnPoints(bool); 새로 불러온 spawnPoint List의 활성화/비활성화 여부를 일괄 초기화. 
     
+     #4 적 생성하기 - 테스트용 키 : 1, 2
+        - 1 SpawnEnemyPointPick(_selectPrefabIndex); 단일지점에 생성.
+        - 2 SpawnEnemyRollout(_selectPrefabIndex); 다방면 일괄 생성.
      */
 }
 /*
@@ -309,5 +346,6 @@ spawnPoint List로 관리. 생성지점은 List의 index로 가능.
 현재 SpawnEnemy는 사전에 모든값을 미리 설정 후 일괄 생성하는 방식임.
 objectPool 적용 시에는 로직이 바뀌거나 Pooling으로 생성하는 함수를 하나 더 만드는 식으로 바꿀 예정.
 
-
+작업로그0118
+스크립트 구조 개편, 주석 추가.
  */
