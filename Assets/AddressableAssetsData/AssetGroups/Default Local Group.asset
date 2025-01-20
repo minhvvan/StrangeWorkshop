@@ -17,8 +17,18 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: ce7fd60e045593145b168f4fc3657b6b
   m_SerializeEntries:
+  - m_GUID: 27cd494195e67784bb381d36d355edfc
+    m_Address: events/game/state_changed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c11132ab267656e4ca77c7c112e2cc84
+    m_Address: data/chapters/chapter_list
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fde2db5b18db17e49a3aa318de4d8de8
-    m_Address: PlayerData/DefaultStats
+    m_Address: data/player/stats
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

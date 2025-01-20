@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 433fefd95d25452a86582326305b7dc3, type: 3}
+  m_Name: Chapter_2
+  m_EditorClassIdentifier: 
+  chapterId: CHAPTER_2
+  sceneName: Scenes/TurretTestScene
+  description: "\uCC55\uD1302 \uC124\uC815 SO"
+  openingStory: {fileID: 11400000, guid: b749a6616ed39e34c947334011fab581, type: 2}
+  endingStory: {fileID: 0}
+  waves: []
+  preparationTime: 2
+  playerSpawnPoint: {x: 0, y: 0, z: 0}

@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace Managers
 {
-    public class DataManager
+    public class DataManager : Singleton<DataManager>
     {
         //Load ScriptableObject
         public async UniTask<T> LoadDataAsync<T>(string address) where T : ScriptableObject
