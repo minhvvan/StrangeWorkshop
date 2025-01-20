@@ -16,5 +16,5 @@ MonoBehaviour:
   bulletType: 1
   timeToTarget: 1
   turnSpeed: 4
-  knockBack: 1.5
+  knockBack: 0.5
   boomTimer: 5
