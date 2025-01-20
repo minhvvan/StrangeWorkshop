@@ -22,12 +22,12 @@ public class Turret : MonoBehaviour
     {
         InitComponents();
         InitStates();
-        InitTurretData();
     }
 
     private void InitComponents()
     {
         turretData = GetComponent<Blackboard_Turret>();
+        turretActions = new TurretActions(this);
     }
     
     private void InitStates()
@@ -41,18 +41,6 @@ public class Turret : MonoBehaviour
         crashState = new Turret_CrashState(this);
         
         _stateMachine.ChangeState(idleState);
-    }
-
-    private void InitTurretData()
-    {
-        turretActions = new TurretActions(this);
-        turretActions.Reload();
-        turretActions.Fix();
-        turretActions.SetTargetStrategy(new ClosestTargetStrategy());
-        turretActions.SetShootingStrategy(new SingleShootingStrategy(this));
-        turretActions.SetRangeEffectSize();
-        
-        // player hand transform 초기화 필요
     }
 
     public void SetState(IState newState)

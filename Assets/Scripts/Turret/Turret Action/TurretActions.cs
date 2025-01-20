@@ -13,7 +13,7 @@ public class TurretActions
 
     public void Reload()
     {
-        _turret.turretData.curretBulletNum = _turret.turretData.maxBulletNum;
+        _turret.turretData.currentBulletNum = _turret.turretData.maxBulletNum;
     }
 
     public void Hold(Transform playerHandTransform)

@@ -19,7 +19,7 @@ public class Turret_AttackState : BaseState<Turret>
     public override void UpdateState()
     {
         _timer += Time.deltaTime;
-        if (_controller.turretData.target != null && _controller.turretData.curretBulletNum > 0)
+        if (_controller.turretData.target != null && _controller.turretData.currentBulletNum > 0)
         {
             _controller.turretData.shootingStrategy.FollowTarget(_controller.turretData.target);
             // FollowTarget(_controller.target);
@@ -57,7 +57,7 @@ public class Turret_AttackState : BaseState<Turret>
             Debug.Log("Change to CrashState");
             _controller.SetState(_controller.crashState);
         }
-        else if (_controller.turretData.curretBulletNum <= 0)
+        else if (_controller.turretData.currentBulletNum <= 0)
         {
             Debug.Log("Change to EmptyState");
             _controller.SetState(_controller.emptyState);

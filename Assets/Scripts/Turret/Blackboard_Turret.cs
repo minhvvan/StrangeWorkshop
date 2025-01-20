@@ -13,23 +13,25 @@ public enum TurretType
 public class Blackboard_Turret : MonoBehaviour
 {
     // 모든 turret 공통
-    public float fixSpeed = 10;
-    public float resizeScale = 2f;
-    public Color crashedColor = Color.red;
-    public float lookSpeed;
+    [NonSerialized] public float fixSpeed = 10;
+    [NonSerialized] public float resizeScale = 2f;
+    [NonSerialized] public Color crashedColor = Color.red;
+    [NonSerialized] public float lookSpeed;
     
     // turret 스탯
-    // Todo: scriptable Object로 관리
-    public TurretType turretType;
-    public float damage;
-    public float attackRange;
-    public float fireRate;
-    public int maxBulletNum;
-    public float maxHealth;
+    [NonSerialized] public TurretType turretType;
+    [NonSerialized] public float damage;
+    [NonSerialized] public float attackRange;
+    [NonSerialized] public float fireRate;
+    [NonSerialized] public int maxBulletNum;
+    [NonSerialized] public float maxHealth;
+    
+    // bullet
+    [NonSerialized] public GameObject bullet;
 
     // turret 
     [NonSerialized] public GameObject target;
-    [NonSerialized] public int curretBulletNum;
+    [NonSerialized] public int currentBulletNum;
     [NonSerialized] public bool isOnCounter = true;
     [NonSerialized] public bool isCrashed = false;
     [NonSerialized] public float currentHealth;
@@ -49,7 +51,28 @@ public class Blackboard_Turret : MonoBehaviour
     public GameObject noAmmoImage;
     
     public Transform muzzleMain;
-    public GameObject bullet;
     public GameObject muzzleEff;
 
+    public void InitData(TurretDataSO so)
+    {
+        // stat 초기화
+        fixSpeed = so.fixSpeed;
+        resizeScale = so.resizeScale;
+        crashedColor = so.crashedColor;
+        lookSpeed = so.lookSpeed;
+        turretType = so.turretType;
+        damage = so.damage;
+        attackRange = so.attackRange;
+        fireRate = so.fireRate;
+        maxBulletNum = so.maxBulletNum;
+        maxHealth = so.maxHealth;
+        bullet = so.bullet;
+        
+        // status
+        currentBulletNum = maxBulletNum;
+        currentHealth = maxHealth;
+        targetStrategy = new ClosestTargetStrategy();
+        float size = attackRange * 2f;
+        rangeEff.transform.localScale = new Vector3(size, size, 1f);
+    }
 }

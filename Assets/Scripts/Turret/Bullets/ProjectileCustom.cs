@@ -59,11 +59,12 @@ public class ProjectileCustom : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            Vector3 dir = other.transform.position - transform.position;
-            //Vector3 knockBackPos = other.transform.position * (-dir.normalized * knockBack);
-            Vector3 knockBackPos = other.transform.position + (dir.normalized * projectileData.knockBack);
-            knockBackPos.y = 1;
-            other.transform.position = knockBackPos;
+            // 넉백 시스템
+            // Vector3 dir = other.transform.position - transform.position;
+            // //Vector3 knockBackPos = other.transform.position * (-dir.normalized * knockBack);
+            // Vector3 knockBackPos = other.transform.position + (dir.normalized * projectileData.knockBack);
+            // knockBackPos.y = 1;
+            // other.transform.position = knockBackPos;
             Explosion();
             GiveDamage(other);
         }

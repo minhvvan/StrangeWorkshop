@@ -37,7 +37,7 @@ public class Turret_IdleState : BaseState<Turret>
             Debug.Log("Change to CrashState");
             _controller.SetState(_controller.crashState);
         }
-        else if (_controller.turretData.curretBulletNum <= 0)
+        else if (_controller.turretData.currentBulletNum <= 0)
         {
             Debug.Log("Change to EmptyState");
             _controller.SetState(_controller.emptyState);

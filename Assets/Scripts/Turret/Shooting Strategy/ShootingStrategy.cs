@@ -16,7 +16,7 @@ public abstract class ShootingStrategy
     public void Shoot(GameObject target)
     {
         CreateBullet(target);
-        _turret.turretData.curretBulletNum--;
+        _turret.turretData.currentBulletNum--;
     }
 
     public void FollowTarget(GameObject target)

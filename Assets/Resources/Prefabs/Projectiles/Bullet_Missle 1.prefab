@@ -93,8 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4861662399065844}
   - component: {fileID: 136868475237709256}
-  - component: {fileID: 114673051568919746}
   - component: {fileID: 54733545500693444}
+  - component: {fileID: -6724056416852394858}
+  - component: {fileID: 8561617836425597299}
   m_Layer: 0
   m_Name: Bullet_Missle 1
   m_TagString: Untagged
@@ -142,28 +143,6 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114673051568919746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1773485284122676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66749fef3309f654791e063c70ce1ca3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  target: {fileID: 0}
-  lockOn: 0
-  speed: 10
-  turnSpeed: 4
-  catapult: 0
-  knockBack: 1.5
-  boomTimer: 10
-  explosion: {fileID: 198049787571439516, guid: 6d074a749488789479e539251fdf184e,
-    type: 3}
 --- !u!54 &54733545500693444
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -191,6 +170,41 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-6724056416852394858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773485284122676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb022106d85e57c4fbc48acc801169d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  bulletType: 0
+  target: {fileID: 0}
+  timeToTarget: 1
+  turnSpeed: 1
+  knockBack: 0.1
+  damage: 0
+  boomTimer: 5
+  explosion: {fileID: 198049787571439516, guid: 6d074a749488789479e539251fdf184e,
+    type: 3}
+--- !u!114 &8561617836425597299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773485284122676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23fa1708ee7fb224e8825baa9d3b0978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileData: {fileID: 0}
 --- !u!1 &1942155193569674
 GameObject:
   m_ObjectHideFlags: 0
