@@ -27,22 +27,22 @@ public class Turret_IdleState : BaseState<Turret>
          state 변경 여부 체크 순서:
          turret이 counter에 있는가? -> turret이 고장났는가? -> turret이 총알이 없는가? -> 적이 있는가?
          */
-        if (!_controller.isOnCounter)
+        if (!_controller.turretData.isOnCounter)
         {
             Debug.Log("Change to HoldState");
             _controller.SetState(_controller.holdState);
         }
-        else if (_controller.isCrashed)
+        else if (_controller.turretData.isCrashed)
         {
             Debug.Log("Change to CrashState");
             _controller.SetState(_controller.crashState);
         }
-        else if (_controller.remainingBulletsNum <= 0)
+        else if (_controller.turretData.currentBulletNum <= 0)
         {
             Debug.Log("Change to EmptyState");
             _controller.SetState(_controller.emptyState);
         }
-        else if (_controller.target is not null)
+        else if (_controller.turretData.target is not null)
         {
             Debug.Log("Change to AttackState");
             _controller.SetState(_controller.attackState);

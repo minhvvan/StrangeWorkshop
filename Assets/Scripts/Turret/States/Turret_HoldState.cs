@@ -9,16 +9,24 @@ public class Turret_HoldState : BaseState<Turret>
     public override void Enter()
     {
         Debug.Log("Enter HoldState");
+        // turret 크기 줄이고 player 손으로
+        _controller.transform.localScale /= _controller.turretData.resizeScale;
+        _controller.transform.position = _controller.turretData.playerHandTransform.position;
+        _controller.transform.rotation = _controller.turretData.playerHandTransform.rotation;
     }
 
     public override void UpdateState()
     {
+        _controller.transform.position = _controller.turretData.playerHandTransform.position;
+        _controller.transform.rotation = _controller.turretData.playerHandTransform.rotation;
         ChangeState();
     }
 
     public override void Exit()
     {
         Debug.Log("Exit HoldState");
+        // turret 크기 다시 조정
+        _controller.transform.localScale *= _controller.turretData.resizeScale;
     }
     
     private void ChangeState()
@@ -28,19 +36,19 @@ public class Turret_HoldState : BaseState<Turret>
          turret이 counter에 있는가? -> turret이 고장났는가? -> turret이 총알이 없는가? -> 적이 있는가?
          e.g. turret이 고장난 상태에서 플레이어가 turret을 들면 무조건 holdstate가 된다.
          */
-        if (_controller.isOnCounter)
+        if (_controller.turretData.isOnCounter)
         {
-            if (_controller.isCrashed)
+            if (_controller.turretData.isCrashed)
             {
                 Debug.Log("Change to CrashState");
                 _controller.SetState(_controller.crashState);
             }
-            else if (_controller.remainingBulletsNum <= 0)
+            else if (_controller.turretData.currentBulletNum <= 0)
             {
                 Debug.Log("Change to EmptyState");
                 _controller.SetState(_controller.emptyState);
             }
-            else if (_controller.target is not null)
+            else if (_controller.turretData.target is not null)
             {
                 Debug.Log("Change to AttackState");
                 _controller.SetState(_controller.attackState);

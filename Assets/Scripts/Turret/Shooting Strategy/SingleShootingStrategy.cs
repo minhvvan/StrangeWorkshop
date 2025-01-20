@@ -8,15 +8,15 @@ public class SingleShootingStrategy : ShootingStrategy
     
     protected override void CreateBullet(GameObject target)
     {
-        Object.Instantiate(_turret.turret.muzzleEff, _turret.turret.muzzleMain);
-        GameObject missleGo = Object.Instantiate(_turret.turret.bullet, _turret.turret.muzzleMain);
-        Projectile projectile = missleGo.GetComponent<Projectile>();
-        projectile.target = target.transform;
+        GameObject.Instantiate(_turret.turretData.muzzleEff, _turret.turretData.muzzleMain);
+        GameObject missleGo = GameObject.Instantiate(_turret.turretData.bullet, _turret.turretData.muzzleMain);
+        Bullet projectile = missleGo.GetComponent<Bullet>();
+        projectile.InitProjectile(target.transform, _turret.turretData.damage);
     }
 
     protected override void RotateTurretHead(GameObject target)
     {
-        Transform turretHead = _turret.turret.turretHead;
+        Transform turretHead = _turret.turretData.turretHead;
         Vector3 targetDir = target.transform.position - turretHead.position;
         turretHead.forward = targetDir;
     }
