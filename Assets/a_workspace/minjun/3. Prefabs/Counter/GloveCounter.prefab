@@ -70,6 +70,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterTopPoint: {fileID: 3028466574229793643}
+  glovePrefab: {fileID: 5360226316284538149, guid: e86c413f367f0024192210775239c4c6,
+    type: 3}
 --- !u!1 &8538893091784854229
 GameObject:
   m_ObjectHideFlags: 0

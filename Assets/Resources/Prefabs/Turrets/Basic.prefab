@@ -5223,6 +5223,7 @@ GameObject:
   - component: {fileID: 1487613449320052939}
   - component: {fileID: 1493045043149950380}
   - component: {fileID: 6521511891158429176}
+  - component: {fileID: 7624084325683383378}
   m_Layer: 0
   m_Name: Basic
   m_TagString: Untagged
@@ -5273,16 +5274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a36d0822669444c9b5123742940d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixSpeed: 10
-  resizeScale: 2
-  crashedColor: {r: 1, g: 0, b: 0, a: 1}
-  lookSpeed: 100
-  turretType: 0
-  damage: 1
-  attackRange: 10
-  fireRate: 1
-  maxBulletNum: 10
-  maxHealth: 10
   playerHandTransform: {fileID: 0}
   turretHead: {fileID: 3914571465200952606}
   rangeEff: {fileID: 2758993099124444116}
@@ -5292,8 +5283,20 @@ MonoBehaviour:
   - {fileID: 9045293710144000394}
   noAmmoImage: {fileID: 701781578664068269}
   muzzleMain: {fileID: 3683984735190666069}
-  bullet: {fileID: 1230967522142342, guid: c8a14102fc9c5cf40b8a80ea2a50c93e, type: 3}
   muzzleEff: {fileID: 1497772684437746, guid: bd75ef4ae186f454a90b2de71bed2854, type: 3}
+--- !u!114 &7624084325683383378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923909250479408624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6f8afb800c91142abf1215fb7f7427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdableObjectSo: {fileID: 11400000, guid: c880f6f96cd74694db00ea5ec8973d48, type: 2}
 --- !u!1 &6949506697220348682
 GameObject:
   m_ObjectHideFlags: 0

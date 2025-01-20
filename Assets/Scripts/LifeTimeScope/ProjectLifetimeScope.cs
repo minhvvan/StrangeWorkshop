@@ -11,6 +11,7 @@ namespace LifeTimeScope
         [SerializeField] private DataManager _dataManager;
         [SerializeField] private EventManager _eventManager;
         [SerializeField] private LoadingManager _loadingManager;
+        [SerializeField] private RecipeManager _recipeManager;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -20,6 +21,7 @@ namespace LifeTimeScope
             builder.RegisterComponent(_dataManager);
             builder.RegisterComponent(_eventManager);
             builder.RegisterComponent(_loadingManager);
+            builder.RegisterComponent(_recipeManager);
         }
         
         private void Start()

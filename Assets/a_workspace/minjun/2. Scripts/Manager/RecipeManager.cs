@@ -4,21 +4,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class RecipeManager : MonoBehaviour
+public class RecipeManager : Singleton<RecipeManager>
 {
-    public static RecipeManager Instance { get; private set; }
-    
     [SerializeField] private CraftRecipeCollectionSO craftRecipeCollection;
     [SerializeField] private ProcessRecipeCollectionSO processRecipeCollection;
-    
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Debug.LogError("Cannot have mutiple instance of MenuManager");
-        }
-        Instance = this;
-    }
     
     public bool DoesMakeMenuItem(List<HoldableObjectSO> ingredients, CraftRecipeSO craftRecipe)
     {

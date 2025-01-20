@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1387f758d8f6de048b738a36f9667311, type: 3}
-  m_Name: TurretBody
+  m_Name: Turret
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7867461804706522513, guid: 0db9395af5673044e88f607537859ef4, type: 3}
+  prefab: {fileID: 5923909250479408624, guid: 50e460daf762c9a4e900fb3b42e2558e, type: 3}
   objectName: TurretBody
   objectType: 1

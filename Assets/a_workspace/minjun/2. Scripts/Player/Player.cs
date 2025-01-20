@@ -20,7 +20,6 @@ public class Player : MonoBehaviour, IHoldableObjectParent
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private GameInput gameInput;
-    [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform holdableObjectHoldPoint;
     
     private Transform gloveObject;
@@ -29,8 +28,6 @@ public class Player : MonoBehaviour, IHoldableObjectParent
     private Vector3 lastInteractDir;
     private BaseCounter selectedCounter;
     private HoldableObject _holdableObject;
-
-    
     
     void Awake()
     {
