@@ -16,8 +16,10 @@ public class Enemy_IdleState : BaseStateEnemy<EnemyFsm>
 
     public override void UpdateState()
     {
+        //target이 있으면 실행.
         if (Fsm.blackboard.target != null)
         {
+            //Chase로 넘어간다.
             Fsm.ChangeEnemyState(Fsm.chaseState);
             return;
         }

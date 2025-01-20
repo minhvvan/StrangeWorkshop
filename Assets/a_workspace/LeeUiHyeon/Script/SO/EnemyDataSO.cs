@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewEnemyData", menuName = "SO/EnemyData")]
+//EnemyData를 저장하는 SO
 public class EnemyDataSO : ScriptableObject
 {
     //타입

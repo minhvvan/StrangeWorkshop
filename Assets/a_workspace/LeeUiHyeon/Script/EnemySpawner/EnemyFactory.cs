@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 
+//각 SO를 읽어 데이터를 할당하는 클래스
 public static class EnemyFactory
 {
     //EnemyDataSO를 읽어옵니다.

@@ -205,8 +205,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackboard: {fileID: 0}
-  rb: {fileID: 0}
-  anim: {fileID: 0}
 --- !u!114 &5463072591330319858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +217,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9374e7ba6bee73148b07c5cc707a006b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyStatus:
+    enemytype: 0
+    animator: {fileID: 0}
+    animSpeed: 0
+    name: 
+    hp: 0
+    armor: 0
+    attackDamage: 0
+    attackRange: 0
+    attackSpeed: 0
+    moveSpeed: 0
   target: {fileID: 0}
 --- !u!114 &4829051364664011752
 MonoBehaviour:
@@ -232,4 +241,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb76e84475634f40901bef66804ec4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackboardEnemy: {fileID: 0}
+  blackboard: {fileID: 0}
+  _fsm: {fileID: 0}
