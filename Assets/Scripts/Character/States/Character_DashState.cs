@@ -6,12 +6,12 @@ public class Character_DashState : BaseState<SampleCharacterController>
     private float dashTimer;
     public override void Enter()
     {
-        Debug.Log("Dash Enter");
+        
     }
 
     public override void Exit()
     {
-        Debug.Log("Dash Exit");
+        
     }
 
     public override void UpdateState()

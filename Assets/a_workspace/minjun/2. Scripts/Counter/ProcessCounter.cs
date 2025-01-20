@@ -8,7 +8,7 @@ public class ProcessCounter : BaseCounter
 {
     private ProcessRecipeSO _currentRecipe;
     
-    public override void Interact(Player player)
+    public override void Interact(SampleCharacterController player)
     {
         if (!HasHoldableObject())
         {
@@ -32,7 +32,7 @@ public class ProcessCounter : BaseCounter
     }
 
     // 레시피가 존재하면 상호작용시 반환
-    public override void InteractAlternate(Player player)
+    public override void InteractAlternate(SampleCharacterController player)
     {
         if (!_currentRecipe.IsUnityNull())
         {

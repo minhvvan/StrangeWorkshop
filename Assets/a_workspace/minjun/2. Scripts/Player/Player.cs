@@ -20,14 +20,16 @@ public class Player : MonoBehaviour, IHoldableObjectParent
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private GameInput gameInput;
-    [SerializeField] private Transform holdableObjectHoldPoint;
     
+    [SerializeField] private Transform holdableObjectHoldPoint;
     private Transform gloveObject;
+    private BaseCounter selectedCounter;
+    private HoldableObject _holdableObject;
+    
     
     private bool isWalking;
     private Vector3 lastInteractDir;
-    private BaseCounter selectedCounter;
-    private HoldableObject _holdableObject;
+    
     
     void Awake()
     {
@@ -46,7 +48,7 @@ public class Player : MonoBehaviour, IHoldableObjectParent
     {
         if (selectedCounter != null)
         {
-            selectedCounter.InteractAlternate(this);
+            //selectedCounter.InteractAlternate(this);
         }
     }
 
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour, IHoldableObjectParent
     {
         if (selectedCounter != null)
         {
-            selectedCounter.Interact(this);
+            //selectedCounter.Interact(this);
         }
     }
 

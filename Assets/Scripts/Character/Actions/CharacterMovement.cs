@@ -61,7 +61,7 @@ public class CharacterMovement : BaseAction
             Vector3 movement = new Vector3(horizontal, 0, vertical);
             
             //if move position and direction 
-            movement = new Vector3(inputHandler.MovementInput.x, 0, inputHandler.MovementInput.y) * speed;
+            movement = new Vector3(inputHandler.MovementInput.x, 0, inputHandler.MovementInput.y).normalized * speed;
             
             
             transform.position += movement * Time.deltaTime;

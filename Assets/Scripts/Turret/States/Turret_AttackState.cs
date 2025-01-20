@@ -11,7 +11,6 @@ public class Turret_AttackState : BaseState<Turret>
 
     public override void Enter()
     {
-        Debug.Log("Enter AttackState");
         // timer 초기화
         _timer = _controller.turretData.fireRate;
     }
@@ -35,7 +34,6 @@ public class Turret_AttackState : BaseState<Turret>
 
     public override void Exit()
     {
-        Debug.Log("Exit AttackState");
         // timer 초기화
         _timer = _controller.turretData.fireRate;
     }
@@ -49,22 +47,18 @@ public class Turret_AttackState : BaseState<Turret>
          */
         if (!_controller.turretData.isOnCounter)
         {
-            Debug.Log("Change to HoldState");
             _controller.SetState(_controller.holdState);
         }
         else if (_controller.turretData.isCrashed)
         {
-            Debug.Log("Change to CrashState");
             _controller.SetState(_controller.crashState);
         }
         else if (_controller.turretData.currentBulletNum <= 0)
         {
-            Debug.Log("Change to EmptyState");
             _controller.SetState(_controller.emptyState);
         }
         else if (_controller.turretData.target is null)
         {
-            Debug.Log("Change to IdleState");
             _controller.SetState(_controller.idleState);
         }
     }

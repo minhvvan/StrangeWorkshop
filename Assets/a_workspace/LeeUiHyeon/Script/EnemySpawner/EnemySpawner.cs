@@ -123,7 +123,6 @@ public class EnemySpawner : MonoBehaviour
     //<비동기>스폰할 적의 정보를 읽어오는 기능, 불러올 적 SO의 이름을 넣고 사용합니다.
     public async UniTask GetEnemyData(string loadPath)
     {
-        Debug.Log(loadPath);
         
         //EnemyDataSO내의 스탯, 생성할 프리팹 정보를 받아옵니다.
         GameObject prefab;
@@ -142,7 +141,6 @@ public class EnemySpawner : MonoBehaviour
     //<비동기>스폰할 위치, 적의 종류, 생성할 양을 읽어오는 기능. 스폰데이터 SO의 이름을 넣고 사용합니다.
     public async UniTask GetSpawnData(string loadPath)
     {
-        Debug.Log(loadPath); 
         
         //SpawnData의 각 데이터를 튜플로 받아온다.
         List<Vector3> spawnPoints = new();
@@ -208,10 +206,8 @@ public class EnemySpawner : MonoBehaviour
         var newEnemy = 
             Instantiate(_enemyPrefab[prefabIndex], spawnPoints[spawnIndex], Quaternion.identity);
         var enemy = newEnemy.GetComponent<Enemy>();
-        Debug.Log("Instantiate");
         enemy.blackboard.enemyStatus = new EnemyStatus(_status);
         enemy.blackboard.SetTarget(targets);
-        Debug.Log("EndSett");
     }
     
     //단일지점 소환 / 원하는 한 지점에, 한 종류의 몬스터를 원하는 양만큼 생성한다.
@@ -223,7 +219,6 @@ public class EnemySpawner : MonoBehaviour
         //생성 후 최초 추적할 타겟 지정
         Transform targets = _target[(int)_targetCode];
 
-        Debug.Log($"Target Code: {_targetCode}");
         
         //입력 받은 수 만큼
         for (int a = 0; a < _spawnAmount; a++) 
@@ -246,25 +241,21 @@ public class EnemySpawner : MonoBehaviour
         //생성 후 최초 추적할 타겟 지정
         Transform targets = _target[(int)_targetCode];
         
-        Debug.Log($"Target Code: {_targetCode}");
 
         //_spawnCheck index세는 용도
         int bind = 0;
         
         foreach (var spawnPoints in _spawnPoints)
         {
-            Debug.Log($"Check-Point[{bind}] is {_spawnCheck[bind]}");
             //이 스폰포인트는 true인지 확인
             if (_spawnCheck[bind])
             {
                 //spawnPos에 스폰지점 추가.
                 spawnPos.Add(spawnPoints);
-                Debug.Log($"Add Point[{bind}] : {spawnPoints}");
             }
             bind++;
         }
         
-        Debug.Log($"All Point Set Complete");
         
         //할당된 스폰 포인트 횟수만큼 반복.
         for (int i = 0; i < _spawnPoints.Count; i++)
@@ -277,7 +268,6 @@ public class EnemySpawner : MonoBehaviour
             }
         }
         
-        Debug.Log($"Enemy Create Rollout Complete");
     }
     
     //적 생성 사전작업

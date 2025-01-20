@@ -10,7 +10,7 @@ public class MaterialCounter : BaseCounter
     
     [SerializeField] private HoldableObjectSO holdableObjectSO;
     
-    public override void Interact(Player player)
+    public override void Interact(SampleCharacterController player)
     {
         if (!player.HasHoldableObject())
         {

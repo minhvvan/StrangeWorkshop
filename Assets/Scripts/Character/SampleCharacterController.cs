@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SampleCharacterController : MonoBehaviour
+public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 {
     StateMachine _stateMachine;
 
@@ -34,7 +34,14 @@ public class SampleCharacterController : MonoBehaviour
     
     [NonSerialized] public bool isDashing = false;
 
+    [SerializeField] private Transform holdableObjectHoldPoint;
+    private Transform gloveObject;
+    private HoldableObject _holdableObject;
+    private BaseCounter _selectedCounter;
 
+    [SerializeField] float playerInteractDistance = 1f;
+    [SerializeField] LayerMask playerInteractLayerMask;
+    
     void Awake()
     {
         InitComponents();
@@ -79,10 +86,10 @@ public class SampleCharacterController : MonoBehaviour
             foreach (var action in _actions)
             {
                 if(action.RegistAction()){
-                    Debug.Log("Action Regist Success");
+                    
                 }
                 else{
-                    Debug.Log("Action Regist Fail");
+                    
                 }
             }
         }
@@ -97,5 +104,92 @@ public class SampleCharacterController : MonoBehaviour
     void Update()
     {
         _stateMachine.Update();
+        HandleInteract();
+    }
+
+    private void HandleInteract()
+    {
+        if (Physics.Raycast(transform.position, transform.forward + (Vector3.down * (transform.position.y / 2)), out RaycastHit interactObject, playerInteractDistance))
+        {
+            if (interactObject.transform.TryGetComponent(out BaseCounter baseCounter))
+            {
+                if (baseCounter != _selectedCounter)
+                {
+                    SetSelectedCounter(baseCounter);
+                }
+            }
+            else
+            {
+                SetSelectedCounter(null);
+            }
+        }
+        else
+        {
+            SetSelectedCounter(null);
+        }
+    }
+
+    private void SetSelectedCounter(BaseCounter counter)
+    {
+        if (counter == _selectedCounter) return;
+        
+        _selectedCounter?.GetComponent<SelectCounterVisual>().Hide();
+        _selectedCounter = counter;
+        _selectedCounter?.GetComponent<SelectCounterVisual>().Show();
+    }
+
+    public BaseCounter GetSelectedCounter()
+    {
+        return _selectedCounter;
+    }
+    
+    public Transform GetHoldableObjectFollowTransform()
+    {
+        return holdableObjectHoldPoint;
+    }
+
+    public void SetHoldableObject(HoldableObject holdableObject)
+    {
+        this._holdableObject = holdableObject;
+    }
+
+    public void GiveHoldableObject(IHoldableObjectParent parent)
+    {
+        _holdableObject.SetHoldableObjectParent(parent);
+        _holdableObject = null;
+    }
+
+    public HoldableObject GetHoldableObject()
+    {
+        return _holdableObject;
+    }
+
+    public void ClearHoldableObject()
+    {
+        Destroy(_holdableObject.gameObject);
+        _holdableObject = null;
+    }
+
+    public bool HasHoldableObject()
+    {
+        return _holdableObject != null;
+    }
+
+    public bool CanSetHoldableObject()
+    {
+        return gloveObject != null;
+    }
+
+    public void WearGlove(Transform glove)
+    {
+        glove.parent = GetHoldableObjectFollowTransform();
+        gloveObject = glove;
+    }
+
+    public void TakeoffGlove()
+    {
+        if (gloveObject != null)
+            Destroy(gloveObject.gameObject);
+        gloveObject = null;
     }
 }

@@ -9,12 +9,12 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
     private List<HoldableObject> _holdableObject = new();
     
     // 상호작용, 키보드 e, 재료를 옮길 때 사용
-    public virtual void Interact(Player player)
+    public virtual void Interact(SampleCharacterController player)
     {
     }
     
     // 상호작용, 키도브 f, 가공 및 작업할 때 사용
-    public virtual void InteractAlternate(Player player)
+    public virtual void InteractAlternate(SampleCharacterController player)
     {
     }
     

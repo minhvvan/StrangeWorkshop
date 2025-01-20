@@ -12,7 +12,6 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
     
     public override void Enter()
     {
-        Debug.Log("Chase");
     }
 
     public override void UpdateState()

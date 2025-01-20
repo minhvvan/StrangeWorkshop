@@ -6,12 +6,12 @@ public class Character_IdleState : BaseState<SampleCharacterController>
 
     public override void Enter()
     {
-        Debug.Log("Idle Enter");
+        
     }
 
     public override void Exit()
     {
-        Debug.Log("Idle Exit");        
+            
     }
 
     public override void UpdateState()

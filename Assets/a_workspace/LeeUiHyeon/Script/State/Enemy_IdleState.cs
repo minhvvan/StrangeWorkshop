@@ -11,7 +11,6 @@ public class Enemy_IdleState : BaseStateEnemy<EnemyFsm>
     
     public override void Enter()
     {
-        Debug.Log("Idle");
     }
 
     public override void UpdateState()

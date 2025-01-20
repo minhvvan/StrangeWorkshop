@@ -8,7 +8,7 @@ using UnityEngine;
 /// OnInteract에 이벤트를 등록하여 사용
 /// </summary>
 [RequireComponent(typeof(SampleCharacterController))]
-public class CharacterInteraction : BaseAction
+public class CharacterInteractionAlternate : BaseAction
 {
     SampleCharacterController _controller;
     
@@ -23,7 +23,7 @@ public class CharacterInteraction : BaseAction
     {
         if(_controller.inputHandler == null) return false;
 
-        _controller.inputHandler.OnInteract += HandleInteraction; //단일 이벤트에 연결
+        _controller.inputHandler.OnInteractAlternate += HandleInteractionAlternate; //단일 이벤트에 연결
 
         return true;
     }
@@ -32,12 +32,12 @@ public class CharacterInteraction : BaseAction
     {
         if(_controller.inputHandler == null) return;
 
-        _controller.inputHandler.OnInteract -= HandleInteraction;        
+        _controller.inputHandler.OnInteractAlternate -= HandleInteractionAlternate;        
     }
 
-    void HandleInteraction()
+    void HandleInteractionAlternate()
     {   
         if(!_controller.GetSelectedCounter().IsUnityNull())
-            _controller.GetSelectedCounter().Interact(_controller);
+            _controller.GetSelectedCounter().InteractAlternate(_controller);
     }
 }

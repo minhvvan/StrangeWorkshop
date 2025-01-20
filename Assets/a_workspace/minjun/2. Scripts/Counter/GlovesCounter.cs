@@ -8,7 +8,7 @@ public class GlovesCounter : BaseCounter
     [SerializeField] Transform glovePrefab;
 
     private Transform glove;
-    public override void Interact(Player player)
+    public override void Interact(SampleCharacterController player)
     {
         if (!player.HasHoldableObject())
         {

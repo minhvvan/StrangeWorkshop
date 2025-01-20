@@ -8,7 +8,6 @@ public class Turret_EmptyState : BaseState<Turret>
 
     public override void Enter()
     {
-        Debug.Log("Enter EmptyState");
         _controller.turretData.noAmmoImage.SetActive(true);
     }
 
@@ -21,7 +20,6 @@ public class Turret_EmptyState : BaseState<Turret>
     public override void Exit()
     {
         _controller.turretData.noAmmoImage.SetActive(false);
-        Debug.Log("Exit EmptyState");
     }
     
     private void ChangeState()
@@ -32,24 +30,20 @@ public class Turret_EmptyState : BaseState<Turret>
          */
         if (!_controller.turretData.isOnCounter)
         {
-            Debug.Log("Change to HoldState");
             _controller.SetState(_controller.holdState);
         }
         else if (_controller.turretData.isCrashed)
         {
-            Debug.Log("Change to CrashState");
             _controller.SetState(_controller.crashState);
         }
         else if (_controller.turretData.currentBulletNum > 0)
         {
             if (_controller.turretData.target is not null)
             {
-                Debug.Log("Change to AttackState");
                 _controller.SetState(_controller.attackState);
             }
             else
             {
-                Debug.Log("Change to IdleState");
                 _controller.SetState(_controller.idleState);
             }
         }

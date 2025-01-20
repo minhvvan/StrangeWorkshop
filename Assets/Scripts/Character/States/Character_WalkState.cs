@@ -6,12 +6,12 @@ public class Character_WalkState : BaseState<SampleCharacterController>
 
     public override void Enter()
     {
-        Debug.Log("Walk Enter");
+        
     }
 
     public override void Exit()
     {
-        Debug.Log("Walk Exit");
+        
     }
 
     public override void UpdateState()

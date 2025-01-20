@@ -8,7 +8,6 @@ public class Turret_IdleState : BaseState<Turret>
 
     public override void Enter()
     {
-        Debug.Log("Enter IdleState");
     }
     
     public override void UpdateState()
@@ -18,7 +17,6 @@ public class Turret_IdleState : BaseState<Turret>
 
     public override void Exit()
     {
-        Debug.Log("Exit IdleState");
     }
 
     private void ChangeState()
@@ -29,22 +27,18 @@ public class Turret_IdleState : BaseState<Turret>
          */
         if (!_controller.turretData.isOnCounter)
         {
-            Debug.Log("Change to HoldState");
             _controller.SetState(_controller.holdState);
         }
         else if (_controller.turretData.isCrashed)
         {
-            Debug.Log("Change to CrashState");
             _controller.SetState(_controller.crashState);
         }
         else if (_controller.turretData.currentBulletNum <= 0)
         {
-            Debug.Log("Change to EmptyState");
             _controller.SetState(_controller.emptyState);
         }
         else if (_controller.turretData.target is not null)
         {
-            Debug.Log("Change to AttackState");
             _controller.SetState(_controller.attackState);
         }
     }

@@ -21,7 +21,6 @@ public static class EnemyFactory
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
             enemyDatasSO = (handle.Result);
-            Debug.Log($"Loaded Data");
         }
         else
         {
@@ -58,7 +57,6 @@ public static class EnemyFactory
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
             spawnDatasSO = (handle.Result);
-            Debug.Log($"Loaded Data");
         }
         else
         {

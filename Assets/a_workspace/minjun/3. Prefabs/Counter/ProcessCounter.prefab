@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8888203941619863410}
   - component: {fileID: 6418959961103436139}
   - component: {fileID: 4055614968517760707}
+  - component: {fileID: 8448380636177546595}
   m_Layer: 0
   m_Name: ProcessCounter
   m_TagString: Untagged
@@ -70,6 +71,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterTopPoint: {fileID: 3028466574229793643}
+--- !u!114 &8448380636177546595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179320502874396396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualGameObjectArray:
+  - {fileID: 8107519399340146863}
 --- !u!1 &8538893091784854229
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,33 +296,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4589716710238282922, guid: be1e77e8d4e81bf4292e5b46dc090583,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8262309904340927566}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be1e77e8d4e81bf4292e5b46dc090583, type: 3}
---- !u!1 &5117568387425065260 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4589716710238282922, guid: be1e77e8d4e81bf4292e5b46dc090583,
-    type: 3}
-  m_PrefabInstance: {fileID: 8697772846745664902}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8262309904340927566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5117568387425065260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseCounter: {fileID: 4055614968517760707}
-  visualGameObjectArray:
-  - {fileID: 8107519399340146863}
 --- !u!4 &5117568387425065261 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4589716710238282923, guid: be1e77e8d4e81bf4292e5b46dc090583,

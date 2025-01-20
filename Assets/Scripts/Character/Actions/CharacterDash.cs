@@ -51,7 +51,6 @@ public class CharacterDash : BaseAction
         float horizontal = inputHandler.Horizontal;
         float vertical = inputHandler.Vertical;
         
-        Debug.Log("Dashing");
         _controller.isDashing = true;
         Vector3 movement = new Vector3(horizontal, 0, vertical);
         

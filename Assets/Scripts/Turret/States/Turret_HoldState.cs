@@ -8,7 +8,6 @@ public class Turret_HoldState : BaseState<Turret>
 
     public override void Enter()
     {
-        Debug.Log("Enter HoldState");
         // turret 크기 줄이고 player 손으로
         _controller.transform.localScale /= _controller.turretData.resizeScale;
         _controller.transform.position = _controller.turretData.playerHandTransform.position;
@@ -24,7 +23,6 @@ public class Turret_HoldState : BaseState<Turret>
 
     public override void Exit()
     {
-        Debug.Log("Exit HoldState");
         // turret 크기 다시 조정
         _controller.transform.localScale *= _controller.turretData.resizeScale;
     }
@@ -40,22 +38,18 @@ public class Turret_HoldState : BaseState<Turret>
         {
             if (_controller.turretData.isCrashed)
             {
-                Debug.Log("Change to CrashState");
                 _controller.SetState(_controller.crashState);
             }
             else if (_controller.turretData.currentBulletNum <= 0)
             {
-                Debug.Log("Change to EmptyState");
                 _controller.SetState(_controller.emptyState);
             }
             else if (_controller.turretData.target is not null)
             {
-                Debug.Log("Change to AttackState");
                 _controller.SetState(_controller.attackState);
             }
             else
             {
-                Debug.Log("Change to IdleState");
                 _controller.SetState(_controller.idleState);
             }
         }

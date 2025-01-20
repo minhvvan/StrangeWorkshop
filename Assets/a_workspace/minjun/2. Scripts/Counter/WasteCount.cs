@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WasteCount : BaseCounter
 {
-    public override void Interact(Player player)
+    public override void Interact(SampleCharacterController player)
     {
         if (player.HasHoldableObject())
         {

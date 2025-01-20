@@ -8,9 +8,10 @@ public class CharacterInputHandler : BaseInputHandler
 
     //Events   //필요한 이벤트를 Action으로  추가하여 연결해서 class 붙여주면 코드 분리가 편하게 될 것으로 예상됨
     [NonSerialized] public Action OnInteract;  //만약 매개변수를 넘길경우 Action<자료형> 으로 추가하면 가능
+    [NonSerialized] public Action OnInteractAlternate;
     [NonSerialized] public Action OnAttack;
     [NonSerialized] public Action OnDash;
-    
+        
     IEnumerator Start()
     {
         _controller = GetComponent<SampleCharacterController>();
@@ -51,6 +52,10 @@ public class CharacterInputHandler : BaseInputHandler
             OnInteract?.Invoke();
         }
 
+        if(Input.GetKeyDown(KeyCode.F)){
+            OnInteractAlternate?.Invoke();
+        }
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             OnDash?.Invoke();

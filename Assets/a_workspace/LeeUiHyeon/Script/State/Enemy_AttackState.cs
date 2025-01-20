@@ -12,7 +12,6 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
     
     public override void Enter()
     {
-        Debug.Log("Attack");
     }
 
     public override void UpdateState()
@@ -61,7 +60,6 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
 
     public async void HoldAttack(BlackboardEnemy FsmBb)
     {
-        Debug.Log("Keep Attack");
         
         //attackSpeed값에 비례하여 공격속도가 정해진다.
         await UniTask.Delay((int)(1000*FsmBb.enemyStatus.attackSpeed));
