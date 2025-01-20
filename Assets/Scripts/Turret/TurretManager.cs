@@ -9,10 +9,17 @@ public class TurretManager : MonoBehaviour
     private List<Turret> _turrets;
     private TurretFactory _turretFactory;
 
+    public Transform a;
+    public Transform b;
+    
     void Awake()
     {
         _turrets = new List<Turret>();
         _turretFactory = new TurretFactory(turretDataSOs);
+        
+        // testing
+        CreateTurret(TurretType.BASIC, a);
+        CreateTurret(TurretType.MISSILE, b);
         CreateTurret(TurretType.MORTAR);
     }
     

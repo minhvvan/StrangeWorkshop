@@ -9,6 +9,14 @@ public class SampleEnemy : MonoBehaviour
     public void GetDamage(float damage)
     {
         health -= damage;
+        Debug.Log(health);
     }
 
+    void Update()
+    {
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

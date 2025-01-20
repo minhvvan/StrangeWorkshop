@@ -5023,15 +5023,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb022106d85e57c4fbc48acc801169d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
-  bulletType: 2
-  target: {fileID: 0}
-  timeToTarget: 1
-  turnSpeed: 1
-  knockBack: 0.1
-  boomTimer: 5
   explosion: {fileID: 198049787571439516, guid: 6d074a749488789479e539251fdf184e,
     type: 3}
+  bulletDataSO: {fileID: 11400000, guid: 3118d9ec34e22f84cafc3a55ed9efc87, type: 2}
 --- !u!114 &8406310329095030554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5044,4 +5038,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23fa1708ee7fb224e8825baa9d3b0978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileData: {fileID: 0}

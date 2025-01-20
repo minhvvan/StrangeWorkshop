@@ -29,7 +29,7 @@ public class TurretFactory
         Blackboard_Turret blackboardTurret = turretInstance.GetComponent<Blackboard_Turret>();
         TurretDataSO turretDataSO = GetTurretData(turretType);
         if(turretDataSO == null) Debug.LogError($"Invalid turret type: {turretType}");
-        blackboardTurret.InitData(turretDataSO);
+        blackboardTurret.Initialize(turretDataSO);
         
         // 터렛별 발사 방식 설정
         switch (turretType)

@@ -151,6 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5368808e64841f646b105ec9ba4e14c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turretDataSOs:
+  - {fileID: 11400000, guid: 018807a4611e05d46a124d25095768b4, type: 2}
+  - {fileID: 11400000, guid: 7419cf9e26daee9448c88f2d376315ff, type: 2}
+  - {fileID: 11400000, guid: 075e7e26e15c5cd4b9624cb4290372a5, type: 2}
 --- !u!4 &957467552
 Transform:
   m_ObjectHideFlags: 0
@@ -403,7 +407,7 @@ Transform:
   m_GameObject: {fileID: 1542840027}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.22, y: 0, z: 6.35}
+  m_LocalPosition: {x: -3.13, y: 0, z: 12.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

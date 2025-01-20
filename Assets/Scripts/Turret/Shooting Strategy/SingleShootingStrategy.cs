@@ -10,7 +10,7 @@ public class SingleShootingStrategy : ShootingStrategy
     {
         GameObject.Instantiate(_turret.turretData.muzzleEff, _turret.turretData.muzzleMain);
         GameObject missleGo = GameObject.Instantiate(_turret.turretData.bullet, _turret.turretData.muzzleMain);
-        ProjectileCustom projectile = missleGo.GetComponent<ProjectileCustom>();
+        Bullet projectile = missleGo.GetComponent<Bullet>();
         projectile.InitProjectile(target.transform, _turret.turretData.damage);
     }
 

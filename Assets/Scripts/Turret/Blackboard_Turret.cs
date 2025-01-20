@@ -53,7 +53,7 @@ public class Blackboard_Turret : MonoBehaviour
     public Transform muzzleMain;
     public GameObject muzzleEff;
 
-    public void InitData(TurretDataSO so)
+    public void Initialize(TurretDataSO so)
     {
         // stat 초기화
         fixSpeed = so.fixSpeed;
