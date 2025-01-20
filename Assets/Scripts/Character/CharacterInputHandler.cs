@@ -39,8 +39,8 @@ public class CharacterInputHandler : BaseInputHandler
 
         // 키 입력 상태 갱신
         IsWalking = MovementInput.magnitude > 0.1f;
-        IsJumping = IsGrounded && Input.GetKeyDown(KeyCode.Space);
         IsRunning = IsWalking && Input.GetKey(KeyCode.LeftShift);
+        IsDashing = (IsWalking || IsRunning) && Input.GetKeyDown(KeyCode.Space);
         
         if(Input.GetMouseButtonDown(0)){
             OnAttack?.Invoke();

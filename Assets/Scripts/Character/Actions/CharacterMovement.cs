@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum CONTROLL_MODE
@@ -15,10 +16,12 @@ public enum CONTROLL_MODE
 [RequireComponent(typeof(SampleCharacterController))]
 public class CharacterMovement : BaseAction
 {
-    [SerializeField] public CONTROLL_MODE controlMode = CONTROLL_MODE.FIRST_PERSON;
+    [SerializeField] public CONTROLL_MODE controlMode = CONTROLL_MODE.FIXED_CAMERA;
 
     SampleCharacterController _controller;
 
+    private float dashSpeed;
+    private bool isDashing = false;
     void Awake()
     {
         _controller = GetComponent<SampleCharacterController>();
@@ -52,11 +55,27 @@ public class CharacterMovement : BaseAction
         float horizontal = inputHandler.Horizontal;
         float vertical = inputHandler.Vertical;
         Vector3 movePos = Vector3.zero;
+
+        if (inputHandler.IsDashing && !isDashing)
+        {
+            StartCoroutine(DashRoutine());
+        }
         
         if(controlMode == CONTROLL_MODE.FIXED_CAMERA)
         {
+            Vector3 movement = new Vector3(horizontal, 0, vertical);
+            
             //if move position and direction 
-            Vector3 movement = new Vector3(inputHandler.MovementInput.x, 0, inputHandler.MovementInput.y) * speed;
+            if (inputHandler.IsDashing)
+            {
+                movement = new Vector3(inputHandler.MovementInput.x, 0, inputHandler.MovementInput.y) * dashSpeed;
+                Debug.Log(dashSpeed);
+            }
+            else
+            {
+                movement = new Vector3(inputHandler.MovementInput.x, 0, inputHandler.MovementInput.y) * speed;
+            }
+            
             transform.position += movement * Time.deltaTime;
 
             //look at
@@ -65,6 +84,7 @@ public class CharacterMovement : BaseAction
                 transform.forward = movement.normalized;
             }
         }
+        /*
         else if(controlMode == CONTROLL_MODE.FIRST_PERSON)
         {
             //forward and rotate
@@ -88,5 +108,29 @@ public class CharacterMovement : BaseAction
 
             transform.position += movePos.normalized * speed * Time.deltaTime;
         }
+        */
+    }
+
+    private IEnumerator DashRoutine()
+    {
+        isDashing = true;
+        float accelTimer = 0f;
+        while (accelTimer < _controller.dashAccelTime)
+        {
+            accelTimer += Time.deltaTime;
+            float t = accelTimer / _controller.dashAccelTime;
+            dashSpeed = Mathf.Lerp(_controller.walkSpeed, _controller.dashSpeed, t);
+            yield return null;
+        }
+        yield return new WaitForSeconds(3f);
+        float decelTimer = 0f;
+        while (decelTimer < _controller.dashDecelTime)
+        {
+            decelTimer += Time.deltaTime;
+            float t = decelTimer / _controller.dashDecelTime;
+            dashSpeed = Mathf.Lerp(_controller.dashSpeed, _controller.walkSpeed, t);
+            yield return null;
+        }
+        isDashing = false;
     }
 }
