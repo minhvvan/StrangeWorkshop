@@ -9,7 +9,8 @@ public class CharacterInputHandler : BaseInputHandler
     //Events   //필요한 이벤트를 Action으로  추가하여 연결해서 class 붙여주면 코드 분리가 편하게 될 것으로 예상됨
     [NonSerialized] public Action OnInteract;  //만약 매개변수를 넘길경우 Action<자료형> 으로 추가하면 가능
     [NonSerialized] public Action OnAttack;
-
+    [NonSerialized] public Action OnDash;
+    
     IEnumerator Start()
     {
         _controller = GetComponent<SampleCharacterController>();
@@ -40,7 +41,7 @@ public class CharacterInputHandler : BaseInputHandler
         // 키 입력 상태 갱신
         IsWalking = MovementInput.magnitude > 0.1f;
         IsRunning = IsWalking && Input.GetKey(KeyCode.LeftShift);
-        IsDashing = (IsWalking || IsRunning) && Input.GetKeyDown(KeyCode.Space);
+        //IsDashing = (IsWalking || IsRunning) && Input.GetKeyDown(KeyCode.Space);
         
         if(Input.GetMouseButtonDown(0)){
             OnAttack?.Invoke();
@@ -49,7 +50,10 @@ public class CharacterInputHandler : BaseInputHandler
         if(Input.GetKeyDown(KeyCode.E)){
             OnInteract?.Invoke();
         }
-    }
 
-    
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            OnDash?.Invoke();
+        }
+    }
 }

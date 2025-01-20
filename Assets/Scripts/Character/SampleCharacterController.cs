@@ -18,10 +18,10 @@ public class SampleCharacterController : MonoBehaviour
 
 
     //공통적으로 사용할 변수 (Blackboard로 전체를 묶어서 사용할 수 있음)
-    public Rigidbody rb;
-    public Animator anim;
+    [NonSerialized] public Rigidbody rb;
+    [NonSerialized] public Animator anim;
     
-    public CharacterInputHandler inputHandler;
+    [NonSerialized] public CharacterInputHandler inputHandler;
 
     [Header("Speed Settings")]
     [SerializeField] public float walkSpeed = 5f;
@@ -32,6 +32,7 @@ public class SampleCharacterController : MonoBehaviour
     [SerializeField] public float dashAccelTime = 0.5f;
     [SerializeField] public float dashDecelTime = 0.5f;
     
+    [NonSerialized] public bool isDashing = false;
 
 
     void Awake()

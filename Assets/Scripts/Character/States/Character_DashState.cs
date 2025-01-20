@@ -6,7 +6,6 @@ public class Character_DashState : BaseState<SampleCharacterController>
     private float dashTimer;
     public override void Enter()
     {
-        dashTimer = 0f;
         Debug.Log("Dash Enter");
     }
 
@@ -17,9 +16,7 @@ public class Character_DashState : BaseState<SampleCharacterController>
 
     public override void UpdateState()
     {
-        dashTimer += Time.deltaTime;
-        
-        if(dashTimer >= _controller.dashAccelTime + _controller.dashDecelTime)
+        if(!_controller.isDashing)
         {
             _controller.SetState(_controller.runState);
         }
