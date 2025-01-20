@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         blackboard.enemyStatus.hp -= damage;
+        Debug.Log($"Current HP: {blackboard.enemyStatus.hp}");
+        if(blackboard.enemyStatus.hp <= 0) Destroy(gameObject);
     }
     
     //RayCast 시각화

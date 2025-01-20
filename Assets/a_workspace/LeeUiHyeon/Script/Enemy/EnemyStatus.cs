@@ -26,6 +26,22 @@ public class EnemyStatus
     public float attackSpeed = 0;
 
     public float moveSpeed = 0;
-    
-    
+
+    public EnemyStatus()
+    {
+    }
+
+    public EnemyStatus(EnemyStatus status)
+    {
+        enemytype = status.enemytype;
+        animator = status.animator;
+        animSpeed = status.animSpeed;
+        name = status.name;
+        hp = status.hp;
+        armor = status.armor;
+        attackDamage = status.attackDamage;
+        attackRange = status.attackRange;
+        attackSpeed = status.attackSpeed;
+        moveSpeed = status.moveSpeed;
+    }
 }

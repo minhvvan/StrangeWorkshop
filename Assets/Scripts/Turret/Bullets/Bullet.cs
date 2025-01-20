@@ -80,6 +80,6 @@ public class Bullet : MonoBehaviour
     
     private void GiveDamage(Collider other)
     {
-        other.GetComponent<SampleEnemy>().GetDamage(bulletData.damage);
+        other.GetComponent<Enemy>().TakeDamage(bulletData.damage);
     }
 }

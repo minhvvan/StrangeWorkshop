@@ -24,8 +24,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     
     public void InitBlackboard()
     {
-        Debug.Log("InitBlackboard");
-        
         animator = GetComponent<Animator>();
         
         //부딫혔다고 빙빙 돌지않게.

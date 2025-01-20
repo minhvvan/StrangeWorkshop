@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
     guid: 4287135a80591a3438b7d67418b1a4bc
+  - enabled: 1
+    path: Assets/Scenes/StartUpScene.unity
+    guid: 2e9a320f42a7c4640bc19b56d243f7e7
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f0b6b079d9544144b83717425be5eb43,
       type: 2}

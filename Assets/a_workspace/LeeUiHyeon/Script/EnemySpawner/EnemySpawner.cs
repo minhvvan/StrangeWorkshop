@@ -209,7 +209,7 @@ public class EnemySpawner : MonoBehaviour
             Instantiate(_enemyPrefab[prefabIndex], spawnPoints[spawnIndex], Quaternion.identity);
         var enemy = newEnemy.GetComponent<Enemy>();
         Debug.Log("Instantiate");
-        enemy.blackboard.enemyStatus = _status;
+        enemy.blackboard.enemyStatus = new EnemyStatus(_status);
         enemy.blackboard.SetTarget(targets);
         Debug.Log("EndSett");
     }
