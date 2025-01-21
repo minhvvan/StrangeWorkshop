@@ -128,7 +128,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject prefab;
         (_status, prefab) = await EnemyFactory.LoadEnemyStatus(loadPath);
         
-        //이거 안해주면 받아오기전에 null을 Add 해버린다. 
+        //적 SO 종류가 여러개일 경우 프리팹을 리스트로 받아 둔 후 꺼내쓰기위한 Add
         _enemyPrefab.Add(prefab);
     }
     
@@ -329,6 +329,7 @@ EnemySpawner사용 시 주의사항)
 SpawnEnemy()를 실행해야함.
 GetSpawnEnemyStatus가 비동기로 진행되기 때문에
 그냥 주르륵 이어서 시키면 null을 받아와버림
+->동기함수에서 비동기를 같이 실행해서 생긴 문제
 
 spawnPoint List로 관리. 생성지점은 List의 index로 가능.
 
@@ -338,4 +339,7 @@ objectPool 적용 시에는 로직이 바뀌거나 Pooling으로 생성하는 �
 
 작업로그0118
 스크립트 구조 개편, 주석 추가.
+
+작업로그0121
+주석 하나 수정.
  */
