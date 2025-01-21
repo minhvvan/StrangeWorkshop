@@ -17,7 +17,7 @@ MonoBehaviour:
     type: 3}
   animator: {fileID: 0}
   animSpeed: 0
-  name: MeleeNormal
+  enemyName: MeleeNormal
   hp: 10
   armor: 0
   attackDamage: 1
