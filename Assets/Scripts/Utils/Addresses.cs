@@ -58,6 +58,12 @@ public static class Addresses
             public const string MISSILE = "data/turrets/missile";
             public const string LASER = "data/turrets/laser";
         }
+
+        public static class Recipe
+        {
+            public const string CRAFT = "data/recipes/Craft";
+            public const string PROCESS = "data/recipes/Process";
+        }
     }
     
     public static class Prefabs

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
@@ -9,13 +10,13 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            if (_instance == null)
+            if (!_instance)
             {
                 lock (_lock)
                 {
                     _instance = FindObjectOfType<T>();
 
-                    if (_instance == null)
+                    if (!_instance)
                     {
                         GameObject singletonObject = new GameObject(typeof(T).Name);
                         _instance = singletonObject.AddComponent<T>();
@@ -37,5 +38,10 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             Debug.LogWarning($"Duplicate instance of {typeof(T).Name} found and destroyed.");
             Destroy(gameObject);
         }
+    }
+
+    protected void OnDestroy()
+    {
+        _instance = null;
     }
 }

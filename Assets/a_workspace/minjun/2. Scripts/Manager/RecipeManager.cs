@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,7 +12,27 @@ public class RecipeManager : Singleton<RecipeManager>
 {
     [SerializeField] private CraftRecipeCollectionSO craftRecipeCollection;
     [SerializeField] private ProcessRecipeCollectionSO processRecipeCollection;
-    
+
+    public bool IsInitialized { get; private set; }
+
+    private async void Start()
+    {
+        await Initialize();
+    }
+
+    private async UniTask Initialize()
+    {
+        craftRecipeCollection = await DataManager.Instance.LoadDataAsync<CraftRecipeCollectionSO>(Addresses.Data.Recipe.CRAFT);
+        processRecipeCollection = await DataManager.Instance.LoadDataAsync<ProcessRecipeCollectionSO>(Addresses.Data.Recipe.PROCESS);
+        IsInitialized = true;
+    }
+
+    public void Reset()
+    {
+        // 초기화 관련 데이터 리셋
+        IsInitialized = false;
+    }
+
     public bool DoesMakeMenuItem(List<HoldableObjectSO> ingredients, CraftRecipeSO craftRecipe)
     {
         return CanMake(ingredients, craftRecipe);
