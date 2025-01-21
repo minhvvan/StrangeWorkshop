@@ -10,10 +10,6 @@ using VContainer;
 
 public class GameManager : Singleton<GameManager>
 {
-    [Inject] private DataManager _dataManager;
-    [Inject] private EventManager _eventManager;
-    [Inject] private LoadingManager _loadingManager;
-
     [Header("Data")]
     private GameState _currentGameState;
     private ChapterDataSO _currentChapter;
@@ -22,27 +18,39 @@ public class GameManager : Singleton<GameManager>
     [Header("Event")]
     private GameStateEventSO _gameStateEvent;
 
+    public bool IsInitialized { get; private set; }
+    private const string START_SCENE_NAME = "StartUpScene";
+
     private async void Start()
     {
         //로딩 화면을 보여주고 필요한 데이터 로드
         await Initialize();
         
         //Main화면으로 이동
-        LoadMainMenu();
+        if (SceneManager.GetActiveScene().name == START_SCENE_NAME)
+        {
+            LoadMainMenu();
+        }
     }
 
     private async UniTask Initialize()
     {
-        await _eventManager.InitializeEvents();
-        
         //Load ChapterData
-        _chapterList = await _dataManager.LoadDataAsync<ChapterListSO>(Addresses.Data.Chapter.CHAPTER_LIST);
+        _chapterList = await DataManager.Instance.LoadDataAsync<ChapterListSO>(Addresses.Data.Chapter.CHAPTER_LIST);
         _currentChapter = _chapterList.GetFirstChapter();
         
         //Load Events
-        _gameStateEvent = _eventManager.GetEvent<GameStateEventSO>(Addresses.Events.Game.STATE_CHANGED);
+        await UniTask.WaitUntil(() => EventManager.Instance.IsInitialized);
+        _gameStateEvent = EventManager.Instance.GetEvent<GameStateEventSO>(Addresses.Events.Game.STATE_CHANGED);
+
+        IsInitialized = true;
     }
-    
+
+    public void Reset()
+    {
+        throw new System.NotImplementedException();
+    }
+
     private void LoadMainMenu()
     {
         ChangeGameState(GameState.MainMenu);
@@ -82,14 +90,14 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         if (_currentGameState != GameState.MainMenu) return;
-        _loadingManager.LoadChapter(_currentChapter);
+        LoadingManager.Instance.LoadChapter(_currentChapter);
     }
 
     public void ClearChapter()
     {
         if (_currentGameState != GameState.InGame) return;
         _currentChapter = _chapterList.GetNextChapter(_currentChapter);
-        _loadingManager.LoadChapter(_currentChapter);
+        LoadingManager.Instance.LoadChapter(_currentChapter);
     }
 
     public void PauseGame()

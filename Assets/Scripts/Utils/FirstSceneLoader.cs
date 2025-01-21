@@ -3,7 +3,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[InitializeOnLoad]
+// [InitializeOnLoad]
 public static class FirstSceneLoader
 {
     private const string StartSceneName = "StartUpScene"; // 시작 씬 이름
