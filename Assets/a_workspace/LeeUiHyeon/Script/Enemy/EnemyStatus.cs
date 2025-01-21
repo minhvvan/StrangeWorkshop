@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 //적의 능력치 조정, 관리하는 클래스.
 [Serializable] 
@@ -15,7 +16,7 @@ public class EnemyStatus
     public float animSpeed = 0;
 
     //적 이름
-    public string name;
+    public string enemyName;
 
     //적 능력치
     public float hp = 0;
@@ -36,7 +37,7 @@ public class EnemyStatus
         enemytype = status.enemytype;
         animator = status.animator;
         animSpeed = status.animSpeed;
-        name = status.name;
+        enemyName = status.enemyName;
         hp = status.hp;
         armor = status.armor;
         attackDamage = status.attackDamage;

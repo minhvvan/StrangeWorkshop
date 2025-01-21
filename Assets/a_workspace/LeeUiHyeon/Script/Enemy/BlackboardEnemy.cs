@@ -11,9 +11,9 @@ public interface IBlackboardEnemy
 //블랙보드 담당 클래스
 public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
 {
-    [NonSerialized] public Animator animator;
-    [NonSerialized] public Rigidbody rigidbody;
-    [NonSerialized] public CapsuleCollider capsuleCollider;
+    [NonSerialized] public Animator anim;
+    [NonSerialized] public Rigidbody rb;
+    [NonSerialized] public CapsuleCollider capsuleCol;
     public EnemyStatus enemyStatus;
     public Transform target;
     public RaycastHit hit;
@@ -24,16 +24,16 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     
     public void InitBlackboard()
     {
-        animator = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         
         //부딫혔다고 빙빙 돌지않게.
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.constraints = 
+        rb = GetComponent<Rigidbody>();
+        rb.constraints = 
             RigidbodyConstraints.FreezeRotationX | 
             RigidbodyConstraints.FreezeRotationY | 
             RigidbodyConstraints.FreezeRotationZ;
         
-        capsuleCollider = GetComponent<CapsuleCollider>();
+        capsuleCol = GetComponent<CapsuleCollider>();
     }
     
     public void SetTarget(Transform targetData)

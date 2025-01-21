@@ -114,10 +114,7 @@ public class EnemySpawner : MonoBehaviour
     //스폰 포인트를 개별적으로 활성/비활성화 하고 싶을 때 사용합니다.
     public void ChangeActivateSpawnPoint(int index, bool setBool)
     {
-        if (_spawnCheck[index] != null)
-        {
-            _spawnCheck[index] = setBool;
-        }
+        _spawnCheck[index] = setBool;
     }
     
     //<비동기>스폰할 적의 정보를 읽어오는 기능, 불러올 적 SO의 이름을 넣고 사용합니다.
@@ -342,4 +339,7 @@ objectPool 적용 시에는 로직이 바뀌거나 Pooling으로 생성하는 �
 
 작업로그0121
 주석 하나 수정.
+
+[경고 표시 제거 작업]
+ChangeActivateSpawnPoint의 null체크 필요없어서 제거. (bool은 항상 true or false 값 가진다고 함.
  */

@@ -7,7 +7,7 @@ using UnityEngine;
 public class EnemyFsm : MonoBehaviour
 {
     //enemy의 blackboard 접근
-    private Enemy enemy;
+    private Enemy _enemy;
     public BlackboardEnemy blackboard;
     
     //State캐싱
@@ -25,7 +25,7 @@ public class EnemyFsm : MonoBehaviour
 
     void InitComponents()
     {
-        enemy = GetComponent<Enemy>();
+        _enemy = GetComponent<Enemy>();
     }
     
     public void InitStates()
@@ -41,7 +41,7 @@ public class EnemyFsm : MonoBehaviour
         _stateMachine.ChangeState(idleState);
         
         //블랙보드 할당
-        blackboard = enemy.blackboard;
+        blackboard = _enemy.blackboard;
     }
     
     public void ChangeEnemyState(IState newState)

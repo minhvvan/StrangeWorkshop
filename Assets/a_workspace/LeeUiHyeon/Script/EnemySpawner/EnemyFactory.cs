@@ -13,7 +13,7 @@ public static class EnemyFactory
     public static async UniTask<(EnemyStatus, GameObject)> LoadEnemyStatus(string path)
     {
         EnemyStatus stats = new();
-        EnemyDataSO enemyDatasSO = new();
+        EnemyDataSO enemyDatasSO = ScriptableObject.CreateInstance<EnemyDataSO>();
         
         var handle = Addressables.LoadAssetAsync<EnemyDataSO>(path);
         await handle.Task;
@@ -28,13 +28,12 @@ public static class EnemyFactory
         }
 
         //읽어온 EnemyData SO 데이터를 EnemyStatus에 할당. 
-        GameObject objPrefab;
-        objPrefab = enemyDatasSO.enemyPrefab;
+        GameObject objPrefab = enemyDatasSO.enemyPrefab;
         
         stats.enemytype = enemyDatasSO.enemytype;
         stats.animator = enemyDatasSO.animator;
         stats.animSpeed = enemyDatasSO.animSpeed;
-        stats.name = enemyDatasSO.name;
+        stats.enemyName = enemyDatasSO.enemyName;
         stats.hp = enemyDatasSO.hp;
         stats.armor = enemyDatasSO.armor;
         stats.attackDamage = enemyDatasSO.attackDamage;
@@ -48,7 +47,7 @@ public static class EnemyFactory
     //SpawnDataSO를 읽어옵니다.
     public static async UniTask<(List<Vector3>,int,int,int,TargetCode)> LoadSpawnData(string path)
     {
-        SpawnDataSO spawnDatasSO = new();
+        SpawnDataSO spawnDatasSO = ScriptableObject.CreateInstance<SpawnDataSO>();
         
         //Addressables를 사용합니다. SpawnDataSO파일에 세팅 해주세요. *그룹 별도 설정 안해둔 상태*
         var handle = Addressables.LoadAssetAsync<SpawnDataSO>(path);

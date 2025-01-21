@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "NewEnemyData", menuName = "SO/EnemyData")]
 //EnemyData를 저장하는 SO
@@ -17,7 +18,7 @@ public class EnemyDataSO : ScriptableObject
     public float animSpeed;
 
     //적 이름
-    public string name;
+    public string enemyName;
     
     //적 능력치
     public float hp;
