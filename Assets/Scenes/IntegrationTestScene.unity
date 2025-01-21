@@ -1147,6 +1147,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 744423052104107356, guid: 2965d785aa635984cb85abf420c51962,
+        type: 3}
+      propertyPath: enemyDataSOpath
+      value: Assets/Data/Enemy/EnemyMeleeNormal.asset
+      objectReference: {fileID: 0}
+    - target: {fileID: 744423052104107356, guid: 2965d785aa635984cb85abf420c51962,
+        type: 3}
+      propertyPath: spawnDataSOpath
+      value: Assets/Data/Enemy/SpawnDataA.asset
+      objectReference: {fileID: 0}
     - target: {fileID: 6574202144655642675, guid: 2965d785aa635984cb85abf420c51962,
         type: 3}
       propertyPath: m_LocalPosition.x

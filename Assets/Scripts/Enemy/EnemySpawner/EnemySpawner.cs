@@ -69,8 +69,8 @@ public class EnemySpawner : MonoBehaviour
     private TargetCode _targetCode;
     
     //각 SO 생성파일 경로를 지정해주세요.
-    public string enemyDataSOpath = "Assets/a_workspace/LeeUiHyeon/Script/SO/EnemyData/MeleeNormal.asset";
-    public string spawnDataSOpath = "Assets/a_workspace/LeeUiHyeon/Script/SO/SpawnData/SpawnDataA.asset";
+    public string enemyDataSOpath = "Assets/Data/Enemy/EnemyMeleeNormal.asset";
+    public string spawnDataSOpath = "Assets/Data/Enemy/SpawnDataA.asset";
     
     //적 스폰위치를 하나씩 추가합니다.
     public void AddSpawnPosition(Vector3 position)
