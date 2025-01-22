@@ -114,7 +114,14 @@ public class EnemySpawner : MonoBehaviour
     //스폰 포인트를 개별적으로 활성/비활성화 하고 싶을 때 사용합니다.
     public void ChangeActivateSpawnPoint(int index, bool setBool)
     {
-        _spawnCheck[index] = setBool;
+        if (index <= _spawnCheck.Count - 1)
+        {
+            _spawnCheck[index] = setBool;
+        }
+        else
+        {
+            Debug.Log($"This index is out of range. -> spawnCheck's index");
+        }
     }
     
     //<비동기>스폰할 적의 정보를 읽어오는 기능, 불러올 적 SO의 이름을 넣고 사용합니다.
