@@ -27,6 +27,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b73276630bfc744287f213d1852a431
+    m_Address: Assets/Data/Enemy/SpawnDataA.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 75c4dff732dbf484997a80e8f049612f
     m_Address: data/recipes/Craft
     m_ReadOnly: 0
@@ -34,6 +39,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c11132ab267656e4ca77c7c112e2cc84
     m_Address: data/chapters/chapter_list
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa893e49ab3d5b542b72e988fa937f02
+    m_Address: Assets/Data/Enemy/EnemyMeleeNormal.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
