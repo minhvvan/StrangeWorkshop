@@ -2,43 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretManager : MonoBehaviour
+public class TurretManager : Singleton<TurretManager>
 {
-    public List<TurretDataSO> turretDataSOs;
-
     private List<Turret> _turrets;
-    private TurretFactory _turretFactory;
+    public bool rangeEffOn { get; set; }
 
-    public Transform a;
-    public Transform b;
-    
-    void Awake()
+    void Start()
     {
         _turrets = new List<Turret>();
-        _turretFactory = new TurretFactory(turretDataSOs);
-        
-        // testing
-        CreateTurret(TurretType.BASIC, a);
-        CreateTurret(TurretType.MISSILE, b);
-        CreateTurret(TurretType.MORTAR);
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleRangeEff();
+        }
+    }
+    // private TurretFactory _turretFactory;
     
-    void CreateTurret(TurretType turretType)
+    
+    // void CreateTurret(TurretType turretType)
+    // {
+    //     _turrets.Add(_turretFactory.CreateTurret(turretType, transform));
+    // }
+    //
+    // void CreateTurret(TurretType turretType, Transform parentTransform)
+    // {
+    //     _turrets.Add(_turretFactory.CreateTurret(turretType, parentTransform));
+    // }
+
+    public void AddTurret(Turret turret)
     {
-        _turrets.Add(_turretFactory.CreateTurret(turretType, transform));
+        if(!_turrets.Contains(turret))
+            _turrets.Add(turret);
     }
 
-    void CreateTurret(TurretType turretType, Transform parentTransform)
+    public void RemoveTurret(Turret turret)
     {
-        _turrets.Add(_turretFactory.CreateTurret(turretType, parentTransform));
+        if(_turrets.Contains(turret))
+            _turrets.Remove(turret);
     }
 
-    void DestroyTurret(Turret turret)
+    private void ToggleRangeEff()
     {
-        _turrets.Remove(turret);
-        Destroy(turret.gameObject);
+        rangeEffOn = !rangeEffOn;
+        foreach (Turret turret in _turrets)
+        {
+            turret.turretData.rangeEff.SetActive(rangeEffOn);
+        }
     }
 
+    // void DestroyTurret(Turret turret)
+    // {
+    //     _turrets.Remove(turret);
+    //     Destroy(turret.gameObject);
+    // }
+    //
     void ClearTurrets()
     {
         foreach (Turret turret in _turrets)

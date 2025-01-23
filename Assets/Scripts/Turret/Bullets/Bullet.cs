@@ -9,27 +9,12 @@ public class Bullet : MonoBehaviour
 {
     [NonSerialized] public Blackboard_Bullet bulletData;
 
-    public void InitProjectile(Transform target, float damage)
+    public void InitBullet(Transform target, float damage)
     {
+        // 여기서 target은 총알이 발사된 시점에 적이 있던 위치다
+        // 적이 이동하면 target에 적이 없을수도 있다
         bulletData = gameObject.GetComponent<Blackboard_Bullet>();
         bulletData.Initialize(target, damage);
-        SetBulletTrajectory();
-    }
-    
-    private void SetBulletTrajectory()
-    {
-        switch (bulletData.bulletType)
-        {
-            case BulletType.GUN:
-                bulletData.trajectory = new Trajectory_Straight(this, transform.position, bulletData.target.position);
-                break;
-            case BulletType.MISSILE:
-                bulletData.trajectory = new Trajectory_Straight(this, transform.position, bulletData.target.position);
-                break;
-            case BulletType.MORTAR:
-                bulletData.trajectory = new Trajectory_Parabola(this, transform.position, bulletData.target.position);
-                break;
-        }
     }
     
     private void Update()
@@ -44,6 +29,7 @@ public class Bullet : MonoBehaviour
         // 땅에 닿으면 폭발
         if (transform.position.y < -0.2F)
         {
+            bulletData.damageHandler.GiveDamage(null);
             Explosion();
         }
 
@@ -67,8 +53,8 @@ public class Bullet : MonoBehaviour
             Vector3 knockBackPos = other.transform.position + (dir.normalized * bulletData.knockBack);
             knockBackPos.y = 1;
             other.transform.position = knockBackPos;
+            bulletData.damageHandler.GiveDamage(other.gameObject.GetComponent<Enemy>());
             Explosion();
-            GiveDamage(other);
         }
     }
 

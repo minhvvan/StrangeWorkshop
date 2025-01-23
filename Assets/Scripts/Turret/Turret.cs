@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Turret : HoldableObject
 {
-    public TurretDataSO turretDataSO;
     // 터렛 정보를 담고있는 블랙보드
     public Blackboard_Turret turretData { get; private set; }
     public TurretActions turretActions { get; private set; }
@@ -23,8 +22,10 @@ public class Turret : HoldableObject
     {
         InitComponents();
         InitStates();
-        turretData.Initialize(turretDataSO);
-        turretActions.SetShootingStrategy(new SingleShootingStrategy(this));
+        turretData.Initialize();
+        
+        // turretmanager에 해당 turret 추가
+        TurretManager.Instance.AddTurret(this);
     }
 
     private void InitComponents()

@@ -7,14 +7,14 @@ public class Trajectory_Parabola : Trajectory
     private Vector3 _velocity;
     private bool _isShot = false;
     
-    public Trajectory_Parabola(Bullet projectile, Vector3 startPoint, Vector3 endPoint) : base(projectile, startPoint, endPoint)
+    public Trajectory_Parabola(Bullet bullet, Vector3 startPoint, Vector3 endPoint) : base(bullet, startPoint, endPoint)
     {
         CalculateVelocity();
     }
 
     private  void CalculateVelocity()
     {
-        float timeToTarget = _projectile.bulletData.timeToTarget;
+        float timeToTarget = _bullet.bulletData.timeToTarget;
         Vector3 distance = _endPos - _startPos;
         Vector3 distanceXZ = distance;
         distanceXZ.y = 0;
@@ -37,7 +37,7 @@ public class Trajectory_Parabola : Trajectory
         if (!_isShot)
         {
             _isShot = true;
-            _projectile.GetComponent<Rigidbody>().velocity = _velocity;
+            _bullet.GetComponent<Rigidbody>().velocity = _velocity;
         }
     }
 }

@@ -8,23 +8,16 @@ public class Turret_HoldState : BaseState<Turret>
 
     public override void Enter()
     {
-        // turret 크기 줄이고 player 손으로
-        _controller.transform.localScale /= _controller.turretData.resizeScale;
-        _controller.transform.position = _controller.turretData.playerHandTransform.position;
-        _controller.transform.rotation = _controller.turretData.playerHandTransform.rotation;
+
     }
 
     public override void UpdateState()
     {
-        _controller.transform.position = _controller.turretData.playerHandTransform.position;
-        _controller.transform.rotation = _controller.turretData.playerHandTransform.rotation;
         ChangeState();
     }
 
     public override void Exit()
     {
-        // turret 크기 다시 조정
-        _controller.transform.localScale *= _controller.turretData.resizeScale;
     }
     
     private void ChangeState()

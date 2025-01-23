@@ -17,7 +17,6 @@ public class Turret_CrashState : BaseState<Turret>
             _previousColors[i] = _controller.turretData.renderers[i].material.color;
             _controller.turretData.renderers[i].material.color = _controller.turretData.crashedColor;
         }
-        _controller.turretData.rangeEff.SetActive(false);
     }
 
     public override void UpdateState()
@@ -27,13 +26,11 @@ public class Turret_CrashState : BaseState<Turret>
 
     public override void Exit()
     {
-        
         // 원래 색으로
         for (int i = 0; i < _controller.turretData.renderers.Length; i++)
         {
             _controller.turretData.renderers[i].material.color = _previousColors[i];
         }
-        _controller.turretData.rangeEff.SetActive(true);
         
         // 메모리 해제
         _previousColors = null;

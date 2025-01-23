@@ -5,7 +5,7 @@ using UnityEngine;
 public class Trajectory_Straight : Trajectory
 {
     private float _speed;
-    public Trajectory_Straight(Bullet projectile, Vector3 startPos, Vector3 endPos) : base(projectile, startPos, endPos)
+    public Trajectory_Straight(Bullet bullet, Vector3 startPos, Vector3 endPos) : base(bullet, startPos, endPos)
     {
         InitBullet();
     }
@@ -16,13 +16,13 @@ public class Trajectory_Straight : Trajectory
         float distance = (direction).magnitude;
         
         // bullet이 target을 향하도록
-        _projectile.transform.rotation = Quaternion.LookRotation(direction);
-        _speed = distance / _projectile.bulletData.timeToTarget;
+        _bullet.transform.rotation = Quaternion.LookRotation(direction);
+        _speed = distance / _bullet.bulletData.timeToTarget;
     }
 
     public override void MoveToTarget()
     {
         float singleSpeed = _speed * Time.deltaTime;
-        _projectile.transform.Translate(_projectile.transform.forward * (singleSpeed * 2), Space.World);
+        _bullet.transform.Translate(_bullet.transform.forward * (singleSpeed * 2), Space.World);
     }
 }

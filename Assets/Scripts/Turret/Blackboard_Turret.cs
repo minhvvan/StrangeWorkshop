@@ -5,16 +5,18 @@ using UnityEngine;
 
 public enum TurretType
 {
-    BASIC,
+    GUN,
     MISSILE,
     MORTAR
 }
 
 public class Blackboard_Turret : MonoBehaviour
 {
+    // turret data so
+    public TurretDataSO so;
+    
     // 모든 turret 공통
     [NonSerialized] public float fixSpeed = 10;
-    [NonSerialized] public float resizeScale = 2f;
     [NonSerialized] public Color crashedColor = Color.red;
     [NonSerialized] public float lookSpeed;
     
@@ -40,9 +42,6 @@ public class Blackboard_Turret : MonoBehaviour
     public ITargetStrategy targetStrategy;
     public ShootingStrategy shootingStrategy;
     
-    // player (손)위치
-    public Transform playerHandTransform;
-    
     // caching
     [Header("caching")]
     public Transform turretHead;
@@ -53,11 +52,10 @@ public class Blackboard_Turret : MonoBehaviour
     public Transform muzzleMain;
     public GameObject muzzleEff;
 
-    public void Initialize(TurretDataSO so)
+    public void Initialize()
     {
         // stat 초기화
         fixSpeed = so.fixSpeed;
-        resizeScale = so.resizeScale;
         crashedColor = so.crashedColor;
         lookSpeed = so.lookSpeed;
         turretType = so.turretType;
@@ -71,8 +69,23 @@ public class Blackboard_Turret : MonoBehaviour
         // status
         currentBulletNum = maxBulletNum;
         currentHealth = maxHealth;
-        targetStrategy = new ClosestTargetStrategy();
         float size = attackRange * 2f;
+        
+        // range effect
         rangeEff.transform.localScale = new Vector3(size, size, 1f);
+        rangeEff.SetActive(TurretManager.Instance.rangeEffOn);
+        
+        // init strategies
+        targetStrategy = new ClosestTargetStrategy();
+        switch (turretType)
+        {
+            case TurretType.GUN:
+            case TurretType.MISSILE:
+            case TurretType.MORTAR:
+                shootingStrategy = new SingleShootingStrategy(GetComponent<Turret>());
+                break;
+            default:
+                break;
+        }
     }
 }
