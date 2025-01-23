@@ -4,13 +4,13 @@ using UnityEngine;
 
 public abstract class Trajectory
 {
-    protected Bullet _projectile;
+    protected Bullet _bullet;
     protected Vector3 _startPos;
     protected Vector3 _endPos;
 
-    public Trajectory(Bullet projectile, Vector3 startPos, Vector3 endPos)
+    public Trajectory(Bullet bullet, Vector3 startPos, Vector3 endPos)
     {
-        _projectile = projectile;
+        _bullet = bullet;
         _startPos = startPos;
         _endPos = endPos;
     }

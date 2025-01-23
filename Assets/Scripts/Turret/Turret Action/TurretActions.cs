@@ -16,9 +16,8 @@ public class TurretActions
         _turret.turretData.currentBulletNum = _turret.turretData.maxBulletNum;
     }
 
-    public void Hold(Transform playerHandTransform)
+    public void Hold()
     {
-        _turret.turretData.playerHandTransform = playerHandTransform;
         _turret.turretData.isOnCounter = false;
     }
 
@@ -42,11 +41,6 @@ public class TurretActions
         _turret.turretData.isCrashed = true;
     }
 
-    public void Upgrade(string upgradeName, float upgradeLevel)
-    {
-
-    }
-
     public void SetTargetStrategy(ITargetStrategy newStrategy)
     {
         _turret.turretData.targetStrategy = newStrategy;
@@ -56,7 +50,7 @@ public class TurretActions
     {
         _turret.turretData.shootingStrategy = newStrategy;
     }
-
+    
     public void SetRangeEffectSize()
     {
         float size = _turret.turretData.attackRange * 2f;
