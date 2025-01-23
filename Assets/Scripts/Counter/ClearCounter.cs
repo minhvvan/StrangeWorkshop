@@ -16,6 +16,15 @@ public class ClearCounter : BaseCounter
         }
         else
         {
+            if (player.HasHoldableObject())
+            {
+                if (player.GetHoldableObject().GetHoldableObjectSO().objectType == HoldableObjectType.Bullet && GetHoldableObject().GetHoldableObjectSO().objectType == HoldableObjectType.Turret)
+                {
+                    player.ClearHoldableObject();
+                    GetHoldableObject().GetComponent<Turret>().turretActions.Reload();
+                }
+            }
+            
             if (!player.HasHoldableObject())
             {
                 GiveHoldableObject(player);

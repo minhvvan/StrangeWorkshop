@@ -17,3 +17,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
   - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
   output: {fileID: 11400000, guid: 130cb8a447c0f5e4abf6d5acdcf1d6a0, type: 2}
+  craftNumberOfTimes: 4
