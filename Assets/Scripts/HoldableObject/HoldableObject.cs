@@ -18,11 +18,23 @@ public class HoldableObject : MonoBehaviour
     public bool SetHoldableObjectParent(IHoldableObjectParent parent)
     {
         // 현재 HoldableObject가 완성품이면 옮길 수 있는 상태인지 검사(Player가 장갑을 꼈는지)
-        if (GetHoldableObjectSO().objectType == HoldableObjectType.CraftProduct)
+        if (GetHoldableObjectSO().objectType == HoldableObjectType.CraftProduct || GetHoldableObjectSO().objectType == HoldableObjectType.Turret)
         {
             if (!parent.CanSetHoldableObject())
             {
                 return false;
+            }
+        }
+
+        if (GetHoldableObjectSO().objectType == HoldableObjectType.Turret)
+        {
+            if (parent.GetType() == typeof(SampleCharacterController))
+            {
+                GetComponent<Turret>().turretActions.Hold();
+            }
+            else
+            {
+                GetComponent<Turret>().turretActions.Put();
             }
         }
         

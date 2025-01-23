@@ -21,6 +21,11 @@ public class TurretActions
         _turret.turretData.isOnCounter = false;
     }
 
+    public void Put()
+    {
+        _turret.turretData.isOnCounter = true;
+    }
+    
     public void Fix()
     {
         _turret.turretData.currentHealth = _turret.turretData.maxHealth;
