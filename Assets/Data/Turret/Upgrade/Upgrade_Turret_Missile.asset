@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4390239665ac25f45a7c82bd23cf464b, type: 3}
-  m_Name: Upgrade_Turret_Gun
+  m_Name: Upgrade_Turret_Missile
   m_EditorClassIdentifier: 
   upgradeJackpotProbability: 0.2
   upgradeTime: 5

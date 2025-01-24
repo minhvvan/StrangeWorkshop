@@ -70,9 +70,9 @@ public class Blackboard_Turret : MonoBehaviour
         // status
         currentBulletNum = maxBulletNum;
         currentHealth = maxHealth;
-        float size = attackRange * 2f;
         
         // range effect
+        float size = attackRange * 2f;
         rangeEff.transform.localScale = new Vector3(size, size, 1f);
         rangeEff.SetActive(TurretManager.Instance.rangeEffOn);
         

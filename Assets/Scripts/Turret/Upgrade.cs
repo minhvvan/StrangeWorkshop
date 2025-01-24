@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class UpgradeStats
@@ -25,12 +26,6 @@ public class Upgrade : MonoBehaviour
     {
         _turret = GetComponent<Turret>();
         _currentUpgradeLevel = 0;
-    }
-    
-    public Upgrade(Turret turret)
-    {
-        _turret = turret;
-        _currentUpgradeLevel = 0;
         _upgrades = upgradeData.upgrades;
     }
 
@@ -38,7 +33,8 @@ public class Upgrade : MonoBehaviour
     {
         // turret의 level 개념이 존재하고 level 증가에 따라 스탯 증가하는 방식
         // level을 1씩 올린다.
-        if (Upgradable())
+        // Todo: counter에서 upgrade 가능여부를 처리하면 조건문 삭제
+        if (_currentUpgradeLevel < _upgrades.Count)
         {
             ApplyStatUp();
             UpgradeEffect(1);
@@ -50,18 +46,21 @@ public class Upgrade : MonoBehaviour
         // turret의 level을 랜덤하게 올린다
         // 일단 1레벨 올려주고 더 올라갈 때마다 1/n 확률로 성공
         int increasedLevel = 0;
-        if (Upgradable())
+        // Todo: counter에서 upgrade 가능여부를 처리하면 조건문 삭제
+        if (_currentUpgradeLevel < _upgrades.Count)
         {
             ApplyStatUp();
             increasedLevel++;
             UpgradeLevelRandomlyHelper(ref increasedLevel);
         }
         UpgradeEffect(increasedLevel);
+        Debug.Log(_currentUpgradeLevel);
     }
 
     private void UpgradeLevelRandomlyHelper(ref int increasedLevel)
     {
-        if (Upgradable() && Random.value <=  upgradeData.upgradeJackpotProbability)
+        // Todo: counter에서 upgrade 가능여부를 처리하면 조건문 삭제
+        if (_currentUpgradeLevel < _upgrades.Count && Random.value <=  upgradeData.upgradeJackpotProbability)
         {
             ApplyStatUp();
             increasedLevel++;
@@ -76,20 +75,10 @@ public class Upgrade : MonoBehaviour
         _turret.turretData.damage += _upgrades[_currentUpgradeLevel].damage;
         _turret.turretData.fireRate -= _upgrades[_currentUpgradeLevel].fireRate;
         _turret.turretData.attackRange += _upgrades[_currentUpgradeLevel].attackRange;
+        _turret.turretActions.UpdateRangeEffectSize();
         _turret.turretData.maxBulletNum += _upgrades[_currentUpgradeLevel].maxBulletNum;
-            
+        
         _currentUpgradeLevel++;
-    }
-
-    private bool Upgradable()
-    {
-        // upgrade max level을 넘었는지 체크
-        if (_currentUpgradeLevel >= _upgrades.Count)
-        {
-            return false;
-        }
-
-        return true;
     }
 
     private void UpgradeEffect(int increasedLevel)
@@ -109,5 +98,13 @@ public class Upgrade : MonoBehaviour
             default:
                 break;
         }
+    }
+    
+    public bool Upgradable()
+    {
+        // 업그레이드 가능한지 판별
+        if (_currentUpgradeLevel >= _upgrades.Count || _turret.turretData.isUpgrading) return false;
+        
+        return true;
     }
 }

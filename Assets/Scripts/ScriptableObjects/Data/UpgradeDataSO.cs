@@ -8,11 +8,13 @@ using UnityEngine;
 public class UpgradeDataSO : ScriptableObject
 {
     public float upgradeJackpotProbability;
+    public float upgradeTime;
     
     public List<UpgradeStats> upgrades = new List<UpgradeStats>();
 
     private void OnEnable()
     {
         if(upgradeJackpotProbability == 0f) upgradeJackpotProbability = 0.125f;
+        if(upgradeTime == 0f) upgradeTime = 5f;
     }
 }

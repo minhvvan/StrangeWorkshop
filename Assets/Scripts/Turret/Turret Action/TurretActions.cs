@@ -31,6 +31,11 @@ public class TurretActions
         _turret.turretData.isUpgrading = true;
     }
     
+    public bool Upgradable()
+    {
+        return _turret.turretUpgrade.Upgradable();
+    }
+    
     public void Fix()
     {
         _turret.turretData.currentHealth = _turret.turretData.maxHealth;
@@ -61,7 +66,7 @@ public class TurretActions
         _turret.turretData.shootingStrategy = newStrategy;
     }
     
-    public void SetRangeEffectSize()
+    public void UpdateRangeEffectSize()
     {
         float size = _turret.turretData.attackRange * 2f;
         _turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);

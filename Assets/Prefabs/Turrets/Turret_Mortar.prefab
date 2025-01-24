@@ -5340,6 +5340,7 @@ GameObject:
   - component: {fileID: 811485504510714041}
   - component: {fileID: 6913009702762537399}
   - component: {fileID: 3597568053814638393}
+  - component: {fileID: 6727442791962092766}
   m_Layer: 0
   m_Name: Turret_Mortar
   m_TagString: Untagged
@@ -5401,3 +5402,16 @@ MonoBehaviour:
   noAmmoImage: {fileID: 5082640198667543044}
   muzzleMain: {fileID: 2675651322189411779}
   muzzleEff: {fileID: 1497772684437746, guid: 7a3aa3ccf9a17a14cb338122add5f6ef, type: 3}
+--- !u!114 &6727442791962092766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8525229289173971731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97d40dca97e41643b293c75fa16b9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeData: {fileID: 11400000, guid: 562867f96d667e6478d6b30834d6b5a9, type: 2}
