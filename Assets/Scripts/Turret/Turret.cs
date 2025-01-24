@@ -7,6 +7,7 @@ public class Turret : HoldableObject
 {
     // 터렛 정보를 담고있는 블랙보드
     public Blackboard_Turret turretData { get; private set; }
+    public Upgrade turretUpgrade { get; private set; }
     public TurretActions turretActions { get; private set; }
     
     StateMachine _stateMachine;
@@ -31,6 +32,7 @@ public class Turret : HoldableObject
     private void InitComponents()
     {
         turretData = GetComponent<Blackboard_Turret>();
+        turretUpgrade = GetComponent<Upgrade>();
         turretActions = new TurretActions(this);
     }
     

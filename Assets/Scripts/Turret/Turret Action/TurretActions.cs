@@ -25,6 +25,11 @@ public class TurretActions
     {
         _turret.turretData.isOnCounter = true;
     }
+
+    public void Upgrade()
+    {
+        _turret.turretData.isUpgrading = true;
+    }
     
     public void Fix()
     {
