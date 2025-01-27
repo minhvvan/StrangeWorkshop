@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
     
     public override void Enter()
     {
+        
     }
 
     public override void UpdateState()
@@ -23,19 +25,21 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
             Vector3 targetPos = FsmBb.target.position;
             Vector3 currentPos = FsmBb.transform.position;
             Vector3 direction = targetPos - currentPos;
-            //float distance = Vector3.Distance(targetPos, currentPos);
             
             //바라보는 방향 사거리 내 방벽과 닿았는지 확인.
             Physics.Raycast(FsmBb.transform.position,FsmBb.transform.forward, out FsmBb.hit, 
                 FsmBb.enemyStatus.attackRange,1 << LayerMask.NameToLayer(FsmBb.layerName));
             
             //target과의 거리가 사거리보다 길면 Chase로 이동.
-            //if (FsmBb.enemyStatus.attackRange < distance)
             if(FsmBb.hit.collider == null)
             {
-                FsmBb.bDetectBarrier = false;
-                Fsm.ChangeEnemyState(Fsm.chaseState);
-                return;
+                //공격이 끝나지 않았다면 잠시 대기.
+                if (!FsmBb.bCanAttack)
+                {
+                    FsmBb.bDetectBarrier = false;
+                    Fsm.ChangeEnemyState(Fsm.chaseState);
+                    return;
+                }
             }
             
             //적 공격 상태를 유지한다.
@@ -60,9 +64,14 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
 
     public async void HoldAttack(BlackboardEnemy FsmBb)
     {
+        FsmBb.AnimAttack();
         
         //attackSpeed값에 비례하여 공격속도가 정해진다.
-        await UniTask.Delay((int)(1000*FsmBb.enemyStatus.attackSpeed));
+        await UniTask.Delay(
+            (int)(1000*FsmBb.enemyStatus.attackSpeed), 
+            //공격 도중 죽으면 도중에 취소해야한다.
+            cancellationToken: FsmBb.cts.Token);
+        
         FsmBb.bCanAttack = false;
     }
 }

@@ -12,6 +12,7 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
     
     public override void Enter()
     {
+        Fsm.blackboard.AnimWalk();
     }
 
     public override void UpdateState()
@@ -31,7 +32,6 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
                 FsmBb.enemyStatus.attackRange,1 << LayerMask.NameToLayer(FsmBb.layerName));
 
             //target이 사거리보다 멀면 이동한다.
-            //if (FsmBb.enemyStatus.attackRange < distance)
             if(FsmBb.hit.collider == null)
             {
                 //타겟을 향해 이동한다.

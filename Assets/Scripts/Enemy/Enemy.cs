@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 [
     RequireComponent(typeof(Rigidbody)),
+    RequireComponent(typeof(CapsuleCollider)),
     RequireComponent(typeof(Animator)),
     RequireComponent(typeof(EnemyFsm)),
     RequireComponent(typeof(BlackboardEnemy))
@@ -34,13 +35,23 @@ public class Enemy : MonoBehaviour, IDamageable
     void Update()
     {
         _fsm.Update();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            TakeDamage(2f);
+        }
     }
     
     //사용 시, 이 객체에게 데미지를 가합니다.
     public void TakeDamage(float damage)
     {
         blackboard.enemyStatus.hp -= damage;
-        if(blackboard.enemyStatus.hp <= 0) Destroy(gameObject);
+        if (blackboard.enemyStatus.hp <= 0)
+        {
+            blackboard.cts?.Cancel();
+            blackboard.AnimDead();
+            Destroy(gameObject, 3f);
+        }
     }
     
     //RayCast 시각화

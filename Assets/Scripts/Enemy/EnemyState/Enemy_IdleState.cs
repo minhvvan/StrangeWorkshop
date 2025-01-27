@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy_IdleState : BaseStateEnemy<EnemyFsm>
 {
+    
+
     public Enemy_IdleState(EnemyFsm fsm) : base(fsm)
     {
         
@@ -11,6 +13,7 @@ public class Enemy_IdleState : BaseStateEnemy<EnemyFsm>
     
     public override void Enter()
     {
+        Fsm.blackboard.AnimIdle();
     }
 
     public override void UpdateState()
