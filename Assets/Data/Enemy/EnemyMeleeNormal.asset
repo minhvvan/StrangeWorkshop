@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyMeleeNormal
   m_EditorClassIdentifier: 
   enemytype: 0
-  enemyPrefab: {fileID: 8399592120908221331, guid: d0157e30fbe654f4fb378c6e83368513,
+  enemyPrefab: {fileID: 7644942853492707573, guid: c3e7b991cc687ac4892d17eeab64a7aa,
     type: 3}
   animator: {fileID: 0}
   animSpeed: 0
@@ -21,6 +21,6 @@ MonoBehaviour:
   hp: 10
   armor: 0
   attackDamage: 1
-  attackRange: 5
+  attackRange: 1
   attackSpeed: 3
   moveSpeed: 3
