@@ -33,6 +33,9 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     private static readonly int _roSpeed = Animator.StringToHash("Speed");
     private static readonly int _roAttack = Animator.StringToHash("Attack");
     
+    //Material 오브젝트 할당용
+    public Transform matObject;
+    
     public void InitBlackboard()
     {
         //비동기 함수 Delay 즉시종료용
@@ -47,6 +50,18 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
             RigidbodyConstraints.FreezeRotationZ;
         
         capsuleCol = GetComponent<CapsuleCollider>();
+
+        //Hierarchy에서 첫번째 자식(matertial이 적용된 자식)에게 접근
+        foreach (Transform child in transform)
+        {
+            matObject = child;
+            break;
+        }
+    }
+
+    public void SetMaxHp()
+    {
+        enemyStatus.maxHp = enemyStatus.hp;
     }
     
     public void SetTarget(Transform targetData)
@@ -111,5 +126,24 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     {
         EnmCrossFade("Dead");
         bEnable = false;
+    }
+    
+    //Material 색상변환 함수.
+    public void ChangeMatColor(Transform child, float hp)
+    {
+        if (child != null)
+        {
+            //현재 체력을 최대 체력에 비례해여 0~1로 반환.
+            float colorValue = Mathf.InverseLerp(0f, enemyStatus.maxHp, hp);
+            
+            Color nextColor = new Color(colorValue, colorValue, colorValue);
+            
+            //색상 변화
+            Renderer childRenderer = child.GetComponent<Renderer>();
+            if (childRenderer != null)
+            { 
+                childRenderer.material.SetColor("_BaseColor", nextColor);
+            }
+        }
     }
 }

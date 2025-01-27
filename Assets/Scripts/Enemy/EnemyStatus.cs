@@ -19,6 +19,7 @@ public class EnemyStatus
     public string enemyName;
 
     //적 능력치
+    public float maxHp = 0;
     public float hp = 0;
     public float armor = 0;
 

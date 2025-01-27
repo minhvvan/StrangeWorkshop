@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour, IDamageable
     void Start()
     {
         _fsm.InitStates();
+        blackboard.SetMaxHp();
     }
 
     void Update()
@@ -45,7 +46,7 @@ public class Enemy : MonoBehaviour, IDamageable
     //사용 시, 이 객체에게 데미지를 가합니다.
     public void TakeDamage(float damage)
     {
-        blackboard.enemyStatus.hp -= damage;
+        blackboard.ChangeMatColor(blackboard.matObject, blackboard.enemyStatus.hp -= damage);
         if (blackboard.enemyStatus.hp <= 0)
         {
             blackboard.cts?.Cancel();
