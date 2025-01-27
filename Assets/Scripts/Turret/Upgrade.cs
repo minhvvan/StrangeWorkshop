@@ -54,7 +54,6 @@ public class Upgrade : MonoBehaviour
             UpgradeLevelRandomlyHelper(ref increasedLevel);
         }
         UpgradeEffect(increasedLevel);
-        Debug.Log(_currentUpgradeLevel);
     }
 
     private void UpgradeLevelRandomlyHelper(ref int increasedLevel)

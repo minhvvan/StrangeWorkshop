@@ -16,6 +16,7 @@ public class Turret : HoldableObject
     [NonSerialized] public Turret_IdleState idleState;
     [NonSerialized] public Turret_AttackState attackState;
     [NonSerialized] public Turret_NotWorkingState notWorkingState;
+    [NonSerialized] public Turret_CrashState crashState;
     
     void Awake()
     {
@@ -41,6 +42,7 @@ public class Turret : HoldableObject
         idleState = new Turret_IdleState(this);
         attackState = new Turret_AttackState(this);
         notWorkingState = new Turret_NotWorkingState(this);
+        crashState = new Turret_CrashState(this);
         
         _stateMachine.ChangeState(notWorkingState);
     }
