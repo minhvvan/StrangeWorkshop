@@ -18,10 +18,9 @@ public class ClearCounter : BaseCounter
         {
             if (player.HasHoldableObject())
             {
-                if (player.GetHoldableObject().GetHoldableObjectSO().objectType == HoldableObjectType.Bullet && GetHoldableObject().GetHoldableObjectSO().objectType == HoldableObjectType.Turret)
+                if (GetHoldableObject().Acceptable(player.GetHoldableObject()))
                 {
                     player.ClearHoldableObject();
-                    GetHoldableObject().GetComponent<Turret>().turretActions.Reload();
                 }
             }
             

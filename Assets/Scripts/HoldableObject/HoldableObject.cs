@@ -4,10 +4,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class HoldableObject : MonoBehaviour
+public abstract class HoldableObject : MonoBehaviour
 {
     [SerializeField] private HoldableObjectSO holdableObjectSo;
-
+    
     //HoldableObjectSO 반환
     public HoldableObjectSO GetHoldableObjectSO()
     {
@@ -15,17 +15,9 @@ public class HoldableObject : MonoBehaviour
     }
 
     // parent를 옮겨 이동하는 함수
-    public bool SetHoldableObjectParent(IHoldableObjectParent parent)
+    public virtual bool SetHoldableObjectParent(IHoldableObjectParent parent)
     {
-        // 현재 HoldableObject가 완성품이면 옮길 수 있는 상태인지 검사(Player가 장갑을 꼈는지)
-        if (GetHoldableObjectSO().objectType == HoldableObjectType.CraftProduct || GetHoldableObjectSO().objectType == HoldableObjectType.Turret)
-        {
-            if (!parent.CanSetHoldableObject())
-            {
-                return false;
-            }
-        }
-
+        //터렛에서 구현
         if (GetHoldableObjectSO().objectType == HoldableObjectType.Turret)
         {
             if (parent.GetType() == typeof(SampleCharacterController))
@@ -56,5 +48,9 @@ public class HoldableObject : MonoBehaviour
 
         return holdableObject;
     }
-    
+
+    public virtual bool Acceptable(HoldableObject holdableObject)
+    {
+        return false;
+    }
 }

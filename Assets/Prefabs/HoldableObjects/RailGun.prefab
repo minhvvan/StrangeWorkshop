@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4206355008920089128}
-  - component: {fileID: 8131527514286174407}
+  - component: {fileID: 1269178321994973612}
   m_Layer: 0
   m_Name: RailGun
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 5186247035850465180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8131527514286174407
+--- !u!114 &1269178321994973612
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7867461804706522513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d6f8afb800c91142abf1215fb7f7427, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc01524463cc4944ae5b306de77ce9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   holdableObjectSo: {fileID: 11400000, guid: 028b33c42bb9b5f4293e1b129078b4fd, type: 2}
