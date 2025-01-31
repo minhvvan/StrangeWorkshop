@@ -16,7 +16,7 @@ public class Blackboard_Turret : MonoBehaviour
     public TurretDataSO so;
     
     // 모든 turret 공통
-    [NonSerialized] public float fixSpeed = 10;
+    [NonSerialized] public float fixTime;
     [NonSerialized] public Color crashedColor = Color.red;
     [NonSerialized] public float lookSpeed;
     
@@ -26,7 +26,6 @@ public class Blackboard_Turret : MonoBehaviour
     [NonSerialized] public float attackRange;
     [NonSerialized] public float fireRate;
     [NonSerialized] public int maxBulletNum;
-    [NonSerialized] public float maxHealth;
     
     // bullet
     [NonSerialized] public GameObject bullet;
@@ -37,7 +36,6 @@ public class Blackboard_Turret : MonoBehaviour
     [NonSerialized] public bool isOnCounter = false;
     [NonSerialized] public bool isCrashed = false;
     [NonSerialized] public bool isUpgrading = false;
-    [NonSerialized] public float currentHealth;
 
     // 전략패턴
     public ITargetStrategy targetStrategy;
@@ -56,7 +54,7 @@ public class Blackboard_Turret : MonoBehaviour
     public void Initialize()
     {
         // stat 초기화
-        fixSpeed = so.fixSpeed;
+        fixTime = so.fixTime;
         crashedColor = so.crashedColor;
         lookSpeed = so.lookSpeed;
         turretType = so.turretType;
@@ -64,12 +62,10 @@ public class Blackboard_Turret : MonoBehaviour
         attackRange = so.attackRange;
         fireRate = so.fireRate;
         maxBulletNum = so.maxBulletNum;
-        maxHealth = so.maxHealth;
         bullet = so.bullet;
         
         // status
         currentBulletNum = maxBulletNum;
-        currentHealth = maxHealth;
         
         // range effect
         float size = attackRange * 2f;
