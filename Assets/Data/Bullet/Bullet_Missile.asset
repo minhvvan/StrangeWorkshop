@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turretType: 1
   bulletType: 1
-  timeToTarget: 0.5
+  timeToTarget: 1.5
   turnSpeed: 4
   knockBack: 0.5
   boomTimer: 5

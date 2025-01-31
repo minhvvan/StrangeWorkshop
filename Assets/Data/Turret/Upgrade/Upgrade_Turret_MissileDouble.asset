@@ -14,4 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeJackpotProbability: 0.125
   upgradeTime: 5
-  upgrades: []
+  upgrades:
+  - damage: 1
+    fireRate: 0.1
+    attackRange: 3
+    maxBulletNum: 3
+  - damage: 1
+    fireRate: 0.1
+    attackRange: 3
+    maxBulletNum: 3
+  - damage: 1
+    fireRate: 0.1
+    attackRange: 3
+    maxBulletNum: 3

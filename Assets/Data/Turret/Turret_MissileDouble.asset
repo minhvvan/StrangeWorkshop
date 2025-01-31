@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05d2c44ecdfe0841bae527544d3396c, type: 3}
   m_Name: Turret_MissileDouble
   m_EditorClassIdentifier: 
-  turretType: 0
-  damage: 0
-  attackRange: 0
-  fireRate: 0
-  maxBulletNum: 0
-  bullet: {fileID: 0}
-  crashedColor: {r: 0, g: 0, b: 0, a: 0}
-  fixTime: 0
-  lookSpeed: 0
-  maxHealth: 0
+  turretType: 3
+  damage: 15
+  attackRange: 30
+  fireRate: 1
+  maxBulletNum: 10
+  bullet: {fileID: 1773485284122676, guid: 2ffa6034fd681344ea8e079a99cff304, type: 3}
+  crashedColor: {r: 1, g: 0, b: 0, a: 0}
+  fixTime: 3
+  lookSpeed: 100
+  maxHealth: 20
