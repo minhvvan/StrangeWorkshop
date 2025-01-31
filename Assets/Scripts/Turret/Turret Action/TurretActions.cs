@@ -25,6 +25,16 @@ public class TurretActions
     {
         _turret.turretData.isOnCounter = true;
     }
+
+    public void Upgrade()
+    {
+        _turret.turretData.isUpgrading = true;
+    }
+    
+    public bool Upgradable()
+    {
+        return _turret.turretUpgrade.Upgradable();
+    }
     
     public void Fix()
     {
@@ -56,7 +66,7 @@ public class TurretActions
         _turret.turretData.shootingStrategy = newStrategy;
     }
     
-    public void SetRangeEffectSize()
+    public void UpdateRangeEffectSize()
     {
         float size = _turret.turretData.attackRange * 2f;
         _turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);

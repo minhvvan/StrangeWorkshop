@@ -12,7 +12,7 @@ public enum TurretType
 
 public class Blackboard_Turret : MonoBehaviour
 {
-    // turret data so
+    // so
     public TurretDataSO so;
     
     // 모든 turret 공통
@@ -31,13 +31,14 @@ public class Blackboard_Turret : MonoBehaviour
     // bullet
     [NonSerialized] public GameObject bullet;
 
-    // turret 
+    // turret 상태정보
     [NonSerialized] public GameObject target;
     [NonSerialized] public int currentBulletNum;
-    [NonSerialized] public bool isOnCounter = true;
+    [NonSerialized] public bool isOnCounter = false;
     [NonSerialized] public bool isCrashed = false;
+    [NonSerialized] public bool isUpgrading = false;
     [NonSerialized] public float currentHealth;
-    
+
     // 전략패턴
     public ITargetStrategy targetStrategy;
     public ShootingStrategy shootingStrategy;
@@ -69,9 +70,9 @@ public class Blackboard_Turret : MonoBehaviour
         // status
         currentBulletNum = maxBulletNum;
         currentHealth = maxHealth;
-        float size = attackRange * 2f;
         
         // range effect
+        float size = attackRange * 2f;
         rangeEff.transform.localScale = new Vector3(size, size, 1f);
         rangeEff.SetActive(TurretManager.Instance.rangeEffOn);
         

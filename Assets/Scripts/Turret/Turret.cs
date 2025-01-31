@@ -7,6 +7,7 @@ public class Turret : HoldableObject
 {
     // 터렛 정보를 담고있는 블랙보드
     public Blackboard_Turret turretData { get; private set; }
+    public Upgrade turretUpgrade { get; private set; }
     public TurretActions turretActions { get; private set; }
     
     StateMachine _stateMachine;
@@ -14,8 +15,7 @@ public class Turret : HoldableObject
     // turret 캐싱
     [NonSerialized] public Turret_IdleState idleState;
     [NonSerialized] public Turret_AttackState attackState;
-    [NonSerialized] public Turret_HoldState holdState;
-    [NonSerialized] public Turret_EmptyState emptyState;
+    [NonSerialized] public Turret_NotWorkingState notWorkingState;
     [NonSerialized] public Turret_CrashState crashState;
     
     void Awake()
@@ -31,6 +31,7 @@ public class Turret : HoldableObject
     private void InitComponents()
     {
         turretData = GetComponent<Blackboard_Turret>();
+        turretUpgrade = GetComponent<Upgrade>();
         turretActions = new TurretActions(this);
     }
     
@@ -40,11 +41,10 @@ public class Turret : HoldableObject
         
         idleState = new Turret_IdleState(this);
         attackState = new Turret_AttackState(this);
-        holdState = new Turret_HoldState(this);
-        emptyState = new Turret_EmptyState(this);
+        notWorkingState = new Turret_NotWorkingState(this);
         crashState = new Turret_CrashState(this);
         
-        _stateMachine.ChangeState(idleState);
+        _stateMachine.ChangeState(notWorkingState);
     }
 
     public void SetState(IState newState)
