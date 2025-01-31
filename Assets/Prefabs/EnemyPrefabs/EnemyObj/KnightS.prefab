@@ -108,7 +108,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 2937232112908104397, guid: bad29a4342283e640a0aa6c3cfba78f6, type: 3}
+  m_Mesh: {fileID: 4300000, guid: f1ad43efda811eb47b08407e66fa7f53, type: 2}
   m_Bones:
   - {fileID: 702403913957195535}
   - {fileID: 3514545721450317006}
@@ -954,6 +954,7 @@ MonoBehaviour:
     animator: {fileID: 0}
     animSpeed: 0
     enemyName: 
+    maxHp: 0
     hp: 0
     armor: 0
     attackDamage: 0
@@ -965,6 +966,7 @@ MonoBehaviour:
   layerName: Water
   bDetectBarrier: 0
   bCanAttack: 0
+  matObject: {fileID: 0}
 --- !u!114 &229659403037928125
 MonoBehaviour:
   m_ObjectHideFlags: 0
