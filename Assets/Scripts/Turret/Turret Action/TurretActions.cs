@@ -47,9 +47,6 @@ public class TurretActions
         {
             await UniTask.Yield();
             fixProgress += Time.deltaTime;
-            
-            Debug.Log(fixProgress);
-            
             if (fixProgress >= _turret.turretData.fixTime)
             {
                 _turret.turretData.isCrashed = false;
