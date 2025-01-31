@@ -22,6 +22,8 @@ public class Upgrade : MonoBehaviour
     // level이 올라갈 때 증가하는 수치들을 담은 data
     private List<UpgradeStats> _upgrades;
 
+    private float _upgradeProgress;
+
     void Awake()
     {
         _turret = GetComponent<Turret>();
@@ -35,6 +37,18 @@ public class Upgrade : MonoBehaviour
         if (_currentUpgradeLevel >= _upgrades.Count || _turret.turretData.isUpgrading) return false;
         
         return true;
+    }
+
+    public bool UpgradeProgressively()
+    {
+        _upgradeProgress += Time.deltaTime;
+        if (_upgradeProgress >= upgradeData.upgradeTime)
+        {
+            _upgradeProgress = 0f;
+            UpgradeLevelRandomly();
+            return true;
+        }
+        return false;
     }
 
     public void UpgradeLevelOne()

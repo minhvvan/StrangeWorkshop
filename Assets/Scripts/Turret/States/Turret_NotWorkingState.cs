@@ -11,10 +11,7 @@ public class Turret_NotWorkingState : BaseState<Turret>
      * 아래와 같은 상황에서 진입한다
      * 플레이어가 들고 있다, 총알이 없다, 업그레이드 중이다. 
      */
-    
     private Blackboard_Turret _turretData;
-    
-    private float _elapsedUpgradeTime;
     // Start is called before the first frame update
     public Turret_NotWorkingState(Turret controller) : base(controller)
     {
@@ -32,16 +29,13 @@ public class Turret_NotWorkingState : BaseState<Turret>
         else _turretData.noAmmoImage.SetActive(true);
         
         // 업그레이드중인가?
+        // 중간에 crash 되도 업그레이드 진척도는 저장된다
         if (_turretData.isUpgrading)
         {
-            _elapsedUpgradeTime += Time.deltaTime;
-            // Todo: upgrade 진척도 slidebar로 표시
-            
-            if (_elapsedUpgradeTime >= _controller.turretUpgrade.upgradeData.upgradeTime)
+            if (_controller.turretUpgrade.UpgradeProgressively())
             {
+                // upgrade가 완료될 시 진입
                 _turretData.isUpgrading = false;
-                _elapsedUpgradeTime = 0f;
-                _controller.turretUpgrade.UpgradeLevelRandomly();
             }
         }
         ChangeState();
