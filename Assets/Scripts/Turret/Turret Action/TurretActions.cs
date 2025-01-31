@@ -26,14 +26,15 @@ public class TurretActions
         _turret.turretData.isOnCounter = true;
     }
 
-    public void Upgrade()
+    public bool Upgrade()
     {
-        _turret.turretData.isUpgrading = true;
-    }
-    
-    public bool Upgradable()
-    {
-        return _turret.turretUpgrade.Upgradable();
+        if (_turret.turretUpgrade.Upgradable())
+        {
+            _turret.turretData.isUpgrading = true;
+            return true;
+        }
+
+        return false;
     }
     
     public void Fix()

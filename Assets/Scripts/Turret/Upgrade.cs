@@ -28,6 +28,14 @@ public class Upgrade : MonoBehaviour
         _currentUpgradeLevel = 0;
         _upgrades = upgradeData.upgrades;
     }
+    
+    public bool Upgradable()
+    {
+        // 업그레이드 가능한지 판별
+        if (_currentUpgradeLevel >= _upgrades.Count || _turret.turretData.isUpgrading) return false;
+        
+        return true;
+    }
 
     public void UpgradeLevelOne()
     {
@@ -97,13 +105,5 @@ public class Upgrade : MonoBehaviour
             default:
                 break;
         }
-    }
-    
-    public bool Upgradable()
-    {
-        // 업그레이드 가능한지 판별
-        if (_currentUpgradeLevel >= _upgrades.Count || _turret.turretData.isUpgrading) return false;
-        
-        return true;
     }
 }

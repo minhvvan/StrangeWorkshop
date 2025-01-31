@@ -34,7 +34,6 @@ public class Turret_NotWorkingState : BaseState<Turret>
         // 업그레이드중인가?
         if (_turretData.isUpgrading)
         {
-            Debug.Log("upgrading");
             _elapsedUpgradeTime += Time.deltaTime;
             // Todo: upgrade 진척도 slidebar로 표시
             
@@ -45,7 +44,6 @@ public class Turret_NotWorkingState : BaseState<Turret>
                 _controller.turretUpgrade.UpgradeLevelRandomly();
             }
         }
-        Debug.Log("notworking");
         ChangeState();
     }
 
