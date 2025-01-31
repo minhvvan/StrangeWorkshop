@@ -7,7 +7,8 @@ public enum TurretType
 {
     GUN,
     MISSILE,
-    MORTAR
+    MORTAR,
+    MISSILEDOUBLE
 }
 
 public class Blackboard_Turret : MonoBehaviour
@@ -49,6 +50,7 @@ public class Blackboard_Turret : MonoBehaviour
     public GameObject noAmmoImage;
     
     public Transform muzzleMain;
+    public Transform muzzleSub;
     public GameObject muzzleEff;
 
     public void Initialize()
@@ -80,6 +82,9 @@ public class Blackboard_Turret : MonoBehaviour
             case TurretType.MISSILE:
             case TurretType.MORTAR:
                 shootingStrategy = new SingleShootingStrategy(GetComponent<Turret>());
+                break;
+            case TurretType.MISSILEDOUBLE:
+                shootingStrategy = new DoubleShootingStrategy(GetComponent<Turret>());
                 break;
             default:
                 break;

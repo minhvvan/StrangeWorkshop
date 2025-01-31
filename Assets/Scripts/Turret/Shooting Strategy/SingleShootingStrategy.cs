@@ -10,8 +10,8 @@ public class SingleShootingStrategy : ShootingStrategy
     {
         GameObject.Instantiate(_turret.turretData.muzzleEff, _turret.turretData.muzzleMain);
         GameObject missleGo = GameObject.Instantiate(_turret.turretData.bullet, _turret.turretData.muzzleMain);
-        Bullet projectile = missleGo.GetComponent<Bullet>();
-        projectile.InitBullet(target.transform, _turret.turretData.damage);
+        Bullet bullet = missleGo.GetComponent<Bullet>();
+        bullet.InitBullet(target.transform, _turret.turretData.damage);
     }
 
     protected override void RotateTurretHead(GameObject target)
