@@ -114,7 +114,8 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     //Idle 모션
     public void AnimIdle()
     {
-        if (anim.name != "Idle")
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (!stateInfo.IsName("Idle"))
         {
             AnimCrossFade("Idle");
         }
@@ -124,7 +125,8 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     //Walk 모션
     public void AnimWalk()
     {
-        if (anim.name != "Idle")
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (!stateInfo.IsName("Idle"))
         {
             AnimCrossFade("Idle");
         }
