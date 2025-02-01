@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public interface IBlackboardEnemy
 {
@@ -26,12 +28,14 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public bool bEnable = true;
     
     //방벽감지 및 공격
+    private IAttackPattern _atkPattern;
+    
     public string layerName = "Water";
     public bool bDetectBarrier = false;
     public bool bCanAttack = false;
     
-    private static readonly int _roSpeed = Animator.StringToHash("Speed");
-    private static readonly int _roAttack = Animator.StringToHash("Attack");
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int Attack = Animator.StringToHash("Attack");
     
     //Material 오브젝트 할당용
     public Transform matObject;
@@ -58,19 +62,51 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
             break;
         }
     }
-
-    public void SetMaxHp()
-    {
-        enemyStatus.maxHp = enemyStatus.hp;
-    }
     
     public void SetTarget(Transform targetData)
     {
         target = targetData;
     }
     
+    public void SetMaxHp()
+    {
+        enemyStatus.maxHp = enemyStatus.hp;
+    }
+
+    //적 공격종류 선택
+    public void SetPattern()
+    {
+        _atkPattern = PatternHandler.CreatePattern(enemyStatus.enemytype);
+    }
+
+    public async UniTask OnAttack()
+    {
+        //판정 적용 선딜레이, 재공격 대기시간.
+        float atkFirstDelay = enemyStatus.animFirstDelay;
+        float atkCooldown = enemyStatus.attackSpeed;
+        
+        //공격 모션 시작.
+        AnimAttack();
+        
+        //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
+        await UniTask.Delay(
+            (int)(1000*atkFirstDelay),
+            cancellationToken: cts.Token);
+        
+        //공격 판정 동작.
+        _atkPattern?.RunPattern(hit.collider, enemyStatus.attackDamage);
+        
+        //공격 대기시간
+        await UniTask.Delay( 
+            //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
+            (int)(1000*(atkCooldown - atkFirstDelay)), 
+            //공격 도중 죽으면 도중에 취소해야한다.
+            cancellationToken: cts.Token);
+        bCanAttack = false;
+    }
+
     //CrossFade 간소화.
-    public void EnmCrossFade(string animName)
+    public void AnimCrossFade(string animName)
     {
         anim.CrossFade(animName, 0.1f);
     }
@@ -80,9 +116,9 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     {
         if (anim.name != "Idle")
         {
-            EnmCrossFade("Idle");
+            AnimCrossFade("Idle");
         }
-        anim.SetFloat(_roSpeed, 0.0f);
+        anim.SetFloat(Speed, 0.0f);
     }
 
     //Walk 모션
@@ -90,33 +126,33 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     {
         if (anim.name != "Idle")
         {
-            EnmCrossFade("Idle");
+            AnimCrossFade("Idle");
         }
-        anim.SetFloat(_roSpeed, 1.0f);
+        anim.SetFloat(Speed, 1.0f);
     }
 
     //Attack 모션
     public void AnimAttack()
     {
         //걷기 중단.
-        anim.SetFloat(_roSpeed, 0.0f);
+        anim.SetFloat(Speed, 0.0f);
 
         //좌우 번갈아가며 공격하는 모션
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         if (!stateInfo.IsName("AttackL") && !stateInfo.IsName("AttackR"))
         {
-            EnmCrossFade("AttackL");
-            anim.SetBool(_roAttack, false);
+            AnimCrossFade("AttackL");
+            anim.SetBool(Attack, false);
         }
         else
         {
             if (stateInfo.IsName("AttackL"))
             {
-                anim.SetBool(_roAttack, true);
+                anim.SetBool(Attack, true);
             }
             else if (stateInfo.IsName("AttackR"))
             {
-                anim.SetBool(_roAttack, false);
+                anim.SetBool(Attack, false);
             }
         }
     }
@@ -124,7 +160,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     //Dead 모션
     public void AnimDead()
     {
-        EnmCrossFade("Dead");
+        AnimCrossFade("Dead");
         bEnable = false;
     }
     

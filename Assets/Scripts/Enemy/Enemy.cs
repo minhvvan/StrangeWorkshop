@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     private EnemyFsm _fsm;
     private IBlackboardEnemy _blackboardEnemy;
+    
     public BlackboardEnemy blackboard;
     
     void Awake()
@@ -30,7 +31,9 @@ public class Enemy : MonoBehaviour, IDamageable
     void Start()
     {
         _fsm.InitStates();
+         
         blackboard.SetMaxHp();
+        blackboard.SetPattern();
     }
 
     void Update()

@@ -12,8 +12,7 @@ public class EnemyStatus
     public EnemyType enemytype;
 
     //애니메이터
-    public Animator animator;
-    public float animSpeed = 0;
+    public float animFirstDelay = 0;
 
     //적 이름
     public string enemyName;
@@ -36,8 +35,7 @@ public class EnemyStatus
     public EnemyStatus(EnemyStatus status)
     {
         enemytype = status.enemytype;
-        animator = status.animator;
-        animSpeed = status.animSpeed;
+        animFirstDelay = status.animFirstDelay;
         enemyName = status.enemyName;
         hp = status.hp;
         armor = status.armor;

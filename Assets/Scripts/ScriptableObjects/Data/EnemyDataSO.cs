@@ -14,8 +14,7 @@ public class EnemyDataSO : ScriptableObject
     public GameObject enemyPrefab;
     
     //애니메이터
-    public Animator animator;
-    public float animSpeed;
+    public float animFirstDelay;
 
     //적 이름
     public string enemyName;

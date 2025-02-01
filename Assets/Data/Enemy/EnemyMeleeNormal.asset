@@ -15,8 +15,7 @@ MonoBehaviour:
   enemytype: 0
   enemyPrefab: {fileID: 7644942853492707573, guid: c3e7b991cc687ac4892d17eeab64a7aa,
     type: 3}
-  animator: {fileID: 0}
-  animSpeed: 0
+  animFirstDelay: 0.5
   enemyName: MeleeNormal
   hp: 10
   armor: 0

@@ -47,7 +47,7 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
             {
                 FsmBb.transform.rotation = Quaternion.LookRotation(direction);
                 FsmBb.bCanAttack = true;
-                HoldAttack(FsmBb);
+                FsmBb.OnAttack().Forget();
             }
         }
         else
@@ -60,18 +60,5 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
     public override void Exit()
     {
         
-    }
-
-    public async void HoldAttack(BlackboardEnemy FsmBb)
-    {
-        FsmBb.AnimAttack();
-        
-        //attackSpeed값에 비례하여 공격속도가 정해진다.
-        await UniTask.Delay(
-            (int)(1000*FsmBb.enemyStatus.attackSpeed), 
-            //공격 도중 죽으면 도중에 취소해야한다.
-            cancellationToken: FsmBb.cts.Token);
-        
-        FsmBb.bCanAttack = false;
     }
 }
