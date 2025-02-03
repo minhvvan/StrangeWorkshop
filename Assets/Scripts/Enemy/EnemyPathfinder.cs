@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyPathfinder : MonoBehaviour
@@ -9,10 +11,23 @@ public class EnemyPathfinder : MonoBehaviour
     public List<Transform> barrierPoints = new List<Transform>();
     public List<Collider> enemyInCounter = new List<Collider>();
     public List<Collider> ignoreColliders = new List<Collider>();
+    //[SerializeField] private BarrierController _barrierController;
 
     void Awake()
     {
         instance = this;
+    }
+
+    void Start()
+    {
+        //왜인지 BarrierController를 통해 Barriers리스트를 참조할 수 없음.
+        //_barrierController = GameObject.Find("Barrier").GetComponent<BarrierController>();
+        List<Barrier> barriers = FindObjectsOfType<Barrier>().ToList();
+        foreach (var barrier in barriers)
+        {
+            //pivot이 공중에 떠있어서 AI가 위쪽이라 인식함. 대응 필요.
+            barrierPoints.Add(barrier.transform);
+        }
     }
     
     //타겟 갱신
