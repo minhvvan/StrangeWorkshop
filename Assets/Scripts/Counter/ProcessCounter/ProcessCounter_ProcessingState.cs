@@ -9,11 +9,14 @@ public class ProcessCounter_ProcessingState : BaseState<ProcessCounter>
     public override void Enter()
     {
         //UI - SetActive ture
+        _controller.progressBar.gameObject.SetActive(true);
+        _controller.progressBar.SetBar(_controller.currentRecipe.processTime);
     }
 
     public override void UpdateState()
     {
         _currentTime += Time.deltaTime;
+        _controller.progressBar.UpdateProgressBar(_currentTime);
         if (_currentTime >= _controller.currentRecipe.processTime)
         {
             _controller.ClearHoldableObject();
@@ -25,6 +28,9 @@ public class ProcessCounter_ProcessingState : BaseState<ProcessCounter>
     public override void Exit()
     {
         _currentTime = 0;
+        _controller.progressBar.ResetBar();
+        _controller.currentRecipe = null;
+        _controller.isWork = false;
         //UI - SetActive false
     }
 }

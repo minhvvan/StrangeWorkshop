@@ -58,7 +58,26 @@ public class Turret : HoldableObject
         _stateMachine.Update();
     }
 
-    public bool Acceptable(HoldableObjectType objectType)
+    public override bool SetHoldableObjectParent(IHoldableObjectParent parent)
+    {
+        if (!parent.CanSetHoldableObject())
+        {
+            return false;
+        }
+        
+        if (parent.GetType() == typeof(SampleCharacterController))
+        {
+            turretActions.Hold();
+        }
+        else
+        {
+            turretActions.Put();
+        }
+        
+        return base.SetHoldableObjectParent(parent);
+    }
+    
+    public override bool Acceptable(HoldableObject objectType)
     {
         if (turretData.isCrashed)
         {
@@ -66,7 +85,7 @@ public class Turret : HoldableObject
             return false;
         }
         
-        if (objectType == HoldableObjectType.Bullet)
+        if (objectType.GetHoldableObjectSO().objectType == HoldableObjectType.Bullet)
         {
             // 남아있는 총알 개수에 관계없이 reload
             
@@ -80,7 +99,7 @@ public class Turret : HoldableObject
             //     return false;
             // }
         }
-        else if (objectType == HoldableObjectType.Upgrade)
+        else if (objectType.GetHoldableObjectSO().objectType == HoldableObjectType.Upgrade)
         {
             // upgrade 모듈이 놓였을때
             return turretActions.Upgrade();
