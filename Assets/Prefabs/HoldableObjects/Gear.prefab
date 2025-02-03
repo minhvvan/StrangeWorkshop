@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5296486077063377870}
-  - component: {fileID: 4078785023465954221}
+  - component: {fileID: 3163672943617901012}
   m_Layer: 0
   m_Name: Gear
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 5740905703448997883}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4078785023465954221
+--- !u!114 &3163672943617901012
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2719215754929610611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d6f8afb800c91142abf1215fb7f7427, type: 3}
+  m_Script: {fileID: 11500000, guid: 3324560a408439d459c2b08a936d417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   holdableObjectSo: {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
