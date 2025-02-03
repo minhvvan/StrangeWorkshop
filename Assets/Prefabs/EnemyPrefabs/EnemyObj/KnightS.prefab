@@ -829,7 +829,8 @@ GameObject:
   - component: {fileID: -8680217925028005929}
   - component: {fileID: 2869232997467802902}
   - component: {fileID: 229659403037928125}
-  m_Layer: 0
+  - component: {fileID: 9202625052326725862}
+  m_Layer: 6
   m_Name: KnightS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -949,10 +950,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9374e7ba6bee73148b07c5cc707a006b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  obstacle: {fileID: 0}
   enemyStatus:
     enemytype: 0
-    animator: {fileID: 0}
-    animSpeed: 0
+    animFirstDelay: 0
     enemyName: 
     maxHp: 0
     hp: 0
@@ -962,6 +964,7 @@ MonoBehaviour:
     attackSpeed: 0
     moveSpeed: 0
   target: {fileID: 0}
+  hitColliders: []
   bEnable: 1
   layerName: Water
   bDetectBarrier: 0
@@ -980,6 +983,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackboard: {fileID: 0}
+--- !u!195 &9202625052326725862
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7644942853492707573}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.63
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 1
 --- !u!1 &7866299429761936450
 GameObject:
   m_ObjectHideFlags: 0
