@@ -9,16 +9,19 @@ using UnityEngine.Serialization;
 public class ProcessCounter : BaseCounter
 {
     public HoldableObjectSO burnSO;
-
+    public ProgressBar progressBar;
+    
     [NonSerialized] public float burnTime = 5f;
     [NonSerialized] public ProcessRecipeSO currentRecipe;
+    [NonSerialized] public bool isWork = false;
     
     StateMachine _stateMachine;
     
     [NonSerialized] public ProcessCounter_NoneState _noneState;
     [NonSerialized] public ProcessCounter_ProcessingState _processingState;
     [NonSerialized] public ProcessCounter_OverState _overState;
-
+    
+    
     void Awake()
     {
         InitState();
@@ -47,8 +50,12 @@ public class ProcessCounter : BaseCounter
             {
                 GiveHoldableObject(player);
                 player.TakeoffGlove();
-                SetState(_noneState);
-                currentRecipe = null;
+                if (!HasHoldableObject())
+                {
+                    SetState(_noneState);
+                    isWork = false;
+                    currentRecipe = null;
+                }
             }
         }
     }
@@ -58,7 +65,7 @@ public class ProcessCounter : BaseCounter
     {
         if (!currentRecipe.IsUnityNull())
         {
-            SetState(_processingState);
+            isWork = true;
         }
     }
     

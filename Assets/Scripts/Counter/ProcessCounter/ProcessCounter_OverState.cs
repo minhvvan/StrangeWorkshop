@@ -8,11 +8,14 @@ public class ProcessCounter_OverState : BaseState<ProcessCounter>
     public override void Enter()
     {
         //UI, Warning - SetActive true
+        _controller.progressBar.SetBar(_controller.burnTime);
+        _controller.progressBar.SetColor(Color.yellow);
     }
 
     public override void UpdateState()
     {
         _currentTime += Time.deltaTime;
+        _controller.progressBar.UpdateProgressBar(_currentTime);
         if (_currentTime >= _controller.burnTime)
         {
             _controller.ClearHoldableObject();
@@ -24,6 +27,6 @@ public class ProcessCounter_OverState : BaseState<ProcessCounter>
     public override void Exit()
     {
         _currentTime = 0f;
-        //UI - SetActive false
+        _controller.progressBar.ResetBar();
     }
 }
