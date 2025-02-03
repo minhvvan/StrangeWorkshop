@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4113402424574714816, guid: 3dbf9593258c7b74cac7af6f6c383c77, type: 3}
   objectName: GasTank
-  objectType: 1
+  objectType: 3
