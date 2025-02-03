@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8525229289173971731, guid: 2917c4bef95c3264ba35dc44b237042c, type: 3}
   objectName: Turret_Mortar
-  objectType: 3
+  objectType: 2

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 7867461804706522513, guid: 6a1e906361a69d344ae3d3facc1c1954, type: 3}
   objectName: RailGun
-  objectType: 1
+  objectType: 3

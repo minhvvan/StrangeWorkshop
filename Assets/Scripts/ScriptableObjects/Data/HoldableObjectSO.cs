@@ -5,11 +5,9 @@ using UnityEngine;
 public enum HoldableObjectType
 {
     None,
-    CraftProduct,
     Bullet,
     Turret,
-    Upgrade,
-    Max
+    Upgrade
 }
 
 [CreateAssetMenu(menuName = "SO/Counter/HoldableObjectSO")]
