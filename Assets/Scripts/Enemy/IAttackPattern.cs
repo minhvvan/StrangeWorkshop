@@ -14,6 +14,7 @@ public class MeleeAttack : IAttackPattern
     {
         //Merge전까지 임시 주석처리.
         //other.GetComponent<Barrier>().TakeDamage(damage);
+        other.GetComponent<BarrierTransfer>().TakeDamage(damage);
     }
 }
 

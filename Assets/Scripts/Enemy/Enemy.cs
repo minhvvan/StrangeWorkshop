@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 
 
@@ -9,7 +10,8 @@ using UnityEngine.Serialization;
     RequireComponent(typeof(CapsuleCollider)),
     RequireComponent(typeof(Animator)),
     RequireComponent(typeof(EnemyFsm)),
-    RequireComponent(typeof(BlackboardEnemy))
+    RequireComponent(typeof(BlackboardEnemy)),
+    RequireComponent(typeof(NavMeshAgent)),
 ]
 
 //Enemy. 적의 주체를 담당하는 클래스.
@@ -31,9 +33,12 @@ public class Enemy : MonoBehaviour, IDamageable
     void Start()
     {
         _fsm.InitStates();
-         
+        EnemyPathfinder.instance.enemyInCounter.Add(blackboard.capsuleCol);
+        EnemyPathfinder.instance.ColliderSet(blackboard.capsuleCol);
         blackboard.SetMaxHp();
         blackboard.SetPattern();
+        blackboard.SetPathfinder();
+        blackboard.ResearchTarget();
     }
 
     void Update()
@@ -68,8 +73,18 @@ public class Enemy : MonoBehaviour, IDamageable
             case true : Gizmos.color = Color.blue;
                 break;
         }
-        Gizmos.DrawRay(
-            blackboard.transform.position,
-            blackboard.transform.forward * blackboard.enemyStatus.attackRange);
+        Gizmos.DrawWireSphere(blackboard.transform.position, blackboard.enemyStatus.attackRange);
+        // Gizmos.DrawRay(
+        //     blackboard.transform.position,
+        //     blackboard.transform.forward * blackboard.enemyStatus.attackRange);
+    }
+
+    public void OnDestroy()
+    {
+        EnemyPathfinder.instance.enemyInCounter.Remove(blackboard.capsuleCol);
+        if (EnemyPathfinder.instance.ignoreColliders.Contains(blackboard.capsuleCol))
+        {
+            EnemyPathfinder.instance.ignoreColliders.Remove(blackboard.capsuleCol);
+        }
     }
 }

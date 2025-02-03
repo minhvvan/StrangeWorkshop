@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Timeline;
 
 public interface IBlackboardEnemy
@@ -17,9 +18,11 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     [NonSerialized] public Animator anim;
     [NonSerialized] public Rigidbody rb;
     [NonSerialized] public CapsuleCollider capsuleCol;
+    public NavMeshAgent agent;
     public EnemyStatus enemyStatus;
     public Transform target;
     public RaycastHit hit;
+    public Collider[] hitColliders;
     
     //비동기를 도중에 간섭할 수 있는 클래스.
     public CancellationTokenSource cts;
@@ -53,25 +56,92 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
             RigidbodyConstraints.FreezeRotationY | 
             RigidbodyConstraints.FreezeRotationZ;
         
+        
         capsuleCol = GetComponent<CapsuleCollider>();
 
+        agent = GetComponent<NavMeshAgent>();
+        
         //Hierarchy에서 첫번째 자식(matertial이 적용된 자식)에게 접근
         foreach (Transform child in transform)
         {
             matObject = child;
             break;
         }
+        
     }
     
+    //
+    public void SetMaxHp()
+    {
+        enemyStatus.maxHp = enemyStatus.hp;
+    }
+    
+    //Material 색상변환 함수.
+    public void ChangeMatColor(Transform child, float hp)
+    {
+        if (child != null)
+        {
+            //현재 체력을 최대 체력에 비례해여 0~1로 반환.
+            float colorValue = Mathf.InverseLerp(0f, enemyStatus.maxHp, hp);
+            
+            Color nextColor = new Color(colorValue, colorValue, colorValue);
+            
+            //색상 변화
+            Renderer childRenderer = child.GetComponent<Renderer>();
+            if (childRenderer != null)
+            { 
+                childRenderer.material.SetColor("_BaseColor", nextColor);
+            }
+        }
+    }
+    
+    //따라갈 타겟 지정
     public void SetTarget(Transform targetData)
     {
         target = targetData;
     }
     
-    public void SetMaxHp()
+    //길찾기 기능//
+    
+    public void SetPathfinder()
     {
-        enemyStatus.maxHp = enemyStatus.hp;
+        agent.SetDestination(target.position);
+        agent.speed = enemyStatus.moveSpeed;
     }
+
+    public void ResearchTarget()
+    {
+        SetTarget(EnemyPathfinder.instance.MatchTarget(transform));
+        agent.SetDestination(target.position);
+    }
+
+    public void StopTracking()
+    {
+        agent.isStopped = true;
+    }
+
+    public void ResumeTracking()
+    {
+        agent.isStopped = false;
+        
+    }
+
+    // public async UniTask NavControl(bool mode)
+    // {
+    //     //false가 정지 상태.
+    //     if (mode == false)
+    //     {
+    //         agent.enabled = false;
+    //         await UniTask.Delay(100);
+    //         //obstacle.enabled = true;
+    //     }
+    //     else if (mode == true)
+    //     {
+    //         //obstacle.enabled = false;
+    //         agent.enabled = true;
+    //         SetPathfinder();
+    //     }
+    // }
 
     //적 공격종류 선택
     public void SetPattern()
@@ -92,9 +162,11 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         await UniTask.Delay(
             (int)(1000*atkFirstDelay),
             cancellationToken: cts.Token);
+        if (!bCanAttack) return;
         
         //공격 판정 동작.
         _atkPattern?.RunPattern(hit.collider, enemyStatus.attackDamage);
+        //_atkPattern?.RunPattern(hitColliders, enemyStatus.attackDamage);
         
         //공격 대기시간
         await UniTask.Delay( 
@@ -164,24 +236,5 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     {
         AnimCrossFade("Dead");
         bEnable = false;
-    }
-    
-    //Material 색상변환 함수.
-    public void ChangeMatColor(Transform child, float hp)
-    {
-        if (child != null)
-        {
-            //현재 체력을 최대 체력에 비례해여 0~1로 반환.
-            float colorValue = Mathf.InverseLerp(0f, enemyStatus.maxHp, hp);
-            
-            Color nextColor = new Color(colorValue, colorValue, colorValue);
-            
-            //색상 변화
-            Renderer childRenderer = child.GetComponent<Renderer>();
-            if (childRenderer != null)
-            { 
-                childRenderer.material.SetColor("_BaseColor", nextColor);
-            }
-        }
     }
 }
