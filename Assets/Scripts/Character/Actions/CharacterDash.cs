@@ -2,80 +2,125 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-
-/// <summary>
-/// 상호작용을 위한 클래스
-/// OnInteract에 이벤트를 등록하여 사용
-/// </summary>
 [RequireComponent(typeof(SampleCharacterController))]
 public class CharacterDash : BaseAction
 {
-    SampleCharacterController _controller;
-    
+    private SampleCharacterController _controller;
+
     void Awake()
     {
         _controller = GetComponent<SampleCharacterController>();
-
         _controller.AddAction(this);
-    }    
-    
+    }
+
     public override bool RegistAction()
     {
-        if(_controller.inputHandler == null) return false;
-
-        _controller.inputHandler.OnDash += Dash; //단일 이벤트에 연결
-
+        if (_controller.inputHandler == null) return false;
+        _controller.inputHandler.OnDash += Dash;
         return true;
     }
 
     public override void UnregistAction()
     {
-        if(_controller.inputHandler == null) return;
-
-        _controller.inputHandler.OnDash -= Dash;        
+        if (_controller.inputHandler == null) return;
+        _controller.inputHandler.OnDash -= Dash;
     }
 
     void Dash()
     {
         if (!_controller.isDashing)
-        { 
+        {
             _controller.SetState(_controller.dashState);
             StartCoroutine(DashRoutine());
         }
     }
-    
+
     private IEnumerator DashRoutine()
     {
-        CharacterInputHandler inputHandler = _controller.inputHandler;
-        float dashSpeed = _controller.dashSpeed;
-        float horizontal = inputHandler.Horizontal;
-        float vertical = inputHandler.Vertical;
-        
+        // 1) 대쉬 시작
         _controller.isDashing = true;
-        Vector3 movement = new Vector3(horizontal, 0, vertical);
-        
-        float accelTimer = 0f;
-        while (accelTimer < _controller.dashAccelTime)
+        _controller.rb.velocity = Vector3.zero; // 기존 속도 초기화
+
+        // 총 대쉬 시간(초) = 가속 구간 + 감속 구간
+        float totalDashTime = _controller.dashAccelTime + _controller.dashDecelTime;
+        float timer = 0f;
+
+        // 2) 대쉬 루프 (가속+감속을 하나의 while로 처리)
+        while (timer < totalDashTime)
         {
-            accelTimer += Time.deltaTime;
-            float t = accelTimer / _controller.dashAccelTime;
-            dashSpeed = Mathf.Lerp(_controller.walkSpeed, _controller.dashSpeed, t);
-            movement = new Vector3(inputHandler.MovementInput.x, 0, inputHandler.MovementInput.y) * dashSpeed;
-            transform.position += movement * Time.deltaTime;
-            transform.forward = movement.normalized;
-            yield return null;
+            timer += Time.deltaTime;
+
+            // 현재 구간이 가속인지, 감속인지 판별
+            float currentDashSpeed = 0f;
+            if (timer < _controller.dashAccelTime)
+            {
+                // 가속 구간: (walkSpeed → dashSpeed)
+                float t = timer / _controller.dashAccelTime;
+                currentDashSpeed = Mathf.Lerp(_controller.walkSpeed, _controller.dashSpeed, t);
+            }
+            else
+            {
+                // 감속 구간: (dashSpeed → walkSpeed)
+                float elapsedDecel = timer - _controller.dashAccelTime;
+                float t = elapsedDecel / _controller.dashDecelTime;
+                currentDashSpeed = Mathf.Lerp(_controller.dashSpeed, _controller.walkSpeed, t);
+            }
+
+            // 3) 현재 입력(수평) * 대쉬 속도로 이동 벡터 계산
+            Vector3 inputDir = new Vector3(
+                _controller.inputHandler.MovementInput.x,
+                0f,
+                _controller.inputHandler.MovementInput.y
+            );
+            Vector3 movement = inputDir.normalized * currentDashSpeed;
+
+            // 4) 전방 충돌 체크 → 슬라이딩
+            Vector3 moveDir = movement.normalized;
+            bool isBlocked = Physics.Raycast(
+                _controller.rb.position,
+                moveDir,
+                out RaycastHit hit,
+                2.0f
+            );
+
+            if (isBlocked)
+            {
+                // 벽이 있으면 슬라이딩
+                Vector3 slideDir = Vector3.ProjectOnPlane(movement, hit.normal);
+
+                if (slideDir.sqrMagnitude > 0.001f)
+                {
+                    // 슬라이딩 이동
+                    _controller.rb.velocity = slideDir;
+
+                    // 회전
+                    Quaternion rot = Quaternion.LookRotation(slideDir.normalized);
+                    _controller.rb.MoveRotation(rot);
+                }
+                else
+                {
+                    // 거의 수직으로 막혔으면 정지
+                    _controller.rb.velocity = Vector3.zero;
+                }
+            }
+            else
+            {
+                // 벽이 없으면 그대로 이동
+                _controller.rb.velocity = movement;
+
+                // 회전
+                if (movement.sqrMagnitude > 0.001f)
+                {
+                    Quaternion rot = Quaternion.LookRotation(moveDir);
+                    _controller.rb.MoveRotation(rot);
+                }
+            }
+
+            yield return null; // 다음 프레임까지 대기
         }
-        float decelTimer = 0f;
-        while (decelTimer < _controller.dashDecelTime)
-        {
-            decelTimer += Time.deltaTime;
-            float t = decelTimer / _controller.dashDecelTime;
-            dashSpeed = Mathf.Lerp(_controller.dashSpeed, _controller.walkSpeed, t);
-            movement = new Vector3(inputHandler.MovementInput.x, 0, inputHandler.MovementInput.y) * dashSpeed;
-            transform.position += movement * Time.deltaTime;
-            transform.forward = movement.normalized;
-            yield return null;
-        }
+
+        // 5) 대쉬 종료
         _controller.isDashing = false;
+        _controller.rb.velocity = Vector3.zero;
     }
 }
