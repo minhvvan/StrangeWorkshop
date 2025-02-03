@@ -14,7 +14,9 @@ public class GameManager : Singleton<GameManager>
     private GameState _currentGameState;
     private ChapterDataSO _currentChapter;
     private ChapterListSO _chapterList;
-    
+
+    public ChapterDataSO CurrentChapterData => _currentChapter;
+
     [Header("Event")]
     private GameStateEventSO _gameStateEvent;
 
@@ -33,7 +35,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private async UniTask Initialize()
+    public async UniTask Initialize()
     {
         //Load ChapterData
         _chapterList = await DataManager.Instance.LoadDataAsync<ChapterListSO>(Addresses.Data.Chapter.CHAPTER_LIST);
@@ -44,11 +46,6 @@ public class GameManager : Singleton<GameManager>
         _gameStateEvent = EventManager.Instance.GetEvent<GameStateEventSO>(Addresses.Events.Game.STATE_CHANGED);
 
         IsInitialized = true;
-    }
-
-    public void Reset()
-    {
-        throw new System.NotImplementedException();
     }
 
     private void LoadMainMenu()
@@ -82,8 +79,7 @@ public class GameManager : Singleton<GameManager>
         //게임 상태 변경 후 추가 작업
         if (_currentGameState == GameState.GameOver)
         {
-            //TODO: GameOver -> 재시도 여부 묻는 UI + 챕터 선택 UI 추가 후 변경 예정(UIManager에서 처리)
-            LoadMainMenu();
+            GameOver();
         }
     }
 
@@ -116,8 +112,9 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void GameOver()
+    private void GameOver()
     {
-        RequestChangeGameState(GameState.GameOver);
+        //TODO: GameOver -> 재시도 여부 묻는 UI + 챕터 선택 UI 추가 후 변경 예정(UIManager에서 처리)
+        LoadMainMenu();
     }
 }
