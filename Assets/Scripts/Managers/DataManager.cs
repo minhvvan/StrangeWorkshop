@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Managers
 {
@@ -17,6 +18,11 @@ namespace Managers
         public async UniTask<GameObject> LoadPrefabAsync(string address)
         {
             return await PrefabLoader.LoadAsync(address);
+        }
+
+        public RectTransform LoadUIPrefab(string address)
+        {
+            return PrefabLoader.LoadUI(address);
         }
         
         private static class DataLoader
@@ -64,6 +70,18 @@ namespace Managers
                 var asset = await Addressables.LoadAssetAsync<GameObject>(address).ToUniTask();
                 _caches[address] = asset;
                 return asset;
+            }
+            
+            public static RectTransform LoadUI(string address)
+            {
+                var request = Addressables.LoadAssetAsync<GameObject>(address);
+                request.WaitForCompletion();
+    
+                if (request.Status == AsyncOperationStatus.Succeeded)
+                    return request.Result.GetComponent<RectTransform>();
+        
+                Debug.LogError($"Failed to load UI prefab: {address}");
+                return null;
             }
 
             public static void ClearCache()

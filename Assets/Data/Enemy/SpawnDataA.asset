@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: SpawnDataA
   m_EditorClassIdentifier: 
   spawnPoints:
-  - {x: 4.56, y: 0, z: 10.81}
-  - {x: 12.25, y: 0, z: 3.6}
-  - {x: 20.36, y: 0, z: 2.76}
-  - {x: 44.69, y: 0, z: 13.16}
-  - {x: 45.4, y: 0, z: 33.6}
-  - {x: 33.5, y: 0, z: 51.3}
+  - {x: 4.56, y: 1, z: 10.81}
+  - {x: 12.25, y: 1, z: 3.6}
+  - {x: 20.36, y: 1, z: 2.76}
+  - {x: 44.69, y: 1, z: 13.16}
+  - {x: 45.4, y: 1, z: 33.6}
+  - {x: 33.5, y: 1, z: 51.3}
   spawnIndex: 0
   selectPrefabIndex: 0
   spawnAmount: 1
