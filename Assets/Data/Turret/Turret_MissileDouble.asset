@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a05d2c44ecdfe0841bae527544d3396c, type: 3}
-  m_Name: Turret_Mortar
+  m_Name: Turret_MissileDouble
   m_EditorClassIdentifier: 
-  turretType: 2
-  damage: 30
-  attackRange: 20
-  fireRate: 2
-  maxBulletNum: 5
-  bullet: {fileID: 1986743744459060, guid: caed3b3230fb5b44e8a533b81cd4c111, type: 3}
+  turretType: 3
+  damage: 15
+  attackRange: 30
+  fireRate: 1
+  maxBulletNum: 10
+  bullet: {fileID: 1773485284122676, guid: 2ffa6034fd681344ea8e079a99cff304, type: 3}
   crashedColor: {r: 1, g: 0, b: 0, a: 0}
   fixTime: 3
   lookSpeed: 100

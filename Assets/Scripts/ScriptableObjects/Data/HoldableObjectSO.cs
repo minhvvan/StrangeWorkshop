@@ -8,6 +8,7 @@ public enum HoldableObjectType
     CraftProduct,
     Bullet,
     Turret,
+    Upgrade,
     Max
 }
 

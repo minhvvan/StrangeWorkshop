@@ -17,9 +17,9 @@ public class TurretDataSO : ScriptableObject
     
     // 모든 turret 공통
     public Color crashedColor;
+    public float fixTime;
     
     // 임시
-    public float fixSpeed;
     public float lookSpeed;
     public float maxHealth;
 }

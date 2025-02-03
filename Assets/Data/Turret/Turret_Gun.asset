@@ -19,6 +19,6 @@ MonoBehaviour:
   maxBulletNum: 20
   bullet: {fileID: 1230967522142342, guid: c8a14102fc9c5cf40b8a80ea2a50c93e, type: 3}
   crashedColor: {r: 1, g: 0, b: 0, a: 0}
-  fixSpeed: 10
+  fixTime: 3
   lookSpeed: 100
   maxHealth: 20

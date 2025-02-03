@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95bcec3a9d0f6bd42b08d2e6f73b5994, type: 3}
-  m_Name: ToMortar
+  m_Name: ToTurret_Mortar
   m_EditorClassIdentifier: 
   inputs:
   - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}

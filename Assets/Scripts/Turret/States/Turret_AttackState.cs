@@ -32,7 +32,6 @@ public class Turret_AttackState : BaseState<Turret>
                 ChangeState();
             }
         }
-        Debug.Log("attack");
         ChangeState();
     }
 

@@ -25,7 +25,6 @@ public class Turret_CrashState : BaseState<Turret>
 
     public override void UpdateState()
     {
-        Debug.Log("crash");
         ChangeState();
     }
 

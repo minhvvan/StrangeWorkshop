@@ -17,7 +17,6 @@ public class Turret_IdleState : BaseState<Turret>
     
     public override void UpdateState()
     {
-        Debug.Log("idle");
         ChangeState();
     }
 

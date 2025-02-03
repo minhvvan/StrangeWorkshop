@@ -57,4 +57,36 @@ public class Turret : HoldableObject
         turretActions.UpdateTarget();
         _stateMachine.Update();
     }
+
+    public bool Acceptable(HoldableObjectType objectType)
+    {
+        if (turretData.isCrashed)
+        {
+            // 고장난 상태면 어떠한 것도 받지 못하도록 설정
+            return false;
+        }
+        
+        if (objectType == HoldableObjectType.Bullet)
+        {
+            // 남아있는 총알 개수에 관계없이 reload
+            
+            // 1. crash만 아니면 무조건 장전이 가능하도록 설정
+            turretActions.Reload();
+            return true;
+            
+            // 2. upgrade중이면 장전이 불가능하도록 설정
+            // if (turretData.isUpgrading)
+            // {
+            //     return false;
+            // }
+        }
+        else if (objectType == HoldableObjectType.Upgrade)
+        {
+            // upgrade 모듈이 놓였을때
+            return turretActions.Upgrade();
+        }
+        
+        // bullet이나 upgrade모듈이 아니면 return false
+        return false;
+    }
 }
