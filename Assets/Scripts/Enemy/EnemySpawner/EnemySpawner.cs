@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -69,8 +70,66 @@ public class EnemySpawner : MonoBehaviour
     private TargetCode _targetCode;
     
     //각 SO 생성파일 경로를 지정해주세요.
-    public string enemyDataSOpath = "Assets/Data/Enemy/EnemyMeleeNormal.asset";
-    public string spawnDataSOpath = "Assets/Data/Enemy/SpawnDataA.asset";
+    [NonSerialized] public string enemyDataSOpath = "Assets/Data/Enemy/EnemyMeleeNormal.asset";
+    [NonSerialized] public string spawnDataSOpath = "Assets/Data/Enemy/SpawnDataA.asset";
+    private EnemyDataSO enemyDataSO;
+    //private SpawnDataSO spawnDataSO;
+    
+    //적 생성 사전작업
+    async UniTask SetUp() 
+    {
+        await GetEnemyData(enemyDataSOpath);
+        await GetSpawnData(spawnDataSOpath);
+        ResetActivateSpawnPoints(true);  
+    }
+
+    void Awake()
+    {
+        //TargetObject가 Transform을 보내기위한 인스턴스 캐싱
+        Instance = this;
+    }
+    
+    //TEST
+    async void Start()
+    {
+#if TestMode
+        enemyDataSO = await DataManager.Instance.LoadDataAsync<EnemyDataSO>(
+            Addresses.Data.Enemy.BASIC);
+        //spawnDataSO =
+        
+        //적 생성 사전시퀀스.
+        _ = SetUp();
+#endif
+
+    }
+
+    private void Update()
+    {
+#if TestMode
+        //다방면 일괄 소환
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SpawnEnemyPointPick(_selectPrefabIndex);
+        }
+        
+        //단일지점 소환
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SpawnEnemyRollout(_selectPrefabIndex);
+        }
+#endif
+    }
+    /* 기본 사용 방법.
+     생성할 적 데이터 불러오기.
+     #1 GetEnemyData(enemyDataSOpath)로 EnemyDataSO 불러오기.
+     #2 GetSpawnData(spawnDataSOpath)로 SpawnDataSO 불러오기.
+        *이때, _spawnPoint의 값이 모두 제거된 후 입력된다.*
+     #3 ResetActivateSpawnPoints(bool); 새로 불러온 spawnPoint List의 활성화/비활성화 여부를 일괄 초기화.
+
+     #4 적 생성하기 - 테스트용 키 : 1, 2
+        - 1 SpawnEnemyPointPick(_selectPrefabIndex); 단일지점에 생성.
+        - 2 SpawnEnemyRollout(_selectPrefabIndex); 다방면 일괄 생성.
+     */
     
     //적 스폰위치를 하나씩 추가합니다.
     public void AddSpawnPosition(Vector3 position)
@@ -130,7 +189,7 @@ public class EnemySpawner : MonoBehaviour
         
         //EnemyDataSO내의 스탯, 생성할 프리팹 정보를 받아옵니다.
         GameObject prefab;
-        (_status, prefab) = await EnemyFactory.LoadEnemyStatus(loadPath);
+        (_status, prefab) = await EnemyFactory.LoadEnemyStatus(enemyDataSO);
         
         //적 SO 종류가 여러개일 경우 프리팹을 리스트로 받아 둔 후 꺼내쓰기위한 Add
         _enemyPrefab.Add(prefab);
@@ -273,58 +332,6 @@ public class EnemySpawner : MonoBehaviour
         }
         
     }
-    
-    //적 생성 사전작업
-    async UniTask SetUp() 
-    {
-        await GetEnemyData(enemyDataSOpath);
-        await GetSpawnData(spawnDataSOpath);
-        ResetActivateSpawnPoints(true);  
-    }
-
-    void Awake()
-    {
-        //TargetObject가 Transform을 보내기위한 인스턴스 캐싱
-        Instance = this;
-    }
-    
-    //TEST
-    void Start()
-    {
-        #if TestMode
-        //적 생성 사전시퀀스.
-        _ = SetUp();
-        #endif
-
-    }
-
-    private void Update()
-    {
-        #if TestMode
-        //다방면 일괄 소환
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SpawnEnemyPointPick(_selectPrefabIndex);
-        }
-        
-        //단일지점 소환
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SpawnEnemyRollout(_selectPrefabIndex);
-        }
-        #endif
-    }
-    /* 기본 사용 방법.
-     생성할 적 데이터 불러오기.
-     #1 GetEnemyData(enemyDataSOpath)로 EnemyDataSO 불러오기.
-     #2 GetSpawnData(spawnDataSOpath)로 SpawnDataSO 불러오기. 
-        *이때, _spawnPoint의 값이 모두 제거된 후 입력된다.*
-     #3 ResetActivateSpawnPoints(bool); 새로 불러온 spawnPoint List의 활성화/비활성화 여부를 일괄 초기화. 
-    
-     #4 적 생성하기 - 테스트용 키 : 1, 2
-        - 1 SpawnEnemyPointPick(_selectPrefabIndex); 단일지점에 생성.
-        - 2 SpawnEnemyRollout(_selectPrefabIndex); 다방면 일괄 생성.
-     */
 }
 /*
 작업로그0116

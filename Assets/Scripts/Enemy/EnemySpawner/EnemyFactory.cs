@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Managers;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
@@ -10,22 +11,22 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public static class EnemyFactory
 {
     //EnemyDataSO를 읽어옵니다.
-    public static async UniTask<(EnemyStatus, GameObject)> LoadEnemyStatus(string path)
+    public static async UniTask<(EnemyStatus, GameObject)> LoadEnemyStatus(EnemyDataSO getSO)
     {
         EnemyStatus stats = new();
-        EnemyDataSO enemyDatasSO = ScriptableObject.CreateInstance<EnemyDataSO>();
+        EnemyDataSO enemyDatasSO = getSO;
         
-        var handle = Addressables.LoadAssetAsync<EnemyDataSO>(path);
-        await handle.Task;
-        
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            enemyDatasSO = (handle.Result);
-        }
-        else
-        {
-            Debug.LogError($"Failed to load enemy data");
-        }
+        // var handle = Addressables.LoadAssetAsync<EnemyDataSO>("Path");
+        // await handle.Task;
+        //
+        // if (handle.Status == AsyncOperationStatus.Succeeded)
+        // {
+        //     enemyDatasSO = (handle.Result);
+        // }
+        // else
+        // {
+        //     Debug.LogError($"Failed to load enemy data");
+        // }
 
         //읽어온 EnemyData SO 데이터를 EnemyStatus에 할당. 
         GameObject objPrefab = enemyDatasSO.enemyPrefab;
