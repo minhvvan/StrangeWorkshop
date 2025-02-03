@@ -17,19 +17,6 @@ public abstract class HoldableObject : MonoBehaviour
     // parent를 옮겨 이동하는 함수
     public virtual bool SetHoldableObjectParent(IHoldableObjectParent parent)
     {
-        //터렛에서 구현
-        if (GetHoldableObjectSO().objectType == HoldableObjectType.Turret)
-        {
-            if (parent.GetType() == typeof(SampleCharacterController))
-            {
-                GetComponent<Turret>().turretActions.Hold();
-            }
-            else
-            {
-                GetComponent<Turret>().turretActions.Put();
-            }
-        }
-        
         parent.SetHoldableObject(this);
         
         transform.parent = parent.GetHoldableObjectFollowTransform();
