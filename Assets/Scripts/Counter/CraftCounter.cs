@@ -10,8 +10,16 @@ using UnityEngine.Serialization;
 public class CraftCounter : BaseCounter
 {
     private CraftRecipeSO _currentCraftRecipeSO;
-    private int _currentCraftIndex = int.MaxValue;
+    private int _craftIndex;
+    private int _currentIndex;
     private bool cooltime = true;
+    public ProgressBar _progressBar;
+
+    void Awake()
+    {
+        _progressBar.gameObject.SetActive(false);
+    }
+
     public override void Interact(SampleCharacterController player)
     {
         // 플레이어가 물체를 들고 있으면
@@ -52,17 +60,22 @@ public class CraftCounter : BaseCounter
     {
         if (!_currentCraftRecipeSO.IsUnityNull())
         {
-            if (_currentCraftIndex > 0 && cooltime)
+            if (_craftIndex > _currentIndex && cooltime)
             {
-                _currentCraftIndex--;
+                _currentIndex++;
+                _progressBar.UpdateProgressBar(_currentIndex);
                 CoolTime();
+                
+                //UI 
             }
-            if(_currentCraftIndex <= 0)
+            if(_craftIndex <= _currentIndex)
             {
                 ClearHoldableObject();
                 HoldableObject.SpawnHoldableObject(_currentCraftRecipeSO.output, this);
                 _currentCraftRecipeSO = null;
-                _currentCraftIndex = int.MaxValue;   
+                _currentIndex = 0;
+                _progressBar.ResetBar();
+                _progressBar.gameObject.SetActive(false);
             }
         }
     }
@@ -70,7 +83,17 @@ public class CraftCounter : BaseCounter
     private void SetCurrentCraftIndex()
     {
         if (!_currentCraftRecipeSO.IsUnityNull())
-            _currentCraftIndex = _currentCraftRecipeSO.craftNumberOfTimes;
+        {
+            _craftIndex = _currentCraftRecipeSO.craftNumberOfTimes;
+            _currentIndex = 0;
+            _progressBar.ResetBar();
+            _progressBar.gameObject.SetActive(true);
+            _progressBar.SetBar(_craftIndex);
+        }
+        else
+        {
+            _progressBar.gameObject.SetActive(false);
+        }
     }
 
     async void CoolTime()
