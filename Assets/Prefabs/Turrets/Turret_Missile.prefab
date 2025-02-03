@@ -5254,6 +5254,7 @@ GameObject:
   - component: {fileID: 8271111724774194556}
   - component: {fileID: 1976511688670177153}
   - component: {fileID: 2074097076724818613}
+  - component: {fileID: -5527543783909519510}
   m_Layer: 0
   m_Name: Turret_Missile
   m_TagString: Untagged
@@ -5317,6 +5318,19 @@ MonoBehaviour:
   noAmmoImage: {fileID: 9079201753655295942}
   muzzleMain: {fileID: 9002484081553748919}
   muzzleEff: {fileID: 1497772684437746, guid: 7a3aa3ccf9a17a14cb338122add5f6ef, type: 3}
+--- !u!114 &-5527543783909519510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6700077815837673042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97d40dca97e41643b293c75fa16b9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeData: {fileID: 11400000, guid: cc44d08d29eabc84ea764579248bbfc2, type: 2}
 --- !u!1 &6974951911868648942
 GameObject:
   m_ObjectHideFlags: 0

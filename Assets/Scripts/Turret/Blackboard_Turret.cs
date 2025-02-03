@@ -7,16 +7,17 @@ public enum TurretType
 {
     GUN,
     MISSILE,
-    MORTAR
+    MORTAR,
+    MISSILEDOUBLE
 }
 
 public class Blackboard_Turret : MonoBehaviour
 {
-    // turret data so
+    // so
     public TurretDataSO so;
     
     // 모든 turret 공통
-    [NonSerialized] public float fixSpeed = 10;
+    [NonSerialized] public float fixTime;
     [NonSerialized] public Color crashedColor = Color.red;
     [NonSerialized] public float lookSpeed;
     
@@ -26,18 +27,17 @@ public class Blackboard_Turret : MonoBehaviour
     [NonSerialized] public float attackRange;
     [NonSerialized] public float fireRate;
     [NonSerialized] public int maxBulletNum;
-    [NonSerialized] public float maxHealth;
     
     // bullet
     [NonSerialized] public GameObject bullet;
 
-    // turret 
+    // turret 상태정보
     [NonSerialized] public GameObject target;
     [NonSerialized] public int currentBulletNum;
-    [NonSerialized] public bool isOnCounter = true;
+    [NonSerialized] public bool isOnCounter = false;
     [NonSerialized] public bool isCrashed = false;
-    [NonSerialized] public float currentHealth;
-    
+    [NonSerialized] public bool isUpgrading = false;
+
     // 전략패턴
     public ITargetStrategy targetStrategy;
     public ShootingStrategy shootingStrategy;
@@ -50,12 +50,13 @@ public class Blackboard_Turret : MonoBehaviour
     public GameObject noAmmoImage;
     
     public Transform muzzleMain;
+    public Transform muzzleSub;
     public GameObject muzzleEff;
 
     public void Initialize()
     {
         // stat 초기화
-        fixSpeed = so.fixSpeed;
+        fixTime = so.fixTime;
         crashedColor = so.crashedColor;
         lookSpeed = so.lookSpeed;
         turretType = so.turretType;
@@ -63,15 +64,13 @@ public class Blackboard_Turret : MonoBehaviour
         attackRange = so.attackRange;
         fireRate = so.fireRate;
         maxBulletNum = so.maxBulletNum;
-        maxHealth = so.maxHealth;
         bullet = so.bullet;
         
         // status
         currentBulletNum = maxBulletNum;
-        currentHealth = maxHealth;
-        float size = attackRange * 2f;
         
         // range effect
+        float size = attackRange * 2f;
         rangeEff.transform.localScale = new Vector3(size, size, 1f);
         rangeEff.SetActive(TurretManager.Instance.rangeEffOn);
         
@@ -83,6 +82,9 @@ public class Blackboard_Turret : MonoBehaviour
             case TurretType.MISSILE:
             case TurretType.MORTAR:
                 shootingStrategy = new SingleShootingStrategy(GetComponent<Turret>());
+                break;
+            case TurretType.MISSILEDOUBLE:
+                shootingStrategy = new DoubleShootingStrategy(GetComponent<Turret>());
                 break;
             default:
                 break;

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class TurretActions
@@ -25,20 +27,31 @@ public class TurretActions
     {
         _turret.turretData.isOnCounter = true;
     }
-    
-    public void Fix()
+
+    public bool Upgrade()
     {
-        _turret.turretData.currentHealth = _turret.turretData.maxHealth;
+        if (_turret.turretUpgrade.Upgradable())
+        {
+            _turret.turretData.isUpgrading = true;
+            return true;
+        }
+
+        return false;
     }
 
-    public void Fix(float time)
+    public async UniTask Fix()
     {
-        _turret.turretData.currentHealth += _turret.turretData.fixSpeed * time;
-    }
-
-    public void ReduceHealth()
-    {
-        _turret.turretData.currentHealth -= 0.1f;
+        float fixProgress = 0f;
+        // Todo: 수리 진척도 UI로 표시
+        while (_turret.turretData.isCrashed)
+        {
+            await UniTask.Yield();
+            fixProgress += Time.deltaTime;
+            if (fixProgress >= _turret.turretData.fixTime)
+            {
+                _turret.turretData.isCrashed = false;
+            }
+        }
     }
 
     public void Crash()
@@ -56,7 +69,7 @@ public class TurretActions
         _turret.turretData.shootingStrategy = newStrategy;
     }
     
-    public void SetRangeEffectSize()
+    public void UpdateRangeEffectSize()
     {
         float size = _turret.turretData.attackRange * 2f;
         _turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);

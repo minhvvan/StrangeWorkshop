@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05d2c44ecdfe0841bae527544d3396c, type: 3}
   m_Name: Turret_Gun
   m_EditorClassIdentifier: 
-  fixSpeed: 10
-  resizeScale: 2
-  crashedColor: {r: 1, g: 0, b: 0, a: 0}
-  lookSpeed: 100
   turretType: 0
   damage: 5
   attackRange: 15
   fireRate: 0.5
-  maxBulletNum: 10
-  maxHealth: 20
+  maxBulletNum: 20
   bullet: {fileID: 1230967522142342, guid: c8a14102fc9c5cf40b8a80ea2a50c93e, type: 3}
+  crashedColor: {r: 1, g: 0, b: 0, a: 0}
+  fixTime: 3
+  lookSpeed: 100
+  maxHealth: 20

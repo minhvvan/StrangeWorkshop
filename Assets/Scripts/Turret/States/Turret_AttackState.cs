@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class Turret_AttackState : BaseState<Turret>
 {
-    public Turret_AttackState(Turret controller) : base(controller){ }
-
+    private Blackboard_Turret _turretData;
     private float _timer;
+
+    public Turret_AttackState(Turret controller) : base(controller)
+    {
+        _turretData = _controller.turretData;
+    }
 
     public override void Enter()
     {
@@ -21,12 +25,11 @@ public class Turret_AttackState : BaseState<Turret>
         if (_controller.turretData.target != null && _controller.turretData.currentBulletNum > 0)
         {
             _controller.turretData.shootingStrategy.FollowTarget(_controller.turretData.target);
-            // FollowTarget(_controller.target);
             if (_controller.turretData.fireRate <= _timer)
             {
                 _controller.turretData.shootingStrategy.Shoot(_controller.turretData.target);
-                // Shoot(_controller.target);
                 _timer = 0f;
+                ChangeState();
             }
         }
         ChangeState();
@@ -40,24 +43,16 @@ public class Turret_AttackState : BaseState<Turret>
     
     private void ChangeState()
     {
-        /*
-         State 변경 조건 확인
-         state 변경 여부 체크 순서:
-         turret이 counter에 있는가? -> turret이 고장났는가? -> turret이 총알이 없는가? -> 적이 있는가?
-         */
-        if (!_controller.turretData.isOnCounter)
-        {
-            _controller.SetState(_controller.holdState);
-        }
-        else if (_controller.turretData.isCrashed)
+        // 작동 가능한지 체크 -> target이 있는지 체크 
+        if (_turretData.isCrashed)
         {
             _controller.SetState(_controller.crashState);
         }
-        else if (_controller.turretData.currentBulletNum <= 0)
+        else if (!_turretData.isOnCounter || _turretData.currentBulletNum <= 0 || _turretData.isUpgrading)
         {
-            _controller.SetState(_controller.emptyState);
+            _controller.SetState(_controller.notWorkingState);
         }
-        else if (_controller.turretData.target is null)
+        else if (_turretData.target == null)
         {
             _controller.SetState(_controller.idleState);
         }

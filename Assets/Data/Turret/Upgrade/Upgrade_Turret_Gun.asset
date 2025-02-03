@@ -12,4 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4390239665ac25f45a7c82bd23cf464b, type: 3}
   m_Name: Upgrade_Turret_Gun
   m_EditorClassIdentifier: 
-  upgrades: []
+  upgradeJackpotProbability: 0.2
+  upgradeTime: 5
+  upgrades:
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 5
+    maxBulletNum: 0
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 5
+    maxBulletNum: 0
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 5
+    maxBulletNum: 0
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 10
+    maxBulletNum: 0
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 10
+    maxBulletNum: 0
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 10
+    maxBulletNum: 0
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 10
+    maxBulletNum: 0
+  - damage: 3
+    fireRate: 0.1
+    attackRange: 10
+    maxBulletNum: 0

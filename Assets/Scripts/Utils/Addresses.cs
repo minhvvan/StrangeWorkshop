@@ -21,6 +21,12 @@ public static class Addresses
             public const string CRAFT_COMPLETE = "events/counter/craft_complete";
             public const string PROCESS_COMPLETE = "events/counter/process_complete";
         }
+        
+        public static class Barrier
+        {
+            public const string BARRIER_DESTROY = "events/barrier/destroy";
+            public const string BARRIER_DAMAGED = "events/barrier/damaged";
+        }
     }
     
     public static class Data
@@ -64,6 +70,16 @@ public static class Addresses
             public const string CRAFT = "data/recipes/Craft";
             public const string PROCESS = "data/recipes/Process";
         }
+
+        public static class Barrier
+        {
+            public const string STAT = "data/barrier/stat";
+        }
+
+        public static class UI
+        {
+            public const string COMMON = "data/ui/common";
+        }
     }
     
     public static class Prefabs
@@ -91,8 +107,8 @@ public static class Addresses
         
         public static class UI
         {
-            public const string HEALTH_BAR = "prefabs/ui/health_bar";
-            public const string PROGRESS_BAR = "prefabs/ui/progress_bar";
+            public const string BARRIER_FLAT = "prefabs/ui/barrier_flat";
+            public const string BARRIER_CORNER = "prefabs/ui/barrier_corner";
         }
     }
 }

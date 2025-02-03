@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chapter_2
   m_EditorClassIdentifier: 
   chapterId: CHAPTER_2
-  sceneName: Scenes/TurretTestScene
+  sceneName: Scenes/Chapter/Chpater2
   description: "\uCC55\uD1302 \uC124\uC815 SO"
   openingStory: {fileID: 11400000, guid: b749a6616ed39e34c947334011fab581, type: 2}
   endingStory: {fileID: 0}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95bcec3a9d0f6bd42b08d2e6f73b5994, type: 3}
+  m_Name: ToTurret_MissileDouble
+  m_EditorClassIdentifier: 
+  inputs:
+  - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
+  - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
+  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
+  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
+  output: {fileID: 11400000, guid: 0afb03481b4e5a64d96a81f6653b890c, type: 2}
+  craftNumberOfTimes: 3

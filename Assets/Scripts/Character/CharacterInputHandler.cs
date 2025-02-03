@@ -6,12 +6,11 @@ public class CharacterInputHandler : BaseInputHandler
 {
     SampleCharacterController _controller;
 
-    //Events   //필요한 이벤트를 Action으로  추가하여 연결해서 class 붙여주면 코드 분리가 편하게 될 것으로 예상됨
-    [NonSerialized] public Action OnInteract;  //만약 매개변수를 넘길경우 Action<자료형> 으로 추가하면 가능
+    // 필요 이벤트들
+    [NonSerialized] public Action OnInteract;
     [NonSerialized] public Action OnInteractAlternate;
-    [NonSerialized] public Action OnAttack;
     [NonSerialized] public Action OnDash;
-        
+
     IEnumerator Start()
     {
         _controller = GetComponent<SampleCharacterController>();
@@ -19,43 +18,42 @@ public class CharacterInputHandler : BaseInputHandler
 
         _controller.SetInputHandler(this);
 
-        //초기화 안될경우가 있어서 대기시간을 주고 초기화
+        // 초기화 타이밍 문제 방지 (약간의 대기)
         yield return new WaitForSeconds(0.1f);
         _controller.SetInputHandler(this);
     }
-    
-    protected override void Update(){
-        //주기적으로 체크해야하는 항목에 대하여 base.Update위에 넣어서 사용  //예를 들면 CheckGrounded(이건 baseInputhandler에 넣어둠), CheckInteratable 등
 
+    protected override void Update()
+    {
+        // 상위 BaseInputHandler 로직
         base.Update();
     }
 
-    
-    void DirectControl(){
-        // 이동 방향 입력 처리
+    void DirectControl()
+    {
+        // 1) 이동 입력
         float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        MovementInput = new Vector2(horizontal, vertical).normalized;
-        Horizontal = horizontal;
-        Vertical = vertical;
+        float vertical   = Input.GetAxis("Vertical");
 
-        // 키 입력 상태 갱신
+        MovementInput = new Vector2(horizontal, vertical).normalized;
+        Horizontal    = horizontal;
+        Vertical      = vertical;
+
+        // 2) 걷는 중인지, 달리는 중인지
         IsWalking = MovementInput.magnitude > 0.1f;
         IsRunning = IsWalking && Input.GetKey(KeyCode.LeftShift);
-        //IsDashing = (IsWalking || IsRunning) && Input.GetKeyDown(KeyCode.Space);
-        
-        if(Input.GetMouseButtonDown(0)){
-            OnAttack?.Invoke();
-        }
 
-        if(Input.GetKeyDown(KeyCode.E)){
+        // 3) 상호작용
+        if (Input.GetKeyDown(KeyCode.E))
+        {
             OnInteract?.Invoke();
         }
-
-        if(Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.F))
+        {
             OnInteractAlternate?.Invoke();
         }
-        
+
+        // 4) 대쉬
         if (Input.GetKeyDown(KeyCode.Space))
         {
             OnDash?.Invoke();

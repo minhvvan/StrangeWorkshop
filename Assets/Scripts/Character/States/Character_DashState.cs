@@ -18,7 +18,7 @@ public class Character_DashState : BaseState<SampleCharacterController>
     {
         if(!_controller.isDashing)
         {
-            _controller.SetState(_controller.runState);
+            _controller.SetState(_controller.walkState);
         }
     }
 }

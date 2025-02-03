@@ -7,33 +7,44 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 {
     StateMachine _stateMachine;
 
-    //State를 매번 새로 생성하지 않기위하여 캐싱
+    // ▼ State 캐싱
     [NonSerialized] public Character_IdleState idleState;
     [NonSerialized] public Character_WalkState walkState;
     [NonSerialized] public Character_RunState runState;
     [NonSerialized] public Character_DashState dashState;
 
-    //사용할 액션들을 저장하고 등록하기 위함
+    // ▼ 사용하는 액션들
     List<BaseAction> _actions = new List<BaseAction>();
 
-
-    //공통적으로 사용할 변수 (Blackboard로 전체를 묶어서 사용할 수 있음)
+    // ▼ 공통 변수
     [NonSerialized] public Rigidbody rb;
     [NonSerialized] public Animator anim;
     
     [NonSerialized] public CharacterInputHandler inputHandler;
 
     [Header("Speed Settings")]
-    [SerializeField] public float walkSpeed = 5f;
-    [SerializeField] public float runSpeed = 10f;
-    [SerializeField] public float dashSpeed = 15f; // 대쉬 시 최고 속도
-    
+    public float walkSpeed = 15f;
+    public float runSpeed  = 10f;
+    public float dashSpeed = 30f; // 대쉬 속도
+
     [Header("Dash Timings")]
     [SerializeField] public float dashAccelTime = 0.5f;
     [SerializeField] public float dashDecelTime = 0.5f;
     
     [NonSerialized] public bool isDashing = false;
+    
+    [Header("Movement Settings")]
+    [Tooltip("회전 보간 속도")]
+    public float desiredRotationSpeed = 0.1f;
 
+    [Tooltip("입력 벡터가 이 값보다 클 때만 이동/회전 처리(애니메이션 전환 등)")]
+    public float allowPlayerRotation = 0.1f;
+
+    [Header("Animation Smoothing")]
+    [Range(0, 1f)] public float StartAnimTime = 0.3f;
+    [Range(0, 1f)] public float StopAnimTime  = 0.15f;
+
+    // 예: 물건을 들 때 사용되는 위치
     [SerializeField] private Transform holdableObjectHoldPoint;
     private Transform gloveObject;
     private HoldableObject _holdableObject;
@@ -41,7 +52,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     [SerializeField] float playerInteractDistance = 1f;
     [SerializeField] LayerMask playerInteractLayerMask;
-    
+
     void Awake()
     {
         InitComponents();
@@ -50,31 +61,35 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     void InitComponents()
     {
-        //하위에 하나만 있을 경우를 생각 범위에 관련된 부분은 (Collider) 생각해봅시다
-        rb = GetComponentInChildren<Rigidbody>();
-        anim = GetComponentInChildren<Animator>();
+        // Rigidbody / Animator는 자식 개체에 있거나, 동일 오브젝트에 있을 수 있음
+        rb   = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
-
-    void InitStates(){
+    void InitStates()
+    {
         _stateMachine = new StateMachine();
 
-        //State초기화
+        // State 초기화
         idleState = new Character_IdleState(this);
         walkState = new Character_WalkState(this);
-        runState = new Character_RunState(this);
+        runState  = new Character_RunState(this);
         dashState = new Character_DashState(this);
 
-        //초기 State 설정
-        _stateMachine.ChangeState(new Character_IdleState(this));
+        // 초기 상태
+        _stateMachine.ChangeState(idleState);
     }
 
-    public void AddAction(BaseAction action){
+    public void AddAction(BaseAction action)
+    {
         _actions.Add(action);
     }
 
-    public void SetInputHandler(BaseInputHandler inputHandler){
-        if(this.inputHandler != null){
+    public void SetInputHandler(BaseInputHandler inputHandler)
+    {
+        // 이미 연결돼 있던 핸들러가 있으면 먼저 해제
+        if (this.inputHandler != null)
+        {
             foreach (var action in _actions)
             {
                 action.UnregistAction();
@@ -82,15 +97,13 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
         }
 
         this.inputHandler = inputHandler as CharacterInputHandler;
-        if(inputHandler != null){
+
+        // 새로 연결된 핸들러에 액션 등록
+        if (this.inputHandler != null)
+        {
             foreach (var action in _actions)
             {
-                if(action.RegistAction()){
-                    
-                }
-                else{
-                    
-                }
+                action.RegistAction();
             }
         }
     }
@@ -99,7 +112,6 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     {
         _stateMachine.ChangeState(newState);
     }
-
 
     void Update()
     {

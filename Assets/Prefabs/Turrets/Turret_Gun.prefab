@@ -5223,6 +5223,7 @@ GameObject:
   - component: {fileID: 1487613449320052939}
   - component: {fileID: 1493045043149950380}
   - component: {fileID: 6521511891158429176}
+  - component: {fileID: 5133098183096569773}
   m_Layer: 0
   m_Name: Turret_Gun
   m_TagString: Untagged
@@ -5284,6 +5285,19 @@ MonoBehaviour:
   noAmmoImage: {fileID: 701781578664068269}
   muzzleMain: {fileID: 3683984735190666069}
   muzzleEff: {fileID: 1497772684437746, guid: 7a3aa3ccf9a17a14cb338122add5f6ef, type: 3}
+--- !u!114 &5133098183096569773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923909250479408624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97d40dca97e41643b293c75fa16b9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeData: {fileID: 11400000, guid: 3336c2455c7096947810a6ef258ff4ef, type: 2}
 --- !u!1 &6949506697220348682
 GameObject:
   m_ObjectHideFlags: 0
