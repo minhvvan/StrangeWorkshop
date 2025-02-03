@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: ce7fd60e045593145b168f4fc3657b6b
   m_SerializeEntries:
+  - m_GUID: 0142e3264e217414dbf775fc7b6f8245
+    m_Address: data/ui/common
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 27cd494195e67784bb381d36d355edfc
     m_Address: events/game/state_changed
     m_ReadOnly: 0
@@ -37,11 +42,35 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95fb969472859134f8b9acda449c2652
+    m_Address: data/barrier/stat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a660f00e2d8ed614eb991c416793c270
+    m_Address: prefabs/ui/barrier_corner
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c08f513d960d1694193a2a6aaa3122f7
+    m_Address: events/barrier/destroy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c11132ab267656e4ca77c7c112e2cc84
     m_Address: data/chapters/chapter_list
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa893e49ab3d5b542b72e988fa937f02
+    m_Address: Assets/Data/Enemy/EnemyMeleeNormal.asset
+  - m_GUID: d306bd5f36476e3438c54e9c31544d32
+    m_Address: prefabs/ui/barrier_flat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd6c9b279d60a094eaebbd0b986559bc
+    m_Address: events/barrier/damaged
   - m_GUID: fa893e49ab3d5b542b72e988fa937f02
     m_Address: Assets/Data/Enemy/EnemyMeleeNormal.asset
     m_ReadOnly: 0

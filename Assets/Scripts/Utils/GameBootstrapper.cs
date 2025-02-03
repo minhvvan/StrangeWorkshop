@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Managers;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
@@ -30,23 +31,39 @@ public static class GameBootstrapper
         {
             if (!isInitialized && currentScene != START_SCENE_NAME)
             {
-                Debug.Log($"Initializing game from scene: {currentScene}");
                 _ = Initialize();
             }
         }
         else if (state == PlayModeStateChange.ExitingPlayMode)
         {
+            CleanupManagers();
             isInitialized = false;
         }
     }
 
     private static async UniTask Initialize()
     {
-        await UniTask.WaitUntil(() => EventManager.Instance.IsInitialized);
-        await UniTask.WaitUntil(() => RecipeManager.Instance.IsInitialized);
-        await UniTask.WaitUntil(() => GameManager.Instance.IsInitialized);
+        UniTask.FromResult(UIManager.Instance.Initialize()).GetAwaiter().GetResult();
+        UniTask.FromResult(EventManager.Instance.InitializeEvents()).GetAwaiter().GetResult();
+        UniTask.FromResult(RecipeManager.Instance.Initialize()).GetAwaiter().GetResult();
+        UniTask.FromResult(GameManager.Instance.Initialize()).GetAwaiter().GetResult();
+
+        EventManager.Instance.AddComponent<DontDestroyOnLoad>();
+        RecipeManager.Instance.AddComponent<DontDestroyOnLoad>();
+        GameManager.Instance.AddComponent<DontDestroyOnLoad>();
+        LoadingManager.Instance.AddComponent<DontDestroyOnLoad>();
+        UIManager.Instance.AddComponent<DontDestroyOnLoad>();
 
         isInitialized = true;
+    }
+    
+    private static void CleanupManagers()
+    {
+        if (EventManager.Instance) Object.Destroy(EventManager.Instance.gameObject);
+        if (RecipeManager.Instance) Object.Destroy(RecipeManager.Instance.gameObject);
+        if (GameManager.Instance) Object.Destroy(GameManager.Instance.gameObject);
+        if (LoadingManager.Instance) Object.Destroy(LoadingManager.Instance.gameObject);
+        if (UIManager.Instance) Object.Destroy(UIManager.Instance.gameObject);
     }
 #endif
 }

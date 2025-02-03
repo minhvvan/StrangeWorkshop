@@ -20,7 +20,7 @@ public class RecipeManager : Singleton<RecipeManager>
         await Initialize();
     }
 
-    private async UniTask Initialize()
+    public async UniTask Initialize()
     {
         craftRecipeCollection = await DataManager.Instance.LoadDataAsync<CraftRecipeCollectionSO>(Addresses.Data.Recipe.CRAFT);
         processRecipeCollection = await DataManager.Instance.LoadDataAsync<ProcessRecipeCollectionSO>(Addresses.Data.Recipe.PROCESS);
