@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -70,10 +69,8 @@ public class EnemySpawner : MonoBehaviour
     private TargetCode _targetCode;
     
     //각 SO 생성파일 경로를 지정해주세요.
-    [NonSerialized] public string enemyDataSOpath = "Assets/Data/Enemy/EnemyMeleeNormal.asset";
+    [NonSerialized] public string enemyDataSOpath = Addresses.Data.Enemy.BASIC;
     [NonSerialized] public string spawnDataSOpath = "Assets/Data/Enemy/SpawnDataA.asset";
-    private EnemyDataSO enemyDataSO;
-    //private SpawnDataSO spawnDataSO;
     
     //적 생성 사전작업
     async UniTask SetUp() 
@@ -93,10 +90,6 @@ public class EnemySpawner : MonoBehaviour
     async void Start()
     {
 #if TestMode
-        enemyDataSO = await DataManager.Instance.LoadDataAsync<EnemyDataSO>(
-            Addresses.Data.Enemy.BASIC);
-        //spawnDataSO =
-        
         //적 생성 사전시퀀스.
         _ = SetUp();
 #endif
@@ -189,7 +182,7 @@ public class EnemySpawner : MonoBehaviour
         
         //EnemyDataSO내의 스탯, 생성할 프리팹 정보를 받아옵니다.
         GameObject prefab;
-        (_status, prefab) = await EnemyFactory.LoadEnemyStatus(enemyDataSO);
+        (_status, prefab) = await EnemyFactory.LoadEnemyStatus(loadPath);
         
         //적 SO 종류가 여러개일 경우 프리팹을 리스트로 받아 둔 후 꺼내쓰기위한 Add
         _enemyPrefab.Add(prefab);
