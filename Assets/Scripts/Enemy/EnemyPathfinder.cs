@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class EnemyPathfinder : MonoBehaviour
     public static EnemyPathfinder instance;
     
     public List<Transform> barrierPoints = new List<Transform>();
-    //[SerializeField] private BarrierController _barrierController;
+    [SerializeField] private BarrierController _barrierController;
     
     //밀림 방지 기능 구현중. 미완성
     public List<Collider> enemyInCounter = new List<Collider>();
@@ -21,15 +22,25 @@ public class EnemyPathfinder : MonoBehaviour
         instance = this;
     }
 
-    void Start()
+    async void Start()
     {
-        //왜인지 BarrierController를 통해 Barriers리스트를 참조할 수 없음.
-        //_barrierController = GameObject.Find("Barrier").GetComponent<BarrierController>();
-        List<Barrier> barriers = FindObjectsOfType<Barrier>().ToList();
-        foreach (var barrier in barriers)
+        _barrierController = GameObject.Find("Barrier").GetComponent<BarrierController>();
+        List<Barrier> barriers = new List<Barrier>();
+        
+        await UniTask.WaitUntil(() =>_barrierController.Barriers != null && _barrierController.Barriers.Count > 0);
+        
+        foreach (var barrier in _barrierController.Barriers)
         {
             //pivot이 공중에 떠있어서 AI가 위쪽이라 인식함. 대응 필요.
             barrierPoints.Add(barrier.transform);
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            
         }
     }
     
