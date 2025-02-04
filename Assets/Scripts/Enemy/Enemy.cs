@@ -39,7 +39,6 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.SetPattern();
         blackboard.SetPathfinder();
         blackboard.ResearchTarget();
-        _= blackboard.RemindSearch(1);
     }
 
     private void Update()

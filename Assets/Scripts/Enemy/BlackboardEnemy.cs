@@ -134,25 +134,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         _atkPattern = PatternHandler.CreatePattern(enemyStatus.enemytype);
     }
 
-    //주기적으로 근처 타겟을 재검색
-    public async UniTask RemindSearch(int loop)
-    {
-        while (loop > 0)
-        {
-            //킬 스위치 활성화 시, 공격 범위내에 있을 시 종료.
-            if (bEnable || bDetectBarrier)
-            {
-                loop = 0;
-            }
-            
-            await UniTask.Delay((int)(1000 * researchTime),
-                cancellationToken: rScts.Token);
-            
-            SetTarget(EnemyPathfinder.instance.RandomTarget());
-            agent.SetDestination(target.position);
-        }
-    }
-
     //공격 범위 내 적 찾기
     public void SearchNearTarget()
     {
