@@ -21,6 +21,7 @@ public class Upgrade : MonoBehaviour
     private Turret _turret;
     // level이 올라갈 때 증가하는 수치들을 담은 data
     private List<UpgradeStats> _upgrades;
+    [SerializeField] private ProgressBar _progressBar;
 
     private float _upgradeProgress;
 
@@ -29,6 +30,8 @@ public class Upgrade : MonoBehaviour
         _turret = GetComponent<Turret>();
         _currentUpgradeLevel = 0;
         _upgrades = upgradeData.upgrades;
+        _progressBar.SetBar(upgradeData.upgradeTime);
+        DeactivateUpgradeBar();
     }
     
     public bool Upgradable()
@@ -42,9 +45,12 @@ public class Upgrade : MonoBehaviour
     public bool UpgradeProgressively()
     {
         _upgradeProgress += Time.deltaTime;
+        _progressBar.UpdateProgressBar(_upgradeProgress);
         if (_upgradeProgress >= upgradeData.upgradeTime)
         {
             _upgradeProgress = 0f;
+            _progressBar.ResetBar();
+            DeactivateUpgradeBar();
             UpgradeLevelRandomly();
             return true;
         }
@@ -119,5 +125,20 @@ public class Upgrade : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void ActivateUpgradeBar()
+    {
+        _progressBar.gameObject.SetActive(true);
+    }
+
+    public void DeactivateUpgradeBar()
+    {
+        _progressBar.gameObject.SetActive(false);
+    }
+
+    public void SetUpgradeBarColor(Color color)
+    {
+        _progressBar.SetColor(color);
     }
 }

@@ -52,6 +52,8 @@ public class Blackboard_Turret : MonoBehaviour
     public Transform muzzleMain;
     public Transform muzzleSub;
     public GameObject muzzleEff;
+    
+    public ProgressBar progressBarFix;
 
     public void Initialize()
     {
@@ -73,6 +75,10 @@ public class Blackboard_Turret : MonoBehaviour
         float size = attackRange * 2f;
         rangeEff.transform.localScale = new Vector3(size, size, 1f);
         rangeEff.SetActive(TurretManager.Instance.rangeEffOn);
+        
+        // BarUI
+        progressBarFix.SetBar(fixTime);
+        progressBarFix.gameObject.SetActive(false);
         
         // init strategies
         targetStrategy = new ClosestTargetStrategy();

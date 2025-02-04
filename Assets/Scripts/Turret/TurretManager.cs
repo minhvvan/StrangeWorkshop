@@ -7,7 +7,7 @@ public class TurretManager : Singleton<TurretManager>
     private List<Turret> _turrets;
     public bool rangeEffOn { get; set; }
 
-    void Start()
+    void Awake()
     {
         _turrets = new List<Turret>();
     }

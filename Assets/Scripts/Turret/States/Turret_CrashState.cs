@@ -21,6 +21,8 @@ public class Turret_CrashState : BaseState<Turret>
             _previousColors[i] = _turretData.renderers[i].material.color;
             _turretData.renderers[i].material.color = _turretData.crashedColor;
         }
+        
+        _controller.turretUpgrade.SetUpgradeBarColor(Color.red);
     }
 
     public override void UpdateState()
@@ -38,6 +40,8 @@ public class Turret_CrashState : BaseState<Turret>
         
         // 메모리 해제
         _previousColors = null;
+
+        _controller.turretUpgrade.SetUpgradeBarColor(Color.white);
     }
     
     public void ChangeState()
