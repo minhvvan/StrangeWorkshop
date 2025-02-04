@@ -30,6 +30,7 @@ public class Upgrade : MonoBehaviour
         _turret = GetComponent<Turret>();
         _currentUpgradeLevel = 0;
         _upgrades = upgradeData.upgrades;
+        _progressBar.Initialize();
         _progressBar.SetBar(upgradeData.upgradeTime);
         DeactivateUpgradeBar();
     }

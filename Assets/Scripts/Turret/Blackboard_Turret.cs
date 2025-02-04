@@ -77,6 +77,7 @@ public class Blackboard_Turret : MonoBehaviour
         rangeEff.SetActive(TurretManager.Instance.rangeEffOn);
         
         // BarUI
+        progressBarFix.Initialize();
         progressBarFix.SetBar(fixTime);
         progressBarFix.gameObject.SetActive(false);
         
