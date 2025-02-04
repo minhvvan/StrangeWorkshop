@@ -476,12 +476,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProcessCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 2039680493177176595, guid: f9ddcccf12228a944bd156ddb023aef8,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3235256147115193962, guid: f9ddcccf12228a944bd156ddb023aef8,
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3235256147115193962, guid: f9ddcccf12228a944bd156ddb023aef8,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260249150115290321, guid: f9ddcccf12228a944bd156ddb023aef8,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -617,10 +627,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 940168823916136488, guid: 629f85c07efa78e4c88376c7d2de5043,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1003821944429861570, guid: 629f85c07efa78e4c88376c7d2de5043,
         type: 3}
       propertyPath: m_Name
       value: CraftCounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 6359760733753415402, guid: 629f85c07efa78e4c88376c7d2de5043,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7415947982373684060, guid: 629f85c07efa78e4c88376c7d2de5043,
         type: 3}

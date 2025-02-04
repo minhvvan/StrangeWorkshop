@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ProgressBar : MonoBehaviour
 {
@@ -41,5 +42,10 @@ public class ProgressBar : MonoBehaviour
     public void SetColor(Color color)
     {
         image.color = color;
+    }
+
+    public void SetColorLerp(Color color)
+    {
+        image.DOColor(color, 0.5f);
     }
 }
