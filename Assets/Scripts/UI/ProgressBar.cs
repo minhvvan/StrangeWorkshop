@@ -19,9 +19,12 @@ public class ProgressBar : MonoBehaviour
     {
         _slider = GetComponent<Slider>();
         ResetBar();
-        _canvas = GetComponentInParent<Canvas>();
-        _mainCamera = Camera.main;
-        _uiCamera = _canvas.worldCamera;
+    }
+
+    public void Initialize()
+    {
+        _slider = GetComponent<Slider>();
+        ResetBar();
     }
     
     public void SetBar(float value)

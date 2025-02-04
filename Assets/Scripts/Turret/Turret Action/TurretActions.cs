@@ -32,6 +32,7 @@ public class TurretActions
     {
         if (_turret.turretUpgrade.Upgradable())
         {
+            _turret.turretUpgrade.ActivateUpgradeBar();
             _turret.turretData.isUpgrading = true;
             return true;
         }
@@ -41,15 +42,21 @@ public class TurretActions
 
     public async UniTask Fix()
     {
+        ProgressBar progressBar = _turret.turretData.progressBarFix;
+        
+        progressBar.gameObject.SetActive(true);
         float fixProgress = 0f;
         // Todo: 수리 진척도 UI로 표시
         while (_turret.turretData.isCrashed)
         {
             await UniTask.Yield();
             fixProgress += Time.deltaTime;
+            progressBar.UpdateProgressBar(fixProgress);
             if (fixProgress >= _turret.turretData.fixTime)
             {
                 _turret.turretData.isCrashed = false;
+                progressBar.ResetBar();
+                progressBar.gameObject.SetActive(false);
             }
         }
     }
