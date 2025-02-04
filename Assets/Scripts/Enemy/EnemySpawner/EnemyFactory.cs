@@ -31,8 +31,7 @@ public static class EnemyFactory
         GameObject objPrefab = enemyDatasSO.enemyPrefab;
         
         stats.enemytype = enemyDatasSO.enemytype;
-        stats.animator = enemyDatasSO.animator;
-        stats.animSpeed = enemyDatasSO.animSpeed;
+        stats.animFirstDelay = enemyDatasSO.animFirstDelay;
         stats.enemyName = enemyDatasSO.enemyName;
         stats.hp = enemyDatasSO.hp;
         stats.armor = enemyDatasSO.armor;

@@ -16,8 +16,6 @@ public class EnemyFsm : MonoBehaviour
     [NonSerialized] public Enemy_ChaseState chaseState;
     [NonSerialized] public Enemy_AttackState attackState;
     
-    //List<BaseAction> enemyActions = new();
-    
     void Awake()
     {
         InitComponents();
@@ -30,6 +28,9 @@ public class EnemyFsm : MonoBehaviour
     
     public void InitStates()
     {
+        //블랙보드 할당
+        blackboard = _enemy.blackboard;
+        
         _stateMachine = new StateMachine();
 
         //State초기화
@@ -39,9 +40,6 @@ public class EnemyFsm : MonoBehaviour
 
         //초기 State 설정
         _stateMachine.ChangeState(idleState);
-        
-        //블랙보드 할당
-        blackboard = _enemy.blackboard;
     }
     
     public void ChangeEnemyState(IState newState)
@@ -51,6 +49,10 @@ public class EnemyFsm : MonoBehaviour
     
     public void Update()
     {
+        if (!blackboard.bEnable)
+        {
+            return;
+        }
         _stateMachine.Update();
     }
 }
