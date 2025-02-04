@@ -12,9 +12,7 @@ public class MeleeAttack : IAttackPattern
 {
     public override void RunPattern(Collider other, float damage)
     {
-        //Merge전까지 임시 주석처리.
-        //other.GetComponent<Barrier>().TakeDamage(damage);
-        other.GetComponent<BarrierTransfer>().TakeDamage(damage);
+        other.GetComponent<Barrier>().TakeDamage(damage);
     }
 }
 
@@ -22,8 +20,7 @@ public class RangeAttack : IAttackPattern
 {
     public override void RunPattern(Collider other, float damage)
     {
-        //Merge전까지 임시 주석처리.
-        //other.GetComponent<Barrier>().TakeDamage(damage);
+        other.GetComponent<Barrier>().TakeDamage(damage);
     }
 }
 

@@ -9,9 +9,12 @@ public class EnemyPathfinder : MonoBehaviour
     public static EnemyPathfinder instance;
     
     public List<Transform> barrierPoints = new List<Transform>();
+    //[SerializeField] private BarrierController _barrierController;
+    
+    //밀림 방지 기능 구현중. 미완성
     public List<Collider> enemyInCounter = new List<Collider>();
     public List<Collider> ignoreColliders = new List<Collider>();
-    //[SerializeField] private BarrierController _barrierController;
+    
 
     void Awake()
     {
