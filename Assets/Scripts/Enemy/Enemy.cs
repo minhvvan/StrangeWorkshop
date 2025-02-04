@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour, IDamageable
     
     public BlackboardEnemy blackboard;
     
-    void Awake()
+    private void Awake()
     {
         _fsm = GetComponent<EnemyFsm>();
         _blackboardEnemy = GetComponent<IBlackboardEnemy>();
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard = _blackboardEnemy as BlackboardEnemy;
     }
 
-    void Start()
+    private void Start()
     {
         _fsm.InitStates();
         EnemyPathfinder.instance.enemyInCounter.Add(blackboard.capsuleCol);
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.ResearchTarget();
     }
 
-    void Update()
+    private void Update()
     {
         _fsm.Update();
 
@@ -58,6 +58,8 @@ public class Enemy : MonoBehaviour, IDamageable
         if (blackboard.enemyStatus.hp <= 0)
         {
             blackboard.cts?.Cancel();
+            blackboard.rScts?.Cancel();
+            blackboard.StopTracking();
             blackboard.AnimDead();
             Destroy(gameObject, 3f);
         }
@@ -73,10 +75,7 @@ public class Enemy : MonoBehaviour, IDamageable
             case true : Gizmos.color = Color.blue;
                 break;
         }
-        Gizmos.DrawWireSphere(blackboard.transform.position, blackboard.enemyStatus.attackRange);
-        // Gizmos.DrawRay(
-        //     blackboard.transform.position,
-        //     blackboard.transform.forward * blackboard.enemyStatus.attackRange);
+        Gizmos.DrawWireSphere(blackboard.transform.position + new Vector3(0,1f,0), blackboard.enemyStatus.attackRange);
     }
 
     public void OnDestroy()
