@@ -19,6 +19,8 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     // ▼ 공통 변수
     [NonSerialized] public Rigidbody rb;
     [NonSerialized] public Animator anim;
+    [SerializeField] private RuntimeAnimatorController defaultAnimatorController;
+    [SerializeField] private RuntimeAnimatorController holdingOverrideController;
     
     [NonSerialized] public CharacterInputHandler inputHandler;
 
@@ -64,6 +66,10 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
         // Rigidbody / Animator는 자식 개체에 있거나, 동일 오브젝트에 있을 수 있음
         rb   = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        if (defaultAnimatorController == null)
+        {
+            defaultAnimatorController = anim.runtimeAnimatorController;
+        }
     }
 
     void InitStates()
@@ -117,6 +123,14 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     {
         _stateMachine.Update();
         HandleInteract();
+        if (HasHoldableObject())
+        {
+            anim.runtimeAnimatorController = holdingOverrideController;
+        }
+        else
+        {
+            anim.runtimeAnimatorController = defaultAnimatorController;
+        }
     }
 
     private void HandleInteract()

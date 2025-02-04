@@ -56,7 +56,9 @@ public class CharacterMovement : BaseAction
 
         // 2) 이동 방향(수평) 계산 - 항상 walkSpeed 사용
         Vector3 inputDir = new Vector3(inputHandler.Horizontal, 0f, inputHandler.Vertical);
-        Vector3 moveDir = inputDir.normalized * _controller.walkSpeed;
+        if (inputDir.sqrMagnitude < 0.01f) // 데드존 임계치 설정
+            inputDir = Vector3.zero;
+        Vector3 moveDir = inputDir.normalized * _controller.walkSpeed * inputDir.magnitude;
 
         // (선택) 애니메이션 블렌딩을 위한 속도
         float speed = inputDir.sqrMagnitude; // 0 ~ 1 범위
@@ -78,7 +80,7 @@ public class CharacterMovement : BaseAction
             capsuleRadius,
             moveDir.normalized,
             out hit,
-            2.0f
+            1.0f
         );
         
         // 4) 최종 velocity 결정
@@ -94,16 +96,8 @@ public class CharacterMovement : BaseAction
             {
                 // 벽에 부딪힌 경우: 표면 노멀을 기준으로 moveDir을 평면투영하여 슬라이딩
                 Vector3 slideDir = Vector3.ProjectOnPlane(moveDir, hit.normal);
-                // slideDir이 너무 미세하지 않을 때만 적용
-                if (slideDir.sqrMagnitude > 0.001f)
-                {
-                    horizontalVel = slideDir;
-                }
-                else
-                {
-                    // 평면투영 결과가 거의 0이라면, 그냥 움직임 없음
-                    horizontalVel = Vector3.zero;
-                }
+                
+                horizontalVel = slideDir;
             }
             else
             {

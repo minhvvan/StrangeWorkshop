@@ -38,10 +38,8 @@ public class CharacterInputHandler : BaseInputHandler
         MovementInput = new Vector2(horizontal, vertical).normalized;
         Horizontal    = horizontal;
         Vertical      = vertical;
-
-        // 2) 걷는 중인지, 달리는 중인지
+        
         IsWalking = MovementInput.magnitude > 0.1f;
-        IsRunning = IsWalking && Input.GetKey(KeyCode.LeftShift);
 
         // 3) 상호작용
         if (Input.GetKeyDown(KeyCode.E))
