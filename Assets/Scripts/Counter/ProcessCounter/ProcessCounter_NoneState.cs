@@ -9,6 +9,7 @@ public class ProcessCounter_NoneState : BaseState<ProcessCounter>
     public override void Enter()
     {
         //UI 끄기
+        _controller.progressBar.SetColor(Color.green);
         _controller.progressBar.gameObject.SetActive(false);
     }
 
