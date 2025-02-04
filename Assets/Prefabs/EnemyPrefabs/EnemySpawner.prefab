@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcdcfe30e16f36741b56ddafd6a0bfc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusLoadPath: Assets/a_workspace/LeeUiHyeon/Script/SO/EnemyData/
-  enemyName: 
+  enemyDataSOpath: Assets/Data/Enemy/EnemyMeleeNormal.asset
+  spawnDataSOpath: Assets/Data/Enemy/SpawnDataA.asset
