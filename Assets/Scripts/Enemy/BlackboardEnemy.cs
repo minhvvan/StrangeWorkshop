@@ -139,15 +139,17 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     {
         while (loop > 0)
         {
-            //킬 스위치 활성화 시 종료.
-            if (bEnable)
+            //킬 스위치 활성화 시, 공격 범위내에 있을 시 종료.
+            if (bEnable || bDetectBarrier)
             {
                 loop = 0;
             }
             
             await UniTask.Delay((int)(1000 * researchTime),
                 cancellationToken: rScts.Token);
-            ResearchTarget();
+            
+            SetTarget(EnemyPathfinder.instance.RandomTarget());
+            agent.SetDestination(target.position);
         }
     }
 

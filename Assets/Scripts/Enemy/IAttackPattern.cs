@@ -28,7 +28,7 @@ public class OtherAttack : IAttackPattern
 {
     public override void RunPattern(Collider other, float damage)
     {
-        //TODO:새로 추가될 공격 양식
+        other.GetComponent<Barrier>().TakeDamage(damage);
     }
 }
 

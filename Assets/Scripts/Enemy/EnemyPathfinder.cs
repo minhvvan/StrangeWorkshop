@@ -10,19 +10,19 @@ public class EnemyPathfinder : MonoBehaviour
     public static EnemyPathfinder instance;
     
     public List<Transform> barrierPoints = new List<Transform>();
-    [SerializeField] private BarrierController _barrierController;
+    private BarrierController _barrierController;
     
     //밀림 방지 기능 구현중. 미완성
     public List<Collider> enemyInCounter = new List<Collider>();
     public List<Collider> ignoreColliders = new List<Collider>();
     
 
-    void Awake()
+    private void Awake()
     {
         instance = this;
     }
 
-    async void Start()
+    private async void Start()
     {
         _barrierController = GameObject.Find("Barrier").GetComponent<BarrierController>();
         List<Barrier> barriers = new List<Barrier>();
@@ -36,18 +36,10 @@ public class EnemyPathfinder : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            
-        }
-    }
-    
     //타겟 갱신
     public Transform MatchTarget(Transform enemy)
     {
-        List<float> targets = new List<float>();
+        List<float> targets = new();
         float nearTarget = 0f;
         
         foreach (Transform barrier in barrierPoints)
@@ -75,6 +67,11 @@ public class EnemyPathfinder : MonoBehaviour
         }
 
         return barrierPoints[bind];
+    }
+
+    public Transform RandomTarget()
+    {
+        return barrierPoints[Random.Range(0, barrierPoints.Count)];
     }
 
     //충돌 상태 전체갱신

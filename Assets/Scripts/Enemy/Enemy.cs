@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour, IDamageable
     
     public BlackboardEnemy blackboard;
     
-    void Awake()
+    private void Awake()
     {
         _fsm = GetComponent<EnemyFsm>();
         _blackboardEnemy = GetComponent<IBlackboardEnemy>();
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard = _blackboardEnemy as BlackboardEnemy;
     }
 
-    void Start()
+    private void Start()
     {
         _fsm.InitStates();
         EnemyPathfinder.instance.enemyInCounter.Add(blackboard.capsuleCol);
@@ -39,10 +39,10 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.SetPattern();
         blackboard.SetPathfinder();
         blackboard.ResearchTarget();
-        blackboard.RemindSearch(1);
+        _= blackboard.RemindSearch(1);
     }
 
-    void Update()
+    private void Update()
     {
         _fsm.Update();
 
