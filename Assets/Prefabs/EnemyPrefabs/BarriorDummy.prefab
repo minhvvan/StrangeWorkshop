@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7434610219941603130}
   - component: {fileID: 7883175580409019940}
   - component: {fileID: -6777283786870107650}
-  m_Layer: 4
+  m_Layer: 3
   m_Name: BarriorDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

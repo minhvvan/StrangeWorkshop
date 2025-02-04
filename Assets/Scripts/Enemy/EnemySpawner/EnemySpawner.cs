@@ -73,21 +73,21 @@ public class EnemySpawner : MonoBehaviour
     [NonSerialized] public string spawnDataSOpath = "Assets/Data/Enemy/SpawnDataA.asset";
     
     //적 생성 사전작업
-    async UniTask SetUp() 
+    private async UniTask SetUp() 
     {
         await GetEnemyData(enemyDataSOpath);
         await GetSpawnData(spawnDataSOpath);
         ResetActivateSpawnPoints(true);  
     }
 
-    void Awake()
+    private void Awake()
     {
         //TargetObject가 Transform을 보내기위한 인스턴스 캐싱
         Instance = this;
     }
     
     //TEST
-    async void Start()
+    private void Start()
     {
 #if TestMode
         //적 생성 사전시퀀스.

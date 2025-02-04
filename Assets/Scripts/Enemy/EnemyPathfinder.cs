@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyPathfinder : MonoBehaviour
@@ -7,18 +10,36 @@ public class EnemyPathfinder : MonoBehaviour
     public static EnemyPathfinder instance;
     
     public List<Transform> barrierPoints = new List<Transform>();
+    private BarrierController _barrierController;
+    
+    //밀림 방지 기능 구현중. 미완성
     public List<Collider> enemyInCounter = new List<Collider>();
     public List<Collider> ignoreColliders = new List<Collider>();
+    
 
-    void Awake()
+    private void Awake()
     {
         instance = this;
     }
-    
+
+    private async void Start()
+    {
+        _barrierController = GameObject.Find("Barrier").GetComponent<BarrierController>();
+        List<Barrier> barriers = new List<Barrier>();
+        
+        await UniTask.WaitUntil(() =>_barrierController.Barriers != null && _barrierController.Barriers.Count > 0);
+        
+        foreach (var barrier in _barrierController.Barriers)
+        {
+            //pivot이 공중에 떠있어서 AI가 위쪽이라 인식함. 대응 필요.
+            barrierPoints.Add(barrier.transform);
+        }
+    }
+
     //타겟 갱신
     public Transform MatchTarget(Transform enemy)
     {
-        List<float> targets = new List<float>();
+        List<float> targets = new();
         float nearTarget = 0f;
         
         foreach (Transform barrier in barrierPoints)
@@ -46,6 +67,11 @@ public class EnemyPathfinder : MonoBehaviour
         }
 
         return barrierPoints[bind];
+    }
+
+    public Transform RandomTarget()
+    {
+        return barrierPoints[Random.Range(0, barrierPoints.Count)];
     }
 
     //충돌 상태 전체갱신
