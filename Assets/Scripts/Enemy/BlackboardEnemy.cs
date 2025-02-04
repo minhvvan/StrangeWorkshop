@@ -21,11 +21,12 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public NavMeshAgent agent;
     public EnemyStatus enemyStatus;
     public Transform target;
-    public RaycastHit hit;
-    public Collider[] hitColliders;
-    
+    //public RaycastHit hit;
+    public Collider targetCollider;
+
     //비동기를 도중에 간섭할 수 있는 클래스.
     public CancellationTokenSource cts;
+    public CancellationTokenSource rScts;
 
     //킬 스위치 개념.
     public bool bEnable = true;
@@ -33,9 +34,10 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     //방벽감지 및 공격
     private IAttackPattern _atkPattern;
     
-    public string layerName = "Water";
+    [NonSerialized] public string layerName = "Barrier";
     public bool bDetectBarrier = false;
     public bool bCanAttack = false;
+    public float researchTime = 10f;
     
     private static readonly int Speed = Animator.StringToHash("Speed");
     private static readonly int Attack = Animator.StringToHash("Attack");
@@ -47,6 +49,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     {
         //비동기 함수 Delay 즉시종료용
         cts = new CancellationTokenSource();
+        rScts = new CancellationTokenSource();
         
         anim = GetComponent<Animator>();
         //부딫혔다고 빙빙 돌지않게.
@@ -67,7 +70,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
             matObject = child;
             break;
         }
-        
     }
     
     //
@@ -126,27 +128,62 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
     }
 
-    // public async UniTask NavControl(bool mode)
-    // {
-    //     //false가 정지 상태.
-    //     if (mode == false)
-    //     {
-    //         agent.enabled = false;
-    //         await UniTask.Delay(100);
-    //         //obstacle.enabled = true;
-    //     }
-    //     else if (mode == true)
-    //     {
-    //         //obstacle.enabled = false;
-    //         agent.enabled = true;
-    //         SetPathfinder();
-    //     }
-    // }
-
     //적 공격종류 선택
     public void SetPattern()
     {
         _atkPattern = PatternHandler.CreatePattern(enemyStatus.enemytype);
+    }
+
+    //주기적으로 근처 타겟을 재검색
+    public async UniTask RemindSearch(int loop)
+    {
+        while (loop > 0)
+        {
+            //킬 스위치 활성화 시 종료.
+            if (bEnable)
+            {
+                loop = 0;
+            }
+            
+            await UniTask.Delay((int)(1000 * researchTime),
+                cancellationToken: rScts.Token);
+            ResearchTarget();
+        }
+    }
+
+    //공격 범위 내 적 찾기
+    public void SearchNearTarget()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(
+            transform.position + new Vector3(0,1f,0), 
+            enemyStatus.attackRange, 
+            1 << LayerMask.NameToLayer(layerName));
+        
+        //대상을 범위내에서 찾지 못했을 때
+        if (hitColliders.Length == 0)
+        {
+            targetCollider = null;
+            return;
+        }
+        
+        //공격 범위 내 가장 가까운 오브젝트 찾기.
+        float distance = 0f;
+        foreach (Collider c in hitColliders)
+        {
+            //최초 초기화
+            if (distance == 0)
+            {
+                distance = Vector3.Distance(transform.position, c.transform.position);
+                targetCollider = c;
+            }
+
+            //가까우면 대입
+            if (distance > Vector3.Distance(transform.position, c.transform.position))
+            {
+                distance = Vector3.Distance(transform.position, c.transform.position);
+                targetCollider = c;
+            }
+        }
     }
 
     public async UniTask OnAttack()
@@ -165,8 +202,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         if (!bCanAttack) return;
         
         //공격 판정 동작.
-        _atkPattern?.RunPattern(hit.collider, enemyStatus.attackDamage);
-        //_atkPattern?.RunPattern(hitColliders, enemyStatus.attackDamage);
+        _atkPattern?.RunPattern(targetCollider, enemyStatus.attackDamage);
         
         //공격 대기시간
         await UniTask.Delay( 

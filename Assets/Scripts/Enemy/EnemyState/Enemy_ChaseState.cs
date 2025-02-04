@@ -23,36 +23,26 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
         //target이 있으면 실행.
         if (Fsm.blackboard.target != null)
         {
-            
             Vector3 targetPos = FsmBb.target.position;
             Vector3 currentPos = FsmBb.transform.position;
             Vector3 direction = targetPos - currentPos;
             Vector3 trForward = FsmBb.transform.forward = FsmBb.agent.transform.forward;
             
             float moveSpd = FsmBb.enemyStatus.moveSpeed;
-            //float distance = Vector3.Distance(targetPos, currentPos);
-            
-            //바라보는 방향 사거리 내 방벽과 닿았는지 확인.
-            Physics.Raycast(FsmBb.transform.position,trForward, out FsmBb.hit, 
-                FsmBb.enemyStatus.attackRange,1 << LayerMask.NameToLayer(FsmBb.layerName));
-            // FsmBb.hitColliders = Physics.OverlapSphere(FsmBb.transform.position, FsmBb.enemyStatus.attackRange, 
-            //     1 << LayerMask.NameToLayer(FsmBb.layerName));
+  
+            FsmBb.SearchNearTarget();
 
             //target이 사거리보다 멀면 이동한다.
-            if(FsmBb.hit.collider == null)
-            //if(FsmBb.hitColliders == null)
+            if(FsmBb.targetCollider == null)
             {
                 //타겟을 향해 이동한다.
                 FsmBb.transform.rotation = Quaternion.LookRotation(trForward);
-                //Vector3 movePos = Vector3.MoveTowards(currentPos, targetPos, moveSpd * Time.deltaTime);
-                //FsmBb.transform.position = movePos;
                 FsmBb.ResumeTracking();
             }
-            else //if(FsmBb.hit.transform == FsmBb.target)
+            else
             {
                 FsmBb.bDetectBarrier = true;
                 FsmBb.StopTracking();
-                //FsmBb.transform.forward = FsmBb.hit.point.normalized;
                 
                 //사거리 내에 들어 Attack으로 넘어간다
                 Fsm.ChangeEnemyState(Fsm.attackState);
