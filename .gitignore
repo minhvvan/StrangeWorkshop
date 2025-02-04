@@ -79,3 +79,7 @@ crashlytics-build.properties
 *.ipr
 *.iws
 .idea_modules/
+
+
+#Paid Asset
+Assets/vFolders*

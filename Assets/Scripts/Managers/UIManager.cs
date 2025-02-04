@@ -28,7 +28,7 @@ public class UIManager : Singleton<UIManager>
     private async void Start()
     {
         await Initialize();
-        _mainCanvas = FindObjectOfType<Canvas>();
+        _mainCanvas = GameObject.FindWithTag("MainCanvas").GetComponent<Canvas>();
         _mainCamera = Camera.main;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
