@@ -51,7 +51,6 @@ public class Blackboard_Turret : MonoBehaviour
     
     public Transform muzzleMain;
     public Transform muzzleSub;
-    public GameObject muzzleEff;
     
     public ProgressBar progressBarFix;
 
