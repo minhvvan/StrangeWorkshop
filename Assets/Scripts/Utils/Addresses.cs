@@ -80,6 +80,11 @@ public static class Addresses
         {
             public const string COMMON = "data/ui/common";
         }
+
+        public static class VFX
+        {
+            public const string TESTSCENE = "data/vfx/testscene";
+        }
     }
     
     public static class Prefabs
