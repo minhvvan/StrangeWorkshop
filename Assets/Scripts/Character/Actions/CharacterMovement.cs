@@ -58,7 +58,12 @@ public class CharacterMovement : BaseAction
         Vector3 inputDir = new Vector3(inputHandler.Horizontal, 0f, inputHandler.Vertical);
         if (inputDir.sqrMagnitude < 0.01f) // 데드존 임계치 설정
             inputDir = Vector3.zero;
-        Vector3 moveDir = inputDir.normalized * _controller.walkSpeed * inputDir.magnitude;
+
+        // 입력 크기를 0~1 범위로 제한(clamp)
+        float inputMagnitude = Mathf.Clamp(inputDir.magnitude, 0f, 1f);
+
+        // 정규화한 방향 벡터에 제한된 입력 크기를 곱해서 최종 이동 벡터 계산
+        Vector3 moveDir = inputDir.normalized * _controller.walkSpeed * inputMagnitude;
 
         // (선택) 애니메이션 블렌딩을 위한 속도
         float speed = inputDir.sqrMagnitude; // 0 ~ 1 범위
