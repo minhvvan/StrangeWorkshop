@@ -11,13 +11,13 @@ public class DoubleShootingStrategy : ShootingStrategy
     protected override void CreateBullet(GameObject target)
     {
         Transform muzzleMain = _turret.turretData.muzzleMain;
-        VFXEventManager.TriggerVFX("Muzzle", _turret.turretData.muzzleMain);
+        VFXManager.Instance.TriggerVFX("Muzzle", _turret.turretData.muzzleMain);
         GameObject missleGo1 = GameObject.Instantiate(_turret.turretData.bullet, muzzleMain.transform.position, muzzleMain.rotation);
         Bullet bullet1 = missleGo1.GetComponent<Bullet>();
         bullet1.InitBullet(target.transform, _turret.turretData.damage);
 
         Transform muzzleSub = _turret.turretData.muzzleSub;
-        VFXEventManager.TriggerVFX("Muzzle", _turret.turretData.muzzleSub);
+        VFXManager.Instance.TriggerVFX("Muzzle", _turret.turretData.muzzleSub);
         // GameObject.Instantiate(_turret.turretData.muzzleEff, muzzleSub.transform.position, muzzleSub.rotation);
         GameObject missleGo2 = GameObject.Instantiate(_turret.turretData.bullet, muzzleSub.transform.position, muzzleSub.rotation);
         Bullet bullet2 = missleGo2.GetComponent<Bullet>();

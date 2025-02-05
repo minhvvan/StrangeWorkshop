@@ -52,7 +52,7 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
         }
     }
 
-    public GameObject GetVFX(string vfxName, Vector3 position, Quaternion rotation)
+    public GameObject TriggerVFX(string vfxName, Vector3 position, Quaternion rotation)
     {
         GameObject vfxObject = DequeueVFX(vfxName);
         
@@ -63,7 +63,7 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
         return vfxObject;
     }
     
-    public GameObject GetVFX(string vfxName, Transform parent)
+    public GameObject TriggerVFX(string vfxName, Transform parent)
     {
         GameObject vfxObject = DequeueVFX(vfxName);
         
