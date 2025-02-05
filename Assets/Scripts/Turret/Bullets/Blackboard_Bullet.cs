@@ -29,7 +29,6 @@ public class Blackboard_Bullet : MonoBehaviour
     [NonSerialized] public Trajectory trajectory;
     [NonSerialized] public IDamageHandler damageHandler;
     
-    public ParticleSystem explosion;
     // Todo: caching하는 방식 말고 자동으로 찾는게 좋지 않을까?
     // Todo: bullet을 objectpooling으로 관리하는 script를 후에 만들어야할듯
     public BulletDataSO bulletDataSO;

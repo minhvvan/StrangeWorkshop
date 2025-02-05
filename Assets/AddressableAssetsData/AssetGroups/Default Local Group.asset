@@ -72,13 +72,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fa893e49ab3d5b542b72e988fa937f02
-    m_Address: data/enemies/basic
+  - m_GUID: f700a46a6e8ce474187d6947ebe33bdd
+    m_Address: data/vfx/loader
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fa893e49ab3d5b542b72e988fa937f02
-    m_Address: Assets/Data/Enemy/EnemyMeleeNormal.asset
+    m_Address: data/enemies/basic
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -60,7 +60,8 @@ public class Bullet : MonoBehaviour
 
     public void Explosion()
     {
-        Instantiate(bulletData.explosion, transform.position, transform.rotation);
+        VFXManager.Instance.TriggerVFX("Explosion", transform.position, transform.rotation);
+        // Instantiate(bulletData.explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
     
