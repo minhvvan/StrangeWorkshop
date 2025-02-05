@@ -11,20 +11,25 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
     Dictionary<string, Queue<GameObject>> vfxPools = new Dictionary<string, Queue<GameObject>>();
     Dictionary<string, VFXDataSO> vfxDataSOs = new Dictionary<string, VFXDataSO>();
 
-    void Awake()
+    private async void Start()
     {
-        LoadVFXObjects("TestScene");
+        await Initialize();
+    }
+    
+    public async UniTask Initialize()
+    {
+        await LoadVFXObjects("Loader");
     }
 
-    async void LoadVFXObjects(string sceneName)
+    async UniTask LoadVFXObjects(string sceneName)
     {
         // SceneName에서 필요한 vfx들을 pooling 해놓는다
         // 해당 Scene에서 필요한 vfx의 종류는 VFXLoadSO scriptableObject에서 관리한다.
         VFXLoadSO vfxLoadSO = null;
         switch (sceneName)
         {
-            case "TestScene":
-                vfxLoadSO = await DataManager.Instance.LoadDataAsync<VFXLoadSO>(Addresses.Data.VFX.TESTSCENE);
+            case "Loader":
+                vfxLoadSO = await DataManager.Instance.LoadDataAsync<VFXLoadSO>(Addresses.Data.VFX.LOADER);
                 break;
             default:
                 Debug.LogError($"{sceneName} not found!");

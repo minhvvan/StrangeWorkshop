@@ -73,7 +73,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f700a46a6e8ce474187d6947ebe33bdd
-    m_Address: data/vfx/testscene
+    m_Address: data/vfx/loader
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

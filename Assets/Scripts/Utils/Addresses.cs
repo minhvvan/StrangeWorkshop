@@ -83,7 +83,7 @@ public static class Addresses
 
         public static class VFX
         {
-            public const string TESTSCENE = "data/vfx/testscene";
+            public const string LOADER = "data/vfx/loader";
         }
     }
     

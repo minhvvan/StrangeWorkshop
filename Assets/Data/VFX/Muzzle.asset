@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vfxName: Muzzle
   vfxPrefab: {fileID: 1497772684437746, guid: 7a3aa3ccf9a17a14cb338122add5f6ef, type: 3}
-  poolSize: 10
+  poolSize: 0
   duration: 3

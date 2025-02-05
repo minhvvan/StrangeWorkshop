@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vfxName: Explosion
   vfxPrefab: {fileID: 1868602337266200, guid: b87b102f29fc2014d96e6178621fdad4, type: 3}
-  poolSize: 10
+  poolSize: 0
   duration: 3
