@@ -12,6 +12,7 @@ public enum UIType
 {
     None,
     MinimapUI,
+    WaveUI,
     Max,
 }
 

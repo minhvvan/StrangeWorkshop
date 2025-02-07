@@ -57,6 +57,8 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.ChangeMatColor(blackboard.matObject, blackboard.enemyStatus.hp -= damage);
         if (blackboard.enemyStatus.hp <= 0)
         {
+            blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
+            blackboard.rb.isKinematic = true;
             blackboard.cts?.Cancel();
             blackboard.rScts?.Cancel();
             blackboard.StopTracking();
@@ -85,5 +87,8 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             EnemyPathfinder.instance.ignoreColliders.Remove(blackboard.capsuleCol);
         }
+
+        //언 카운트
+        EnemySpawner.Instance.enemyCountList.Remove(gameObject);
     }
 }
