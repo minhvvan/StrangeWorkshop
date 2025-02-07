@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chapter_1
   m_EditorClassIdentifier: 
   chapterId: CHAPTER_1
-  sceneName: Scenes/Chapter/Chpater1
+  sceneName: Scenes/Chapter/Chapter1
   description: 
   openingStory: {fileID: 11400000, guid: 2ab85dfcae4c63d4d9303c93f231b14f, type: 2}
   endingStory: {fileID: 0}

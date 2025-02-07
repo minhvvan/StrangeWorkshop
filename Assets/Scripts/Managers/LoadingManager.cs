@@ -31,12 +31,9 @@ public class LoadingManager : Singleton<LoadingManager>
         _currentChapterData = chapterDataSo;
         
         //Loading씬으로 이동
-        SceneManager.LoadScene("Scenes/LoadingScene");
+        await SceneManager.LoadSceneAsync("Scenes/LoadingScene");
         GameManager.Instance.RequestChangeGameState(GameState.Loading);
 
-        // 한 프레임 대기하여 로딩 씬이 완전히 로드되도록 함
-        await UniTask.Yield();
-    
         // 그 다음 다음 씬 로딩을 시작
         _nextSceneLoad = SceneManager.LoadSceneAsync(_currentChapterData.sceneName);
         if (_nextSceneLoad != null) _nextSceneLoad.allowSceneActivation = false;

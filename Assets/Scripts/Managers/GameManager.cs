@@ -27,12 +27,6 @@ public class GameManager : Singleton<GameManager>
     {
         //로딩 화면을 보여주고 필요한 데이터 로드
         await Initialize();
-        
-        //Main화면으로 이동
-        if (SceneManager.GetActiveScene().name == START_SCENE_NAME)
-        {
-            LoadMainMenu();
-        }
     }
 
     public async UniTask Initialize()
@@ -48,7 +42,7 @@ public class GameManager : Singleton<GameManager>
         IsInitialized = true;
     }
 
-    private void LoadMainMenu()
+    public void LoadMainMenu()
     {
         ChangeGameState(GameState.MainMenu);
         SceneManager.LoadScene("Scenes/MainMenuScene");
