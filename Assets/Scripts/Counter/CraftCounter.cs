@@ -17,6 +17,7 @@ public class CraftCounter : BaseCounter
 
     void Awake()
     {
+        _progressBar.Initialize();
         _progressBar.SetColor(Color.green);
         _progressBar.gameObject.SetActive(false);
     }

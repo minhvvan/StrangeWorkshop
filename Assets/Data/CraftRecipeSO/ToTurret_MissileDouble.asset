@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputs:
   - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
-  - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
-  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
-  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
+  - {fileID: 11400000, guid: 1a5968ddb0d5d23479c9f1f02a331dd2, type: 2}
+  - {fileID: 11400000, guid: 056a7d9da0d1533429723b537c34e843, type: 2}
+  - {fileID: 11400000, guid: 11bce97d295b0c044a520b233ee40f64, type: 2}
+  - {fileID: 11400000, guid: 11bce97d295b0c044a520b233ee40f64, type: 2}
   output: {fileID: 11400000, guid: 0afb03481b4e5a64d96a81f6653b890c, type: 2}
   craftNumberOfTimes: 3

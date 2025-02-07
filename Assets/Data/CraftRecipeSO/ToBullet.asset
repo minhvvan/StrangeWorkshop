@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ToBullet
   m_EditorClassIdentifier: 
   inputs:
-  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
-  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
+  - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
+  - {fileID: 11400000, guid: 1a5968ddb0d5d23479c9f1f02a331dd2, type: 2}
   output: {fileID: 11400000, guid: 04392cfaaf5449f45a2abb2e013d378f, type: 2}
   craftNumberOfTimes: 5
