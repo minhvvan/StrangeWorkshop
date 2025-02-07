@@ -5,13 +5,15 @@ using UnityEngine;
 public class Trajectory_Straight : Trajectory
 {
     private float _speed;
-    public Trajectory_Straight(Bullet bullet, Vector3 startPos, Vector3 endPos) : base(bullet, startPos, endPos)
+    private Vector3 _endPos;
+    public Trajectory_Straight(Bullet bullet, Vector3 startPos, Transform target) : base(bullet, startPos, target)
     {
         InitBullet();
     }
     
     protected void InitBullet()
     {
+        _endPos = _target.position;
         Vector3 direction = _endPos - _startPos;
         float distance = (direction).magnitude;
         

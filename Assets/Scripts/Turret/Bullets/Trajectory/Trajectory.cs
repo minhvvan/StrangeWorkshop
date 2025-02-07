@@ -6,13 +6,13 @@ public abstract class Trajectory
 {
     protected Bullet _bullet;
     protected Vector3 _startPos;
-    protected Vector3 _endPos;
+    protected Transform _target;
 
-    public Trajectory(Bullet bullet, Vector3 startPos, Vector3 endPos)
+    public Trajectory(Bullet bullet, Vector3 startPos, Transform target)
     {
         _bullet = bullet;
         _startPos = startPos;
-        _endPos = endPos;
+        _target = target;
     }
     // target까지 프레임당 이동
     // projectile의 update에서 호출하는 방식
