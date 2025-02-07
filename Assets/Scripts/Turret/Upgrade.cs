@@ -52,6 +52,7 @@ public class Upgrade : MonoBehaviour
             _upgradeProgress = 0f;
             _progressBar.ResetBar();
             DeactivateUpgradeBar();
+            
             UpgradeLevelRandomly();
             return true;
         }
@@ -116,14 +117,13 @@ public class Upgrade : MonoBehaviour
         switch (increasedLevel)
         {
             case 1:
+                VFXManager.Instance.TriggerVFX(VFXType.UPGRADE1, _turret.transform);
                 break;
             case 2:
-                break;
-            case 3:
-                break;
-            case 4:
+                VFXManager.Instance.TriggerVFX(VFXType.UPGRADE2, _turret.transform);
                 break;
             default:
+                VFXManager.Instance.TriggerVFX(VFXType.UPGRADE3, _turret.transform);
                 break;
         }
     }

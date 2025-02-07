@@ -26,6 +26,7 @@ public class Turret : HoldableObject
         
         // turretmanager에 해당 turret 추가
         TurretManager.Instance.AddTurret(this);
+        StartCoroutine(Test());
     }
 
     private void InitComponents()
@@ -107,5 +108,15 @@ public class Turret : HoldableObject
         
         // bullet이나 upgrade모듈이 아니면 return false
         return false;
+    }
+
+    IEnumerator Test()
+    {
+        yield return new WaitForSeconds(0.1f);
+        turretActions.Crash();
+        yield return new WaitForSeconds(2f);
+        turretActions.Fix();
+        yield return new WaitForSeconds(5f);
+        turretActions.Upgrade();
     }
 }

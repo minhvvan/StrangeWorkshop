@@ -8,7 +8,7 @@ public class SingleShootingStrategy : ShootingStrategy
     
     protected override void CreateBullet(GameObject target)
     {
-        VFXManager.Instance.TriggerVFX("Muzzle", _turret.turretData.muzzleMain);
+        VFXManager.Instance.TriggerVFX(VFXType.MUZZLE, _turret.turretData.muzzleMain);
         GameObject missleGo = GameObject.Instantiate(_turret.turretData.bullet, _turret.turretData.muzzleMain);
         Bullet bullet = missleGo.GetComponent<Bullet>();
         bullet.InitBullet(target.transform, _turret.turretData.damage);
