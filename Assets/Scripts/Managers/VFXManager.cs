@@ -8,9 +8,9 @@ using UnityEngine;
 
 public class VFXManager : SingletonDontDestroy<VFXManager>
 {
-    Dictionary<string, Queue<GameObject>> vfxPools = new Dictionary<string, Queue<GameObject>>();
-    Dictionary<string, VFXDataSO> vfxDataSOs = new Dictionary<string, VFXDataSO>();
-
+    Dictionary<VFXType, Queue<GameObject>> vfxPools = new Dictionary<VFXType, Queue<GameObject>>();
+    Dictionary<VFXType, VFXDataSO> vfxDataSOs = new Dictionary<VFXType, VFXDataSO>();
+    
     private async void Start()
     {
         await Initialize();
@@ -29,7 +29,7 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
         switch (sceneName)
         {
             case "Loader":
-                vfxLoadSO = await DataManager.Instance.LoadDataAsync<VFXLoadSO>(Addresses.Data.VFX.LOADER);
+                vfxLoadSO = await DataManager.Instance.LoadDataAsync<VFXLoadSO>(Addresses.Data.FX.VFXLOADER);
                 break;
             default:
                 Debug.LogError($"{sceneName} not found!");
@@ -43,66 +43,102 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
     
     private void RegisterVFX(VFXDataSO vfxDataSO)
     {
-        if (!vfxPools.ContainsKey(vfxDataSO.vfxName))
+        if (!vfxPools.ContainsKey(vfxDataSO.vfxType))
         {
-            vfxPools[vfxDataSO.vfxName] = new Queue<GameObject>();
-            vfxDataSOs[vfxDataSO.vfxName] = vfxDataSO;
+            vfxPools[vfxDataSO.vfxType] = new Queue<GameObject>();
+            vfxDataSOs[vfxDataSO.vfxType] = vfxDataSO;
 
             for (int i = 0; i < vfxDataSO.poolSize; i++)
             {
                 GameObject vfxObject = Instantiate(vfxDataSO.vfxPrefab, transform);
                 vfxObject.SetActive(false);
-                vfxPools[vfxDataSO.vfxName].Enqueue(vfxObject);
+                vfxPools[vfxDataSO.vfxType].Enqueue(vfxObject);
             }
         }
     }
 
-    public GameObject TriggerVFX(string vfxName, Vector3 position, Quaternion rotation)
+    public GameObject TriggerVFX(VFXType vfxType, Vector3 position, Quaternion rotation = default, Vector3 size = default, bool returnAutomatically = true)
     {
-        GameObject vfxObject = DequeueVFX(vfxName);
+        rotation = rotation == default ? Quaternion.identity : rotation;
+        size = size == default ? vfxDataSOs[vfxType].size : size;
+        
+        GameObject vfxObject = DequeueVFX(vfxType);
         
         vfxObject.transform.SetPositionAndRotation(position, rotation);
+        vfxObject.transform.localScale = size;
         vfxObject.SetActive(true);
 
-        ReturnVFX(vfxName, vfxObject, vfxDataSOs[vfxName].duration);
+        if (returnAutomatically)
+        {
+            ReturnVFX(vfxType, vfxObject, vfxDataSOs[vfxType].duration);
+        }
         return vfxObject;
     }
     
-    public GameObject TriggerVFX(string vfxName, Transform parent)
+    public GameObject TriggerVFX(VFXType vfxType, Transform parent, Vector3 position = default, Quaternion rotation = default, Vector3 size = default, bool returnAutomatically = true)
     {
-        GameObject vfxObject = DequeueVFX(vfxName);
+        /// <summary>
+        /// parent object가 존재할시, VFX를 실행하는 함수
+        /// </summary>
+        /// <param name="vfxType">실행하려고 하는 VFX type</param>
+        /// <param name="parent">부모 object의 transform</param>
+        /// <param name="position">local position(default: parent.position)</param>
+        /// <param name="rotation">local rotation(default: parent.rotation) </param>
+        /// <param name="size">worldspace scale(default: SO data에 적힌 size)</param>
+        /// <param name="returnAutomatically">false일시 자동으로 disable되지 않는다. false로 설정했을 시, ReturnVFX 호출 필요</param>
+        /// <returns>실행하는 VFX object</returns>
         
-        vfxObject.transform.SetPositionAndRotation(parent.position, parent.rotation);
+        position = position == default ? Vector3.zero : position;
+        rotation = rotation == default ? Quaternion.identity : rotation;
+        size = size == default ? vfxDataSOs[vfxType].size : size;
+        
+        GameObject vfxObject = DequeueVFX(vfxType);
+        
+        vfxObject.transform.localScale = size;
         vfxObject.transform.SetParent(parent);
+        vfxObject.transform.localPosition = position;
+        vfxObject.transform.localRotation = rotation;
+        
         vfxObject.SetActive(true);
 
-        ReturnVFX(vfxName, vfxObject, vfxDataSOs[vfxName].duration);
+        if (returnAutomatically)
+        {
+            ReturnVFX(vfxType, vfxObject, vfxDataSOs[vfxType].duration);
+        }
         return vfxObject;
     }
+    
 
-    private GameObject DequeueVFX(string vfxName)
+    private GameObject DequeueVFX(VFXType vfxType)
     {
-        if (!vfxPools.ContainsKey(vfxName))
+        if (!vfxPools.ContainsKey(vfxType))
         {
-            Debug.LogError($"{vfxName} doesn't exist in VFXPools!");
+            Debug.LogError($"{vfxType} doesn't exist in VFXPools!");
             return null;
         }
         
-        if (vfxPools[vfxName].Count <= 0)
+        if (vfxPools[vfxType].Count <= 0)
         {
-            return Instantiate(vfxDataSOs[vfxName].vfxPrefab);
+            return Instantiate(vfxDataSOs[vfxType].vfxPrefab);
         }
         else
         {
-            return vfxPools[vfxName].Dequeue();
+            return vfxPools[vfxType].Dequeue();
         }
     }
 
-    private async UniTask ReturnVFX(string vfxName, GameObject vfxObject, float duration)
+    public void ReturnVFX(VFXType vfxType, GameObject vfxObject)
+    {
+        vfxObject.transform.SetParent(Instance.transform);
+        vfxObject.SetActive(false);
+        vfxPools[vfxType].Enqueue(vfxObject);
+    }
+
+    private async UniTask ReturnVFX(VFXType vfxType, GameObject vfxObject, float duration)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(duration));
         vfxObject.transform.SetParent(Instance.transform);
         vfxObject.SetActive(false);
-        vfxPools[vfxName].Enqueue(vfxObject);
+        vfxPools[vfxType].Enqueue(vfxObject);
     }
 }
