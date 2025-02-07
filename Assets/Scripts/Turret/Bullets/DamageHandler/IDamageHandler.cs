@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IDamageHandler
 {
     public Bullet bullet{get;set;}
-    public void GiveDamage(Enemy enemy);
+    public void GiveDamage(Enemy targetEnemy, Enemy collidEnemy);
 }
