@@ -79,6 +79,9 @@ public class CraftCounter : BaseCounter
                 _progressBar.ResetBar();
                 _progressBar.gameObject.SetActive(false);
             }
+            
+            VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position + 
+                                                                        new Vector3(0f, GetComponent<BoxCollider>().size.y/2, 0f));
         }
     }
 

@@ -15,6 +15,7 @@ public abstract class ShootingStrategy
 
     public void Shoot(GameObject target)
     {
+        SFXManager.Instance.PlaySFX(SFXType.BULLET, _turret.transform.position);
         CreateBullet(target);
         _turret.turretData.currentBulletNum--;
     }

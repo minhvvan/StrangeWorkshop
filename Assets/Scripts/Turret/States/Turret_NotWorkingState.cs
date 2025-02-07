@@ -12,6 +12,8 @@ public class Turret_NotWorkingState : BaseState<Turret>
      * 플레이어가 들고 있다, 총알이 없다, 업그레이드 중이다. 
      */
     private Blackboard_Turret _turretData;
+
+    private GameObject _upgradeEff;
     // Start is called before the first frame update
     public Turret_NotWorkingState(Turret controller) : base(controller)
     {
@@ -20,6 +22,9 @@ public class Turret_NotWorkingState : BaseState<Turret>
     
     public override void Enter()
     {
+        _upgradeEff = VFXManager.Instance.TriggerVFX(VFXType.TURRETUPGRADE, _controller.gameObject.transform,
+            returnAutomatically: false);
+        _upgradeEff.gameObject.SetActive(false);
     }
 
     public override void UpdateState()
@@ -32,10 +37,12 @@ public class Turret_NotWorkingState : BaseState<Turret>
         // 중간에 crash 되도 업그레이드 진척도는 저장된다
         if (_turretData.isUpgrading)
         {
+            _upgradeEff.SetActive(true);
             if (_controller.turretUpgrade.UpgradeProgressively())
             {
                 // upgrade가 완료될 시 진입
                 _turretData.isUpgrading = false;
+                _upgradeEff.gameObject.SetActive(false);
             }
         }
         ChangeState();
@@ -43,6 +50,7 @@ public class Turret_NotWorkingState : BaseState<Turret>
 
     public override void Exit()
     {
+        VFXManager.Instance.ReturnVFX(VFXType.TURRETUPGRADE, _upgradeEff);
     }
     
     private void ChangeState()

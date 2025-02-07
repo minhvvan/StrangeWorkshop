@@ -6,14 +6,16 @@ public class Trajectory_Parabola : Trajectory
 {
     private Vector3 _velocity;
     private bool _isShot = false;
+    private Vector3 _endPos;
     
-    public Trajectory_Parabola(Bullet bullet, Vector3 startPoint, Vector3 endPoint) : base(bullet, startPoint, endPoint)
+    public Trajectory_Parabola(Bullet bullet, Vector3 startPoint, Transform target) : base(bullet, startPoint, target)
     {
         CalculateVelocity();
     }
 
     private  void CalculateVelocity()
     {
+        _endPos = _target.position;
         float timeToTarget = _bullet.bulletData.timeToTarget;
         Vector3 distance = _endPos - _startPos;
         Vector3 distanceXZ = distance;

@@ -42,6 +42,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a483a96a27e15a444a3e36edd253a780
+    m_Address: data/fx/sfxloader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a660f00e2d8ed614eb991c416793c270
     m_Address: prefabs/ui/barrier_corner
     m_ReadOnly: 0
@@ -68,7 +73,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f700a46a6e8ce474187d6947ebe33bdd
-    m_Address: data/vfx/loader
+    m_Address: data/fx/vfxloader
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

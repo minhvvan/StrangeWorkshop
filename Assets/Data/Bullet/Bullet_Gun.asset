@@ -17,4 +17,5 @@ MonoBehaviour:
   timeToTarget: 0.2
   turnSpeed: 4
   knockBack: 0
-  boomTimer: 5
+  boomTimer: 0.2
+  damageArea: 0

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Turret_CrashState : BaseState<Turret>
 {
     private Blackboard_Turret _turretData;
     private Color[] _previousColors;
+    private GameObject _smokingEff;
     public Turret_CrashState(Turret controller) : base(controller)
     {
         _turretData = _controller.turretData;
@@ -23,6 +25,7 @@ public class Turret_CrashState : BaseState<Turret>
         }
         
         _controller.turretUpgrade.SetUpgradeBarColor(Color.red);
+        _smokingEff = VFXManager.Instance.TriggerVFX(VFXType.TURRETCRASHED, _controller.gameObject.transform, returnAutomatically:false);
     }
 
     public override void UpdateState()
@@ -42,6 +45,7 @@ public class Turret_CrashState : BaseState<Turret>
         _previousColors = null;
 
         _controller.turretUpgrade.SetUpgradeBarColor(Color.white);
+        VFXManager.Instance.ReturnVFX(VFXType.TURRETCRASHED, _smokingEff);
     }
     
     public void ChangeState()

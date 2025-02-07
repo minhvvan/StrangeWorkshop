@@ -81,9 +81,10 @@ public static class Addresses
             public const string COMMON = "data/ui/common";
         }
 
-        public static class VFX
+        public static class FX
         {
-            public const string LOADER = "data/vfx/loader";
+            public const string VFXLOADER = "data/fx/vfxloader";
+            public const string SFXLOADER = "data/fx/sfxloader";
         }
     }
     

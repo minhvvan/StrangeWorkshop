@@ -11,9 +11,9 @@ public class CircleAreaDamageHandler : IDamageHandler
         this.bullet = bullet;
     }
     
-    public void GiveDamage(Enemy enemy)
+    public void GiveDamage(Enemy targetEnemy, Enemy collideEnemy)
     {
-        Transform target = enemy == null ? bullet.transform : enemy.transform;
+        Transform target = bullet.transform;
         int layerMask = LayerMask.GetMask("Enemy");
         Collider[] enemies = Physics.OverlapSphere(target.position, bullet.bulletData.damageArea, layerMask);
         foreach (Collider c in enemies)

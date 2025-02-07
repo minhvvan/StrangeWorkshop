@@ -52,12 +52,15 @@ public class Blackboard_Bullet : MonoBehaviour
         switch (bulletType)
         {
             case BulletType.GUN:
+                trajectory = new Trajectory_Straight(bullet, transform.position, target);
+                damageHandler = new SurehitDamageHandler(bullet);
+                break;
             case BulletType.MISSILE:
-                trajectory = new Trajectory_Straight(bullet, transform.position, target.position);
-                damageHandler = new SingleDamageHandler(bullet);
+                trajectory = new Trajectory_Guided(bullet, transform.position, target);
+                damageHandler = new SurehitDamageHandler(bullet);
                 break;
             case BulletType.MORTAR: 
-                trajectory = new Trajectory_Parabola(bullet, transform.position, target.position); 
+                trajectory = new Trajectory_Parabola(bullet, transform.position, target); 
                 damageHandler = new CircleAreaDamageHandler(bullet);
                 break;
         }

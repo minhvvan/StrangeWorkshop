@@ -48,6 +48,7 @@ public static class GameBootstrapper
         UniTask.FromResult(RecipeManager.Instance.Initialize()).GetAwaiter().GetResult();
         UniTask.FromResult(GameManager.Instance.Initialize()).GetAwaiter().GetResult();
         UniTask.FromResult(VFXManager.Instance.Initialize()).GetAwaiter().GetResult();
+        UniTask.FromResult(SFXManager.Instance.Initialize()).GetAwaiter().GetResult();
 
         EventManager.Instance.AddComponent<DontDestroyOnLoad>();
         RecipeManager.Instance.AddComponent<DontDestroyOnLoad>();
@@ -55,6 +56,7 @@ public static class GameBootstrapper
         LoadingManager.Instance.AddComponent<DontDestroyOnLoad>();
         UIManager.Instance.AddComponent<DontDestroyOnLoad>();
         VFXManager.Instance.AddComponent<DontDestroyOnLoad>();
+        SFXManager.Instance.AddComponent<DontDestroyOnLoad>();
 
         isInitialized = true;
     }
@@ -67,6 +69,7 @@ public static class GameBootstrapper
         if (LoadingManager.Instance) Object.Destroy(LoadingManager.Instance.gameObject);
         if (UIManager.Instance) Object.Destroy(UIManager.Instance.gameObject);
         if (VFXManager.Instance) Object.Destroy(VFXManager.Instance.gameObject);
+        if (SFXManager.Instance) Object.Destroy(SFXManager.Instance.gameObject);
     }
 #endif
 }

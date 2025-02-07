@@ -54,6 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable
     //사용 시, 이 객체에게 데미지를 가합니다.
     public void TakeDamage(float damage)
     {
+        VFXManager.Instance.TriggerVFX(VFXType.ENEMYHIT, transform.position);
         blackboard.ChangeMatColor(blackboard.matObject, blackboard.enemyStatus.hp -= damage);
         if (blackboard.enemyStatus.hp <= 0)
         {
@@ -63,6 +64,9 @@ public class Enemy : MonoBehaviour, IDamageable
             blackboard.rScts?.Cancel();
             blackboard.StopTracking();
             blackboard.AnimDead();
+            VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
+            // turret이 타겟팅하지 않도록 설정
+            gameObject.layer = LayerMask.NameToLayer("Default");
             Destroy(gameObject, 3f);
         }
     }

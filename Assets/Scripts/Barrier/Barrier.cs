@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Managers;
 using UnityEngine;
 
@@ -12,6 +14,7 @@ public class Barrier : MonoBehaviour, IDamageable
     
     public BarrierType BarrierType;
     private DamagedColor _damagedColor;
+    private GameObject _barrierEff;
     [SerializeField] private GridPosition gridPosition;
     public GridPosition GridPos => gridPosition;
     
@@ -34,6 +37,10 @@ public class Barrier : MonoBehaviour, IDamageable
         _isDestroyed = false;
         _destroyEventSO = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROY);
         _damagedEventSo = await DataManager.Instance.LoadDataAsync<BarrierDamagedEventSO>(Addresses.Events.Barrier.BARRIER_DAMAGED);
+        
+        float x = GetComponent<BoxCollider>().size.x / 2f;
+        _barrierEff = VFXManager.Instance.TriggerVFX(VFXType.BARRIERSHIELD, transform, rotation: Quaternion.Euler(-90f, 0f, 0f),
+            size: new Vector3(x, 1f, 10f), returnAutomatically:false);
     }
 
     public void InitHealth(float maxHP)
@@ -48,7 +55,7 @@ public class Barrier : MonoBehaviour, IDamageable
         
         _barrierStat.health -= damage;
         _damagedEventSo.Raise(this, damage);
-
+        
         ChangeDamageFilter();
         
         if (_barrierStat.health <= 0)
