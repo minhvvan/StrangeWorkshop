@@ -144,25 +144,27 @@ public class BarrierUIController : MonoBehaviour, IGameUI
             (padding + gridPos.y * cellHeight) / _minimapRect.rect.height
         );
     }
-    
+
     private void UpdateBarrierSize(Barrier barrier, RectTransform uiInstance)
     {
-        float paddingRatio = _borderSpacing;
-        float padding = Mathf.Min(_minimapRect.rect.width, _minimapRect.rect.height) * paddingRatio;
-   
-        float usableWidth = _minimapRect.rect.width - (2 * padding);
-        float usableHeight = _minimapRect.rect.height - (2 * padding);
-   
-        float cellSize = Mathf.Min(usableWidth, usableHeight) / (_gridWidth - 1);
+        float padding = Mathf.Min(_minimapRect.rect.width, _minimapRect.rect.height) * _borderSpacing;
 
-        uiInstance.sizeDelta = barrier.BarrierType switch
+        switch (barrier.BarrierType)
         {
-            BarrierType.Horizontal => new Vector2(cellSize, _barrierThickness),
-            BarrierType.Vertical => new Vector2(_barrierThickness, cellSize),
-            _ => uiInstance.sizeDelta
-        };
-    }
+            case BarrierType.Horizontal:
+                float usableWidth = _minimapRect.rect.width - (2 * padding);
+                float horizontalCellSize = usableWidth / (_gridWidth - 1);
+                uiInstance.sizeDelta = new Vector2(horizontalCellSize, _barrierThickness);
+                break;
 
+            case BarrierType.Vertical:
+                float usableHeight = _minimapRect.rect.height - (2 * padding);
+                float verticalCellSize = usableHeight / (_gridHeight - 1);
+                uiInstance.sizeDelta = new Vector2(_barrierThickness, verticalCellSize);
+                break;
+        }
+    }
+    
     private void CalculateMapBounds() 
     {
         _mapBounds = new MapBounds();

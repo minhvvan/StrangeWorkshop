@@ -25,6 +25,7 @@ public class ProcessCounter : BaseCounter
     void Awake()
     {
         InitState();
+        progressBar.Initialize();
     }
     
     private void Update()

@@ -14,12 +14,6 @@ public class ProgressBar : MonoBehaviour
     private Camera _uiCamera;
     private Canvas _canvas;
     private Transform _owner;
-    
-    void Awake()
-    {
-        _slider = GetComponent<Slider>();
-        ResetBar();
-    }
 
     public void Initialize()
     {

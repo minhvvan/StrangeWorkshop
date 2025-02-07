@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputs:
   - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
-  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
+  - {fileID: 11400000, guid: 11bce97d295b0c044a520b233ee40f64, type: 2}
   output: {fileID: 11400000, guid: c880f6f96cd74694db00ea5ec8973d48, type: 2}
   craftNumberOfTimes: 5

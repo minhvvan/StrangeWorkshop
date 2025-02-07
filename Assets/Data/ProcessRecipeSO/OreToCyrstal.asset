@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66bcc4ae2d8b5b24db92a753e1483465, type: 3}
+  m_Name: OreToCyrstal
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 9854ae9aad177cc43b4c18239a42c9a3, type: 2}
+  output: {fileID: 11400000, guid: 056a7d9da0d1533429723b537c34e843, type: 2}
+  processTime: 5

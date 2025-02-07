@@ -21,7 +21,7 @@ public class ProcessCounter_OverState : BaseState<ProcessCounter>
         if (_currentTime >= _controller.burnTime/2 && !isOver)
         {
             _controller.progressBar.SetColorLerp(Color.red);
-            _controller.progressBar.gameObject.transform.DOShakePosition(_controller.burnTime/2, new Vector3(0.3f,0,0.1f) , 10, 1, false, false);
+            _controller.progressBar.gameObject.transform.DOShakePosition(_controller.burnTime/2, new Vector3(0.3f,0,0.1f) , 15, 1, false, false);
             isOver = true;
         }
         if (_currentTime >= _controller.burnTime)
