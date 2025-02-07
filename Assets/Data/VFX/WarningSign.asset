@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe2d6ca0740d3984890ca1c27c9dd4ab, type: 3}
-  m_Name: Muzzle
+  m_Name: WarningSign
   m_EditorClassIdentifier: 
-  vfxType: 1
-  vfxPrefab: {fileID: 1497772684437746, guid: 7a3aa3ccf9a17a14cb338122add5f6ef, type: 3}
+  vfxType: 11
+  vfxPrefab: {fileID: 1501396549107500, guid: be5579a59e306a34fb26c57ed1cb4b11, type: 3}
   poolSize: 0
-  duration: 0.1
+  duration: 0
   size: {x: 1, y: 1, z: 1}
