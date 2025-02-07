@@ -44,11 +44,14 @@ public class CharacterDash : BaseAction
         // 총 대쉬 시간(초) = 가속 구간 + 감속 구간
         float totalDashTime = _controller.dashAccelTime + _controller.dashDecelTime;
         float timer = 0f;
+        float dashEffDuration = 0.05f;
+        float dashEffTimer = dashEffDuration;
 
         // 2) 대쉬 루프 (가속+감속을 하나의 while로 처리)
         while (timer < totalDashTime)
         {
             timer += Time.deltaTime;
+            dashEffTimer += Time.deltaTime;
 
             // 현재 구간이 가속인지, 감속인지 판별
             float currentDashSpeed = 0f;
@@ -115,7 +118,13 @@ public class CharacterDash : BaseAction
                     _controller.rb.MoveRotation(rot);
                 }
             }
-
+            
+            // 먼지나는 이펙트 출현
+            if (dashEffTimer >= dashEffDuration)
+            {
+                VFXManager.Instance.TriggerVFX(VFXType.PLAYERMOVE, transform.position);
+                dashEffTimer = 0f;
+            }
             yield return null; // 다음 프레임까지 대기
         }
 

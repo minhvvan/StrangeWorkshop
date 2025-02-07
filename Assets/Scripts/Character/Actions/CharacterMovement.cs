@@ -9,6 +9,9 @@ public class CharacterMovement : BaseAction
     private bool isGrounded;
     private float verticalVel;
 
+    private float _dashEffDuration = 0.2f;
+    private float _dashEffTimer = 0f;
+    
     // CapsuleCast에 사용할 임의 값 (실 게임에 맞게 조정)
     [SerializeField] private float capsuleHeight = 1.8f;
     [SerializeField] private float capsuleRadius = 0.5f;
@@ -121,6 +124,14 @@ public class CharacterMovement : BaseAction
 
         // Rigidbody에 최종 속도 세팅
         _controller.rb.velocity = finalVelocity;
+        
+        // 먼지나는 effect 실행
+        _dashEffTimer += Time.deltaTime;
+        if (_dashEffTimer >= _dashEffDuration && _controller.rb.velocity != Vector3.zero)
+        {
+            VFXManager.Instance.TriggerVFX(VFXType.PLAYERMOVE, transform.position, size: new Vector3(0.5f, 0.5f, 0.5f));
+            _dashEffTimer = 0f;
+        }
     }
 
     /// <summary>
