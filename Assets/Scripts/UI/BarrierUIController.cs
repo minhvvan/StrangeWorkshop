@@ -123,6 +123,8 @@ public class BarrierUIController : MonoBehaviour, IGameUI
             float percentage = barrier.BarrierStat.health / barrier.BarrierStat.maxHealth;
             barrierUI.UpdateHealthColor(percentage);
         }
+
+        UpdateBarrierTotalHealth();
     }
     
     private Vector2 GridToUIPosition(GridPosition gridPos)
