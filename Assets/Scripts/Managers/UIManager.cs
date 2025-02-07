@@ -22,20 +22,31 @@ public class UIManager : Singleton<UIManager>
 
     private Canvas _mainCanvas;
     private Camera _mainCamera;
+
+    private const string CanvasTag = "MainCanvas";
     
     public bool IsInitialized { get; private set; }
 
     private async void Start()
     {
         await Initialize();
-        _mainCanvas = GameObject.FindWithTag("MainCanvas").GetComponent<Canvas>();
+
+        if (GameObject.FindWithTag(CanvasTag) != null)
+        {
+            _mainCanvas = GameObject.FindWithTag(CanvasTag).GetComponent<Canvas>();
+        }
+        
         _mainCamera = Camera.main;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _mainCanvas = FindObjectOfType<Canvas>();
+        if (GameObject.FindWithTag(CanvasTag) != null)
+        {
+            _mainCanvas = GameObject.FindWithTag(CanvasTag).GetComponent<Canvas>();
+        }
+        
         foreach (var ui in _activeUIs.Values)
         {
             ui.Initialize();

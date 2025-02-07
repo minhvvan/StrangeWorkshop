@@ -31,7 +31,7 @@ public static class GameBootstrapper
         {
             if (!isInitialized && currentScene != START_SCENE_NAME)
             {
-                _ = Initialize();
+                Initialize();
             }
         }
         else if (state == PlayModeStateChange.ExitingPlayMode)
@@ -41,7 +41,7 @@ public static class GameBootstrapper
         }
     }
 
-    private static async UniTask Initialize()
+    private static void Initialize()
     {
         UniTask.FromResult(UIManager.Instance.Initialize()).GetAwaiter().GetResult();
         UniTask.FromResult(EventManager.Instance.InitializeEvents()).GetAwaiter().GetResult();
