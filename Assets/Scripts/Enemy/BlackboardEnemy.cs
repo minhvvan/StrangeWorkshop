@@ -107,7 +107,10 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     
     public void SetPathfinder()
     {
-        agent.SetDestination(target.position);
+        if (target != null)
+        {
+            agent.SetDestination(target.position);
+        }
         agent.speed = enemyStatus.moveSpeed;
     }
 

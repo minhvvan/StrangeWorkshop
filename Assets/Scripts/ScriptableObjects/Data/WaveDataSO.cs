@@ -20,4 +20,5 @@ public class EnemySpawnInfo
     [Header("Enemy Info")]
     public EnemyDataSO enemyData;
     public int count;
+    public int areaID;
 }

@@ -49,10 +49,14 @@ public class EnemyFsm : MonoBehaviour
     
     public void Update()
     {
-        if (!blackboard.bEnable)
+        if (blackboard != null && !blackboard.bEnable )
         {
             return;
         }
-        _stateMachine.Update();
+
+        if (_stateMachine != null)
+        {
+            _stateMachine.Update();
+        }
     }
 }
