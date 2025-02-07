@@ -6,14 +6,17 @@ TagManager:
   tags:
   - Item
   - MainCanvas
+  - FxTemporaire
+  - Missile
+  - PlayerEyes
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Barrier
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 
