@@ -7,11 +7,16 @@ public class ProcessCounter_OverState : BaseState<ProcessCounter>
 
     private float _currentTime;
     private bool isOver = false;
+
+    private GameObject _blackSmokingEff;
     public override void Enter()
     {
         //UI, Warning - SetActive true
         _controller.progressBar.SetBar(_controller.burnTime);
         _controller.progressBar.SetColor(Color.yellow);
+        
+        _blackSmokingEff = VFXManager.Instance.TriggerVFX(VFXType.PROCESSCOUNTEROVERWORKING, _controller.transform,
+            rotation: Quaternion.Euler(-90f, 0, 0), returnAutomatically: false);
     }
 
     public override void UpdateState()
@@ -37,5 +42,6 @@ public class ProcessCounter_OverState : BaseState<ProcessCounter>
         _currentTime = 0f;
         isOver = false;
         _controller.progressBar.ResetBar();
+        VFXManager.Instance.ReturnVFX(VFXType.PROCESSCOUNTEROVERWORKING, _blackSmokingEff);
     }
 }
