@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DownloadAssets/Stylized Environnement - Free Pack/Materials.meta
+guid: b686a5a9bf2ae5940aa0fb7c6821d3a8
+========
 guid: 02c95c9dc2214f3a8e1ab9752f388b3f
+>>>>>>>> 02f9c96eadb4a4eb360705613ea48a53cc722f4d:Assets/DownloadAssets/Sci-FiSpaceFighterPBR.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

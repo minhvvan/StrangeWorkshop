@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DownloadAssets/Stylized Environnement - Free Pack.meta
+guid: 07f9c089eeb84494f9ac370856369d45
+========
 guid: 047e01dc833f1ae48b4acbaeb53cc962
+>>>>>>>> 02f9c96eadb4a4eb360705613ea48a53cc722f4d:Assets/Data/BGM.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

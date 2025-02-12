@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DownloadAssets/fbx (unity)/fbx (unity)/basemodule_A.fbx.meta
+guid: 9f3ed1e70092de9418898c85be0b6940
+ModelImporter:
+  serializedVersion: 22200
+========
 guid: 70c563f84d5740938eb971a4ec772a88
 ModelImporter:
   serializedVersion: 21300
+>>>>>>>> 02f9c96eadb4a4eb360705613ea48a53cc722f4d:Assets/DownloadAssets/Sci-FiSpaceFighterPBR/Mesh/Parts/Body01.fbx.meta
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -14,7 +20,11 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+<<<<<<<< HEAD:Assets/DownloadAssets/fbx (unity)/fbx (unity)/basemodule_A.fbx.meta
+    removeConstantScaleCurves: 0
+========
     removeConstantScaleCurves: 1
+>>>>>>>> 02f9c96eadb4a4eb360705613ea48a53cc722f4d:Assets/DownloadAssets/Sci-FiSpaceFighterPBR/Mesh/Parts/Body01.fbx.meta
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -40,6 +50,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -67,6 +78,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -99,6 +111,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
