@@ -15,8 +15,9 @@ public class MainMenuUI : MonoBehaviour
     
     [SerializeField] private RectTransform _defaultPanel;
     [SerializeField] private RectTransform _optionPanel;
+    [SerializeField] private CanvasGroup _mainMenuCanvasGroup;
 
-    [SerializeField] private MainMenuSpaceShip _spaceShip;
+    [SerializeField] private Aircraft _aircraft;
     
     void Start()
     {
@@ -36,8 +37,8 @@ public class MainMenuUI : MonoBehaviour
 
     private async UniTask OnClickGameStart()
     {
-        await _spaceShip.OnClickedGameStart();
-        UIAnimationUtility.SlideOutDown(_defaultPanel);
+        UIAnimationUtility.FadeOut(_mainMenuCanvasGroup);
+        await _aircraft.OnClickedGameStart();
         GameManager.Instance.StartGame();
     }
     
@@ -60,9 +61,6 @@ public class MainMenuUI : MonoBehaviour
     private void OnDisable()
     {
         DOTween.Complete(_defaultPanel);
-        DOTween.Complete(_spaceShip.GetComponent<RectTransform>());
-        
         DOTween.Kill(_defaultPanel);
-        DOTween.Kill(_spaceShip.GetComponent<RectTransform>());
     }
 }
