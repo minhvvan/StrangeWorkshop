@@ -429,6 +429,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 111878051999714304, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6,
+        type: 3}
+      propertyPath: outlineMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1204706374799483081, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -491,6 +496,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1a5968ddb0d5d23479c9f1f02a331dd2,
         type: 2}
+    - target: {fileID: 6795355551777765322, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6,
+        type: 3}
+      propertyPath: selectType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6795355551777765322, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6,
         type: 3}
       propertyPath: visualGameObjectArray.Array.size

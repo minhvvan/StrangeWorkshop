@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6418959961103436139}
   - component: {fileID: 4055614968517760707}
   - component: {fileID: 8448380636177546595}
+  - component: {fileID: 3701840084296565511}
   m_Layer: 0
   m_Name: ProcessCounter
   m_TagString: Untagged
@@ -86,8 +87,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectType: 1
   visualGameObjectArray:
   - {fileID: 7902319256375147108}
+--- !u!114 &3701840084296565511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179320502874396396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6067050054986658173
 GameObject:
   m_ObjectHideFlags: 0

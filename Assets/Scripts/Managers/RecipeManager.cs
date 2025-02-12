@@ -33,11 +33,6 @@ public class RecipeManager : Singleton<RecipeManager>
         IsInitialized = false;
     }
 
-    public bool DoesMakeMenuItem(List<HoldableObjectSO> ingredients, CraftRecipeSO craftRecipe)
-    {
-        return CanMake(ingredients, craftRecipe);
-    }
-
     //ProcessRecipe 검사
     public ProcessRecipeSO FindProcessRecipe(HoldableObject holdableObject)
     {
@@ -70,7 +65,7 @@ public class RecipeManager : Singleton<RecipeManager>
     public CraftRecipeSO FindCraftRecipeCandidate(List<HoldableObject> inputs)
     {
         var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
-        foreach (CraftRecipeSO craftrecipe in craftRecipeCollection.recipes)
+        foreach (var craftrecipe in craftRecipeCollection.recipes)
         {
             if (WillMake(inputList, craftrecipe))
             {
@@ -107,6 +102,9 @@ public class RecipeManager : Singleton<RecipeManager>
             }
             inputSet.Add(inputIndex);
         }
+        if(inputSet.Count != inputs.Count)
+            return false;
+            
         return true;
     }
 
