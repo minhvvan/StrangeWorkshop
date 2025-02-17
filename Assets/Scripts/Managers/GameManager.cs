@@ -80,7 +80,7 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         if (_currentGameState != GameState.MainMenu) return;
-        LoadingManager.Instance.LoadChapter(_currentChapter);
+        SceneManager.LoadScene("ChapterSelectScene");
     }
 
     public void ClearChapter()

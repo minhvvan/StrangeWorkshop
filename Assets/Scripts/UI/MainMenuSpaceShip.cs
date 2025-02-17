@@ -3,28 +3,38 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuSpaceShip : MonoBehaviour
 {
+    private Animator _animator;
+    private AudioSource _audio;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenuScene")
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public async UniTask OnClickedGameStart()
     {
-        RectTransform rect = GetComponent<RectTransform>();
-        Animation anim = GetComponent<Animation>();
-  
-        anim.enabled = false;
-   
-        var completion = new UniTaskCompletionSource();
-        float duration = 1f;
-   
-        var sequence = DOTween.Sequence();
-        sequence.Append(rect.DOLocalPath(new Vector3[] {
-                new Vector3(-653, -185, 0),
-                new Vector3(-24, -329, 0),
-                new Vector3(1364, 403, 0)
-            }, duration, PathType.CatmullRom))
-            .Join(rect.DOScale(new Vector3(2f, 2f, 1f), duration))
-            .OnComplete(() => completion.TrySetResult());
-   
-        await completion.Task;
+        gameObject.SetActive(true);
+        _audio.Play();
+        _animator.Play("MainMenu_Start");
+    
+        // 애니메이션이 끝날 때까지 대기
+        while (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            await UniTask.Yield();
+        }
     }
 }
