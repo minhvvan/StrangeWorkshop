@@ -17,7 +17,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private RectTransform _optionPanel;
     [SerializeField] private CanvasGroup _mainMenuCanvasGroup;
 
-    [SerializeField] private Aircraft _aircraft;
+    [SerializeField] private MainMenuSpaceShip _mainMenuSpaceShip;
     
     void Start()
     {
@@ -38,7 +38,7 @@ public class MainMenuUI : MonoBehaviour
     private async UniTask OnClickGameStart()
     {
         UIAnimationUtility.FadeOut(_mainMenuCanvasGroup);
-        await _aircraft.OnClickedGameStart();
+        await _mainMenuSpaceShip.OnClickedGameStart();
         GameManager.Instance.StartGame();
     }
     
