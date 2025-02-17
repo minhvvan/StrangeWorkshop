@@ -22,8 +22,6 @@ public class CollectingBot_ChaseState : BaseState<CollectingBot>
         {
             if (_controller.target.gameObject.layer == LayerMask.NameToLayer("Barrier"))
             {
-                _controller.GiveHoldableObject(_controller.collectCounter);
-                
                 _controller.target = _controller.ore;
                 _controller.SetState(this);
             }
