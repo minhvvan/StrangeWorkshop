@@ -99,4 +99,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _starColor:
   - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  - {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
