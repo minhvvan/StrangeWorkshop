@@ -9,13 +9,12 @@ using Random = UnityEngine.Random;
 public class ChapterStarTrail : MonoBehaviour
 {
     [SerializeField] private List<Color> _starColor;
+    [SerializeField] private Material _glowMaterial;
+    [SerializeField] private Material _lockedMaterial;
 
     private SplineContainer _spline;
     private SpriteRenderer _spriteRenderer;
     
-    //test
-    private int cleared = 2;
-
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,13 +28,15 @@ public class ChapterStarTrail : MonoBehaviour
 
     private void SetColor()
     {
-        if (transform.position.x >= _spline.Spline[cleared].Position.x)
+        if (transform.position.x >= _spline.Spline[SaveData.CurrentChapter].Position.x)
         {
             _spriteRenderer.color = _starColor[1];
+            _spriteRenderer.material = _lockedMaterial;
         }
         else
         {
             _spriteRenderer.color = _starColor[0];
+            _spriteRenderer.material = _glowMaterial;
         }
     }
 }

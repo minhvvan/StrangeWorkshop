@@ -1,17 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ChapterUI : MonoBehaviour, IGameUI
 {
+    private RectTransform _rectTransform;
+
+    private void Awake()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+    }
+
     public void ShowUI()
     {
-        gameObject.SetActive(true);
+        UIAnimationUtility.PopupShow(_rectTransform, 1f);
     }
 
     public void HideUI()
     {
-        gameObject.SetActive(false);
+        UIAnimationUtility.PopupHide(_rectTransform, .3f);
     }
 
     public void Initialize()
