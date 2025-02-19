@@ -7,6 +7,8 @@ public static class UIAnimationUtility
 {
     public static void PopupShow(RectTransform rect, float duration = 0.3f)
     {
+        rect.DOKill();
+        
         rect.localScale = Vector3.zero;
         rect.gameObject.SetActive(true);
         rect.DOScale(Vector3.one, duration).
@@ -15,11 +17,12 @@ public static class UIAnimationUtility
     
     public static void PopupHide(RectTransform rect, float duration = 0.3f)
     {
-        var sequence = DOTween.Sequence();
+        rect.DOKill();
 
-        sequence.SetLink(rect.gameObject);
-        sequence.Append(rect.DOScale(Vector3.zero, duration).SetEase(Ease.InBack))
-            .AppendCallback(() => { rect.gameObject.SetActive(false); });
+        rect.DOScale(Vector3.zero, duration).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            rect.gameObject.SetActive(false);
+        });
     }
 
     public static void SlideInLeft(RectTransform rect,  float duration = 0.5f)
