@@ -28,7 +28,7 @@ public class ChapterStarTrail : MonoBehaviour
 
     private void SetColor()
     {
-        if (transform.position.x >= _spline.Spline[SaveData.CurrentChapter].Position.x)
+        if (SaveData.LastUnlockedChapter == 0 || transform.position.x > _spline.Spline[SaveData.LastUnlockedChapter - 1].Position.x)
         {
             _spriteRenderer.color = _starColor[1];
             _spriteRenderer.material = _lockedMaterial;

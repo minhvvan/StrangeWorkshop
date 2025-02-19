@@ -4,14 +4,14 @@ using UnityEngine;
 
 public static class SaveData
 {
-    private const string CURRENT_CHAPTER = "Current_Chapter";
+    private const string LAST_UNLOCKED_CHAPTER = "Last_Unlocked_Chapter";
 
-    public static int CurrentChapter
+    public static int LastUnlockedChapter
     {
-        get => PlayerPrefs.GetInt(CURRENT_CHAPTER, 1);
+        get => PlayerPrefs.GetInt(LAST_UNLOCKED_CHAPTER, 0);
         set 
         { 
-            PlayerPrefs.SetInt(CURRENT_CHAPTER, value);
+            PlayerPrefs.SetInt(LAST_UNLOCKED_CHAPTER, value);
             PlayerPrefs.Save();
         }
     }

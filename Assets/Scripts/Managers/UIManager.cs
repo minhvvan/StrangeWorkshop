@@ -79,10 +79,12 @@ public class UIManager : Singleton<UIManager>
         return result;
     }
 
-    public void AttachUI<T>(UIType type) where T : Component, IGameUI
+    public T AttachUI<T>(UIType type) where T : Component, IGameUI
     {
         var ui = GetUI<T>(type);
         ui.ShowUI();
+
+        return ui;
     }
     
     public void DetachUI<T>(UIType type) where T : Component, IGameUI
