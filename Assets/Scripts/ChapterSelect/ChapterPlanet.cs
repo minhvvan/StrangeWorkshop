@@ -10,12 +10,19 @@ public class ChapterPlanet : MonoBehaviour
     [SerializeField] private Vector3 _rotationAxis;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private GameObject _planet;
+    [SerializeField] private int _chapterIndex;
     
     private ChapterCamera _camera;
+    private bool _locked;
 
     private void Awake()
     {
         _camera = FindObjectOfType<ChapterCamera>();
+    }
+
+    private void Start()
+    {
+        _locked = _chapterIndex > SaveData.LastUnlockedChapter;
     }
 
     private void Update()
@@ -26,7 +33,10 @@ public class ChapterPlanet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         _camera.FocusIn(gameObject);
-        UIManager.Instance.AttachUI<ChapterUI>(UIType.ChapterUI);
+        var chapterUI = UIManager.Instance.AttachUI<ChapterUI>(UIType.ChapterUI);
+        chapterUI.ChapterIndex = _chapterIndex;
+        chapterUI.SetLocked(_locked);
+        
         _planet.transform.DOScale(1.2f, .2f).SetEase(Ease.OutBounce);
     }
 
