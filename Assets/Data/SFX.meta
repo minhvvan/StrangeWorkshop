@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DownloadAssets/Stylized Environnement - Free Pack/Gfx.meta
+guid: 9ca77cc18c72943dea297e1e3715233d
+========
 guid: dafd57555264055439cec41d391619fc
+>>>>>>>> 02f9c96eadb4a4eb360705613ea48a53cc722f4d:Assets/Data/SFX.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
