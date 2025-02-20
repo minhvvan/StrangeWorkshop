@@ -28,6 +28,9 @@ public class ChapterSelectSpaceShip : MonoBehaviour
             _rb.constraints = RigidbodyConstraints.FreezeRotationZ;
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
         }
+
+        transform.position = new Vector3(0, 60f, 150f);
+        transform.DOMoveZ(0f, 1f).SetEase(Ease.InOutQuad);
     }
 
     private void OnDestroy()
