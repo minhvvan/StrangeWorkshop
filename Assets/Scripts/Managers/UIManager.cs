@@ -13,6 +13,7 @@ public enum UIType
     None,
     MinimapUI,
     WaveUI,
+    ChapterUI,
     Max,
 }
 
@@ -76,6 +77,20 @@ public class UIManager : Singleton<UIManager>
         result.position = screenPoint;
 
         return result;
+    }
+
+    public T AttachUI<T>(UIType type) where T : Component, IGameUI
+    {
+        var ui = GetUI<T>(type);
+        ui.ShowUI();
+
+        return ui;
+    }
+    
+    public void DetachUI<T>(UIType type) where T : Component, IGameUI
+    {
+        var ui = GetUI<T>(type);
+        ui.HideUI();
     }
     
     public T GetUI<T>(UIType type) where T : Component, IGameUI

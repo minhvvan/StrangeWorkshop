@@ -48,6 +48,12 @@ public class GameManager : Singleton<GameManager>
         SceneManager.LoadScene("Scenes/MainMenuScene");
     }
 
+    public void LoadChapter(int chapterIndex)
+    {
+        _currentChapter = _chapterList.GetChapterData(chapterIndex);
+        LoadingManager.Instance.LoadChapter(_currentChapter);
+    }
+
     public void RequestChangeGameState(GameState newState)
     {
         if (!PreChangeGameState(newState)) return;
@@ -80,7 +86,7 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         if (_currentGameState != GameState.MainMenu) return;
-        LoadingManager.Instance.LoadChapter(_currentChapter);
+        SceneManager.LoadScene("ChapterSelectScene");
     }
 
     public void ClearChapter()
