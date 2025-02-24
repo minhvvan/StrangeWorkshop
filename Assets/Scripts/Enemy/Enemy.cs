@@ -36,22 +36,22 @@ public class Enemy : MonoBehaviour, IDamageable
         EnemyPathfinder.instance.enemyInCounter.Add(blackboard.capsuleCol);
         EnemyPathfinder.instance.ColliderSet(blackboard.capsuleCol);
         blackboard.SetMaxHp();
+        blackboard.SetTypeSetting();
         blackboard.SetPattern();
-        blackboard.SetPathfinder();
         blackboard.ResearchTarget();
+        blackboard.SetPathfinder();
     }
 
     private void Update()
     {
         _fsm.Update();
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             TakeDamage(2f);
         }
     }
     
-    //사용 시, 이 객체에게 데미지를 가합니다.
+    ///사용 시, 이 객체에게 데미지를 가합니다.
     public void TakeDamage(float damage)
     {
         VFXManager.Instance.TriggerVFX(VFXType.ENEMYHIT, transform.position);
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour, IDamageable
             blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
             blackboard.rb.isKinematic = true;
             blackboard.cts?.Cancel();
-            blackboard.rScts?.Cancel();
+            blackboard.autoResearchCts?.Cancel();
             blackboard.StopTracking();
             blackboard.AnimDead();
             VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
@@ -81,6 +81,7 @@ public class Enemy : MonoBehaviour, IDamageable
             case true : Gizmos.color = Color.blue;
                 break;
         }
+        
         Gizmos.DrawWireSphere(blackboard.transform.position + new Vector3(0,1f,0), blackboard.enemyStatus.attackRange);
     }
 

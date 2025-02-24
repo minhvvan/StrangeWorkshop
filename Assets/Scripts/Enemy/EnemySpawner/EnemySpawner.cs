@@ -17,6 +17,7 @@ public enum EnemyType
     MeleeHeavy,
     LongRangeNormal,
     LongRangeHeavy,
+    Chapter1Boss
 }
 
 /// 코드 최상단에 테스트용 코드를 활성화 하는 전처리문이 있습니다. 사용 시에는 주석처리 해주세요.
