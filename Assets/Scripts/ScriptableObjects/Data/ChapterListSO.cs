@@ -11,6 +11,11 @@ public class ChapterListSO : ScriptableObject
     {
         return chapters.Find(c => c.chapterId == chapterId);
     }
+    
+    public ChapterDataSO GetChapterData(int chapterIndex)
+    {
+        return chapters.Find(c => c.chapterId == $"{Constants.CHAPTER_NAME_PREFIX + (chapterIndex + 1)}");
+    }
 
     public ChapterDataSO GetNextChapter(ChapterDataSO currentChapter)
     {
