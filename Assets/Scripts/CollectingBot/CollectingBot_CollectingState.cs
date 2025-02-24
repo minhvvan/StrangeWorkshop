@@ -17,6 +17,11 @@ public class CollectingBot_CollectingState : BaseState<CollectingBot>
         currentTime += Time.deltaTime;
         if (currentTime >= collectingTime)
         {
+            if (_controller.target.transform.TryGetComponent(out BaseCounter baseCounter))
+            {
+                baseCounter.Interact(_controller);
+            }
+
             // 베리어로
             // EnemyPathfinder.Instance.MatchTarget 이용하면 될 듯
             _controller.target = EnemyPathfinder.instance.MatchTarget(_controller.gameObject.transform);
