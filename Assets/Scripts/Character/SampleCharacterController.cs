@@ -135,7 +135,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     private void HandleInteract()
     {
-        if (Physics.Raycast(transform.position, transform.forward + (Vector3.down * (transform.position.y / 2)), out RaycastHit interactObject, playerInteractDistance))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit interactObject, playerInteractDistance))
         {
             if (interactObject.transform.TryGetComponent(out BaseCounter baseCounter))
             {
