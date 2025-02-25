@@ -10,6 +10,7 @@ using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public enum EnemyType
 {
@@ -17,6 +18,7 @@ public enum EnemyType
     MeleeHeavy,
     LongRangeNormal,
     LongRangeHeavy,
+    Chapter1Boss
 }
 
 /// 코드 최상단에 테스트용 코드를 활성화 하는 전처리문이 있습니다. 사용 시에는 주석처리 해주세요.
@@ -152,10 +154,13 @@ public class EnemySpawner : MonoBehaviour
         while (!_waveEnd)
         {
             //들어있는 소환정보에 따라 적 소환.
-            foreach (EnemySpawnInfo spawnInfo in _spawnInfos)
+            if (_spawnInfos != null)
             {
-                await GetEnemyData(spawnInfo);
-                SpawnEnemy(_areaID);
+                foreach (EnemySpawnInfo spawnInfo in _spawnInfos)
+                {
+                    await GetEnemyData(spawnInfo);
+                    SpawnEnemy(_areaID);
+                }
             }
 
             //스폰 간격 대기
@@ -164,7 +169,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         //남은 적이 다 죽을때 까지 기다렸다가 알림
-        await UniTask.WaitUntil(() => enemyCountList.Count == 0);
+        //await UniTask.WaitUntil(() => enemyCountList.Count == 0);
     }
     
     /// <summary>
@@ -224,8 +229,19 @@ public class EnemySpawner : MonoBehaviour
     /// <param name="areaID">구역 넘버</param>
     private void CreateEnemy(GameObject enemyPrefab, List<Transform> spawnArea, int areaID)
     {
+        // 랜덤한 각도와 반지름 계산
+        float radius = 5f;
+        float angle = Random.Range(0f, Mathf.PI * 2); // 0 ~ 360도
+        float distance = Random.Range(0f, radius); // 원의 반지름 내에서 랜덤 거리
+
+        Vector3 areaPos = spawnArea[areaID].position;
+        Vector3 spawnPosition = new Vector3(
+            areaPos.x + Mathf.Cos(angle) * distance,
+            areaPos.y,
+            areaPos.z + Mathf.Sin(angle) * distance);
+            
         var newEnemy = 
-            Instantiate(enemyPrefab, spawnArea[areaID].position, Quaternion.identity);
+            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         var enemy = newEnemy.GetComponent<Enemy>();
         enemy.blackboard.enemyStatus = new EnemyStatus(_status);
         enemyCountList.Add(newEnemy);
