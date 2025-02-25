@@ -54,8 +54,11 @@ public class Enemy : MonoBehaviour, IDamageable
     ///사용 시, 이 객체에게 데미지를 가합니다.
     public void TakeDamage(float damage)
     {
-        VFXManager.Instance.TriggerVFX(VFXType.ENEMYHIT, transform.position);
-        blackboard.ChangeMatColor(blackboard.matObject, blackboard.enemyStatus.hp -= damage);
+        
+        //적 방어력에 따른 데미지 감소
+        float dmgOperation = damage * (100f / (100f + blackboard.enemyStatus.armor));
+        
+        blackboard.ChangeMatColor(blackboard.matObject, blackboard.enemyStatus.hp -= dmgOperation);
         if (blackboard.enemyStatus.hp <= 0)
         {
             blackboard.gameObject.layer = LayerMask.NameToLayer("Default");

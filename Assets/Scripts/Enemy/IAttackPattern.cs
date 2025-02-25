@@ -174,7 +174,7 @@ public class Chapter1Boss : IAttackPattern
 
     private async UniTask LoadItem()
     {
-        swordPrefab = await DataManager.Instance.LoadPrefabAsync(Addresses.Prefabs.Enemy.TRHOW_SWORD);
+        swordPrefab = await DataManager.Instance.LoadPrefabAsync(Addresses.Prefabs.Enemy.THROW_SWORD);
     }
 
     public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
@@ -374,6 +374,9 @@ public class Chapter1Boss : IAttackPattern
                 obj.transform.forward = targetDirection;
                 obj.transform.DOScale(new Vector3(3,3,3), 0f);
                 throwObjects.Add(obj);
+                
+                var vfxOffset = new Vector3(obj.transform.position.x, obj.transform.position.y + 1f, obj.transform.position.z);
+                VFXManager.Instance.TriggerVFX(VFXType.WARNINGSIGN, vfxOffset);
             }
             
             //생성 후 1초 대기
@@ -386,7 +389,8 @@ public class Chapter1Boss : IAttackPattern
                 obj.transform.forward = targetDirection;
                 obj.transform.DOBlendableMoveBy(targetDirection * 2f, 2f).OnComplete(() =>
                 {
-                    Destroy(obj, 1f);
+                    obj.SetActive(false);
+                    Destroy(obj, 4f);
                     throwObjects.Remove(obj);
                 });
             }
@@ -410,8 +414,8 @@ public class Chapter1Boss : IAttackPattern
         try
         {
             _player.walkSpeed = 0f;
-            _player.ClearHoldableObject();
-            await UniTask.Delay(2000);
+            //_player.ClearHoldableObject(); //물건떨구기 임시 비활성화
+            await UniTask.Delay(2000,cancellationToken: _enemyBb.cts.Token);
             _player.walkSpeed = 15f;
         }
         finally
