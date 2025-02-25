@@ -14,6 +14,8 @@ public static class GameBootstrapper
     private static bool isInitialized = false;
     private const string START_SCENE_NAME = "StartUpScene";
 
+    public static bool IsInitialized => isInitialized;
+
 #if UNITY_EDITOR
     [InitializeOnLoadMethod]
     private static void EditorInitialize()
@@ -41,14 +43,16 @@ public static class GameBootstrapper
         }
     }
 
-    private static void Initialize()
+    private static async void Initialize()
     {
-        UniTask.FromResult(UIManager.Instance.Initialize()).GetAwaiter().GetResult();
-        UniTask.FromResult(EventManager.Instance.InitializeEvents()).GetAwaiter().GetResult();
-        UniTask.FromResult(RecipeManager.Instance.Initialize()).GetAwaiter().GetResult();
-        UniTask.FromResult(GameManager.Instance.Initialize()).GetAwaiter().GetResult();
-        UniTask.FromResult(VFXManager.Instance.Initialize()).GetAwaiter().GetResult();
-        UniTask.FromResult(SFXManager.Instance.Initialize()).GetAwaiter().GetResult();
+        await Task.WhenAll(
+            UIManager.Instance.Initialize().AsTask(),
+            EventManager.Instance.InitializeEvents().AsTask(),
+            RecipeManager.Instance.Initialize().AsTask(),
+            GameManager.Instance.Initialize().AsTask(),
+            VFXManager.Instance.Initialize().AsTask(),
+            SFXManager.Instance.Initialize().AsTask()
+        );
 
         EventManager.Instance.AddComponent<DontDestroyOnLoad>();
         RecipeManager.Instance.AddComponent<DontDestroyOnLoad>();

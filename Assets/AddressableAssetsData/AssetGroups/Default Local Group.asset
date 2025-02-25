@@ -52,23 +52,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a660f00e2d8ed614eb991c416793c270
-    m_Address: prefabs/ui/barrier_corner
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c08f513d960d1694193a2a6aaa3122f7
-    m_Address: events/barrier/destroy
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c11132ab267656e4ca77c7c112e2cc84
     m_Address: data/chapters/chapter_list
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d306bd5f36476e3438c54e9c31544d32
-    m_Address: prefabs/ui/barrier_flat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

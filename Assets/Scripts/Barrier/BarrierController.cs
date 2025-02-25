@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Managers;
 using UnityEngine;
 
@@ -20,10 +21,14 @@ public class BarrierController : MonoBehaviour
     private InGameUIController _inGameUIController;
     private BarrierDestroyEventSO _destroyEventSO;
     private BarrierDamagedEventSO _damagedEventSO;
-    public Action<Barrier> OnBarrierDamagedAction;
+    public Action<float> OnBarrierHealthChangedAction;
 
     private async void Awake()
     {
+#if UNITY_EDITOR
+        await UniTask.WaitUntil(() => GameBootstrapper.IsInitialized);
+#endif
+        
         //Init
         _barrierStat = await DataManager.Instance.LoadDataAsync<BarrierStatSO>(Addresses.Data.Barrier.STAT);
         if (_barrierStat)
@@ -34,11 +39,7 @@ public class BarrierController : MonoBehaviour
         
         //Event
         _damagedEventSO = await DataManager.Instance.LoadDataAsync<BarrierDamagedEventSO>(Addresses.Events.Barrier.BARRIER_DAMAGED);
-        _destroyEventSO = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROY);
         _damagedEventSO.AddListener(OnBarrierDamaged);
-        _destroyEventSO.AddListener(OnBarrierDestroyed);
-
-        //Find All Barrier
         Barriers = GetComponentsInChildren<Barrier>().ToList();
         Barriers.Sort((a, b) =>  b.BarrierType.CompareTo(a.BarrierType));
         
@@ -57,18 +58,9 @@ public class BarrierController : MonoBehaviour
         
     }
 
-    private void OnBarrierDamaged(Barrier barrier, float damage)
+    private void OnBarrierDamaged(float damage)
     {
         _totalHealth -= damage;
-        OnBarrierDamagedAction?.Invoke(barrier);
-    }
-
-    private void OnBarrierDestroyed(Barrier barrier)
-    {
-        Barriers.Remove(barrier);
-        if (Barriers.Count == 0)
-        {
-            GameManager.Instance.RequestChangeGameState(GameState.GameOver);
-        }
+        OnBarrierHealthChangedAction?.Invoke(_totalHealth);
     }
 }
