@@ -12,6 +12,9 @@ public class EnemyPathfinder : MonoBehaviour
     public List<Transform> barrierPoints = new List<Transform>();
     private BarrierController _barrierController;
     
+    //공개 저장형 백업리스트
+    public List<Transform> pbBarrierPoints = new List<Transform>();
+    
     //밀림 방지 기능 구현중. 미완성
     public List<Collider> enemyInCounter = new List<Collider>();
     public List<Collider> ignoreColliders = new List<Collider>();
@@ -34,9 +37,15 @@ public class EnemyPathfinder : MonoBehaviour
             //pivot이 공중에 떠있어서 AI가 위쪽이라 인식함. 대응 필요.
             barrierPoints.Add(barrier.transform);
         }
+        
+        pbBarrierPoints.AddRange(barrierPoints);
     }
 
-    //타겟 갱신
+   /// <summary>
+   /// 
+   /// </summary>
+   /// <param name="enemy"></param>
+   /// <returns></returns>
     public Transform MatchTarget(Transform enemy)
     {
         List<float> targets = new();
@@ -51,15 +60,44 @@ public class EnemyPathfinder : MonoBehaviour
         int bind = 0;
         for (int i = 0; i < targets.Count; i++)
         {
-            //최초 1회 일단 할당
-            if (nearTarget == 0)
+            //최초 1회 일단 할당, 이후 값이 작을수록 재할당.
+            if (nearTarget == 0 || nearTarget > targets[i])
             {
                 nearTarget = targets[i];
                 bind = i;
             }
-            
-            //이후 값이 작을수록 재할당.
-            if (nearTarget > targets[i])
+        }
+
+        return barrierPoints[bind];
+    }
+    
+    /// <summary>
+    /// 지정한 대상을 제외하고 탐색합니다.
+    /// </summary>
+    /// <param name="enemy">적 본인의 position을 받습니다.</param>
+    /// <param name="disableTarget">탐색을 제외할 타겟의 position을 받습니다.</param>
+    /// <returns>지정한 대상을 제외하고 가장 가까운 타겟을 반환합니다.</returns>
+    public Transform ExcludeMatchTarget(Vector3 enemy, Transform disableTarget)
+    {
+        //Debug.Log("Exclude Match Target");
+        List<float> targets = new();
+        float nearTarget = 0f;
+        
+        foreach (Transform barrier in barrierPoints)
+        {
+            //지정대상을 제외하고 할당함.
+            if (barrier != disableTarget)
+            {
+                targets.Add(Vector3.Distance(enemy, barrier.position));
+            }
+        }
+
+        //가장 거리가 가까운 것 찾기.
+        int bind = 0;
+        for (int i = 0; i < targets.Count; i++)
+        {
+            //최초 1회 일단 할당, 이후 값이 작을수록 재할당.
+            if (nearTarget == 0 || nearTarget > targets[i])
             {
                 nearTarget = targets[i];
                 bind = i;
@@ -69,6 +107,24 @@ public class EnemyPathfinder : MonoBehaviour
         return barrierPoints[bind];
     }
 
+    /// <summary>
+    /// 타겟을 리스트에서 제거합니다.
+    /// </summary>
+    /// <param name="target">체력이 0인 타겟을 받습니다.</param>
+    public void RemoveTarget(Transform target)
+    {
+        if (barrierPoints.Contains(target))
+        {
+            //Debug.Log("RemoveTarget" + target.name);
+            barrierPoints.Remove(target);
+        }
+        else
+        {
+            Debug.Log("Target not match. cannot remove barrier.");
+        }
+    }
+
+    ///아무 타겟이나 랜덤하게 받습니다.
     public Transform RandomTarget()
     {
         return barrierPoints[Random.Range(0, barrierPoints.Count)];

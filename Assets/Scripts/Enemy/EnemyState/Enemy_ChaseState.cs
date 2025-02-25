@@ -14,7 +14,7 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
     public override void Enter()
     {
         Fsm.blackboard.AnimWalk();
-        //Fsm.blackboard.NavControl(true).Forget();
+        Fsm.blackboard.priorityIncrease = true;
     }
 
     public override void UpdateState()
@@ -29,19 +29,36 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
             Vector3 trForward = FsmBb.transform.forward = FsmBb.agent.transform.forward;
             
             float moveSpd = FsmBb.enemyStatus.moveSpeed;
-  
-            FsmBb.SearchNearTarget();
-
+            
+            if(Vector3.Distance(currentPos, targetPos) < moveSpd)
+            Physics.Raycast(currentPos, direction, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
+                1 << LayerMask.NameToLayer(FsmBb.layerName));
+            float distance = Vector3.Distance(FsmBb.hit.point, currentPos);
+            
+            //사거리 안에 들었을 때, 대상 탐지가 되지 않았다면 검색.
+            if (distance <= FsmBb.enemyStatus.attackRange &&
+                FsmBb.targetCollider == null)
+            {
+                //바라보는 방향 사거리 내 방벽과 닿았는지 확인.
+                FsmBb.SearchNearTarget();
+            }
+            
             //target이 사거리보다 멀면 이동한다.
             if(FsmBb.targetCollider == null)
             {
                 //타겟을 향해 이동한다.
                 FsmBb.transform.rotation = Quaternion.LookRotation(trForward);
                 FsmBb.ResumeTracking();
+                if (!FsmBb.researchOrder)
+                {
+                    FsmBb.AutoResearchTarget().Forget();
+                }
             }
             else
             {
                 FsmBb.bDetectBarrier = true;
+                FsmBb.researchOrder = false;
+                FsmBb.autoResearchCts?.Cancel();
                 FsmBb.StopTracking();
                 
                 //사거리 내에 들어 Attack으로 넘어간다

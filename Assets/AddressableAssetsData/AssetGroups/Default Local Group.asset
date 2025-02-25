@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52a7ec28c384f98488d9ef1e3ad96651
+    m_Address: prefabs/enemy/throw_sword
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 75c4dff732dbf484997a80e8f049612f
     m_Address: data/recipes/Craft
     m_ReadOnly: 0
