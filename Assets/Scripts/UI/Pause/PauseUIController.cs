@@ -7,16 +7,14 @@ using UnityEngine.Rendering.Universal;
 
 public class PauseUIController : MonoBehaviour
 {
-    public CanvasGroup pauseCanvasGroup;
-    public float fadeDuration = 0.3f;
+    [SerializeField] public CanvasGroup pauseCanvasGroup;
+    [SerializeField] public float fadeDuration = 0.3f;
 
-    bool isPaused = false;
-    public Selectable firstSelected;
-
+    bool _isPaused = false;
+    [SerializeField] public Selectable firstSelected;
     
-    // Post Processing
-    public Volume globalVolume;
-    DepthOfField dof;
+    [SerializeField] public Volume globalVolume;
+    DepthOfField _dof;
     
 
     void Start()
@@ -24,28 +22,17 @@ public class PauseUIController : MonoBehaviour
         pauseCanvasGroup.alpha = 0;
         pauseCanvasGroup.gameObject.SetActive(false);
 
-        if (globalVolume.profile.TryGet(out dof))
+        if (globalVolume.profile.TryGet(out _dof))
         {
-            dof.focusDistance.value = 5f;
+            _dof.focusDistance.value = 5f;
         }
     }
-
-    //Set GlobalVolume Post Processing
-    public void SetDepthOfField(float value)
-    {
-        if(dof != null)
-        {
-            dof.focusDistance.value = value;
-        }
-    }
-
-    
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            if (_isPaused)
             {
                 Resume();
             }
@@ -56,23 +43,29 @@ public class PauseUIController : MonoBehaviour
         }
     }
 
+    void SetDepthOfField(float value)
+    {
+        if(_dof != null)
+        {
+            _dof.focusDistance.value = value;
+        }
+    }
+
     public void Pause()
     {
-        isPaused = true;
+        _isPaused = true;
         Time.timeScale = 0;
         pauseCanvasGroup.DOKill(false);
         pauseCanvasGroup.gameObject.SetActive(true);
         pauseCanvasGroup.DOFade(1, fadeDuration).SetUpdate(true);
         SetDepthOfField(0.5f);
 
-        SelectFirstUI();
-
-        
+        SelectFirstUI();        
     }
 
     public void Resume()
     {
-        isPaused = false;
+        _isPaused = false;
         Time.timeScale = 1;
         pauseCanvasGroup.DOKill(false);
 
