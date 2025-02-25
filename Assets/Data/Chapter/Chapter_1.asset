@@ -19,7 +19,19 @@ MonoBehaviour:
   endingStory: {fileID: 0}
   waves:
   - {fileID: 11400000, guid: fc8c33c58f4eb7d4b8a1ea8a5e790507, type: 2}
-  - {fileID: 11400000, guid: ac0ef1957e9c92547849eecef6696451, type: 2}
-  - {fileID: 11400000, guid: 8e835f830fe09af4bb8d68ea5e2305ab, type: 2}
-  preparationTime: 5
+  - {fileID: 11400000, guid: 0fd5627bcbe07db43931377729ee004b, type: 2}
+  - {fileID: 11400000, guid: 9c23ae076132b1c428706e1e50efa6fc, type: 2}
+  - {fileID: 11400000, guid: beeb151cd2a3a1e479efa5fe48eedee3, type: 2}
+  - {fileID: 11400000, guid: bace22bb32db0a343a230072a4360680, type: 2}
+  - {fileID: 11400000, guid: 75349f913faf7e647a34e170856a6550, type: 2}
+  - {fileID: 11400000, guid: 3b53857c14ecee443aa29a6d8501dca4, type: 2}
+  - {fileID: 11400000, guid: 44c2cc22efe5a264ebd230e7cba8e3ee, type: 2}
+  - {fileID: 11400000, guid: 116e2f4880dd6874fbd93b581eb8a9b5, type: 2}
+  - {fileID: 11400000, guid: 6950d944b21aec0469c0c26115ab9edf, type: 2}
+  - {fileID: 11400000, guid: a8430fc4d45654c4fa42767e11487d13, type: 2}
+  - {fileID: 11400000, guid: c334fe02aae0c3d499734c5594e3ec21, type: 2}
+  - {fileID: 11400000, guid: dcbb3713089cd4e4f9eecbfaa088b807, type: 2}
+  - {fileID: 11400000, guid: b59512769e64fd643b02ad99bea6e722, type: 2}
+  - {fileID: 11400000, guid: 8a3f0a741b0c8f94e84a872b7eebc2e5, type: 2}
+  preparationTime: 0
   playerSpawnPoint: {x: 0, y: 0, z: 0}

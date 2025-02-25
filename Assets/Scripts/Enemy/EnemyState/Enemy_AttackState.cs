@@ -15,6 +15,8 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
     {
         //공격도중(정지시) 적들간 밀림방지. 이동중인 개체는 상관없음.
         EnemyPathfinder.instance.ColliderDisable(Fsm.blackboard.capsuleCol);
+        Fsm.blackboard.priorityIncrease = false;
+        Fsm.blackboard.agent.avoidancePriority = 1;
     }
 
     public override void UpdateState()
@@ -27,18 +29,32 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
             Vector3 targetPos = FsmBb.target.position;
             Vector3 currentPos = FsmBb.transform.position;
             Vector3 direction = targetPos - currentPos;
-            
-            //바라보는 방향 사거리 내 방벽과 닿았는지 확인.
-            FsmBb.SearchNearTarget();
-            
+            Physics.Raycast(currentPos, direction, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
+                1 << LayerMask.NameToLayer(FsmBb.layerName));
+            float distance = Vector3.Distance(FsmBb.hit.point, currentPos);
+            //사거리 안에 들었을 때, 대상 탐지가 되지 않았다면 검색.
+            if (distance <= FsmBb.enemyStatus.attackRange &&
+                FsmBb.targetCollider == null)
+            {
+                //바라보는 방향 사거리 내 방벽과 닿았는지 확인.
+                FsmBb.SearchNearTarget();
+            }
+            //거리가 멀어지면 다시 Chase로 가도록 타겟을 비운다
+            else if(distance > FsmBb.enemyStatus.attackRange &&
+                    FsmBb.targetCollider != null)
+            {
+                FsmBb.targetCollider = null;
+            }
             //target과의 거리가 사거리보다 길면 Chase로 이동.
             if(FsmBb.targetCollider == null)
             {
-                FsmBb.bCanAttack = false;
+                FsmBb.bCanPattern = false;
                 FsmBb.cts?.Cancel();
                 FsmBb.cts = new CancellationTokenSource();
+                FsmBb.AnimSetSpeed(1f);
+                
                 //공격이 끝나지 않았다면 잠시 대기.
-                if (!FsmBb.bCanAttack)
+                if (!FsmBb.bCanPattern)
                 {
                     FsmBb.bDetectBarrier = false;
                     Fsm.ChangeEnemyState(Fsm.chaseState);
@@ -47,10 +63,10 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
             }
             
             //적 공격 상태를 유지한다.
-            if (!FsmBb.bCanAttack)
+            if (!FsmBb.bCanPattern)
             {
                 FsmBb.transform.rotation = Quaternion.LookRotation(direction);
-                FsmBb.bCanAttack = true;
+                FsmBb.bCanPattern = true;
                 FsmBb.OnAttack().Forget();
             }
         }
