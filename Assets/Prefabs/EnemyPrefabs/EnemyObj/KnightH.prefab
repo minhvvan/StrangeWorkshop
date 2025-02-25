@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 2797364715087232900}
   - component: {fileID: 1209527566357030293}
   - component: {fileID: 9063188080034359785}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: KnightH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ MonoBehaviour:
   bEnable: 1
   bDetectBarrier: 0
   bCanPattern: 0
-  researchTime: 15
+  player: {fileID: 0}
   researchOrder: 0
   priorityIncrease: 0
   priorityStack: 0

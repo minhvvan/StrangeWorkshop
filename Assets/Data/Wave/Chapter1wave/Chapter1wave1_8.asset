@@ -10,12 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4517ede9d00f41708c6f811aefd36493, type: 3}
-  m_Name: Chapter1wave2
+  m_Name: Chapter1wave1_8
   m_EditorClassIdentifier: 
-  waveNumber: 2
-  duration: 10
+  waveNumber: 1
+  duration: 4
   enemySpawns:
   - enemyData: {fileID: 11400000, guid: fa893e49ab3d5b542b72e988fa937f02, type: 2}
-    count: 2
+    count: 1
+    areaID: 0
+  - enemyData: {fileID: 11400000, guid: fa893e49ab3d5b542b72e988fa937f02, type: 2}
+    count: 1
     areaID: 1
-  spawnInterval: 5
+  - enemyData: {fileID: 11400000, guid: fa893e49ab3d5b542b72e988fa937f02, type: 2}
+    count: 1
+    areaID: 2
+  spawnInterval: 1

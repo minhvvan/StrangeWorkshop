@@ -558,7 +558,7 @@ GameObject:
   - component: {fileID: 8604415248117136825}
   - component: {fileID: 5424303823199297874}
   - component: {fileID: 4066906673838598288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: KnightHv2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -696,6 +696,7 @@ MonoBehaviour:
   bEnable: 1
   bDetectBarrier: 0
   bCanPattern: 0
+  player: {fileID: 0}
   researchOrder: 0
   priorityIncrease: 0
   priorityStack: 0
