@@ -24,25 +24,27 @@ public class UISelectionEffect : MonoBehaviour, ISelectHandler, IDeselectHandler
     TextMeshProUGUI text;
     Image backgroundImage;
 
-
-
     void Awake()
     {
         originalScale = transform.localScale;
-    }
-
-    void Start(){
         text = GetComponentInChildren<TextMeshProUGUI>();
         if(text == null)
         {
             backgroundImage = GetComponent<Image>();
         }
     }
+    
 
     void OnDisable()
     {
         transform.localScale = originalScale;
         isSelected = false;
+        
+        transform.localScale = originalScale;
+        if (text != null)
+        {
+            text.color = normalColor;
+        }
     }
 
     public void OnSelect(BaseEventData eventData)
