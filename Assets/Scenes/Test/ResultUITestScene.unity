@@ -2553,7 +2553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8235294}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.45490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2585,7 +2585,7 @@ CanvasGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460530847}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -6638,7 +6638,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8795,6 +8795,7 @@ GameObject:
   - component: {fileID: 1573205531}
   - component: {fileID: 1573205530}
   - component: {fileID: 1573205533}
+  - component: {fileID: 1573205534}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8920,6 +8921,26 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1573205534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573205529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e184b461e2744e88775accf0038a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderMode: 1
+  kernelSize: 0
+  interpolation: 1
+  downsample: 2
+  iterations: 2
+  gammaCorrection: 1
+  blurMaterial: {fileID: 2100000, guid: 20c6ce24c8f85490d977a09e7f07b7e7, type: 2}
+  UIMaterial: {fileID: 2100000, guid: 986a41c93b18846f697a63f8dff55b9e, type: 2}
 --- !u!1001 &1577112299
 PrefabInstance:
   m_ObjectHideFlags: 0
