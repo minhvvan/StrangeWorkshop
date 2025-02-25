@@ -244,33 +244,27 @@ public class Chapter1Boss : IAttackPattern
     private async UniTask RunPhase_Two()
     {
         //공격 판정 동작
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             //방벽체력 0이면 공격모션 중단.
             if (_targetBarrier.BarrierStat.health <= 0) return;
-            for (int j = 0; j < 3; j++)
+            if (i < 2)
             {
-                if (j != 2)
-                {
-                    if (i < 2)
-                    {
-                        await NormalAttack();
-                    }
-                    else if(i == 2)
-                    {
-                        _motionSpeed = 2f;
-                        await ChargeAttack();
-                        _motionSpeed = 1f;
-                    }
-                    else if (i == 3)
-                    {
-                        await StunningShout();
-                    }
-                }
-                else
-                {
-                    await ThrowSword(grids);
-                }
+                await NormalAttack();
+            }
+            else if(i == 2)
+            {
+                _motionSpeed = 2f;
+                await ChargeAttack();
+                _motionSpeed = 1f;
+            }
+            else if (i == 3)
+            {
+                await StunningShout();
+            }
+            else if(i == 4)
+            {
+                await ThrowSword(grids);
             }
         }
     }
@@ -332,14 +326,18 @@ public class Chapter1Boss : IAttackPattern
     
     private async UniTask StunningShout()
     {
-        _atkFirstDelay = 1;
-        _atkCooldown = 3;
+        var vfxOffset = new Vector3(_enemyBb.transform.position.x, _enemyBb.transform.position.y + 6f, _enemyBb.transform.position.z);
+        VFXManager.Instance.TriggerVFX(VFXType.WARNINGSIGN, vfxOffset);
+        _motionSpeed = 0.5f;
+        _atkFirstDelay = 1f;
+        _atkCooldown = 3f;
         _enemyBb.AnimCrossFade("Shout");
         _enemyBb.AnimSetSpeed(_motionSpeed);
         await DelayAction(
             ()=> Stunning().Forget(),
             _atkFirstDelay/_motionSpeed,
             _atkCooldown/_motionSpeed);
+        _motionSpeed = 1f;
         _enemyBb.AnimSetSpeed(1f);
     }
 
