@@ -112,8 +112,6 @@ public static class Addresses
         
         public static class UI
         {
-            public const string BARRIER_FLAT = "prefabs/ui/barrier_flat";
-            public const string BARRIER_CORNER = "prefabs/ui/barrier_corner";
         }
         
         public static class Enemy
