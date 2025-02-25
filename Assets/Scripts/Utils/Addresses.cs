@@ -24,7 +24,6 @@ public static class Addresses
         
         public static class Barrier
         {
-            public const string BARRIER_DESTROY = "events/barrier/destroy";
             public const string BARRIER_DAMAGED = "events/barrier/damaged";
         }
     }
