@@ -4646,10 +4646,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3009fa49f41034174ad01c70de267047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseCanvasGroup: {fileID: 460530851}
+  _canvasGroup: {fileID: 460530851}
   fadeDuration: 0.3
-  firstSelected: {fileID: 1682511945}
-  globalVolume: {fileID: 1439517330}
+  _firstSelected: {fileID: 1682511945}
+  _globalVolume: {fileID: 1439517330}
 --- !u!1001 &840193819
 PrefabInstance:
   m_ObjectHideFlags: 0
