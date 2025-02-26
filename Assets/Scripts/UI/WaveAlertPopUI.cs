@@ -37,7 +37,7 @@ public class WaveAlertPopUI : MonoBehaviour
         canvasGroup.alpha = 1;
         rect.anchoredPosition = originPos;
         
-        UIAnimationUtility.SlideInLeft(rect);
+        UIAnimationUtility.SlideInRight(rect);
         
         // rect.DOAnchorPos(rect.anchoredPosition + new Vector2(-400f,0), 0.5f)
         //     .SetEase(Ease.InFlash);
@@ -48,7 +48,7 @@ public class WaveAlertPopUI : MonoBehaviour
             await UniTask.Delay(TimeSpan.FromSeconds(1));
         }
         
-        UIAnimationUtility.SlideOutLeft(rect, duration: 1f, callback: () => rect.anchoredPosition = originPos);
+        UIAnimationUtility.SlideOutRight(rect, duration: 1f, callback: () => rect.anchoredPosition = originPos);
         
         canvasGroup.DOFade(0, 0.5f).SetEase(Ease.Linear);
         // rect.DOAnchorPos(originPos, 1f)
