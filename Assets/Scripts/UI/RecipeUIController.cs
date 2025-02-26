@@ -30,9 +30,8 @@ public class RecipeUIController : MonoBehaviour, IGameUI
     private readonly float _xPos = -28f;
     private readonly float _topYPos = 85f;
     private readonly float _interval = 30f;
-    
-    
-    async void Awake()
+
+    public async UniTask Initialize(CraftRecipeCollectionSO recipeCollectionSO)
     {
         // 일단 비활성화 후 uianimation에서 활성화 -> 깜빡임 제거
         gameObject.SetActive(false);
@@ -44,9 +43,19 @@ public class RecipeUIController : MonoBehaviour, IGameUI
         _chapterRecipes =
             await DataManager.Instance.LoadDataAsync<ChapterRecipeSO>(Addresses.Data.UI.CHAPTER_RECIPE);
         
-        InitUI();
+        // 모든 UI prefab pooling
+        foreach (CraftRecipeSO recipe in recipeCollectionSO.recipes)
+        {
+            RectTransform recipeUI = GameObject.Instantiate(recipe.craftRecipeUI, transform);
+            recipeUI.GameObject().SetActive(false);
+            _recipeUIs[recipe.output.objectName] = recipeUI;
+            _recipePartControllers[recipe.output.objectName] = recipeUI.GetComponent<RecipePartController>();
+        }
+        
+        ShowUI();
+        UpdateUI(null, null);
     }
-
+    
     public void ShowUI()
     {
         UIAnimationUtility.SlideInRight(_root);
@@ -57,19 +66,12 @@ public class RecipeUIController : MonoBehaviour, IGameUI
         Vector2 originalPos = _root.anchoredPosition;
         UIAnimationUtility.SlideOutRight(_root, callback: () => _root.anchoredPosition = originalPos);
     }
-    
-    public async UniTask Initialize(CraftRecipeCollectionSO recipeCollectionSO)
+
+    public void Initialize()
     {
-        // 모든 UI prefab pooling
-        foreach (CraftRecipeSO recipe in recipeCollectionSO.recipes)
-        {
-            RectTransform recipeUI = GameObject.Instantiate(recipe.craftRecipeUI, transform);
-            recipeUI.GameObject().SetActive(false);
-            _recipeUIs[recipe.output.objectName] = recipeUI;
-            _recipePartControllers[recipe.output.objectName] = recipeUI.GetComponent<RecipePartController>();
-        }
+        
     }
-    
+
     public void UpdateUI(List<CraftRecipeSO> recipes, List<string> partNames)
     {
         /*
@@ -161,13 +163,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
                 UpdateUI(null, null);
             });
     }
-
-    private void InitUI()
-    {
-        ShowUI();
-        UpdateUI(null, null);
-    }
-
+    
     private void RecommendRecipe(List<CraftRecipeSO> recipes)
     {
         /*
@@ -211,11 +207,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
         // _recommendedRecipes.Add(_bulletRecipe);
         // _recommendedRecipes.Add(_upgradeRecipe);
     }
-
-    public void Initialize()
-    {
-    }
-
+    
     public void CleanUp()
     {
     }
