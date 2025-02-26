@@ -18,6 +18,7 @@ public class BarrierController : MonoBehaviour
 
     [Header("Events")] 
     private BarrierDamagedEventSO _damagedEventSO;
+    private BarrierDestroyEventSO _destroyEventSO;
     public Action<float> OnBarrierHealthChangedAction;
 
     private async void Awake()
@@ -25,7 +26,6 @@ public class BarrierController : MonoBehaviour
 #if UNITY_EDITOR
         await UniTask.WaitUntil(() => GameBootstrapper.IsInitialized);
 #endif
-        
         //Init
         _barrierStat = await DataManager.Instance.LoadDataAsync<BarrierStatSO>(Addresses.Data.Barrier.STAT);
         if (_barrierStat)
@@ -36,18 +36,24 @@ public class BarrierController : MonoBehaviour
         
         //Event
         _damagedEventSO = await DataManager.Instance.LoadDataAsync<BarrierDamagedEventSO>(Addresses.Events.Barrier.BARRIER_DAMAGED);
+        _destroyEventSO = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROYED);
         _damagedEventSO.AddListener(OnBarrierDamaged);
         Barriers = GetComponentsInChildren<Barrier>().ToList();
 
         //Sync UI
         //TODO: barrier 전체 체력을 표시할 inGameUI에 연동 필요(현재는 BarrierUIController로 유지)
-        var barrierUIController = UIManager.Instance.GetUI<BarrierUIController>(UIType.MinimapUI);
-        barrierUIController.SetBarrierController(this);
     }
 
     private void OnBarrierDamaged(float damage)
     {
         _totalHealth -= damage;
+
+        if (_totalHealth <= 0)
+        {
+            _totalHealth = 0;
+            _destroyEventSO.Raise();
+        }
+        
         OnBarrierHealthChangedAction?.Invoke(_totalHealth);
     }
 }
