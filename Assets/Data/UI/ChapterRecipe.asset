@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac9f7dd364c1dd468f41394806fd383, type: 3}
+  m_Name: ChapterRecipe
+  m_EditorClassIdentifier: Assembly-CSharp::ChapterRecipeSO
+  chapterRecipes:
+  - chapterName: 1
+    recommendedRecipes:
+    - {fileID: 11400000, guid: d80dfb390869955488d09e91609a5c7a, type: 2}

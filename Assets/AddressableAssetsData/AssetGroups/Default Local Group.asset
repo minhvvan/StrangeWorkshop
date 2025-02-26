@@ -87,6 +87,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fec3669208f840c4ebcced89043d4b28
+    m_Address: data/ui/chapter_recipe
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 92d102a8dfb08f04db59e4e3517fb950, type: 2}
   m_SchemaSet:
