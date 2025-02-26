@@ -30,14 +30,21 @@ public class WaveClearPopUI : MonoBehaviour
     {
         canvasGroup.alpha = 1;
         rect.anchoredPosition = originPos;
-        rect.DOAnchorPos(rect.anchoredPosition + new Vector2(-400f,0), 0.5f)
-            .SetEase(Ease.InFlash);
-        DOVirtual.DelayedCall(3f, () =>
-        {
-            canvasGroup.DOFade(0, 0.5f).SetEase(Ease.Linear);
-            rect.DOAnchorPos(originPos, 1f)
-                .SetEase(Ease.OutFlash).OnComplete(() => gameObject.SetActive(false));
-        });
+        
+        var sequence = DOTween.Sequence();
+        sequence.SetLink(rect.gameObject);
+        
+        UIAnimationUtility.SlideInLeft(rect);
+        DOVirtual.DelayedCall(3f, () => 
+            UIAnimationUtility.SlideOutLeft(rect, callback: () => rect.anchoredPosition = originPos));
+        // rect.DOAnchorPos(rect.anchoredPosition + new Vector2(-400f,0), 0.5f)
+        //     .SetEase(Ease.InFlash);
+        // DOVirtual.DelayedCall(3f, () =>
+        // {
+        //     canvasGroup.DOFade(0, 0.5f).SetEase(Ease.Linear);
+        //     rect.DOAnchorPos(originPos, 1f)
+        //         .SetEase(Ease.OutFlash).OnComplete(() => gameObject.SetActive(false));
+        // });
     }
 
     void OnDestroy()

@@ -37,17 +37,22 @@ public class WaveAlertPopUI : MonoBehaviour
         canvasGroup.alpha = 1;
         rect.anchoredPosition = originPos;
         
-        rect.DOAnchorPos(rect.anchoredPosition + new Vector2(-400f,0), 0.5f)
-            .SetEase(Ease.InFlash);
+        UIAnimationUtility.SlideInLeft(rect);
+        
+        // rect.DOAnchorPos(rect.anchoredPosition + new Vector2(-400f,0), 0.5f)
+        //     .SetEase(Ease.InFlash);
         while (duration > 0)
         {
             text.text = "now comming.."+duration.ToString();
             duration--;
             await UniTask.Delay(TimeSpan.FromSeconds(1));
         }
+        
+        UIAnimationUtility.SlideOutLeft(rect, duration: 1f, callback: () => rect.anchoredPosition = originPos);
+        
         canvasGroup.DOFade(0, 0.5f).SetEase(Ease.Linear);
-        rect.DOAnchorPos(originPos, 1f)
-            .SetEase(Ease.OutFlash).OnComplete(() => gameObject.SetActive(false));
+        // rect.DOAnchorPos(originPos, 1f)
+        //     .SetEase(Ease.OutFlash).OnComplete(() => gameObject.SetActive(false));
     }
 
     void OnDestroy()
