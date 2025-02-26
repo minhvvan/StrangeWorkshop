@@ -6,18 +6,15 @@ using UnityEngine.Serialization;
 
 public class MaterialCounter : BaseCounter
 {
-    public event EventHandler OnPlayerGrabbedObject;
-    
     [SerializeField] private HoldableObjectSO holdableObjectSO;
     
-    public override void Interact(SampleCharacterController player)
+    public override void Interact(IHoldableObjectParent parent)
     {
-        if (!player.HasHoldableObject())
+        if (!parent.HasHoldableObject())
         {
-            HoldableObject.SpawnHoldableObject(holdableObjectSO, player);
+            HoldableObject.SpawnHoldableObject(holdableObjectSO, parent);
             
-            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
-            player.TakeoffGlove();
+            TakeOffPlayerGlove(parent);
         }
     }
 }

@@ -16,7 +16,9 @@ public class BarrierController : MonoBehaviour
     public float TotalHeath => _totalHealth;
     public float MaxHealth => _maxHealth;
 
+
     [Header("Events")] 
+    private InGameUIController _inGameUIController;
     private BarrierDamagedEventSO _damagedEventSO;
     private BarrierDestroyEventSO _destroyEventSO;
     public Action<float> OnBarrierHealthChangedAction;
@@ -39,9 +41,9 @@ public class BarrierController : MonoBehaviour
         _destroyEventSO = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROYED);
         _damagedEventSO.AddListener(OnBarrierDamaged);
         Barriers = GetComponentsInChildren<Barrier>().ToList();
-
-        //Sync UI
-        //TODO: barrier 전체 체력을 표시할 inGameUI에 연동 필요(현재는 BarrierUIController로 유지)
+        
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);       
     }
 
     private void OnBarrierDamaged(float damage)

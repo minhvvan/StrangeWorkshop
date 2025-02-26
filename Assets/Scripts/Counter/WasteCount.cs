@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class WasteCount : BaseCounter
 {
-    public override void Interact(SampleCharacterController player)
+    public override void Interact(IHoldableObjectParent parent)
     {
-        if (player.HasHoldableObject())
+        if (parent.HasHoldableObject())
         {
-            player.ClearHoldableObject();
-            player.TakeoffGlove();
+            parent.ClearHoldableObject();
+            
+            TakeOffPlayerGlove(parent);
         }
     }
 }
