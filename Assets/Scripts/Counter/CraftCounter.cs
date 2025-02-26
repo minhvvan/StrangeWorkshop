@@ -15,6 +15,9 @@ public class CraftCounter : BaseCounter
     private int _currentIndex;
     private bool cooltime = true;
     public ProgressBar _progressBar;
+    
+    private RecipeUIController _recipeUIController;
+    private InGameUIController _inGameUIController;
 
     private RecipeUIController _recipeUIController;
     private InGameUIController _inGameUIController;
@@ -100,6 +103,8 @@ public class CraftCounter : BaseCounter
                 _currentIndex = 0;
                 _progressBar.ResetBar();
                 _progressBar.gameObject.SetActive(false);
+                
+
             }
             VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position + 
                                                                         new Vector3(0f, GetComponent<BoxCollider>().size.y/2, 0f));

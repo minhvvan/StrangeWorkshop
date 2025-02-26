@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Blender.meta
 guid: 8c38c3679a980bc48aad5fe1cceb2b70
+========
+guid: 863085f270d02144c91e8dbbc65c1aad
+>>>>>>>> develop:Assets/Prefabs/EnemyPrefabs/EnemyWeapons.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

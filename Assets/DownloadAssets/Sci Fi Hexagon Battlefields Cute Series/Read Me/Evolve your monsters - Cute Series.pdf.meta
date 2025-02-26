@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DownloadAssets/Sci Fi Hexagon Battlefields Cute Series/Read Me/Evolve your monsters - Cute Series.pdf.meta
 guid: 8ce085e917e1d404496d8980b023cbf7
+========
+guid: 021ba2ed4ca5a49449eaeeac9cd6abdc
+folderAsset: yes
+>>>>>>>> develop:Assets/Prefabs/UI/Recipe.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
