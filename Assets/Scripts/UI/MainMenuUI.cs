@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,7 +30,8 @@ public class MainMenuUI : MonoBehaviour
 
         _optionPanel.GetComponent<OptionPanel>().onExitClick += () =>
         {
-            UIAnimationUtility.SlideOutRight(_optionPanel);
+            Vector2 originalPos = _optionPanel.anchoredPosition;
+            UIAnimationUtility.SlideOutRight(_optionPanel, callback: ()=>{_optionPanel.anchoredPosition = originalPos;});
             UIAnimationUtility.SlideInLeft(_defaultPanel);
         };
     }
@@ -44,8 +45,8 @@ public class MainMenuUI : MonoBehaviour
     
     private void OnClickOption()
     {
-        UIAnimationUtility.SlideOutLeft(_defaultPanel);
-        _optionPanel.anchoredPosition = Vector2.zero;
+        Vector2 originalPos = _defaultPanel.anchoredPosition;
+        UIAnimationUtility.SlideOutLeft(_defaultPanel, callback: () => _defaultPanel.anchoredPosition = originalPos);
         UIAnimationUtility.SlideInRight(_optionPanel);
     }
     

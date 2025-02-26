@@ -28,6 +28,9 @@ public static class EnemyFactory
             case "IntegrationTestScene":
                 waveDataSo = chapterDatas.chapters[0];
                 break;
+            case "HUDTest":
+                waveDataSo = chapterDatas.chapters[0];
+                break;
         }
         
         await UniTask.CompletedTask;
