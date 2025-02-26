@@ -21,3 +21,11 @@ MonoBehaviour:
     prefab: {fileID: 1992800394759193597, guid: 1f197970c5adb6e4c974cc6fe976c5ec,
       type: 3}
     position: {x: 0, y: 0}
+  - type: 3
+    prefab: {fileID: 5885456526332632947, guid: b816598a204c50849b2a502f8550fffd,
+      type: 3}
+    position: {x: 0, y: 0}
+  - type: 4
+    prefab: {fileID: 6879401865335359522, guid: 452944e928e299540bfe20e88b567759,
+      type: 3}
+    position: {x: 0, y: 0}

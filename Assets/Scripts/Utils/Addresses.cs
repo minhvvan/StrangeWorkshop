@@ -79,6 +79,7 @@ public static class Addresses
         public static class UI
         {
             public const string COMMON = "data/ui/common";
+            public const string CHAPTER_RECIPE = "data/ui/chapter_recipe";
         }
 
         public static class FX
