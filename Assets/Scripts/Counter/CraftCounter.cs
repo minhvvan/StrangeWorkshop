@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,23 @@ public class CraftCounter : BaseCounter
     private bool cooltime = true;
     public ProgressBar _progressBar;
 
-    void Awake()
+    private RecipeUIController _recipeUIController;
+    private InGameUIController _inGameUIController;
+
+    [Header("Events")]
+    public Action<List<CraftRecipeSO>, List<string>> OnObjectsChangedAction;
+    public Action<HoldableObjectSO> OnCraftCompleteAction;
+
+    async void Awake()
     {
         _progressBar.Initialize();
         _progressBar.SetColor(Color.green);
         _progressBar.gameObject.SetActive(false);
+        
+        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        // _inGameUIController = GetComponentInParent<InGameUIController>();
+        _inGameUIController.RegisterGameUI(this);
     }
 
     public override void Interact(IHoldableObjectParent parent)
@@ -34,7 +47,8 @@ public class CraftCounter : BaseCounter
             };
             
             // 플레이어의 재료를 놓을 때 만들 수 있는 레시피가 있는 검사
-            if (!RecipeManager.Instance.FindCraftRecipeCandidate(CompareList))
+            List<CraftRecipeSO> recipeCandidates = RecipeManager.Instance.FindCraftRecipeCandidate(CompareList);
+            if (recipeCandidates.Count <= 0)
             {
                 return;
             }
@@ -44,6 +58,9 @@ public class CraftCounter : BaseCounter
             // 현재 만들 수 있는 레시피가 있으면 저장
             _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
             SetCurrentCraftIndex();
+            
+            var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
+            OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
         }
         else
         {
@@ -53,6 +70,9 @@ public class CraftCounter : BaseCounter
                 _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
                 SetCurrentCraftIndex();
                 TakeOffPlayerGlove(parent);
+                
+                var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
+                OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
             }
         }
     }
@@ -75,6 +95,7 @@ public class CraftCounter : BaseCounter
             {
                 ClearHoldableObject();
                 HoldableObject.SpawnHoldableObject(_currentCraftRecipeSO.output, this);
+                OnCraftCompleteAction?.Invoke(_currentCraftRecipeSO.output);
                 _currentCraftRecipeSO = null;
                 _currentIndex = 0;
                 _progressBar.ResetBar();
