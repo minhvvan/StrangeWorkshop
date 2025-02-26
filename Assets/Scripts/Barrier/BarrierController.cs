@@ -19,7 +19,6 @@ public class BarrierController : MonoBehaviour
 
     [Header("Events")] 
     private InGameUIController _inGameUIController;
-    private BarrierDestroyEventSO _destroyEventSO;
     private BarrierDamagedEventSO _damagedEventSO;
     private BarrierDestroyEventSO _destroyEventSO;
     public Action<float> OnBarrierHealthChangedAction;
@@ -42,21 +41,9 @@ public class BarrierController : MonoBehaviour
         _destroyEventSO = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROYED);
         _damagedEventSO.AddListener(OnBarrierDamaged);
         Barriers = GetComponentsInChildren<Barrier>().ToList();
-        Barriers.Sort((a, b) =>  b.BarrierType.CompareTo(a.BarrierType));
-        
-        //Init Barrier HP
-        var barrierHP = _barrierStat.totalHP / Barriers.Count;
-        foreach (var barrier in Barriers)
-        {
-            barrier.InitHealth(barrierHP);
-        }
         
         _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
-        _inGameUIController.RegisterGameUI(this);
-        //Sync UI
-        // var barrierUIController = UIManager.Instance.GetUI<BarrierUIController>(UIType.MinimapUI);
-        // barrierUIController.SetBarrierController(this);
-        
+        _inGameUIController.RegisterGameUI(this);       
     }
 
     private void OnBarrierDamaged(float damage)
