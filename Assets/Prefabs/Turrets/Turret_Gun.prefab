@@ -5407,7 +5407,6 @@ MonoBehaviour:
   noAmmoImage: {fileID: 701781578664068269}
   muzzleMain: {fileID: 3683984735190666069}
   muzzleSub: {fileID: 0}
-  muzzleEff: {fileID: 1497772684437746, guid: 7a3aa3ccf9a17a14cb338122add5f6ef, type: 3}
   progressBarFix: {fileID: 5392900652849175741}
 --- !u!114 &5133098183096569773
 MonoBehaviour:

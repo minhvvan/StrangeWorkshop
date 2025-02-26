@@ -15,7 +15,9 @@ public class BarrierController : MonoBehaviour
     public float TotalHeath => _totalHealth;
     public float MaxHealth => _maxHealth;
 
+
     [Header("Events")] 
+    private InGameUIController _inGameUIController;
     private BarrierDestroyEventSO _destroyEventSO;
     private BarrierDamagedEventSO _damagedEventSO;
     public Action<Barrier> OnBarrierDamagedAction;
@@ -46,10 +48,13 @@ public class BarrierController : MonoBehaviour
         {
             barrier.InitHealth(barrierHP);
         }
-
+        
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);
         //Sync UI
-        var barrierUIController = UIManager.Instance.GetUI<BarrierUIController>(UIType.MinimapUI);
-        barrierUIController.SetBarrierController(this);
+        // var barrierUIController = UIManager.Instance.GetUI<BarrierUIController>(UIType.MinimapUI);
+        // barrierUIController.SetBarrierController(this);
+        
     }
 
     private void OnBarrierDamaged(Barrier barrier, float damage)

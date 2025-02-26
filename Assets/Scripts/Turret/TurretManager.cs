@@ -19,18 +19,6 @@ public class TurretManager : Singleton<TurretManager>
             ToggleRangeEff();
         }
     }
-    // private TurretFactory _turretFactory;
-    
-    
-    // void CreateTurret(TurretType turretType)
-    // {
-    //     _turrets.Add(_turretFactory.CreateTurret(turretType, transform));
-    // }
-    //
-    // void CreateTurret(TurretType turretType, Transform parentTransform)
-    // {
-    //     _turrets.Add(_turretFactory.CreateTurret(turretType, parentTransform));
-    // }
 
     public void AddTurret(Turret turret)
     {
