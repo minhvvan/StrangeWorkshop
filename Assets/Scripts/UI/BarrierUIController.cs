@@ -51,12 +51,13 @@ public class BarrierUIController : MonoBehaviour, IGameUI
 
     public void ShowUI()
     {
-        UIAnimationUtility.SlideInRight(_root);   
+        UIAnimationUtility.SlideInLeft(_root);   
     }
 
     public void HideUI()
     {
-        UIAnimationUtility.SlideOutRight(_root);
+        Vector2 originalPos = _root.anchoredPosition;
+        UIAnimationUtility.SlideOutLeft(_root, callback: () => _root.anchoredPosition = originalPos);
     }
 
     public void CleanUp()
