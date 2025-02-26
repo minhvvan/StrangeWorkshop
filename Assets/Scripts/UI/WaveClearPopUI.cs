@@ -34,9 +34,9 @@ public class WaveClearPopUI : MonoBehaviour
         var sequence = DOTween.Sequence();
         sequence.SetLink(rect.gameObject);
         
-        UIAnimationUtility.SlideInLeft(rect);
+        UIAnimationUtility.SlideInRight(rect);
         DOVirtual.DelayedCall(3f, () => 
-            UIAnimationUtility.SlideOutLeft(rect, callback: () => rect.anchoredPosition = originPos));
+            UIAnimationUtility.SlideOutRight(rect, callback: () => rect.anchoredPosition = originPos));
         // rect.DOAnchorPos(rect.anchoredPosition + new Vector2(-400f,0), 0.5f)
         //     .SetEase(Ease.InFlash);
         // DOVirtual.DelayedCall(3f, () =>
