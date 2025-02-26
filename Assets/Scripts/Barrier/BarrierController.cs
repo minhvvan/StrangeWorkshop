@@ -21,6 +21,7 @@ public class BarrierController : MonoBehaviour
     private InGameUIController _inGameUIController;
     private BarrierDestroyEventSO _destroyEventSO;
     private BarrierDamagedEventSO _damagedEventSO;
+    private BarrierDestroyEventSO _destroyEventSO;
     public Action<float> OnBarrierHealthChangedAction;
 
     private async void Awake()
@@ -28,7 +29,6 @@ public class BarrierController : MonoBehaviour
 #if UNITY_EDITOR
         await UniTask.WaitUntil(() => GameBootstrapper.IsInitialized);
 #endif
-        
         //Init
         _barrierStat = await DataManager.Instance.LoadDataAsync<BarrierStatSO>(Addresses.Data.Barrier.STAT);
         if (_barrierStat)
@@ -39,6 +39,7 @@ public class BarrierController : MonoBehaviour
         
         //Event
         _damagedEventSO = await DataManager.Instance.LoadDataAsync<BarrierDamagedEventSO>(Addresses.Events.Barrier.BARRIER_DAMAGED);
+        _destroyEventSO = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROYED);
         _damagedEventSO.AddListener(OnBarrierDamaged);
         Barriers = GetComponentsInChildren<Barrier>().ToList();
         Barriers.Sort((a, b) =>  b.BarrierType.CompareTo(a.BarrierType));
@@ -61,6 +62,13 @@ public class BarrierController : MonoBehaviour
     private void OnBarrierDamaged(float damage)
     {
         _totalHealth -= damage;
+
+        if (_totalHealth <= 0)
+        {
+            _totalHealth = 0;
+            _destroyEventSO.Raise();
+        }
+        
         OnBarrierHealthChangedAction?.Invoke(_totalHealth);
     }
 }
