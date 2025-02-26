@@ -13,9 +13,6 @@ public class WaveUIController : MonoBehaviour, IGameUI
     
     [SerializeField] private WaveClearPopUI _waveClearPop;
     [SerializeField] private WaveAlertPopUI _waveAlertPop;
-    private float popupDuration;
-
-    [SerializeField] private RectTransform waveUiRect;
     
     private void Awake()
     { 
@@ -32,7 +29,7 @@ public class WaveUIController : MonoBehaviour, IGameUI
 
     public void SetPreparationTime(float duration)
     {
-        popupDuration = duration;
+        // popupDuration = duration;
     }
     
     public void OnWaveClearPopup()
@@ -41,10 +38,10 @@ public class WaveUIController : MonoBehaviour, IGameUI
         _waveClearPop.RunUI();
     }
 
-    public void OnWaveAlertPopup()
+    public void OnWaveAlertPopup(float popupDuration)
     {
         _waveAlertPop.gameObject.SetActive(true);
-        _waveAlertPop.RunUI(popupDuration).Forget();
+        _waveAlertPop.RunUI(popupDuration);
     }
     
     public void ShowUI()

@@ -65,11 +65,17 @@ public class EnemySpawner : MonoBehaviour
     
     private List<EnemySpawnInfo> _spawnInfos = new(); //스폰할 적 정보, 소환할 양.
     private List<WaveDataSO> _waveDatas = new(); //챕터에게서 받을 웨이브 데이터 리스트
-    private WaveUIController _waveUIController;
+    // private WaveUIController _waveUIController;
     
     [SerializeField] private ChapterDataSO _chapterData;
 
     private CancellationTokenSource _cts;//Delay강제종료
+
+    private InGameUIController _inGameUIController;
+    
+    [Header("Events")]
+    public Action OnWaveClearAction;
+    public Action<float> OnWaveAlertAction;
     
     private async void Awake()
     {
@@ -86,14 +92,17 @@ public class EnemySpawner : MonoBehaviour
         _chapterData = await EnemyFactory.LoadChapter(chapterDatas);
         
         //WaveUIController 생성
-        await UniTask.WaitUntil(() => _waveUIController = 
-            UIManager.Instance.GetUI<WaveUIController>(UIType.WaveUI));
+        // await UniTask.WaitUntil(() => _waveUIController = 
+        //     UIManager.Instance.GetUI<WaveUIController>(UIType.WaveUI));
+        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);
     }
 
     private async void Start()
     {
         await UniTask.WaitUntil(() => _chapterData != null);
-        await UniTask.WaitUntil(() => _waveUIController != null);
+        // await UniTask.WaitUntil(() => _waveUIController != null);
         ChapterSequence(_chapterData).Forget();
     }
 
@@ -106,7 +115,7 @@ public class EnemySpawner : MonoBehaviour
     private async UniTask ChapterSequence(ChapterDataSO _chapterData)
     {
         await SetWaveList(_chapterData.waves);
-        await SetPreparationTime(_chapterData.preparationTime);
+        // await SetPreparationTime(_chapterData.preparationTime);
         foreach (var waveData in _waveDatas)
         {
             await StartUpWave();
@@ -125,14 +134,15 @@ public class EnemySpawner : MonoBehaviour
     private async UniTask SetPreparationTime(float time)
     {
         _preparationTime = time;
-        _waveUIController.SetPreparationTime(_preparationTime);
+        // _waveUIController.SetPreparationTime(_preparationTime);
         await UniTask.CompletedTask;
     }
 
     private async UniTask StartUpWave()
     {
-        await UniTask.WaitUntil(() => _waveUIController != null);
-        _waveUIController.SetWaveUIController(WaveUIController.instance.OnWaveAlertPopup);
+        OnWaveAlertAction?.Invoke(_chapterData.preparationTime);
+        // await UniTask.WaitUntil(() => _waveUIController != null);
+        // _waveUIController.SetWaveUIController(WaveUIController.instance.OnWaveAlertPopup);
         await UniTask.Delay(TimeSpan.FromSeconds(_preparationTime));
     }
 
@@ -179,7 +189,8 @@ public class EnemySpawner : MonoBehaviour
 
     private async UniTask WaveClearAlarm()
     {
-        _waveUIController.SetWaveUIController(WaveUIController.instance.OnWaveClearPopup);
+        OnWaveClearAction?.Invoke();
+        // _waveUIController.SetWaveUIController(WaveUIController.instance.OnWaveClearPopup);
         await UniTask.WaitForSeconds(3f);
     }
     
