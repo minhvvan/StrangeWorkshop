@@ -5,29 +5,29 @@ using UnityEngine;
 
 public class ClearCounter : BaseCounter
 {
-    public override void Interact(SampleCharacterController player)
+    public override void Interact(IHoldableObjectParent parent)
     {
         if (!HasHoldableObject())
         {
-            if (player.HasHoldableObject())
+            if (parent.HasHoldableObject())
             {
-                player.GiveHoldableObject(this);
+                parent.GiveHoldableObject(this);
             }
         }
         else
         {
-            if (player.HasHoldableObject())
+            if (parent.HasHoldableObject())
             {
-                if (GetHoldableObject().Acceptable(player.GetHoldableObject()))
+                if (GetHoldableObject().Acceptable(parent.GetHoldableObject()))
                 {
-                    player.ClearHoldableObject();
+                    parent.ClearHoldableObject();
                 }
             }
             
-            if (!player.HasHoldableObject())
+            if (!parent.HasHoldableObject())
             {
-                GiveHoldableObject(player);
-                player.TakeoffGlove();
+                GiveHoldableObject(parent);
+                TakeOffPlayerGlove(parent);
             }
         }
     }
