@@ -27,8 +27,8 @@ public class RecipeUIController : MonoBehaviour, IGameUI
     private int currentLevel = 0;
     
     private readonly int _maxRecipeUINum = 2;
-    private readonly float _xPos = -28f;
-    private readonly float _topYPos = 85f;
+    private readonly float _xPos = 0f;
+    private readonly float _topYPos = 200f;
     private readonly float _interval = 30f;
 
     public async UniTask Initialize(CraftRecipeCollectionSO recipeCollectionSO)
@@ -106,13 +106,13 @@ public class RecipeUIController : MonoBehaviour, IGameUI
             // 이미 활성화 되어있던 레시피일 때
             if (_activatedRecipeUIs.ContainsKey(recipeName))
             {
-                Vector3 newPosition = new Vector3(recipeUI.localPosition.x, currentYPos, recipeUI.localPosition.z);
+                Vector2 newPosition = new Vector2(_xPos, currentYPos);
                 UIAnimationUtility.MoveSmoothly(recipeUI, newPosition);
             }
             // 활성화되지 않은 레시피일 때
             else
             {
-                recipeUI.localPosition = new Vector3(_xPos, currentYPos, recipeUI.localPosition.z);
+                recipeUI.anchoredPosition = new Vector2(_xPos, currentYPos);
                 UIAnimationUtility.SlideInRight(recipeUI);
                 _activatedRecipeUIs[recipeName] = recipeUI;
             }
@@ -204,8 +204,6 @@ public class RecipeUIController : MonoBehaviour, IGameUI
                 }
             }
         }
-        // _recommendedRecipes.Add(_bulletRecipe);
-        // _recommendedRecipes.Add(_upgradeRecipe);
     }
     
     public void CleanUp()
