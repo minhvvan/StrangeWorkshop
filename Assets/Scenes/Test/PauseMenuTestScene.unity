@@ -424,7 +424,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1001 &42320008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1939,7 +1938,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &362521578
 GameObject:
   m_ObjectHideFlags: 0
@@ -2075,7 +2073,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &372947488
 GameObject:
   m_ObjectHideFlags: 0
@@ -3527,7 +3524,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!4 &661121843 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4448773531755542131, guid: 1f3a08a6408546247a01dd597739afcc,
@@ -4423,7 +4419,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1001 &783821877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4651,9 +4646,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3009fa49f41034174ad01c70de267047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseCanvasGroup: {fileID: 460530851}
+  _canvasGroup: {fileID: 460530851}
   fadeDuration: 0.3
-  firstSelected: {fileID: 1682511945}
+  _firstSelected: {fileID: 1682511945}
+  _globalVolume: {fileID: 1439517330}
 --- !u!1001 &840193819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5633,7 +5629,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!4 &1001069934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4448773531755542131, guid: 1f3a08a6408546247a01dd597739afcc,
@@ -7847,7 +7842,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 0
+  weight: 1
   sharedProfile: {fileID: 11400000, guid: b4f6b276e7a20384bbbb95956cc80cb9, type: 2}
 --- !u!4 &1439517331
 Transform:
@@ -8159,7 +8154,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &1451865637
 GameObject:
   m_ObjectHideFlags: 0
@@ -8850,7 +8844,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 30
   m_Depth: -1
   m_CullingMask:
@@ -8905,7 +8899,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -9685,7 +9679,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1001 &1685853313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11812,7 +11805,6 @@ MonoBehaviour:
   transitionTime: 0.1
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &2017457090
 GameObject:
   m_ObjectHideFlags: 0
