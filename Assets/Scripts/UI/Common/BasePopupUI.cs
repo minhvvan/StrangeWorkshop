@@ -5,57 +5,87 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
-public abstract class BasePopupUI: MonoBehaviour
+public abstract class BasePopupUI: MonoBehaviour, IGameUI
 {
     [SerializeField] CanvasGroup _canvasGroup;
     [SerializeField] float fadeDuration = 0.3f;    
-    [SerializeField] Selectable _firstSelected;    
-    [SerializeField] Volume _globalVolume;
+    [SerializeField] Selectable _firstSelected;
+    Volume _globalVolume;
     DepthOfField _dof;
  
     public bool IsOpen { get ; private set ; }
 
 
-    void Start()
-    {
-        Initialize();
+    void Awake(){
+        _globalVolume = GameObject.FindObjectOfType<Volume>();
     }
 
-    void Initialize()
+    public void Initialize()
     {
-        _canvasGroup.alpha = 0;
-        _canvasGroup.gameObject.SetActive(false);
+        if(_canvasGroup != null)
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.gameObject.SetActive(false);
+        }
 
         if (_globalVolume.profile.TryGet(out _dof))
         {
             _dof.focusDistance.value = 5f;
         }
     }
-  
-    public void Show()
-    {
-        IsOpen = true;
-        Time.timeScale = 0;
-        _canvasGroup.DOKill(false);
-        _canvasGroup.gameObject.SetActive(true);
-        _canvasGroup.DOFade(1, fadeDuration).SetUpdate(true);
-        DOTween.To(() => _dof.focusDistance.value, x => _dof.focusDistance.value = x, 1f, fadeDuration).SetUpdate(true);
 
-        SelectFirstUI();
+    public void CleanUp()
+    {
+        HideImmediate();
     }
 
-    public void Hide()
+    public void ShowUI()
+    {
+        transform.SetAsLastSibling();
+
+        IsOpen = true;
+        Time.timeScale = 0;
+        if(_canvasGroup != null)
+        {
+            _canvasGroup.DOKill(false);
+            _canvasGroup.gameObject.SetActive(true);
+            _canvasGroup.DOFade(1, fadeDuration).SetUpdate(true);
+        }
+        if(_dof != null)
+        {
+            DOTween.To(() => _dof.focusDistance.value, x => _dof.focusDistance.value = x, 1f, fadeDuration).SetUpdate(true);
+        }
+
+        SelectFirstUI();        
+    }
+
+    public void HideUI()
     {
         IsOpen = false;
         Time.timeScale = 1;
-        _canvasGroup.DOKill(false);
+
+        if(_canvasGroup != null)
+        {
+            _canvasGroup.DOKill(false);
+        }
         
-        DOTween.To(() => _dof.focusDistance.value, x => _dof.focusDistance.value = x, 5f, fadeDuration).SetUpdate(true).SetEase(Ease.InExpo);
-        _canvasGroup.DOFade(0, fadeDuration).SetUpdate(true).OnComplete(() =>
+        if(_dof != null)
+        {
+            DOTween.To(() => _dof.focusDistance.value, x => _dof.focusDistance.value = x, 5f, fadeDuration).SetUpdate(true).SetEase(Ease.InExpo);
+        }
+        
+        if(_canvasGroup != null)
+        {
+            _canvasGroup.DOFade(0, fadeDuration).SetUpdate(true).OnComplete(() =>
+            {
+                UnselectUI();
+                _canvasGroup.gameObject.SetActive(false);
+            });
+        }
+        else
         {
             UnselectUI();
-            _canvasGroup.gameObject.SetActive(false);
-        });
+        }
     }
     
     /// <summary>
@@ -65,14 +95,19 @@ public abstract class BasePopupUI: MonoBehaviour
     {
         IsOpen = false;
         Time.timeScale = 1;
-        _canvasGroup.DOKill(false);
         _dof.focusDistance.value = 5f;
-        _canvasGroup.alpha = 0;
+
+        if(_canvasGroup != null)
+        {
+            _canvasGroup.DOKill(false);
+            _canvasGroup.alpha = 0;
+            _canvasGroup.gameObject.SetActive(false);    
+        }        
+        
         UnselectUI();
-        _canvasGroup.gameObject.SetActive(false);
     }
 
-    void SelectFirstUI()
+    public void SelectFirstUI()
     {
         if (_firstSelected != null)
         {
@@ -80,7 +115,7 @@ public abstract class BasePopupUI: MonoBehaviour
         }
     }
 
-    void UnselectUI()
+    public void UnselectUI()
     {
         EventSystem.current.SetSelectedGameObject(null);
     }
