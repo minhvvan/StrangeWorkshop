@@ -15,5 +15,5 @@ MonoBehaviour:
   vfxType: 11
   vfxPrefab: {fileID: 1501396549107500, guid: be5579a59e306a34fb26c57ed1cb4b11, type: 3}
   poolSize: 0
-  duration: 0
-  size: {x: 1, y: 1, z: 1}
+  duration: 1
+  size: {x: 2, y: 2, z: 2}

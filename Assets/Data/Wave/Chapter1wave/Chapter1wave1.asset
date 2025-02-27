@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Chapter1wave1
   m_EditorClassIdentifier: 
   waveNumber: 1
-  duration: 10
+  duration: 4
   enemySpawns:
   - enemyData: {fileID: 11400000, guid: fa893e49ab3d5b542b72e988fa937f02, type: 2}
-    count: 2
+    count: 1
     areaID: 0
-  spawnInterval: 5
+  spawnInterval: 1

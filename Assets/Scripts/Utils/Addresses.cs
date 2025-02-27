@@ -24,8 +24,8 @@ public static class Addresses
         
         public static class Barrier
         {
-            public const string BARRIER_DESTROY = "events/barrier/destroy";
             public const string BARRIER_DAMAGED = "events/barrier/damaged";
+            public const string BARRIER_DESTROYED = "events/barrier/destroyed";
         }
     }
     
@@ -79,6 +79,7 @@ public static class Addresses
         public static class UI
         {
             public const string COMMON = "data/ui/common";
+            public const string CHAPTER_RECIPE = "data/ui/chapter_recipe";
         }
 
         public static class FX
@@ -113,8 +114,11 @@ public static class Addresses
         
         public static class UI
         {
-            public const string BARRIER_FLAT = "prefabs/ui/barrier_flat";
-            public const string BARRIER_CORNER = "prefabs/ui/barrier_corner";
+        }
+        
+        public static class Enemy
+        {
+            public const string THROW_SWORD = "prefabs/enemy/throw_sword";
         }
     }
 }

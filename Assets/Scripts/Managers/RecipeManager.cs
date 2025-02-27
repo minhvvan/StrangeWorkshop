@@ -12,9 +12,11 @@ public class RecipeManager : Singleton<RecipeManager>
 {
     [SerializeField] private CraftRecipeCollectionSO craftRecipeCollection;
     [SerializeField] private ProcessRecipeCollectionSO processRecipeCollection;
-
+    
     public bool IsInitialized { get; private set; }
 
+    public CraftRecipeCollectionSO GetCraftRecipeCollection => craftRecipeCollection;
+    
     private async void Start()
     {
         await Initialize();
@@ -62,17 +64,24 @@ public class RecipeManager : Singleton<RecipeManager>
     }
     
     // WillMake CraftRecipe 검사
-    public CraftRecipeSO FindCraftRecipeCandidate(List<HoldableObject> inputs)
+    public List<CraftRecipeSO> FindCraftRecipeCandidate(List<HoldableObject> inputs)
     {
+        // 레시피 후보군을 List로 전부 반환하도록 변경 완료
+        // 후보군이 있는지 확인할 때는 list 길이가 0보다 큰지 체크
+        List<CraftRecipeSO> result = new List<CraftRecipeSO>();
+
+        if (inputs.Count <= 0) return result; // inputs가 빈 리스트일때 예외처리
+        
         var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
         foreach (var craftrecipe in craftRecipeCollection.recipes)
         {
             if (WillMake(inputList, craftrecipe))
             {
-                return craftrecipe;
+                result.Add(craftrecipe);
             }
         }
-        return null;
+
+        return result;
     }
     
     private bool WillMake(List<HoldableObjectSO> inputs, CraftRecipeSO craftRecipe)

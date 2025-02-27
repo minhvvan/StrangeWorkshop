@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f3fcd37d78e96044b76b4e77399b211
+    m_Address: events/barrier/destroyed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 27cd494195e67784bb381d36d355edfc
     m_Address: events/game/state_changed
     m_ReadOnly: 0
@@ -29,6 +34,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3321b19b2f084494280028cf7f74adc2
     m_Address: data/recipes/Process
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52a7ec28c384f98488d9ef1e3ad96651
+    m_Address: prefabs/enemy/throw_sword
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -47,23 +57,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a660f00e2d8ed614eb991c416793c270
-    m_Address: prefabs/ui/barrier_corner
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c08f513d960d1694193a2a6aaa3122f7
-    m_Address: events/barrier/destroy
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c11132ab267656e4ca77c7c112e2cc84
     m_Address: data/chapters/chapter_list
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d306bd5f36476e3438c54e9c31544d32
-    m_Address: prefabs/ui/barrier_flat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -79,6 +74,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fde2db5b18db17e49a3aa318de4d8de8
     m_Address: data/player/stats
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fec3669208f840c4ebcced89043d4b28
+    m_Address: data/ui/chapter_recipe
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

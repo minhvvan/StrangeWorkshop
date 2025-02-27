@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Outline))]
+[RequireComponent(typeof(QuickOutline))]
 public class SelectCounterVisual : MonoBehaviour
 {
     public enum SelectType
@@ -15,14 +15,14 @@ public class SelectCounterVisual : MonoBehaviour
     
     [SerializeField] SelectType selectType;
     [SerializeField] private GameObject[] visualGameObjectArray;
-    private Outline outline;
+    private QuickOutline _quickOutline;
     
     
 
     void Start()
     {
-        outline = GetComponent<Outline>();
-        outline.enabled = false;
+        _quickOutline = GetComponent<QuickOutline>();
+        _quickOutline.enabled = false;
     }
     
     public void Show()
@@ -36,7 +36,7 @@ public class SelectCounterVisual : MonoBehaviour
                 }
                 break;
             case SelectType.Outline:
-                outline.enabled = true;
+                _quickOutline.enabled = true;
                 break;
         }
     }
@@ -52,7 +52,7 @@ public class SelectCounterVisual : MonoBehaviour
                 }
                 break;
             case SelectType.Outline:
-                outline.enabled = false;
+                _quickOutline.enabled = false;
                 break;
         }
     }
