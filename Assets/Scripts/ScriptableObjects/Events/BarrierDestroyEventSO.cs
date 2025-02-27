@@ -6,9 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BarrierDestroyEvent", menuName = "SO/Event/BarrierDestroy")]
 public class BarrierDestroyEventSO : BaseEventSO
 {
-    private event Action<Barrier> _onEventRaised;
+    private event Action _onEventRaised;
     
-    public void Raise(Barrier barrier) => _onEventRaised?.Invoke(barrier);
-    public void AddListener(Action<Barrier> listener) => _onEventRaised += listener;
-    public void RemoveListener(Action<Barrier> listener) => _onEventRaised -= listener;
+    public void Raise() => _onEventRaised?.Invoke();
+    public void AddListener(Action listener) => _onEventRaised += listener;
+    public void RemoveListener(Action listener) => _onEventRaised -= listener;
 }
