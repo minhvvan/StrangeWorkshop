@@ -35,15 +35,15 @@ public class CraftCounter : BaseCounter
         _inGameUIController.RegisterGameUI(this);
     }
 
-    public override void Interact(SampleCharacterController player)
+    public override void Interact(IHoldableObjectParent parent)
     {
         // 플레이어가 물체를 들고 있으면
-        if (player.HasHoldableObject())
+        if (parent.HasHoldableObject())
         {
             // DeepCopy로 연산에 필요한 List생성 후 계산
             List<HoldableObject> CompareList = new(GetHoldableObjectList())
             {
-                player.GetHoldableObject()
+                parent.GetHoldableObject()
             };
             
             // 플레이어의 재료를 놓을 때 만들 수 있는 레시피가 있는 검사
@@ -53,13 +53,12 @@ public class CraftCounter : BaseCounter
                 return;
             }
             
-            player.GiveHoldableObject(this);
+            parent.GiveHoldableObject(this);
             
             // 현재 만들 수 있는 레시피가 있으면 저장
             _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
             SetCurrentCraftIndex();
             
-            // UI 업데이트
             var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
             OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
         }
@@ -67,10 +66,10 @@ public class CraftCounter : BaseCounter
         {
             if (HasHoldableObject())
             {
-                GiveHoldableObject(player);
+                GiveHoldableObject(parent);
                 _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
                 SetCurrentCraftIndex();
-                player.TakeoffGlove();
+                TakeOffPlayerGlove(parent);
                 
                 var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
                 OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
@@ -79,7 +78,7 @@ public class CraftCounter : BaseCounter
     }
     
     // 레시피가 존재하면 상호작용시 결과 반환
-    public override void InteractAlternate(SampleCharacterController player)
+    public override void InteractAlternate(IHoldableObjectParent player)
     {
         if (!_currentCraftRecipeSO.IsUnityNull())
         {
@@ -97,7 +96,6 @@ public class CraftCounter : BaseCounter
                 ClearHoldableObject();
                 HoldableObject.SpawnHoldableObject(_currentCraftRecipeSO.output, this);
                 OnCraftCompleteAction?.Invoke(_currentCraftRecipeSO.output);
-                
                 _currentCraftRecipeSO = null;
                 _currentIndex = 0;
                 _progressBar.ResetBar();

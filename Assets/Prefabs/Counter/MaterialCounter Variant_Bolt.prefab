@@ -496,6 +496,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1a5968ddb0d5d23479c9f1f02a331dd2,
         type: 2}
+    - target: {fileID: 6115089911551680583, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6,
+        type: 3}
+      propertyPath: outlineMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115089911551680583, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6,
+        type: 3}
+      propertyPath: outlineWidth
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6795355551777765322, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6,
         type: 3}
       propertyPath: selectType
@@ -523,6 +533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3622301998725206524, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6, type: 3}
+    - {fileID: 111878051999714304, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2145782947434592347, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6, type: 3}
     - {fileID: 726020827542145595, guid: eb93b8b2cedda5247a0ab65e5cf5d9a6, type: 3}

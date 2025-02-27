@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/a_workspace/minjun/Scene/TestScene/NavMesh-NavMeshSurface.asset.meta
+guid: c3090589b47fd8a4e9468773dc6318b2
+========
+guid: 0fd5627bcbe07db43931377729ee004b
+>>>>>>>> develop:Assets/Data/Wave/Chapter1wave/Chapter1wave1_2.asset.meta
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

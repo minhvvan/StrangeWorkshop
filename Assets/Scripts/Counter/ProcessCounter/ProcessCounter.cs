@@ -33,24 +33,24 @@ public class ProcessCounter : BaseCounter
         _stateMachine.Update();
     }
 
-    public override void Interact(SampleCharacterController player)
+    public override void Interact(IHoldableObjectParent parent)
     {
         if (!HasHoldableObject())
         {
-            if (player.HasHoldableObject())
+            if (parent.HasHoldableObject())
             {
                 //플레이어가 가지고 있는 HoldableObject로 가공품을 만들 수 있지 검사
-                currentRecipe = RecipeManager.Instance.FindProcessRecipe(player.GetHoldableObject());
+                currentRecipe = RecipeManager.Instance.FindProcessRecipe(parent.GetHoldableObject());
                 if (currentRecipe.IsUnityNull()) return;
-                player.GiveHoldableObject(this);
+                parent.GiveHoldableObject(this);
             }
         }
         else
         {
-            if (!player.HasHoldableObject())
+            if (!parent.HasHoldableObject())
             {
-                GiveHoldableObject(player);
-                player.TakeoffGlove();
+                GiveHoldableObject(parent);
+                TakeOffPlayerGlove(parent);
                 if (!HasHoldableObject())
                 {
                     SetState(_noneState);
@@ -62,7 +62,7 @@ public class ProcessCounter : BaseCounter
     }
 
     // 레시피가 존재하면 상호작용
-    public override void InteractAlternate(SampleCharacterController player)
+    public override void InteractAlternate(IHoldableObjectParent player)
     {
         if (!currentRecipe.IsUnityNull())
         {

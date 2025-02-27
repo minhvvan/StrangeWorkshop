@@ -8,9 +8,10 @@ public class GlovesCounter : BaseCounter
     [SerializeField] Transform glovePrefab;
 
     private Transform glove;
-    public override void Interact(SampleCharacterController player)
+    public override void Interact(IHoldableObjectParent parent)
     {
-        if (!player.HasHoldableObject())
+        SampleCharacterController player = parent as SampleCharacterController;
+        if (player != null && !player.HasHoldableObject())
         {
             player.WearGlove(glove);
             glove.localPosition = Vector3.zero;

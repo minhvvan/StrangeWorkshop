@@ -13,8 +13,9 @@ public enum UIType
     None,
     MinimapUI,
     WaveUI,
-    ChapterUI,
+    RecipeUI,
     InGameUI,
+    ChapterUI,
     Max,
 }
 
