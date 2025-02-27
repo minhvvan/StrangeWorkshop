@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: a58137614cf274433b6d86c5fb18bea1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - skewImageShader: {fileID: 4800000, guid: 0b7436001a67c4468ac54e74eace9e03, type: 3}
+  - skewTextShader: {fileID: 4800000, guid: 2c2baa4e4b7744ac4b3c3764143f57ce, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
