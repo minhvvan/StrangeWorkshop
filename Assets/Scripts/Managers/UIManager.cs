@@ -99,6 +99,8 @@ public class UIManager : Singleton<UIManager>
     {
         if (_activeUIs.TryGetValue(type, out var ui))
         {
+            if(ui.IsUnityNull()) return CreateUI<T>(type);
+
             return ui as T;
         }
 
