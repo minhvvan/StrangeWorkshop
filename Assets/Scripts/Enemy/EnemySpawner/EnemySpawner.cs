@@ -103,15 +103,24 @@ public class EnemySpawner : MonoBehaviour
 
     private async void Start()
     {
-        await UniTask.WaitUntil(() => _chapterData != null);
-        // await UniTask.WaitUntil(() => _waveUIController != null);
-        ChapterSequence(_chapterData).Forget();
+        Initialize().Forget();
     }
 
     private void Update()
     {
 #if TestMode
 #endif
+    }
+
+    private async UniTask Initialize()
+    {
+        await UniTask.WaitUntil(() => _chapterData != null);
+        // await UniTask.WaitUntil(() => _waveUIController != null);
+        
+        //대기 시간없이 바로 실행되었을때 pathfinder를 못 긁어오는 부분 방지.
+        await UniTask.WaitUntil(() => EnemyPathfinder.instance.isBPloaded);
+        
+        ChapterSequence(_chapterData).Forget();
     }
     
     private async UniTask ChapterSequence(ChapterDataSO _chapterData)

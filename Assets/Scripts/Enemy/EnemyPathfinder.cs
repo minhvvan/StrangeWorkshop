@@ -15,10 +15,12 @@ public class EnemyPathfinder : MonoBehaviour
     //공개 저장형 백업리스트
     public List<Transform> pbBarrierPoints = new List<Transform>();
     
-    //밀림 방지 기능 구현중. 미완성
-    public List<Collider> enemyInCounter = new List<Collider>();
-    public List<Collider> ignoreColliders = new List<Collider>();
+    // //밀림 방지 기능 구현중. 미완성
+    // public List<Collider> enemyInCounter = new List<Collider>();
+    // public List<Collider> ignoreColliders = new List<Collider>();
     
+    //
+    public bool isBPloaded = false;
 
     private void Awake()
     {
@@ -27,33 +29,39 @@ public class EnemyPathfinder : MonoBehaviour
 
     private async void Start()
     {
+        await Initialize();
+    }
+
+    private async UniTask Initialize()
+    {
         _barrierController = GameObject.Find("Barrier").GetComponent<BarrierController>();
-        List<Barrier> barriers = new List<Barrier>();
         
         await UniTask.WaitUntil(() =>_barrierController.Barriers != null && _barrierController.Barriers.Count > 0);
-        
         foreach (var barrier in _barrierController.Barriers)
         {
-            //pivot이 공중에 떠있어서 AI가 위쪽이라 인식함. 대응 필요.
             barrierPoints.Add(barrier.transform);
         }
         
+        await UniTask.WaitUntil(()=>barrierPoints != null);
         pbBarrierPoints.AddRange(barrierPoints);
+        
+        await UniTask.WaitUntil(()=> pbBarrierPoints != null);
+        isBPloaded = true;
     }
 
    /// <summary>
-   /// 
+   /// 가장 가까운 방벽위치를 찾습니다.
    /// </summary>
-   /// <param name="enemy"></param>
-   /// <returns></returns>
-    public Transform MatchTarget(Transform enemy)
+   /// <param name="order">본인의 Transform을 받습니다.</param>
+   /// <returns>가장 가까운 타겟을 반환합니다.</returns>
+    public Transform MatchTarget(Transform order)
     {
         List<float> targets = new();
         float nearTarget = 0f;
         
         foreach (Transform barrier in barrierPoints)
         {
-            targets.Add(Vector3.Distance(enemy.position, barrier.position));
+            targets.Add(Vector3.Distance(order.position, barrier.position));
         }
 
         //가장 거리가 가까운 것 찾기.
@@ -74,21 +82,22 @@ public class EnemyPathfinder : MonoBehaviour
     /// <summary>
     /// 지정한 대상을 제외하고 탐색합니다.
     /// </summary>
-    /// <param name="enemy">적 본인의 position을 받습니다.</param>
-    /// <param name="disableTarget">탐색을 제외할 타겟의 position을 받습니다.</param>
+    /// <param name="order">본인의 Transform을 받습니다.</param>
+    /// <param name="disableTarget">탐색을 제외할 타겟의 List Trasform을 받습니다.</param>
     /// <returns>지정한 대상을 제외하고 가장 가까운 타겟을 반환합니다.</returns>
-    public Transform ExcludeMatchTarget(Vector3 enemy, Transform disableTarget)
+    public Transform ExcludeMatchTarget(Transform order, Transform disableTarget)
     {
         //Debug.Log("Exclude Match Target");
-        List<float> targets = new();
-        float nearTarget = 0f;
+        List<Transform> targets = new();
+        float nearTarget = Mathf.Infinity;
         
         foreach (Transform barrier in barrierPoints)
         {
             //지정대상을 제외하고 할당함.
             if (barrier != disableTarget)
             {
-                targets.Add(Vector3.Distance(enemy, barrier.position));
+                //targets.Add(Vector3.Distance(order.position, barrier.position));
+                targets.Add(barrier);
             }
         }
 
@@ -96,21 +105,22 @@ public class EnemyPathfinder : MonoBehaviour
         int bind = 0;
         for (int i = 0; i < targets.Count; i++)
         {
-            //최초 1회 일단 할당, 이후 값이 작을수록 재할당.
-            if (nearTarget == 0 || nearTarget > targets[i])
+            float distance = Vector3.Distance(order.position, targets[i].position);
+            //값이 작을수록 재할당.
+            if (nearTarget > distance)
             {
-                nearTarget = targets[i];
+                nearTarget = distance;
                 bind = i;
             }
         }
 
-        return barrierPoints[bind];
+        return targets[bind];
     }
 
     /// <summary>
     /// 타겟을 리스트에서 제거합니다.
     /// </summary>
-    /// <param name="target">체력이 0인 타겟을 받습니다.</param>
+    /// <param name="target">방벽위치 리스트에서 제외할 타겟을 받습니다.</param>
     public void RemoveTarget(Transform target)
     {
         if (barrierPoints.Contains(target))
@@ -130,56 +140,56 @@ public class EnemyPathfinder : MonoBehaviour
         return barrierPoints[Random.Range(0, barrierPoints.Count)];
     }
 
-    //충돌 상태 전체갱신
-    public void ColliderControl()
-    {
-        if (ignoreColliders != null && enemyInCounter != null)
-        {
-            for (int i = 0; i < ignoreColliders.Count; i++)
-            {
-                foreach (var enemys in enemyInCounter)
-                {
-                    Physics.IgnoreCollision(
-                        ignoreColliders[i], enemys, true);
-                }
-            }
-        }
-    }
-
-    //신규 생성 적 충돌갱신
-    public void ColliderSet(Collider targetCol)
-    {
-        if (ignoreColliders != null)
-        {
-            foreach (var cols in ignoreColliders)
-            {
-                Physics.IgnoreCollision(
-                    cols, targetCol, true);
-            }
-        }
-    }
-
-    //충돌 비활성화
-    public void ColliderDisable(Collider targetCol)
-    {
-        ignoreColliders.Add(targetCol);
-        foreach (var enemys in enemyInCounter)
-        {
-            Physics.IgnoreCollision(
-                targetCol, enemys, true);
-        }
-    }
-
-    //충돌 재활성화
-    public void ColliderReEnable(Collider targetCol)
-    {
-        foreach (var enemys in enemyInCounter)
-        {
-            Physics.IgnoreCollision(
-                targetCol, enemys, false);
-        }
-        ignoreColliders.Remove(targetCol);
-    }
+    // //충돌 상태 전체갱신
+    // public void ColliderControl()
+    // {
+    //     if (ignoreColliders != null && enemyInCounter != null)
+    //     {
+    //         for (int i = 0; i < ignoreColliders.Count; i++)
+    //         {
+    //             foreach (var enemys in enemyInCounter)
+    //             {
+    //                 Physics.IgnoreCollision(
+    //                     ignoreColliders[i], enemys, true);
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // //신규 생성 적 충돌갱신
+    // public void ColliderSet(Collider targetCol)
+    // {
+    //     if (ignoreColliders != null)
+    //     {
+    //         foreach (var cols in ignoreColliders)
+    //         {
+    //             Physics.IgnoreCollision(
+    //                 cols, targetCol, true);
+    //         }
+    //     }
+    // }
+    //
+    // //충돌 비활성화
+    // public void ColliderDisable(Collider targetCol)
+    // {
+    //     ignoreColliders.Add(targetCol);
+    //     foreach (var enemys in enemyInCounter)
+    //     {
+    //         Physics.IgnoreCollision(
+    //             targetCol, enemys, true);
+    //     }
+    // }
+    //
+    // //충돌 재활성화
+    // public void ColliderReEnable(Collider targetCol)
+    // {
+    //     foreach (var enemys in enemyInCounter)
+    //     {
+    //         Physics.IgnoreCollision(
+    //             targetCol, enemys, false);
+    //     }
+    //     ignoreColliders.Remove(targetCol);
+    // }
 
     
 }
