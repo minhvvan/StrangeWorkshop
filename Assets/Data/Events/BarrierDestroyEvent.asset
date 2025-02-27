@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d8b2f3110a81d4cb0b7a7d5b2c8213, type: 3}
   m_Name: BarrierDestroyEvent
   m_EditorClassIdentifier: 
-  EventDescription: "Barrier \uD30C\uAD34 \uC774\uBCA4\uD2B8"
+  EventDescription: "barrier \uCCB4\uB825\uC774 0\uC774\uD558\uB85C \uB5A8\uC5B4\uC9C0\uBA74
+    \uBC1C\uC0DD"

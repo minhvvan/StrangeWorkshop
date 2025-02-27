@@ -19,9 +19,6 @@ public class CraftCounter : BaseCounter
     private RecipeUIController _recipeUIController;
     private InGameUIController _inGameUIController;
 
-    private RecipeUIController _recipeUIController;
-    private InGameUIController _inGameUIController;
-
     [Header("Events")]
     public Action<List<CraftRecipeSO>, List<string>> OnObjectsChangedAction;
     public Action<HoldableObjectSO> OnCraftCompleteAction;
