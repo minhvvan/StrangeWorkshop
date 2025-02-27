@@ -320,6 +320,6 @@ Shader "TextMeshPro/TextMeshProSkewShader" {
     }
     
     Fallback "TextMeshPro/Mobile/Distance Field(Skew)"
-    //CustomEditor "TMPro.EditorUtilities.TMP_SDFShaderGUI"
+    CustomEditor "TMPro.EditorUtilities.TMP_SDFShaderGUI"
     }
     
