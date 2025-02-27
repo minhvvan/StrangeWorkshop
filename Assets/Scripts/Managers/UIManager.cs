@@ -15,6 +15,7 @@ public enum UIType
     WaveUI,
     RecipeUI,
     ChapterUI,
+    InGameUI,
     Max,
 }
 

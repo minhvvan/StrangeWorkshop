@@ -28,8 +28,8 @@ public class RecipeUIController : MonoBehaviour, IGameUI
     
     private readonly int _maxRecipeUINum = 2;
     private readonly float _xPos = 0f;
-    private readonly float _topYPos = 200f;
-    private readonly float _interval = 30f;
+    private readonly float _topYPos = 97f;
+    private readonly float _interval = 40f;
 
     public async UniTask Initialize(CraftRecipeCollectionSO recipeCollectionSO)
     {
