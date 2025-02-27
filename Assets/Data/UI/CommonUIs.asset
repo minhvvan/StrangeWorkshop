@@ -29,7 +29,22 @@ MonoBehaviour:
     prefab: {fileID: 6879401865335359522, guid: 452944e928e299540bfe20e88b567759,
       type: 3}
     position: {x: 0, y: 0}
-  - type: 4
-    prefab: {fileID: 6879401865335359522, guid: 452944e928e299540bfe20e88b567759,
+  - type: 6
+    prefab: {fileID: 7144695949987194916, guid: f09293667d6394c08ad3287451a02851,
+      type: 3}
+    position: {x: 0, y: 0}
+  - type: 7
+    prefab: {fileID: 2006988954042982860, guid: 3d4839613ad7845e2b4198c125de93d4,
+      type: 3}
+    position: {x: 0, y: 0}
+  - type: 5
+    prefab: {fileID: 4544970781209194189, guid: 60edf04e9d6a66d40a2caf280242a5c8,
+      type: 3}
+    position: {x: 0, y: 0}
+  - type: 8
+    prefab: {fileID: 238271264512652380, guid: 70022fe5230a44347a497cd96af266a0, type: 3}
+    position: {x: 0, y: 0}
+  - type: 9
+    prefab: {fileID: 3949653537351345209, guid: 2f9a6983f4564420fa8c7267e9b3b3e6,
       type: 3}
     position: {x: 0, y: 0}
