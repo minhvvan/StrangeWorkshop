@@ -9,25 +9,33 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
-    [SerializeField] private Button _gameStartButton;
-    [SerializeField] private Button _optionButton;
-    [SerializeField] private Button _gameExitButton;
+    [SerializeField] private MainMenuButton _gameStartButton;
+    [SerializeField] private MainMenuButton _optionButton;
+    [SerializeField] private MainMenuButton _gameExitButton;
     
     [SerializeField] private RectTransform _defaultPanel;
     [SerializeField] private RectTransform _optionPanel;
     [SerializeField] private CanvasGroup _mainMenuCanvasGroup;
 
-    [SerializeField] private MainMenuSpaceShip _mainMenuSpaceShip;
+    [SerializeField] private Animator _mainMenuCharacterAnimator;
     
     void Start()
     {
-        _gameStartButton.onClick.AddListener(() =>
-        {
-            OnClickGameStart().Forget();
-        });
-        _optionButton.onClick.AddListener(OnClickOption);
-        _gameExitButton.onClick.AddListener(OnClickGameExit);
+        //게임 시작 버튼이 기본으로 선택
+        _gameStartButton.Select();
 
+        _gameStartButton.buttonIndex = 0;
+        _optionButton.buttonIndex = 1;
+        _gameExitButton.buttonIndex = 2;
+        
+        _gameStartButton.onSelected += OnMenuButtonSelected;
+        _optionButton.onSelected += OnMenuButtonSelected;
+        _gameExitButton.onSelected += OnMenuButtonSelected;
+        
+        _gameStartButton.onSubmited += OnClickGameStart;
+        _optionButton.onSubmited += OnClickOption;
+        _gameExitButton.onSubmited += OnClickGameExit;
+        
         _optionPanel.GetComponent<OptionPanel>().onExitClick += () =>
         {
             Vector2 originalPos = _optionPanel.anchoredPosition;
@@ -36,10 +44,31 @@ public class MainMenuUI : MonoBehaviour
         };
     }
 
-    private async UniTask OnClickGameStart()
+    private void OnMenuButtonSelected(int buttonIndex)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+            {
+                _mainMenuCharacterAnimator.SetTrigger("happy");
+                break;
+            }
+            case 1:
+            {
+                _mainMenuCharacterAnimator.SetTrigger("angry");
+                break;
+            }
+            case 2:
+            {
+                _mainMenuCharacterAnimator.SetTrigger("normal");
+                break;
+            }
+        }
+    }
+
+    private void OnClickGameStart()
     {
         UIAnimationUtility.FadeOut(_mainMenuCanvasGroup);
-        await _mainMenuSpaceShip.OnClickedGameStart();
         GameManager.Instance.StartGame();
     }
     
@@ -52,11 +81,8 @@ public class MainMenuUI : MonoBehaviour
     
     private void OnClickGameExit()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        //TODO: Popup 띄우기 
+        GameManager.Instance.QuitGame();
     }
 
     private void OnDisable()
