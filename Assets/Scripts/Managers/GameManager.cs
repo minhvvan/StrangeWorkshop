@@ -140,6 +140,6 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver()
     {
-        UIManager.Instance.GetUI<PauseUIController>(UIType.LoseUI);
+        UIManager.Instance.GetUI<LoseUIController>(UIType.LoseUI).ShowUI();
     }
 }
