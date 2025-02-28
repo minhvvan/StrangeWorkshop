@@ -16,6 +16,10 @@ public enum UIType
     RecipeUI,
     InGameUI,
     ChapterUI,
+    PauseUI,
+    ResultUI, //WinUI
+    LoseUI,
+    ConfirmPopupUI,
     Max,
 }
 
@@ -99,6 +103,8 @@ public class UIManager : Singleton<UIManager>
     {
         if (_activeUIs.TryGetValue(type, out var ui))
         {
+            if(ui.IsUnityNull()) return CreateUI<T>(type);
+
             return ui as T;
         }
 
