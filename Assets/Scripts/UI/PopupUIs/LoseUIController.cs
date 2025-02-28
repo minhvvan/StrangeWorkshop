@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoseUIContorller : BasePopupUI
+public class LoseUIController : BasePopupUI
 {
     [SerializeField] Button _restartButton;
     [SerializeField] Button _gotoChapterButton;
