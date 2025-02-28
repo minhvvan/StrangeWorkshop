@@ -14,7 +14,7 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
     public override void Enter()
     {
         //공격도중(정지시) 적들간 밀림방지. 이동중인 개체는 상관없음.
-        EnemyPathfinder.instance.ColliderDisable(Fsm.blackboard.capsuleCol);
+        //EnemyPathfinder.instance.ColliderDisable(Fsm.blackboard.capsuleCol);
         Fsm.blackboard.priorityIncrease = false;
         Fsm.blackboard.agent.avoidancePriority = 1;
     }
@@ -83,6 +83,6 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
 
     public override void Exit()
     {
-        EnemyPathfinder.instance.ColliderReEnable(Fsm.blackboard.capsuleCol);
+        //EnemyPathfinder.instance.ColliderReEnable(Fsm.blackboard.capsuleCol);
     }
 }

@@ -83,7 +83,7 @@ public class EnemyPathfinder : MonoBehaviour
     /// 지정한 대상을 제외하고 탐색합니다.
     /// </summary>
     /// <param name="order">본인의 Transform을 받습니다.</param>
-    /// <param name="disableTarget">탐색을 제외할 타겟의 List Trasform을 받습니다.</param>
+    /// <param name="disableTarget">탐색을 제외할 타겟의 Transform을 받습니다.</param>
     /// <returns>지정한 대상을 제외하고 가장 가까운 타겟을 반환합니다.</returns>
     public Transform ExcludeMatchTarget(Transform order, Transform disableTarget)
     {

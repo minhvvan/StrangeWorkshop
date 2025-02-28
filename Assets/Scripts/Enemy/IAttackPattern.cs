@@ -41,11 +41,12 @@ public class MeleeAttack : IAttackPattern
         _motionSpeed = 1f;
         
         //공격하려는데 그 순간 방벽의 체력이 0이면 중단.
-        if (_enemyBb.targetCollider.GetComponent<Barrier>().BarrierStat.health <= 0)
-        {
-            _enemyBb.bCanPattern = false;
-            return;
-        }
+        // if (_enemyBb.targetCollider.GetComponent<Barrier>().BarrierStat.health <= 0)
+        // {
+        //     _enemyBb.bCanPattern = false;
+        //     return;
+        // }
+        
         //우선순위 최하위로 낮춘다.
         _enemyBb.priorityStack = _enemyBb.agent.avoidancePriority = 1;
         
@@ -57,10 +58,12 @@ public class MeleeAttack : IAttackPattern
     
     private void GiveDamage(float damage)
     {
-        if (_targetBarrier.BarrierStat.health > 0)
-        {
-            _targetBarrier.TakeDamage(damage);
-        }
+        //BarrierStat삭제 예정에 따라 임시조치
+        // if (_targetBarrier.BarrierStat.health > 0)
+        // {
+        //     _targetBarrier.TakeDamage(damage);
+        // }
+        _targetBarrier.TakeDamage(damage);
     }
     
     private async UniTask NormalAttack()
@@ -190,11 +193,11 @@ public class Chapter1Boss : IAttackPattern
         _motionSpeed = 1f;
         
         //공격하려는데 그 순간 방벽의 체력이 0이면 중단.
-        if (_targetBarrier.BarrierStat.health <= 0)
-        {
-            _enemyBb.bCanPattern = false;
-            return;
-        }
+        // if (_targetBarrier.BarrierStat.health <= 0)
+        // {
+        //     _enemyBb.bCanPattern = false;
+        //     return;
+        // }
         
         if (Mathf.Approximately(_enemyBb.enemyStatus.hp, _enemyBb.enemyStatus.maxHp) ||
             _enemyBb.enemyStatus.hp >= _enemyBb.enemyStatus.maxHp * 0.8f)
@@ -228,7 +231,7 @@ public class Chapter1Boss : IAttackPattern
         for (int i = 0; i < 3; i++)
         {
             //방벽체력 0이면 공격모션 중단.
-            if (_targetBarrier.BarrierStat.health <= 0) return;
+            // if (_targetBarrier.BarrierStat.health <= 0) return;
 
             if (i < 2)
             {
@@ -247,7 +250,8 @@ public class Chapter1Boss : IAttackPattern
         for (int i = 0; i < 5; i++)
         {
             //방벽체력 0이면 공격모션 중단.
-            if (_targetBarrier.BarrierStat.health <= 0) return;
+            // if (_targetBarrier.BarrierStat.health <= 0) return;
+            
             if (i < 2)
             {
                 await NormalAttack();
@@ -275,7 +279,7 @@ public class Chapter1Boss : IAttackPattern
         for (int i = 0; i < 4; i++)
         {
             //방벽체력 0이면 공격모션 중단.
-            if (_targetBarrier.BarrierStat.health <= 0) return;
+            // if (_targetBarrier.BarrierStat.health <= 0) return;
             
             if (i < 2)
             {
@@ -400,10 +404,13 @@ public class Chapter1Boss : IAttackPattern
     //방벽에 피해 가하기
     private void GiveDamage(float damage)
     {
-        if (_targetBarrier.BarrierStat.health > 0)
-        {
-            _targetBarrier.TakeDamage(damage);
-        }
+        // //BarrierStat삭제 예정에 따라 임시조치
+        //  if (_targetBarrier.BarrierStat.health > 0)
+        //  {
+        //      _targetBarrier.TakeDamage(damage);
+        //  }
+        // _targetBarrier.TakeDamage(damage);
+        _targetBarrier.TakeDamage(damage);
     }
 
     //플레이어 기절 (물건 떨굼, 2초 이동불가)

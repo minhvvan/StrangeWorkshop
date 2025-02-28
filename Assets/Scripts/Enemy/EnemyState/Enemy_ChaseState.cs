@@ -49,16 +49,16 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
                 //타겟을 향해 이동한다.
                 FsmBb.transform.rotation = Quaternion.LookRotation(trForward);
                 FsmBb.ResumeTracking();
-                if (!FsmBb.researchOrder)
-                {
-                    FsmBb.AutoResearchTarget().Forget();
-                }
+                // if (!FsmBb.researchOrder)
+                // {
+                //     FsmBb.AutoResearchTarget().Forget();
+                // }
             }
             else
             {
                 FsmBb.bDetectBarrier = true;
-                FsmBb.researchOrder = false;
-                FsmBb.autoResearchCts?.Cancel();
+                //FsmBb.researchOrder = false;
+                //FsmBb.autoResearchCts?.Cancel();
                 FsmBb.StopTracking();
                 
                 //사거리 내에 들어 Attack으로 넘어간다
@@ -69,8 +69,8 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
         else
         {
             //target없으면 Idle로 넘어간다.
-            FsmBb.ResearchTarget();
-            //Fsm.ChangeEnemyState(Fsm.idleState);
+            //FsmBb.ResearchTarget();
+            Fsm.ChangeEnemyState(Fsm.idleState);
         }
     }
 

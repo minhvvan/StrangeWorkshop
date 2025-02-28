@@ -7,14 +7,6 @@ using UnityEngine;
 
 public class Barrier : MonoBehaviour, IDamageable
 {
-    //TODO: 삭제===========================
-    [Header("Data")]
-    private bool _isDestroyed;
-    private BarrierStat _barrierStat = new();
-    public BarrierStat BarrierStat => _barrierStat;
-    //===========================
-
-    
     private GameObject _barrierEff;
     
     [Header("Event")] 
@@ -26,7 +18,7 @@ public class Barrier : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        _barrierStat.id = gameObject.GetInstanceID();
+        //_barrierStat.id = gameObject.GetInstanceID();
     }
 
     async void Start()
@@ -46,13 +38,3 @@ public class Barrier : MonoBehaviour, IDamageable
         _damagedEventSo.Raise(damage);
     }
 }
-
-//TODO: 삭제===========================
-[Serializable]
-public class BarrierStat
-{
-    public int id;
-    public float health;
-    public float maxHealth;
-}
-//===========================

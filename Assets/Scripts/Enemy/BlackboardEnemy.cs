@@ -55,6 +55,15 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     
     //Material 오브젝트 할당용
     public Transform matObject;
+
+    //이 녀석이 보스인가? 판별용
+    public enum IsBoss
+    {
+        NONE,
+        BOSS
+    };
+    
+    public IsBoss thisBoss = IsBoss.NONE;
     
     public void InitBlackboard()
     {
@@ -83,7 +92,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         }
         
         //자동 재검색 타이머 시작.
-        AutoResearchTarget().Forget();
+        //AutoResearchTarget().Forget();
         PriorityIncreaser().Forget();
         //최초 이후 재검색 대상시간은 10초.
         _researchTime = 5f;
@@ -91,6 +100,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     private async UniTask PriorityIncreaser()
     {
         agent.avoidancePriority = priorityStack + 7;
+        //TODO: cts 추가할 것.
         await UniTask.Delay(1000);
         await UniTask.WaitUntil(() => priorityIncrease);
         PriorityIncreaser().Forget();
@@ -100,26 +110,26 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     /// <summary>
     /// 일정시간이 지나도 타겟에게 공격을 해내지 못하면 타겟을 재검색 합니다.
     /// </summary>
-    public async UniTask AutoResearchTarget()
-    {
-        researchOrder = true;
-        autoResearchCts = new CancellationTokenSource();
-        await UniTask.WaitForSeconds(_researchTime,
-            cancellationToken: autoResearchCts.Token);
-
-        if (bDetectBarrier)
-        {
-            researchOrder = false;
-            autoResearchCts?.Cancel();
-            return;
-        }
-        ExcludeResearchTarget();
-
-        researchOrder = false;
-        autoResearchCts?.Cancel();
-    }
+    // public async UniTask AutoResearchTarget()
+    // {
+    //     researchOrder = true;
+    //     autoResearchCts = new CancellationTokenSource();
+    //     await UniTask.WaitForSeconds(_researchTime,
+    //         cancellationToken: autoResearchCts.Token);
     //
-    public void SetMaxHp()
+    //     if (bDetectBarrier)
+    //     {
+    //         researchOrder = false;
+    //         autoResearchCts?.Cancel();
+    //         return;
+    //     }
+    //     ExcludeResearchTarget();
+    //
+    //     researchOrder = false;
+    //     autoResearchCts?.Cancel();
+    // }
+    
+    public void SetModifyStat()
     {
         enemyStatus.maxHp = enemyStatus.hp;
     }
@@ -130,6 +140,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         {
             case EnemyType.Chapter1Boss:
                 player = FindObjectOfType<SampleCharacterController>();
+                thisBoss = IsBoss.BOSS;
                 break;
         }
     }
@@ -181,15 +192,21 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         agent.SetDestination(target.position);
     }
     
-    ///지정 대상을 제외하고 배리어를 재탐색 합니다.
-    public void ExcludeResearchTarget()
-    {
-        disableTarget = target;
-        SetTarget(EnemyPathfinder.instance.
-            ExcludeMatchTarget(transform.position, disableTarget));
-        //SetCheckDestination(target.position);
-        agent.SetDestination(target.position);
-    }
+     //지정 대상을 제외하고 배리어를 재탐색 합니다.
+     public void ExcludeResearchTarget()
+     {
+         disableTarget = target;
+         SetTarget(EnemyPathfinder.instance.
+             ExcludeMatchTarget(transform, disableTarget));
+         //SetCheckDestination(target.position);
+         agent.SetDestination(target.position);
+     }
+
+     public void RandomResearchTarget()
+     {
+         SetTarget(EnemyPathfinder.instance.RandomTarget());
+         agent.SetDestination(target.position);
+     }
 
     ///길찾기를 멈춥니다.
     public void StopTracking()
@@ -224,29 +241,33 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
              targetCollider = null;
              return;
          }
-        
-        //공격 범위 내 가장 가까운 오브젝트 찾기.
+
+         //공격 범위 내 가장 가까운 오브젝트 찾기.
+         foreach (Collider c in hitColliders)
+         {
+             //타겟과 같은 경우에만 공격대상으로 할당.
+             if (c.transform == target)
+             {
+                 targetCollider = c;
+             }
+         }
+         //공격 범위 내 가장 가까운 오브젝트 찾기.
         //float distance = 0f;
-        foreach (Collider c in hitColliders)
-        {
-            //타겟과 같은 경우에만 공격대상으로 할당.
-            if (c.transform == target)
-            {
-                targetCollider = c;
-            }
-            // //최초 초기화
-            // if (distance == 0 || 
-            //     distance > Vector3.Distance(transform.position, c.transform.position))
-            // {
-            //     distance = Vector3.Distance(transform.position, c.transform.position);
-            //     
-            //     //체력이 0이 아닐때만 타겟으로 삼는다.
-            //     if (c.GetComponent<Barrier>().BarrierStat.health > 0)
-            //     {
-            //         targetCollider = c;
-            //     }
-            // }
-        }
+        // foreach (Collider c in hitColliders)
+        // {
+        //     // //최초 초기화
+        //     // if (distance == 0 || 
+        //     //     distance > Vector3.Distance(transform.position, c.transform.position))
+        //     // {
+        //     //     distance = Vector3.Distance(transform.position, c.transform.position);
+        //     //     
+        //     //     //체력이 0이 아닐때만 타겟으로 삼는다.
+        //     //     if (c.GetComponent<Barrier>().BarrierStat.health > 0)
+        //     //     {
+        //     //         targetCollider = c;
+        //     //     }
+        //     // }
+        // }
         
         //
         // if (targetCollider == null)
@@ -260,19 +281,19 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public async UniTask OnAttack()
     {
         //타겟의 체력이 0이면
-        if (targetCollider != null)
-        {
-            if(target.GetComponent<Barrier>().BarrierStat.health <= 0)
-            {
-                //체력이 0인 타겟을 리스트에서 방출.
-                EnemyPathfinder.instance.RemoveTarget(target);
-                targetCollider = null;
-                target = null;
-                bCanPattern = false;
-                ResearchTarget();
-                return;
-            }
-        }
+        // if (targetCollider != null)
+        // {
+        //     if(target.GetComponent<Barrier>().BarrierStat.health <= 0)
+        //     {
+        //         //체력이 0인 타겟을 리스트에서 방출.
+        //         EnemyPathfinder.instance.RemoveTarget(target);
+        //         targetCollider = null;
+        //         target = null;
+        //         bCanPattern = false;
+        //         ResearchTarget();
+        //         return;
+        //     }
+        // }
         
         //공격 판정 동작.
         _atkPattern?.RunPattern(this);
