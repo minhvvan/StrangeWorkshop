@@ -45,6 +45,11 @@ public class UISelectionEffect : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             text.color = normalColor;
         }
+
+        if(backgroundImage != null)
+        {
+            backgroundImage.color = normalColor;
+        }
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -107,6 +112,7 @@ public class UISelectionEffect : MonoBehaviour, ISelectHandler, IDeselectHandler
         if (!isSelected)
         {
             SetSelectedColor();
+            //Selec
         }
     }
 
