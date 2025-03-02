@@ -27,7 +27,7 @@ public class InGameUIController : MonoBehaviour, IGameUI
         gameUIControllers.Add(_barrierUIController);
         gameUIControllers.Add(_chapterInfoUIController);
 
-        RegisterGameUI();
+        // RegisterGameUI();
     }
 
     async public void RegisterGameUI(CraftCounter craftCounter)
