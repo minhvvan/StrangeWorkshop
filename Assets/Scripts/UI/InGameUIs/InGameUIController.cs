@@ -13,6 +13,7 @@ public class InGameUIController : MonoBehaviour, IGameUI
     [SerializeField] private WaveUIController _waveUIController;
     [SerializeField] private BarrierUIController _barrierUIController;
     [SerializeField] private ChapterInfoUIController _chapterInfoUIController;
+    [SerializeField] private EquipmentUIController _equipmentUIController;
     
     public static event Action<bool> OnTabToggled; // Tab UI 토글 이벤트
     private bool isTabActive = false;
@@ -25,7 +26,7 @@ public class InGameUIController : MonoBehaviour, IGameUI
         gameUIControllers.Add(_barrierUIController);
         gameUIControllers.Add(_chapterInfoUIController);
 
-        // RegisterGameUI();
+        RegisterGameUI();
     }
 
     async public void RegisterGameUI(CraftCounter craftCounter)
@@ -50,6 +51,12 @@ public class InGameUIController : MonoBehaviour, IGameUI
         _barrierUIController.SetBarrierController(barrierController);
     }
 
+    async public void RegisterGameUI(CharacterInteraction characterInteraction)
+    {
+        _equipmentUIController.gameObject.SetActive(true);
+        characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
+    }
+    
     async public void RegisterGameUI()
     {
         _chapterInfoUIController.gameObject.SetActive(true);

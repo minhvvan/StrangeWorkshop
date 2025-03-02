@@ -5,7 +5,7 @@ using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RecipePartController : MonoBehaviour
+public class RecipePartUI : MonoBehaviour
 {
     [SerializeField] private SerializedDictionary<string, Image> objectImages;
     [SerializeField] private CraftRecipeSO _recipeSO;

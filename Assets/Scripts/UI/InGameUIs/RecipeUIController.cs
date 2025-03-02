@@ -14,7 +14,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
 {
     // string: holdableobject의 objectName
     private Dictionary<string, RectTransform> _recipeUIs; // 모든 recipe UI
-    private Dictionary<string, RecipePartController> _recipePartControllers; // recipePartController 캐싱
+    private Dictionary<string, RecipePartUI> _recipePartUIs; // recipePartController 캐싱
     private Dictionary<string, RectTransform> _activatedRecipeUIs; // 활성화된 recipe UI
     private List<CraftRecipeSO> _recommendedRecipes;
     private ChapterRecipeSO _chapterRecipes;
@@ -37,7 +37,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
         gameObject.SetActive(false);
         _root = this.GetComponent<RectTransform>();
         _recipeUIs = new Dictionary<string, RectTransform>();
-        _recipePartControllers = new Dictionary<string, RecipePartController>();
+        _recipePartUIs = new Dictionary<string, RecipePartUI>();
         _activatedRecipeUIs = new Dictionary<string, RectTransform>();
         _recommendedRecipes = new List<CraftRecipeSO>();
         _chapterRecipes =
@@ -49,7 +49,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
             RectTransform recipeUI = GameObject.Instantiate(recipe.craftRecipeUI, transform);
             recipeUI.GameObject().SetActive(false);
             _recipeUIs[recipe.output.objectName] = recipeUI;
-            _recipePartControllers[recipe.output.objectName] = recipeUI.GetComponent<RecipePartController>();
+            _recipePartUIs[recipe.output.objectName] = recipeUI.GetComponent<RecipePartUI>();
         }
         
         ShowUI();
@@ -89,7 +89,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
         var recipeNames = _activatedRecipeUIs.Keys.ToList();
         foreach (var recipeName in recipeNames)
         {
-            _recipePartControllers[recipeName].DeactivateColor();
+            _recipePartUIs[recipeName].DeactivateColor();
             if (!recommendedRecipeNames.Contains(recipeName))
             {
                 UIAnimationUtility.SlideOutRight(_activatedRecipeUIs[recipeName]);
@@ -131,7 +131,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
         {
             foreach (string objectName in _activatedRecipeUIs.Keys)
             {
-                _recipePartControllers[objectName].ActivateColor(partNames);
+                _recipePartUIs[objectName].ActivateColor(partNames);
             }
         }
     }
@@ -159,7 +159,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
                 outputRecipeUI.localScale = originalScale;
                 recipeUIImage.color = originalColor;
                 _activatedRecipeUIs.Remove(outputName);
-                _recipePartControllers[outputName].DeactivateColor();
+                _recipePartUIs[outputName].DeactivateColor();
                 UpdateUI(null, null);
             });
     }

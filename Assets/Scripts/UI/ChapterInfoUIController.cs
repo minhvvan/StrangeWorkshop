@@ -7,7 +7,6 @@ public class ChapterInfoUIController : MonoBehaviour, IGameUI
 {
     [SerializeField] RectTransform _waveProgress;
     [SerializeField] RectTransform _gold;
-    [SerializeField] RectTransform _achievements;
 
     private Dictionary<string, RectTransform> _rects;
 
@@ -24,10 +23,9 @@ public class ChapterInfoUIController : MonoBehaviour, IGameUI
         _rects = new Dictionary<string, RectTransform>();
         _rects.Add("WaveProgress", _waveProgress);
         _rects.Add("Gold", _gold);
-        _rects.Add("Achievements", _achievements);
         
-        _waveText = _waveProgress.GetComponent<TMP_Text>();
-        _goldText = _gold.GetComponent<TMP_Text>();
+        _waveText = _waveProgress.GetComponentInChildren<TMP_Text>();
+        _goldText = _gold.GetComponentInChildren<TMP_Text>();
     }
     
     public void ShowUI()
@@ -65,10 +63,5 @@ public class ChapterInfoUIController : MonoBehaviour, IGameUI
     {
         _currentGold += goldChangeAmount;
         _goldText.text = $"{_currentGold}";
-    }
-
-    public void UpdateAchievements()
-    {
-        
     }
 }
