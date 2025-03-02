@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2719215754929610611, guid: a37f963568e08b54b93382786403028f, type: 3}
   objectName: Bolt
-  objectType: 0
+  objectType: 1
+  objectSprite: {fileID: 21300000, guid: e3d310b9c99953248b87817d70ccb7ac, type: 3}
