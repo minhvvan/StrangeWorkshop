@@ -20,6 +20,8 @@ public class EquipmentUIController : MonoBehaviour, IGameUI
     {
         _root = GetComponent<RectTransform>();
         UpdateEquipment(null);
+        
+        ShowUI();
     }
     
     public void ShowUI()
