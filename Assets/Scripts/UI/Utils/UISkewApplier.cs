@@ -9,9 +9,17 @@ public class UISkewApplier : MonoBehaviour
 
     [SerializeField] float targetSkewX = 0.5f;
 
+    bool _isInitialized = false;
+
     void Start()
     {
+        
+    }
+
+    void OnEnable()
+    {
         ApplySkewToChildren(transform);
+        _isInitialized = true;
     }
 
     void ApplySkewToChildren(Transform parent)
@@ -50,6 +58,9 @@ public class UISkewApplier : MonoBehaviour
 
     void OnValidate()
     {
-        ApplySkewToChildren(transform);
+        if(_isInitialized)
+        {
+            ApplySkewToChildren(transform);
+        }
     }
 }

@@ -42,6 +42,23 @@ public class GameManager : Singleton<GameManager>
         IsInitialized = true;
     }
 
+    //게임 중 키 입력을 받기 위한 Update
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (_currentGameState == GameState.InGame)
+            {
+                PauseGame();
+            }
+            else if (_currentGameState == GameState.Paused)
+            {
+                ResumeGame();
+            }
+        }
+    }
+
+
     public void LoadMainMenu()
     {
         ChangeGameState(GameState.MainMenu);
@@ -51,6 +68,12 @@ public class GameManager : Singleton<GameManager>
     public void LoadChapter(int chapterIndex)
     {
         _currentChapter = _chapterList.GetChapterData(chapterIndex);
+        LoadingManager.Instance.LoadChapter(_currentChapter);
+
+        ChangeGameState(GameState.InGame);
+    }
+
+    public void RestartGame(){
         LoadingManager.Instance.LoadChapter(_currentChapter);
     }
 
@@ -85,7 +108,7 @@ public class GameManager : Singleton<GameManager>
 
     public void StartGame()
     {
-        if (_currentGameState != GameState.MainMenu) return;
+        //if (_currentGameState != GameState.MainMenu) return;
         SceneManager.LoadScene("ChapterSelectScene");
     }
 
@@ -101,6 +124,7 @@ public class GameManager : Singleton<GameManager>
         if (_currentGameState == GameState.InGame)
         {
             RequestChangeGameState(GameState.Paused);
+            UIManager.Instance.GetUI<PauseUIController>(UIType.PauseUI).ShowUI();
         }
     }
 
@@ -109,12 +133,13 @@ public class GameManager : Singleton<GameManager>
         if (_currentGameState == GameState.Paused)
         {
             RequestChangeGameState(GameState.InGame);
+            UIManager.Instance.GetUI<PauseUIController>(UIType.PauseUI).HideUI();
+            UIManager.Instance.GetUI<ConfirmPopupUIController>(UIType.ConfirmPopupUI).HideUI();
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
-        //TODO: GameOver -> 재시도 여부 묻는 UI + 챕터 선택 UI 추가 후 변경 예정(UIManager에서 처리)
-        LoadMainMenu();
+        UIManager.Instance.GetUI<LoseUIController>(UIType.LoseUI).ShowUI();
     }
 }

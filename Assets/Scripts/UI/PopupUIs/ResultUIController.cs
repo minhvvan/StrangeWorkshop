@@ -1,20 +1,18 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ResultUIContorller : BasePopupUI
 {
-    void Update()
+    [SerializeField] Button _gotoChapterButton;
+
+    void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            if (IsOpen)
-            {
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
-        }
+        _gotoChapterButton.onClick.AddListener(OnClickGotoChapter);
+    }
+
+    void OnClickGotoChapter()
+    {
+        GameManager.Instance.StartGame();
     }
 }
