@@ -17,7 +17,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private RectTransform _optionPanel;
     [SerializeField] private CanvasGroup _mainMenuCanvasGroup;
 
-    [SerializeField] private Animator _mainMenuCharacterAnimator;
+    [SerializeField] private CharacterSkinController _mainMenuCharacterController;
     
     void Start()
     {
@@ -46,24 +46,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnMenuButtonSelected(int buttonIndex)
     {
-        switch (buttonIndex)
-        {
-            case 0:
-            {
-                _mainMenuCharacterAnimator.SetTrigger("happy");
-                break;
-            }
-            case 1:
-            {
-                _mainMenuCharacterAnimator.SetTrigger("angry");
-                break;
-            }
-            case 2:
-            {
-                _mainMenuCharacterAnimator.SetTrigger("normal");
-                break;
-            }
-        }
+        _mainMenuCharacterController.ChangeState(buttonIndex);
     }
 
     private void OnClickGameStart()
