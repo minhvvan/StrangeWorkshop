@@ -19,8 +19,8 @@ public class EquipmentUIController : MonoBehaviour, IGameUI
     void Awake()
     {
         _root = GetComponent<RectTransform>();
-        UpdateEquipment(null);
         
+        UpdateEquipment(null);
         ShowUI();
     }
     
@@ -60,10 +60,39 @@ public class EquipmentUIController : MonoBehaviour, IGameUI
             _objectnameText.enabled = true;
             _objectTypeText.enabled = true;
             
+            // sprite에 따라 내부 이미지의 위치, 사이즈가 다름
+            // 겉으로 보기에 사이즈, 위치가 일정하도록 조정
+            SetImagePivot(holdableObjectSO.objectSprite);
             _iconImage.sprite = holdableObjectSO.objectSprite;
-            _objectnameText.text = SwitchLanguage.Translate(holdableObjectSO.objectName);
+            _iconImage.SetNativeSize();
+            // 영문 => 한글
+            string switchedName = SwitchLanguage.Translate(holdableObjectSO.objectName);
+            SetObjectNameFontSize(switchedName);
+            _objectnameText.text = switchedName;
             _objectTypeText.text = SwitchLanguage.Translate(holdableObjectSO.objectType.ToString());
             _typeBackgroundImage.sprite = _typeBackgrounds[holdableObjectSO.objectType];
         }
+    }
+
+    private void SetObjectNameFontSize(string text)
+    {
+        int textLength = text.Length;
+        if (textLength < 4)
+        {
+            _objectnameText.fontSize = 32;
+        }
+        else if (textLength < 5)
+        {
+            _objectnameText.fontSize = 28;
+        }
+        else
+        {
+            _objectnameText.fontSize = 24;
+        }
+    }
+
+    private void SetImagePivot(Sprite sprite)
+    {
+        _iconImage.rectTransform.pivot = sprite.pivot/sprite.rect.size;
     }
 }

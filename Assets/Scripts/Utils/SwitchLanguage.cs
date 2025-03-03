@@ -16,11 +16,11 @@ public static class SwitchLanguage
         { "Engine", "엔진" },
         { "Trash", "쓰레기" },
         { "GunTurret", "기본터렛" },
-        { "MissileTurret", "미사일터렛" },
-        { "DoubleMissileTurret", "더블미사일터렛" },
-        { "MortarTurret", "박격포터렛" },
+        { "MissileTurret", "미사일\n터렛" },
+        { "DoubleMissileTurret", "더블미사일\n터렛" },
+        { "MortarTurret", "박격포\n터렛" },
         { "Turret", "터렛" },
-        { "PartMaterial", "재료" },
+        { "PartMaterial", "부품" },
         { "Upgrade", "강화" },
     };
 
