@@ -70,7 +70,7 @@ public class SplashScreen : MonoBehaviour
         await StartIncreasingSize();
         
         _canProceed = false;
-        _textPressButton.gameObject.SetActive(false);
+        if(_textPressButton != null) _textPressButton.enabled = false;
 
         GameManager.Instance.LoadMainMenu();
     }
