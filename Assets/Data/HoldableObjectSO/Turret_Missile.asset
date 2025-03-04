@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Turret_Missile
   m_EditorClassIdentifier: 
   prefab: {fileID: 6700077815837673042, guid: 33c8b3ec670faa4429e33589396cc604, type: 3}
-  objectName: Turret_Missile
-  objectType: 2
+  objectName: MissileTurret
+  objectType: 3
+  objectSprite: {fileID: 21300000, guid: dc562f332dca002459bbcf01a563dfbe, type: 3}

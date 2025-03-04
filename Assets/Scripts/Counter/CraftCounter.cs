@@ -16,7 +16,6 @@ public class CraftCounter : BaseCounter
     private bool cooltime = true;
     public ProgressBar _progressBar;
     
-    private RecipeUIController _recipeUIController;
     private InGameUIController _inGameUIController;
 
     [Header("Events")]
