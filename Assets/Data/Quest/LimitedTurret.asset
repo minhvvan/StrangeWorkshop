@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4323d85c0cc94984eb2f6be8b3e5d14b, type: 3}
-  m_Name: SampleQuestData
+  m_Script: {fileID: 11500000, guid: 23002c97dd4f9a44da3ea01ac64aa7af, type: 3}
+  m_Name: LimitedTurret
   m_EditorClassIdentifier: 
   questID: 0
-  questType: 0
+  questType: 2
   questDescription: 
+  maxTurretNum: 1
