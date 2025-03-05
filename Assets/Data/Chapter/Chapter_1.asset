@@ -35,3 +35,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8a3f0a741b0c8f94e84a872b7eebc2e5, type: 2}
   preparationTime: 0
   playerSpawnPoint: {x: 0, y: 0, z: 0}
+  quests:
+  - {fileID: 11400000, guid: 40358c538aacd7b4a8f75a88dee4db1d, type: 2}
+  - {fileID: 11400000, guid: 844dac53e06439d4386fa254bf203d9d, type: 2}
+  recommendedRecipes: []
