@@ -41,10 +41,14 @@ MonoBehaviour:
     prefab: {fileID: 4544970781209194189, guid: 60edf04e9d6a66d40a2caf280242a5c8,
       type: 3}
     position: {x: 0, y: 0}
-  - type: 8
+  - type: 9
     prefab: {fileID: 238271264512652380, guid: 70022fe5230a44347a497cd96af266a0, type: 3}
     position: {x: 0, y: 0}
-  - type: 9
+  - type: 10
     prefab: {fileID: 3949653537351345209, guid: 2f9a6983f4564420fa8c7267e9b3b3e6,
+      type: 3}
+    position: {x: 0, y: 0}
+  - type: 8
+    prefab: {fileID: 4846724393624810698, guid: 3539f145794b74e15ab982d0cde1d9f9,
       type: 3}
     position: {x: 0, y: 0}
