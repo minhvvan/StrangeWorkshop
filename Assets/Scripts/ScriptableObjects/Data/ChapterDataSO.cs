@@ -17,4 +17,10 @@ public class ChapterDataSO : ScriptableObject
     public List<WaveDataSO> waves;    // 웨이브 정보 목록
     public float preparationTime;      // 웨이브 시작 전 준비 시간
     public Vector3 playerSpawnPoint;   // 플레이어 시작 위치
+    
+    [Header("Quest")]
+    public List<QuestDataSO> quests;
+
+    [Header("UI")] 
+    public List<CraftRecipeSO> recommendedRecipes;
 }

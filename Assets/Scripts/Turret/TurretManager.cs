@@ -24,6 +24,7 @@ public class TurretManager : Singleton<TurretManager>
     {
         if(!_turrets.Contains(turret))
             _turrets.Add(turret);
+        QuestManager.Instance.Notify(QuestType.LimitedTurret, 1);
     }
 
     public void RemoveTurret(Turret turret)
