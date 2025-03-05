@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -7,22 +6,27 @@ using UnityEngine;
 
 public class CustomTMPAnimaition : MonoBehaviour
 {
+    public enum TMPAnimationType
+    {
+        None,
+        Entry,
+        Wave,
+        EntryAndJump,
+        FadeIn,
+        FadeOut
+    }
+
     TextMeshProUGUI textMeshPro;
     
-    [SerializeField] float _firstDelay = 0.5f;
-    [SerializeField] float _enterDuration = 0.5f;
-    [SerializeField] float _jumpHeight = 50f;
-    [SerializeField] float _jumpDuration = 0.1f;
-    [SerializeField] float _waveSpeed = 2f;
-    [SerializeField] float _waveHeight = 5f;
-    [SerializeField] float _fadeDuration = 0.5f;
+    //[SerializeField] float _enterDuration = 0.5f;
+    //[SerializeField] float _jumpHeight = 600;
+    //[SerializeField] float _jumpDuration = 0.1f;
+    //[SerializeField] float _waveSpeed = 2f;
+    //[SerializeField] float _waveHeight = 5f;
+    //[SerializeField] float _fadeDuration = 0.1f;
 
     //InitializeText 함수에서 사용할 변수
-    [SerializeField] bool _startWithHide = false;
-    [SerializeField] bool _startWithFadeIn = false;
-    [SerializeField] bool _startWithFadeOut = false;
-    [SerializeField] bool _startWithJump = false;
-    [SerializeField] bool _startWithWave = false;
+    [SerializeField] bool _startWithHide = false; //처음에 숨길지 여부
     
 
     public bool isAnimating = true;
@@ -30,14 +34,11 @@ public class CustomTMPAnimaition : MonoBehaviour
     TMP_TextInfo _textInfo;
     Vector3[][] _originalVertices;
 
-    async void Start()
+    void Start()
     {
         textMeshPro = GetComponent<TextMeshProUGUI>();
 
         InitializeText();
-
-        await Task.Delay((int)(_firstDelay * 1000));
-        await PlayAnimation();
     }
 
     void OnDisable()
@@ -56,22 +57,59 @@ public class CustomTMPAnimaition : MonoBehaviour
             _originalVertices[i] = new Vector3[_textInfo.meshInfo[i].vertices.Length];
             _textInfo.meshInfo[i].vertices.CopyTo(_originalVertices[i], 0);
         }
-        
-        if(_startWithHide){
+
+        if (_startWithHide)
+        {
             HideTextUsingAlpha();
         }
     }
 
-    async Task PlayAnimation(){
-        if(_startWithHide){
-            //ShowTextUsingAlpha();
-            await AnimateTextFadeIn();
+    public async void PlayAnimation(TMPAnimationType type, Action callback = null, params object[] args){
+        switch(type){
+            case TMPAnimationType.Entry:
+                if (_startWithHide) ShowTextUsingAlpha();
+                if(args.Length == 1){
+                    await AnimateTextEntry((float)args[0]);
+                }else{
+                    await AnimateTextEntry();
+                }
+                break;
+            case TMPAnimationType.Wave:
+                if (_startWithHide) ShowTextUsingAlpha();
+                if(args.Length == 2){
+                    await AnimateWaveEffect((float)args[0], (float)args[1]);
+                }else{
+                    await AnimateWaveEffect();
+                }
+                
+                break;
+            case TMPAnimationType.EntryAndJump:
+                if (_startWithHide) ShowTextUsingAlpha();
+                if(args.Length == 3){
+                    await AnimateTextEntryAndJump((float)args[0], (float)args[1], (float)args[2]);
+                }else{
+                    await AnimateTextEntryAndJump();
+                }
+                break;
+            case TMPAnimationType.FadeIn:
+                if(args.Length == 1){
+                    await AnimateTextFadeIn((float)args[0]);
+                }else{
+                    await AnimateTextFadeIn();
+                }
+                
+                break;
+            case TMPAnimationType.FadeOut:
+                if(args.Length == 1){
+                    await AnimateTextFadeOut((float)args[0]);
+                }
+                else{
+                    await AnimateTextFadeOut();
+                }
+                break;
         }
 
-        //await AnimateTextEntry();
-        //await AnimateWaveEffect();
-
-        await AnimateTextJump();
+        callback?.Invoke();
     }
 
     void HideTextUsingAlpha(){
@@ -124,7 +162,7 @@ public class CustomTMPAnimaition : MonoBehaviour
         }
     }
 
-    async Task AnimateTextEntry()
+    async Task AnimateTextEntry(float enterDuration = 0.5f)
     {
         List<Task> tasks = new List<Task>();
         
@@ -166,7 +204,7 @@ public class CustomTMPAnimaition : MonoBehaviour
                 vertices[vertexIndex + j] += offset;
             }
 
-            tasks.Add(MoveCharacterToPosition(i, _enterDuration));
+            tasks.Add(MoveCharacterToPosition(i, enterDuration));
 
             await Task.Delay(300);
         }
@@ -192,7 +230,7 @@ public class CustomTMPAnimaition : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
 
             for (int j = 0; j < 4; j++)
@@ -208,7 +246,7 @@ public class CustomTMPAnimaition : MonoBehaviour
         }
     }
 
-    private async Task AnimateWaveEffect()
+    private async Task AnimateWaveEffect(float waveSpeed = 2f, float waveHeight = 5f)
     {
         while (isAnimating)
         {
@@ -224,7 +262,7 @@ public class CustomTMPAnimaition : MonoBehaviour
                 int materialIndex = _textInfo.characterInfo[i].materialReferenceIndex;
                 Vector3[] vertices = _textInfo.meshInfo[materialIndex].vertices;
 
-                float waveOffset = Mathf.Sin(Time.time * _waveSpeed + i) * _waveHeight;
+                float waveOffset = Mathf.Sin(Time.time * waveSpeed + i) * waveHeight;
                 for (int j = 0; j < 4; j++)
                 {
                     vertices[vertexIndex + j] = _originalVertices[materialIndex][vertexIndex + j] + new Vector3(0, waveOffset, 0);
@@ -241,7 +279,7 @@ public class CustomTMPAnimaition : MonoBehaviour
         }
     }
 
-    async Task AnimateTextJump()
+    async Task AnimateTextEntryAndJump(float enterDuration = 0.5f, float jumpDuration = 0.1f, float jumpHeight = 600)
     {
         List<Task> tasks = new List<Task>();
 
@@ -272,9 +310,9 @@ public class CustomTMPAnimaition : MonoBehaviour
             if (!_textInfo.characterInfo[i].isVisible)
                 continue;
 
-            tasks.Add(MoveCharacterJump(i, _enterDuration, _jumpHeight));
+            tasks.Add(MoveCharacterJump(i, enterDuration, jumpHeight));
 
-            await Task.Delay((int)(_jumpDuration * 1000));
+            await Task.Delay((int)(jumpDuration * 1000));
         }
 
         await Task.WhenAll(tasks);
@@ -298,7 +336,7 @@ public class CustomTMPAnimaition : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
 
             float jumpOffset = Mathf.Sin(t * Mathf.PI) * jumpHeight;
@@ -318,17 +356,17 @@ public class CustomTMPAnimaition : MonoBehaviour
         }
 
         if(jumpHeight > 5){
-            await MoveCharacterJump(charIndex, duration, jumpHeight / 5);
+            await MoveCharacterJump(charIndex, duration / 2, jumpHeight / 5);
         }
     }
 
-    async Task AnimateTextFadeIn()
+    async Task AnimateTextFadeIn(float fadeDuration = 0.2f)
     {
         float elapsedTime = 0;
-        while (elapsedTime < _fadeDuration)
+        while (elapsedTime < fadeDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / _fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
 
             for (int i = 0; i < _textInfo.characterCount; i++)
             {
@@ -352,17 +390,22 @@ public class CustomTMPAnimaition : MonoBehaviour
                 textMeshPro.mesh.colors32 = _textInfo.meshInfo[i].colors32;
             }
 
+            if (textMeshPro != null)
+            {
+                textMeshPro.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);    
+            }
+
             await Task.Yield();
         }
     }
 
-    async Task AnimateTextFadeOut()
+    async Task AnimateTextFadeOut(float fadeDuration = 0.2f)
     {
         float elapsedTime = 0;
-        while (elapsedTime < _fadeDuration)
+        while (elapsedTime < fadeDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / _fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
 
             for (int i = 0; i < _textInfo.characterCount; i++)
             {
@@ -384,6 +427,11 @@ public class CustomTMPAnimaition : MonoBehaviour
             {
                 textMeshPro.mesh.vertices = _textInfo.meshInfo[i].vertices;
                 textMeshPro.mesh.colors32 = _textInfo.meshInfo[i].colors32;
+            }
+
+            if (textMeshPro != null)
+            {
+                textMeshPro.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);    
             }
 
             await Task.Yield();
