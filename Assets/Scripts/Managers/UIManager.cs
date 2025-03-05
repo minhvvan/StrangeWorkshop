@@ -17,7 +17,8 @@ public enum UIType
     InGameUI,
     ChapterUI,
     PauseUI,
-    ResultUI, //WinUI
+    ResultUI,
+    ClearUI,
     LoseUI,
     ConfirmPopupUI,
     Max,
