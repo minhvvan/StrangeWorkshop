@@ -58,16 +58,17 @@ public class InGameUIController : MonoBehaviour, IGameUI
         characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
     }
     
+    async public void RegisterGameUI(QuestManager questManager)
+    {
+        _questUIController.gameObject.SetActive(true);
+        _questUIController.SetQuests();
+    }
+    
     async public void RegisterGameUI()
     {
         _chapterInfoUIController.gameObject.SetActive(true);
     }
-
-    async public void RegisterGameUI(QuestManager questManager)
-    {
-        _questUIController.gameObject.SetActive(true);
-        _questUIController.Initialize();
-    }
+    
     
     void Update()
     {

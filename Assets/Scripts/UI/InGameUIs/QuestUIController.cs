@@ -7,8 +7,11 @@ public class QuestUIController : MonoBehaviour, IGameUI
 {
     private RectTransform _root;
     
+    Dictionary<QuestType, RectTransform> _questsUI = new Dictionary<QuestType, RectTransform>();
+    
     [SerializeField] private TMP_Text _missionText1;
     [SerializeField] private TMP_Text _missionText2;
+    
 
     void Awake()
     {
@@ -33,7 +36,7 @@ public class QuestUIController : MonoBehaviour, IGameUI
     {
     }
 
-    public void SetQuestUIController()
+    public void SetQuests()
     {
         
     }

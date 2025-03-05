@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using Managers;
 using UnityEngine;
 
+[Serializable]
 public class ObjectiveProtectBarrier : IQuestObjective
 {
-    private float _healthThreshold;
+    [SerializeField]private float _healthThreshold;
     private float _currentHealth;
     private BarrierStatSO _barrierStatSO;
 
+    public QuestType questType { get; set; }
     public QuestStatus questStatus { get; set; }
 
     async public void Initialize(QuestDataSO questData)
@@ -21,7 +23,8 @@ public class ObjectiveProtectBarrier : IQuestObjective
         }
         
         _barrierStatSO = await DataManager.Instance.LoadDataAsync<BarrierStatSO>(Addresses.Data.Barrier.STAT);
-    
+
+        questType = QuestType.ProtectBarrier;
         questStatus = QuestStatus.InProgress;
     
         _currentHealth = _barrierStatSO.totalHP;

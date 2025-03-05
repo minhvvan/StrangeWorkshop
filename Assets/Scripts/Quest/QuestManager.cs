@@ -1,84 +1,93 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Managers;
 using UnityEngine;
 
 public class QuestManager : Singleton<QuestManager>
 {
-    private Dictionary<QuestType, IQuestObjective> _objectivesDict;
+    private List<QuestDataSO> availableQuests = new List<QuestDataSO>();
     
     // Todo: 후에 gamemanager에서 chapter 정보 받아오기
     [SerializeField] private ChapterDataSO _chapterDataSO;
-
+    
+    [Header("UI")]
+    private InGameUIController _inGameUIController;
     public Action OnQuestCompleted;
     public Action OnQuestFailed;
     
     void Awake()
     {
-        _objectivesDict = new Dictionary<QuestType, IQuestObjective>();
+        availableQuests = new List<QuestDataSO>();
         InitializeChapter();
     }
     
-    public void InitializeChapter()
+    async public void InitializeChapter()
     {
+        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);
+        
         foreach (var quest in _chapterDataSO.quests)
         {
-            _objectivesDict[quest.questType] = InitQuestObjective(quest);
+            availableQuests.Add(quest);
+            // InitQuestObjective(quest);
         }
+        
+        
     }
 
     public void ClearEvents()
     {
-        _objectivesDict.Clear();
+        availableQuests.Clear();
     }
 
     public void Notify(QuestType questType, object param = null)
     {
         // 퀘스트와 관련있는 코드에서 QuestManager.Notify를 실행
         // 관련있는 quest가 없을 경우 실행되지 않는다
-        if (_objectivesDict.TryGetValue(questType, out var objective))
-        {
-            objective.UpdateQuestProgress(param);
-            CheckQuestStatus(questType);
-        }
+        // if (_objectivesDict.TryGetValue(questType, out var objective))
+        // {
+        //     objective.UpdateQuestProgress(param);
+        //     CheckQuestStatus(questType);
+        // }
     }
 
     private IQuestObjective InitQuestObjective(QuestDataSO questData)
     {
-        IQuestObjective objective = null;
         switch (questData.questType)
         {
             case QuestType.ProtectBarrier:
-                objective = new ObjectiveProtectBarrier();
+                questData.objective = new ObjectiveProtectBarrier();
                 break;
             case QuestType.LimitedTurret:
-                objective = new ObjectiveLimitedTurret();
+                questData.objective = new ObjectiveLimitedTurret();
                 break;
             default:
                 break;
         }
         
-        if(objective == null) Debug.LogError($"Quest {questData.questType} not found");
+        if(questData.objective == null) Debug.LogError($"Quest {questData.questType} not found");
         
-        objective.Initialize(questData);
-        return objective;
+        questData.objective.Initialize(questData);
+        return questData.objective;
     }
 
     private void CheckQuestStatus(QuestType questType)
     {
-        if (_objectivesDict[questType].questStatus == QuestStatus.Completed)
-        {
-            Debug.Log("Quest completed");
-            _objectivesDict.Remove(questType); // Quest 추적을 더이상 하지 않도록 함
-            // Todo: UI 변경을 여기 넣으면 될듯?
-        }
-        else if (_objectivesDict[questType].questStatus == QuestStatus.Failed)
-        {
-            Debug.Log("Quest Failed");
-            _objectivesDict.Remove(questType); // Quest 추적을 더이상 하지 않도록 함
-            // Todo: UI 변경을 여기 넣으면 될듯?
-        }
+        // if (_objectivesDict[questType].questStatus == QuestStatus.Completed)
+        // {
+        //     Debug.Log("Quest completed");
+        //     _objectivesDict.Remove(questType); // Quest 추적을 더이상 하지 않도록 함
+        //     // Todo: UI 변경을 여기 넣으면 될듯?
+        // }
+        // else if (_objectivesDict[questType].questStatus == QuestStatus.Failed)
+        // {
+        //     Debug.Log("Quest Failed");
+        //     _objectivesDict.Remove(questType); // Quest 추적을 더이상 하지 않도록 함
+        //     // Todo: UI 변경을 여기 넣으면 될듯?
+        // }
     }
 }
 

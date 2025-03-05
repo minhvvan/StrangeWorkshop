@@ -6,4 +6,5 @@ using UnityEngine;
 public class QuestProtectBarrierSO : QuestDataSO
 {
     public float failurePercentage;
+    public ObjectiveProtectBarrier objectiveProtectBarrier;
 }

@@ -6,6 +6,7 @@ public class ObjectiveLimitedTurret : IQuestObjective
 {
     private int _maxTurretNum;
     private int _currentTurretNum;
+    public QuestType questType { get; set; }
     public QuestStatus questStatus { get; set; }
     
     public void Initialize(QuestDataSO questData)
@@ -18,6 +19,7 @@ public class ObjectiveLimitedTurret : IQuestObjective
         }
         _maxTurretNum = ((QuestLimitedTurretSO)questData).maxTurretNum;
 
+        questType = QuestType.LimitedTurret;
         questStatus = QuestStatus.InProgress;
     }
 
