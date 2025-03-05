@@ -14,6 +14,7 @@ public class InGameUIController : MonoBehaviour, IGameUI
     [SerializeField] private BarrierUIController _barrierUIController;
     [SerializeField] private ChapterInfoUIController _chapterInfoUIController;
     [SerializeField] private EquipmentUIController _equipmentUIController;
+    [SerializeField] private QuestUIController _questUIController;
     
     public static event Action<bool> OnTabToggled; // Tab UI 토글 이벤트
     private bool isTabActive = false;
@@ -60,6 +61,12 @@ public class InGameUIController : MonoBehaviour, IGameUI
     async public void RegisterGameUI()
     {
         _chapterInfoUIController.gameObject.SetActive(true);
+    }
+
+    async public void RegisterGameUI(QuestManager questManager)
+    {
+        _questUIController.gameObject.SetActive(true);
+        _questUIController.Initialize();
     }
     
     void Update()
