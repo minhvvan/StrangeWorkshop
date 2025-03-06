@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2719215754929610611, guid: d9b42e92b1b247b43b2a5765218c4057, type: 3}
   objectName: Muffler
-  objectType: 0
+  objectType: 1
+  objectSprite: {fileID: 21300000, guid: c26742e275d2fb646bbb73d4b5392886, type: 3}

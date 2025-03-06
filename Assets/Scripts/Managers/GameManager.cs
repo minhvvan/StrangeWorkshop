@@ -140,6 +140,15 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver()
     {
-        UIManager.Instance.GetUI<PauseUIController>(UIType.LoseUI);
+        UIManager.Instance.GetUI<LoseUIController>(UIType.LoseUI).ShowUI();
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
