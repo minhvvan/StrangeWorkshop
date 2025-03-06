@@ -16,7 +16,6 @@ public class CraftCounter : BaseCounter
     private int _craftIndex;
     private int _currentIndex;
     private bool cooltime = true;
-    public ProgressBar _progressBar;
     
     private InGameUIController _inGameUIController;
 
@@ -28,10 +27,6 @@ public class CraftCounter : BaseCounter
 
     async void Awake()
     {
-        _progressBar.Initialize();
-        _progressBar.SetColor(Color.green);
-        _progressBar.gameObject.SetActive(false);
-        
         await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
         _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
         // _inGameUIController = GetComponentInParent<InGameUIController>();
@@ -96,38 +91,7 @@ public class CraftCounter : BaseCounter
         }
     }
     
-    // 레시피가 존재하면 상호작용시 결과 반환
-    public override void InteractAlternate(IHoldableObjectParent player)
-    {
-        if (!_currentCraftRecipeSO.IsUnityNull())
-        {
-            if (_craftIndex > _currentIndex && cooltime)
-            {
-                _currentIndex++;
-                _progressBar.UpdateProgressBar(_currentIndex);
-                CoolTime();
-                
-                //UI 
-            }
-
-            if (_craftIndex <= _currentIndex)
-            {
-                ClearHoldableObject();
-                var spawnHoldableObject = HoldableObject.SpawnHoldableObject(_currentCraftRecipeSO.output, this);
-                var defaultScale = spawnHoldableObject.transform.localScale;
-                spawnHoldableObject.transform.localScale = Vector3.zero;
-                spawnHoldableObject.transform.DOScale(defaultScale, 1f);
-                OnCraftCompleteAction?.Invoke(_currentCraftRecipeSO.output);
-                _currentCraftRecipeSO = null;
-                _currentIndex = 0;
-                _progressBar.ResetBar();
-                _progressBar.gameObject.SetActive(false);
-                
-
-            }
-            VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position);
-        }
-    }
+    
 
     private void SetCurrentCraftIndex()
     {
@@ -135,16 +99,26 @@ public class CraftCounter : BaseCounter
         {
             _craftIndex = _currentCraftRecipeSO.craftNumberOfTimes;
             _currentIndex = 0;
-            _progressBar.ResetBar();
-            _progressBar.gameObject.SetActive(true);
-            _progressBar.SetBar(_craftIndex);
+            // _progressBar.ResetBar();
+            // _progressBar.gameObject.SetActive(true);
+            // _progressBar.SetBar(_craftIndex);
         }
         else
         {
-            _progressBar.gameObject.SetActive(false);
+            // _progressBar.gameObject.SetActive(false);
         }
     }
 
+    public float GetCraftIndex()
+    {
+        return _craftIndex;
+    }
+
+    public CraftRecipeSO GetCurrentCraftRecipeSO()
+    {
+        return _currentCraftRecipeSO;
+    }
+    
     async void CoolTime()
     {
         cooltime = false;
