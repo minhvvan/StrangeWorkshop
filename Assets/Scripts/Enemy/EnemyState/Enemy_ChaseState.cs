@@ -15,6 +15,7 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
     {
         Fsm.blackboard.AnimWalk();
         Fsm.blackboard.priorityIncrease = true;
+        Fsm.blackboard.currentState = 1;
     }
 
     public override void UpdateState()
@@ -29,12 +30,15 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
             Vector3 trForward = FsmBb.transform.forward = FsmBb.agent.transform.forward;
             
             float moveSpd = FsmBb.enemyStatus.moveSpeed;
+
+            float distance = Mathf.Infinity;
+            if (Physics.Raycast(currentPos, direction.normalized, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
+                    1 << LayerMask.NameToLayer(FsmBb.layerName)))
+            {
+                distance = Vector3.Distance(FsmBb.hit.point, currentPos);
+            }
             
-            if(Vector3.Distance(currentPos, targetPos) < moveSpd)
-            Physics.Raycast(currentPos, direction, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
-                1 << LayerMask.NameToLayer(FsmBb.layerName));
-            float distance = Vector3.Distance(FsmBb.hit.point, currentPos);
-            
+            //Debug.Log($"{distance:F2},\n{targetPos},\n{currentPos}");
             //사거리 안에 들었을 때, 대상 탐지가 되지 않았다면 검색.
             if (distance <= FsmBb.enemyStatus.attackRange &&
                 FsmBb.targetCollider == null)
@@ -49,16 +53,16 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
                 //타겟을 향해 이동한다.
                 FsmBb.transform.rotation = Quaternion.LookRotation(trForward);
                 FsmBb.ResumeTracking();
-                // if (!FsmBb.researchOrder)
-                // {
-                //     FsmBb.AutoResearchTarget().Forget();
-                // }
+                if (!FsmBb.researchOrder)
+                {
+                    FsmBb.AutoResearchTarget().Forget();
+                }
             }
             else
             {
                 FsmBb.bDetectBarrier = true;
-                //FsmBb.researchOrder = false;
-                //FsmBb.autoResearchCts?.Cancel();
+                FsmBb.researchOrder = false;
+                FsmBb.autoResearchCts?.Cancel();
                 FsmBb.StopTracking();
                 
                 //사거리 내에 들어 Attack으로 넘어간다

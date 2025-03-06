@@ -17,6 +17,7 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
         //EnemyPathfinder.instance.ColliderDisable(Fsm.blackboard.capsuleCol);
         Fsm.blackboard.priorityIncrease = false;
         Fsm.blackboard.agent.avoidancePriority = 1;
+        Fsm.blackboard.currentState = 2;
     }
 
     public override void UpdateState()

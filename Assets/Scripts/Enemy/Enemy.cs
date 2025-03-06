@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         
         //적 방어력에 따른 데미지 감소
-        float dmgOperation = damage * (100f / (100f + blackboard.enemyStatus.armor));
+        float dmgOperation = damage * (10f / (10f + blackboard.enemyStatus.armor));
 
         //보스인지에 따라 피격에 따른 색상변경 적용 판별
         if (blackboard.thisBoss == BlackboardEnemy.IsBoss.NONE)

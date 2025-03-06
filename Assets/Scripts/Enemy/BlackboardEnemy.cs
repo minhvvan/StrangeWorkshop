@@ -51,7 +51,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public int priorityStack = 0;
     
     private static readonly int Speed = Animator.StringToHash("Speed");
-    private static readonly int Attack = Animator.StringToHash("Attack");
+    public static readonly int Attack = Animator.StringToHash("Attack");
     
     //Material 오브젝트 할당용
     public Transform matObject;
@@ -64,6 +64,8 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     };
     
     public IsBoss thisBoss = IsBoss.NONE;
+
+    public int currentState = 0;
     
     public void InitBlackboard()
     {
@@ -92,7 +94,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         }
         
         //자동 재검색 타이머 시작.
-        //AutoResearchTarget().Forget();
+        AutoResearchTarget().Forget();
         PriorityIncreaser().Forget();
         //최초 이후 재검색 대상시간은 10초.
         _researchTime = 5f;
@@ -110,24 +112,24 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     /// <summary>
     /// 일정시간이 지나도 타겟에게 공격을 해내지 못하면 타겟을 재검색 합니다.
     /// </summary>
-    // public async UniTask AutoResearchTarget()
-    // {
-    //     researchOrder = true;
-    //     autoResearchCts = new CancellationTokenSource();
-    //     await UniTask.WaitForSeconds(_researchTime,
-    //         cancellationToken: autoResearchCts.Token);
-    //
-    //     if (bDetectBarrier)
-    //     {
-    //         researchOrder = false;
-    //         autoResearchCts?.Cancel();
-    //         return;
-    //     }
-    //     ExcludeResearchTarget();
-    //
-    //     researchOrder = false;
-    //     autoResearchCts?.Cancel();
-    // }
+    public async UniTask AutoResearchTarget()
+    {
+        researchOrder = true;
+        autoResearchCts = new CancellationTokenSource();
+        await UniTask.WaitForSeconds(_researchTime,
+            cancellationToken: autoResearchCts.Token);
+    
+        if (bDetectBarrier)
+        {
+            researchOrder = false;
+            autoResearchCts?.Cancel();
+            return;
+        }
+        ExcludeResearchTarget();
+    
+        researchOrder = false;
+        autoResearchCts?.Cancel();
+    }
     
     public void SetModifyStat()
     {
@@ -297,8 +299,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
         //공격 판정 동작.
         _atkPattern?.RunPattern(this);
-
-        await UniTask.CompletedTask;
+        await UniTask.WaitUntil(() => !bCanPattern);
     }
 
     public void AnimSetSpeed(float speed)
@@ -307,9 +308,10 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     }
 
     ///CrossFade 간소화.
-    public void AnimCrossFade(string animName)
+    public void AnimCrossFade(string animName,float normalizedTime = 0f)
     {
-        anim.CrossFade(animName, 0.1f);
+        //anim.SetFloat(Speed, 0.0f);
+        anim.CrossFade(animName, 0, 0, normalizedTime);
     }
     
     ///Idle 모션
@@ -338,24 +340,26 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public void AnimAttack()
     {
         //걷기 중단.
-        anim.SetFloat(Speed, 0.0f);
+        //anim.SetFloat(Speed, 0.0f);
 
         //좌우 번갈아가며 공격하는 모션
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         if (!stateInfo.IsName("AttackL") && !stateInfo.IsName("AttackR"))
         {
             AnimCrossFade("AttackL");
-            anim.SetBool(Attack, false);
+            //anim.SetBool(Attack, false);
         }
         else
         {
             if (stateInfo.IsName("AttackL"))
             {
-                anim.SetBool(Attack, true);
+                //anim.SetBool(Attack, true);
+                AnimCrossFade("AttackR");
             }
             else if (stateInfo.IsName("AttackR"))
             {
-                anim.SetBool(Attack, false);
+                //anim.SetBool(Attack, false);
+                AnimCrossFade("AttackL");
             }
         }
     }
