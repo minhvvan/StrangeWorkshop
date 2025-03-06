@@ -6,77 +6,66 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Managers;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public abstract class IAttackPattern : MonoBehaviour
 {
+    protected Barrier TargetBarrier;
+    protected BlackboardEnemy EnemyBb;
+    //protected bool _bCanAttack;
+    //protected bool ActionCompleted;
+    protected bool IsBurserkOn = false;
+
+    protected float AtkDamage;
+    protected float AtkFirstDelay;
+    protected float AtkRange;
+    protected float AtkCooldown;
+    protected float MotionSpeed = 1f;
+    
     public abstract UniTask RunPattern(BlackboardEnemy enemyBlackboard);
     public abstract UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown);
 }
 
-public class MeleeAttack : IAttackPattern
+public class MeleeNormal : IAttackPattern
 {
-    private Barrier _targetBarrier;
-    private BlackboardEnemy _enemyBb;
-    private bool _bCanAttack;
-    private bool _actionCompleted;
-    private bool _isBurserkOn;
-
-    private float _atkDamage;
-    private float _atkFirstDelay;
-    private float _atkCooldown;
-    private float _motionSpeed;
-    
     public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
     {
-        _enemyBb = enemyBlackboard;
-        _targetBarrier = _enemyBb.targetCollider.GetComponent<Barrier>();
+        EnemyBb = enemyBlackboard;
+        TargetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
         
         //설정값 초기화.
-        _atkFirstDelay = _enemyBb.enemyStatus.animFirstDelay;
-        _atkCooldown = _enemyBb.enemyStatus.attackSpeed;
-        _atkDamage = _enemyBb.enemyStatus.attackDamage;
-        _motionSpeed = 1f;
-        
-        //공격하려는데 그 순간 방벽의 체력이 0이면 중단.
-        // if (_enemyBb.targetCollider.GetComponent<Barrier>().BarrierStat.health <= 0)
-        // {
-        //     _enemyBb.bCanPattern = false;
-        //     return;
-        // }
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 1f;
         
         //우선순위 최하위로 낮춘다.
-        _enemyBb.priorityStack = _enemyBb.agent.avoidancePriority = 1;
+        EnemyBb.priorityStack = EnemyBb.agent.avoidancePriority = 1;
         
         //공격 판정 동작.
         await NormalAttack();
         
-        _enemyBb.bCanPattern = false;
+        EnemyBb.bCanPattern = false;
     }
     
     private void GiveDamage(float damage)
     {
-        //BarrierStat삭제 예정에 따라 임시조치
-        // if (_targetBarrier.BarrierStat.health > 0)
-        // {
-        //     _targetBarrier.TakeDamage(damage);
-        // }
-        _targetBarrier.TakeDamage(damage);
+        TargetBarrier.TakeDamage(damage);
     }
     
     private async UniTask NormalAttack()
     {
-        _atkFirstDelay = _enemyBb.enemyStatus.animFirstDelay;
-        _atkCooldown = _enemyBb.enemyStatus.attackSpeed;
-        _enemyBb.AnimAttack();
-        _enemyBb.AnimSetSpeed(_motionSpeed);
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        EnemyBb.AnimAttack();
+        EnemyBb.AnimSetSpeed(MotionSpeed);
         await DelayAction(
-            () => GiveDamage(_atkDamage),
-            _atkFirstDelay/_motionSpeed,
-            _atkCooldown/_motionSpeed);
-        _enemyBb.AnimSetSpeed(1f);
+            () => GiveDamage(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        EnemyBb.AnimSetSpeed(1f);
     }
     
 
@@ -85,8 +74,8 @@ public class MeleeAttack : IAttackPattern
         //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
         await UniTask.Delay(
             (int)(1000*atkFirstDelay),
-            cancellationToken: _enemyBb.cts.Token);
-        if (!_enemyBb.bCanPattern) return;
+            cancellationToken: EnemyBb.cts.Token);
+        if (!EnemyBb.bCanPattern) return;
         
         //공격 명령
         action?.Invoke();
@@ -96,42 +85,58 @@ public class MeleeAttack : IAttackPattern
             //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
             (int)(1000*(atkCooldown - atkFirstDelay)), 
             //공격 도중 죽으면 도중에 취소해야한다.
-            cancellationToken: _enemyBb.cts.Token);
+            cancellationToken: EnemyBb.cts.Token);
     }
 }
 
-public class RangeAttack : IAttackPattern
+public class MeleeBruiser : IAttackPattern
 {
-    private Barrier _targetBarrier;
-    private BlackboardEnemy _enemyBb;
-    private bool _bCanAttack;
-    
-    private float _atkFirstDelay;
-    private float _atkCooldown;
-    
     public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
     {
-        _enemyBb = enemyBlackboard;
-        _targetBarrier = _enemyBb.targetCollider.GetComponent<Barrier>();
-        _atkFirstDelay = _enemyBb.enemyStatus.animFirstDelay;
-        _atkCooldown = _enemyBb.enemyStatus.attackSpeed;
+        EnemyBb = enemyBlackboard;
+        TargetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
         
+        //설정값 초기화.
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 2f;
         
-        _targetBarrier.TakeDamage(_enemyBb.enemyStatus.attackDamage);
+        //우선순위 최하위로 낮춘다.
+        EnemyBb.priorityStack = EnemyBb.agent.avoidancePriority = 1;
         
+        //공격 판정 동작.
+        await NormalAttack();
         
-        _enemyBb.bCanPattern = false;
-        await UniTask.CompletedTask;
+        EnemyBb.bCanPattern = false;
     }
     
+    private void GiveDamage(float damage)
+    {
+        TargetBarrier.TakeDamage(damage);
+    }
     
+    private async UniTask NormalAttack()
+    {
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        EnemyBb.AnimAttack();
+        EnemyBb.AnimSetSpeed(MotionSpeed);
+        await DelayAction(
+            () => GiveDamage(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        EnemyBb.AnimSetSpeed(1f);
+    }
+    
+
     public override async UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown)
     {
         //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
         await UniTask.Delay(
             (int)(1000*atkFirstDelay),
-            cancellationToken: _enemyBb.cts.Token);
-        if (!_enemyBb.bCanPattern) return;
+            cancellationToken: EnemyBb.cts.Token);
+        if (!EnemyBb.bCanPattern) return;
         
         //공격 명령
         action?.Invoke();
@@ -141,7 +146,376 @@ public class RangeAttack : IAttackPattern
             //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
             (int)(1000*(atkCooldown - atkFirstDelay)), 
             //공격 도중 죽으면 도중에 취소해야한다.
-            cancellationToken: _enemyBb.cts.Token);
+            cancellationToken: EnemyBb.cts.Token);
+    }
+}
+
+public class MeleeTanker : IAttackPattern
+{
+    public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
+    {
+        EnemyBb = enemyBlackboard;
+        TargetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
+        
+        //설정값 초기화.
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 1f;
+        
+        //우선순위 최하위로 낮춘다.
+        EnemyBb.priorityStack = EnemyBb.agent.avoidancePriority = 1;
+        
+        //공격 판정 동작.
+        await ChargeAttack();
+        
+        EnemyBb.bCanPattern = false;
+    }
+    
+    private void GiveDamage(float damage)
+    {
+        TargetBarrier.TakeDamage(damage);
+    }
+    
+    private async UniTask ChargeAttack()
+    {
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        EnemyBb.AnimCrossFade("ChargeAttack");
+        EnemyBb.AnimSetSpeed(MotionSpeed);
+        await DelayAction(
+            () => GiveDamage(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        EnemyBb.AnimSetSpeed(1f);
+    }
+    
+
+    public override async UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown)
+    {
+        //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
+        await UniTask.Delay(
+            (int)(1000*atkFirstDelay),
+            cancellationToken: EnemyBb.cts.Token);
+        if (!EnemyBb.bCanPattern) return;
+        
+        //공격 명령
+        action?.Invoke();
+        
+        //공격 대기시간
+        await UniTask.Delay( 
+            //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
+            (int)(1000*(atkCooldown - atkFirstDelay)), 
+            //공격 도중 죽으면 도중에 취소해야한다.
+            cancellationToken: EnemyBb.cts.Token);
+    }
+}
+
+public class MeleeFlanker : IAttackPattern
+{
+    public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
+    {
+        EnemyBb = enemyBlackboard;
+        TargetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
+        
+        //설정값 초기화.
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 1f;
+        
+        //우선순위 최하위로 낮춘다.
+        EnemyBb.priorityStack = EnemyBb.agent.avoidancePriority = 1;
+        
+        //공격 판정 동작.
+        await NormalAttack();
+        
+        EnemyBb.bCanPattern = false;
+    }
+    
+    private void GiveDamage(float damage)
+    {
+        TargetBarrier.TakeDamage(damage);
+    }
+    
+    private async UniTask NormalAttack()
+    {
+        //AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkFirstDelay = 0f;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        //EnemyBb.AnimAttack();
+        //EnemyBb.AnimSetSpeed(MotionSpeed);
+        await DelayAction(
+            () => GiveDamage(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        //EnemyBb.AnimSetSpeed(1f);
+    }
+    
+
+    public override async UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown)
+    {
+        //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
+        await UniTask.Delay(
+            (int)(1000*atkFirstDelay),
+            cancellationToken: EnemyBb.cts.Token);
+        if (!EnemyBb.bCanPattern) return;
+        
+        //공격 명령
+        action?.Invoke();
+        
+        //공격 대기시간
+        await UniTask.Delay( 
+            //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
+            (int)(1000*(atkCooldown - atkFirstDelay)), 
+            //공격 도중 죽으면 도중에 취소해야한다.
+            cancellationToken: EnemyBb.cts.Token);
+    }
+}
+
+public class MeleeHider : IAttackPattern
+{
+    public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
+    {
+        EnemyBb = enemyBlackboard;
+        TargetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
+        
+        //설정값 초기화.
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 1f;
+        
+        //우선순위 최하위로 낮춘다.
+        EnemyBb.priorityStack = EnemyBb.agent.avoidancePriority = 1;
+        
+        //공격 판정 동작.
+        await NormalAttack();
+        
+        EnemyBb.bCanPattern = false;
+    }
+    
+    private void GiveDamage(float damage)
+    {
+        TargetBarrier.TakeDamage(damage);
+    }
+    
+    private async UniTask NormalAttack()
+    {
+        //AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkFirstDelay = 0f;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        //EnemyBb.AnimAttack();
+        //EnemyBb.AnimSetSpeed(MotionSpeed);
+        await DelayAction(
+            () => GiveDamage(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        //EnemyBb.AnimSetSpeed(1f);
+    }
+    
+
+    public override async UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown)
+    {
+        //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
+        await UniTask.Delay(
+            (int)(1000*atkFirstDelay),
+            cancellationToken: EnemyBb.cts.Token);
+        if (!EnemyBb.bCanPattern) return;
+        
+        //공격 명령
+        action?.Invoke();
+        
+        //공격 대기시간
+        await UniTask.Delay( 
+            //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
+            (int)(1000*(atkCooldown - atkFirstDelay)), 
+            //공격 도중 죽으면 도중에 취소해야한다.
+            cancellationToken: EnemyBb.cts.Token);
+    }
+}
+
+public class RangeNormal : IAttackPattern
+{
+    private GameObject swordPrefab;
+    private Transform swordTransform;
+    
+    public RangeNormal()
+    {
+        LoadItem().Forget();
+    }
+
+    private async UniTask LoadItem()
+    {
+        swordPrefab = await DataManager.Instance.LoadPrefabAsync(Addresses.Prefabs.Enemy.THROW_SWORD);
+    }
+    
+    public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
+    {
+        EnemyBb = enemyBlackboard;
+        TargetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
+
+        if (swordTransform == null)
+        {
+            swordTransform = EnemyBb.transform.GetComponentsInChildren<Transform>()
+                .FirstOrDefault(t => t.name == "MiddleFinger4_R");
+        }
+        
+        
+        //설정값 초기화.
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkRange = EnemyBb.enemyStatus.attackRange;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 1f;
+        
+        //우선순위 최하위로 낮춘다.
+        EnemyBb.priorityStack = EnemyBb.agent.avoidancePriority = 1;
+        //공격 판정 동작.
+        await NormalRangeAttack();
+        
+        EnemyBb.bCanPattern = false;
+    }
+    
+    private void ThrowSword(float damage)
+    {
+        var obj = Instantiate(swordPrefab, swordTransform.position, Quaternion.identity);
+        var newTargetPos = TargetBarrier.transform.position;
+        var targetDirection = newTargetPos - swordTransform.position;
+        obj.transform.forward = targetDirection;
+        var getOrder = obj.GetComponent<KnightSword>();
+        getOrder.throwType = KnightSword.ThrowType.RangeAttack;
+        getOrder.OnAction(() =>
+        {
+            obj.transform.DOMove(newTargetPos, 0.5f);
+            TargetBarrier.TakeDamage(damage);
+        });
+    }
+    
+    private async UniTask NormalRangeAttack()
+    {
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        EnemyBb.AnimCrossFade("Throw");
+        EnemyBb.AnimSetSpeed(MotionSpeed);
+        await DelayAction(
+            () => ThrowSword(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        EnemyBb.AnimSetSpeed(1f);
+    }
+    
+    public override async UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown)
+    {
+        //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
+        await UniTask.Delay(
+            (int)(1000*atkFirstDelay),
+            cancellationToken: EnemyBb.cts.Token);
+        if (!EnemyBb.bCanPattern) return;
+        
+        //공격 명령
+        action?.Invoke();
+        
+        //공격 대기시간
+        await UniTask.Delay( 
+            //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
+            (int)(1000*(atkCooldown - atkFirstDelay)), 
+            //공격 도중 죽으면 도중에 취소해야한다.
+            cancellationToken: EnemyBb.cts.Token);
+    }
+}
+
+public class RangeMage : IAttackPattern
+{
+    private GameObject spellPrefab;
+    private Transform spellTransform;
+    
+    public RangeMage()
+    {
+        LoadItem().Forget();
+    }
+
+    private async UniTask LoadItem()
+    {
+        spellPrefab = await DataManager.Instance.LoadPrefabAsync(Addresses.Prefabs.Enemy.THROW_SWORD);
+    }
+    
+    public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
+    {
+        EnemyBb = enemyBlackboard;
+        TargetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
+
+        if (spellTransform == null)
+        {
+            // spellTransform = EnemyBb.transform.GetComponentsInChildren<Transform>()
+            //     .FirstOrDefault(t => t.name == "MiddleFinger4_R");
+            
+            //더미모델 사용중 임시 Transform
+            spellTransform = EnemyBb.transform.GetComponentInChildren<Transform>();
+        }
+        
+        
+        //설정값 초기화.
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkRange = EnemyBb.enemyStatus.attackRange;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 1f;
+        
+        //우선순위 최하위로 낮춘다.
+        EnemyBb.priorityStack = EnemyBb.agent.avoidancePriority = 1;
+        //공격 판정 동작.
+        await CastingZone();
+        
+        EnemyBb.bCanPattern = false;
+    }
+    
+    private void ThrowSword(float damage)
+    {
+        var obj = Instantiate(spellPrefab, spellTransform.position, Quaternion.identity);
+        var newTargetPos = TargetBarrier.transform.position;
+        var targetDirection = newTargetPos - spellTransform.position;
+        obj.transform.forward = targetDirection;
+        var getOrder = obj.GetComponent<KnightSword>();
+        getOrder.throwType = KnightSword.ThrowType.RangeAttack;
+        getOrder.OnAction(() =>
+        {
+            obj.transform.DOMove(newTargetPos, 0.5f);
+            TargetBarrier.TakeDamage(damage);
+        });
+    }
+    
+    private async UniTask CastingZone()
+    {
+        //AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkFirstDelay = 0;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        //EnemyBb.AnimCrossFade("Throw");
+        //EnemyBb.AnimSetSpeed(MotionSpeed);
+        await DelayAction(
+            () => ThrowSword(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        //EnemyBb.AnimSetSpeed(1f);
+    }
+    
+    public override async UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown)
+    {
+        //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
+        await UniTask.Delay(
+            (int)(1000*atkFirstDelay),
+            cancellationToken: EnemyBb.cts.Token);
+        if (!EnemyBb.bCanPattern) return;
+        
+        //공격 명령
+        action?.Invoke();
+        
+        //공격 대기시간
+        await UniTask.Delay( 
+            //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
+            (int)(1000*(atkCooldown - atkFirstDelay)), 
+            //공격 도중 죽으면 도중에 취소해야한다.
+            cancellationToken: EnemyBb.cts.Token);
     }
 }
 
@@ -150,17 +524,8 @@ public class Chapter1Boss : IAttackPattern
     private SampleCharacterController _player;
     private Barrier _targetBarrier;
     private List<Vector3> grids;
-    private BlackboardEnemy _enemyBb;
     private GameObject swordPrefab;
-    private bool _bCanAttack;
-    private bool _actionCompleted;
-    private bool _isBurserkOn;
-
-    private float _atkDamage;
-    private float _atkFirstDelay;
-    private float _atkCooldown;
-    private float _motionSpeed;
-
+    
     public Chapter1Boss()
     {
         LoadItem().Forget();
@@ -182,15 +547,15 @@ public class Chapter1Boss : IAttackPattern
 
     public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
     {
-        _enemyBb = enemyBlackboard;
-        _targetBarrier = _enemyBb.targetCollider.GetComponent<Barrier>();
-        _player = _enemyBb.player;
+        EnemyBb = enemyBlackboard;
+        _targetBarrier = EnemyBb.targetCollider.GetComponent<Barrier>();
+        _player = EnemyBb.player;
         
         //설정값 초기화.
-        _atkFirstDelay = _enemyBb.enemyStatus.animFirstDelay;
-        _atkCooldown = _enemyBb.enemyStatus.attackSpeed;
-        _atkDamage = _enemyBb.enemyStatus.attackDamage;
-        _motionSpeed = 1f;
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        AtkDamage = EnemyBb.enemyStatus.attackDamage;
+        MotionSpeed = 1f;
         
         //공격하려는데 그 순간 방벽의 체력이 0이면 중단.
         // if (_targetBarrier.BarrierStat.health <= 0)
@@ -199,29 +564,31 @@ public class Chapter1Boss : IAttackPattern
         //     return;
         // }
         
-        if (Mathf.Approximately(_enemyBb.enemyStatus.hp, _enemyBb.enemyStatus.maxHp) ||
-            _enemyBb.enemyStatus.hp >= _enemyBb.enemyStatus.maxHp * 0.8f)
+        if (Mathf.Approximately(EnemyBb.enemyStatus.hp, EnemyBb.enemyStatus.maxHp) ||
+            EnemyBb.enemyStatus.hp >= EnemyBb.enemyStatus.maxHp * 0.8f)
         {
             await RunPhase_One();
         }
-        else if (_enemyBb.enemyStatus.hp < _enemyBb.enemyStatus.maxHp * 0.8f &&
-                 _enemyBb.enemyStatus.hp >= _enemyBb.enemyStatus.maxHp * 0.3f)
+        else if (EnemyBb.enemyStatus.hp < EnemyBb.enemyStatus.maxHp * 0.8f &&
+                 EnemyBb.enemyStatus.hp >= EnemyBb.enemyStatus.maxHp * 0.3f)
         {
             await RunPhase_Two();
+            EnemyBb.RandomResearchTarget();
+            EnemyBb.agent.speed = EnemyBb.enemyStatus.moveSpeed *= 5f;
         }
-        else if (_enemyBb.enemyStatus.hp < _enemyBb.enemyStatus.maxHp * 0.3f &&
-                 _enemyBb.enemyStatus.hp > 0)
+        else if (EnemyBb.enemyStatus.hp < EnemyBb.enemyStatus.maxHp * 0.3f &&
+                 EnemyBb.enemyStatus.hp > 0)
         {
-            if (!_isBurserkOn)
+            if (!IsBurserkOn)
             {
                 //광폭화 On
-                _isBurserkOn = true;
-                _motionSpeed = 2f;
+                IsBurserkOn = true;
+                MotionSpeed = 2f;
             }
             await RunPhase_Three();
         }
 
-        _enemyBb.bCanPattern = false;
+        EnemyBb.bCanPattern = false;
         await UniTask.CompletedTask;
     }
     
@@ -258,9 +625,9 @@ public class Chapter1Boss : IAttackPattern
             }
             else if(i == 2)
             {
-                _motionSpeed = 2f;
+                MotionSpeed = 2f;
                 await ChargeAttack();
-                _motionSpeed = 1f;
+                MotionSpeed = 1f;
             }
             else if (i == 3)
             {
@@ -270,6 +637,7 @@ public class Chapter1Boss : IAttackPattern
             {
                 await ThrowSword(grids);
             }
+            
         }
     }
     
@@ -298,15 +666,16 @@ public class Chapter1Boss : IAttackPattern
 
     private async UniTask NormalAttack()
     {
-        _atkFirstDelay = _enemyBb.enemyStatus.animFirstDelay;
-        _atkCooldown = _enemyBb.enemyStatus.attackSpeed;
-        _enemyBb.AnimAttack();
-        _enemyBb.AnimSetSpeed(_motionSpeed);
+        AtkFirstDelay = EnemyBb.enemyStatus.animFirstDelay;
+        AtkCooldown = EnemyBb.enemyStatus.attackSpeed;
+        EnemyBb.AnimAttack();
+        EnemyBb.AnimSetSpeed(MotionSpeed);
         await DelayAction(
-            () => GiveDamage(_atkDamage),
-            _atkFirstDelay/_motionSpeed,
-            _atkCooldown/_motionSpeed);
-        _enemyBb.AnimSetSpeed(1f);
+            () => GiveDamage(AtkDamage),
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        EnemyBb.AnimSetSpeed(1f);
+        EnemyBb.AnimIdle();
     }
 
     private async UniTask ChargeAttack()
@@ -314,35 +683,36 @@ public class Chapter1Boss : IAttackPattern
         int repeat = 0;
         while (repeat < 2)
         {
-            _atkFirstDelay = 2.6f;
-            _atkCooldown = 5f; //4.75
-            _enemyBb.AnimCrossFade("ChargeAttack");
+            AtkFirstDelay = 2.6f;
+            AtkCooldown = 5f; //4.75
+            EnemyBb.AnimCrossFade("ChargeAttack");
                     
-            _enemyBb.AnimSetSpeed(_motionSpeed);
+            EnemyBb.AnimSetSpeed(MotionSpeed);
             await DelayAction(
-                () => GiveDamage(_atkDamage * 2f),
-                _atkFirstDelay/_motionSpeed,
-                _atkCooldown/_motionSpeed);
-            _enemyBb.AnimSetSpeed(1f);
+                () => GiveDamage(AtkDamage * 2f),
+                AtkFirstDelay/MotionSpeed,
+                AtkCooldown/MotionSpeed);
+            EnemyBb.AnimSetSpeed(1f);
+            EnemyBb.AnimIdle();
             repeat++;
         }
     }
     
     private async UniTask StunningShout()
     {
-        var vfxOffset = new Vector3(_enemyBb.transform.position.x, _enemyBb.transform.position.y + 6f, _enemyBb.transform.position.z);
+        var vfxOffset = new Vector3(EnemyBb.transform.position.x, EnemyBb.transform.position.y + 6f, EnemyBb.transform.position.z);
         VFXManager.Instance.TriggerVFX(VFXType.WARNINGSIGN, vfxOffset);
-        _motionSpeed = 0.5f;
-        _atkFirstDelay = 1f;
-        _atkCooldown = 3f;
-        _enemyBb.AnimCrossFade("Shout");
-        _enemyBb.AnimSetSpeed(_motionSpeed);
+        MotionSpeed = 0.5f;
+        AtkFirstDelay = 1f;
+        AtkCooldown = 3f;
+        EnemyBb.AnimCrossFade("Shout");
+        EnemyBb.AnimSetSpeed(MotionSpeed);
         await DelayAction(
             ()=> Stunning().Forget(),
-            _atkFirstDelay/_motionSpeed,
-            _atkCooldown/_motionSpeed);
-        _motionSpeed = 1f;
-        _enemyBb.AnimSetSpeed(1f);
+            AtkFirstDelay/MotionSpeed,
+            AtkCooldown/MotionSpeed);
+        MotionSpeed = 1f;
+        EnemyBb.AnimSetSpeed(1f);
     }
 
     private async UniTask ThrowSword(List<Vector3> grids)
@@ -350,7 +720,7 @@ public class Chapter1Boss : IAttackPattern
         int swordLevel = 6;
         int repeatCount = 3;
         
-        if (_isBurserkOn)
+        if (IsBurserkOn)
         {
             repeatCount = 5;
         }
@@ -375,6 +745,7 @@ public class Chapter1Boss : IAttackPattern
                 var targetDirection = newTargetPos - obj.transform.position;
                 obj.transform.forward = targetDirection;
                 obj.transform.DOScale(new Vector3(3,3,3), 0f);
+                obj.GetComponent<KnightSword>().throwType = KnightSword.ThrowType.BossPattern;
                 throwObjects.Add(obj);
                 
                 var vfxOffset = new Vector3(obj.transform.position.x, obj.transform.position.y + 1f, obj.transform.position.z);
@@ -404,12 +775,6 @@ public class Chapter1Boss : IAttackPattern
     //방벽에 피해 가하기
     private void GiveDamage(float damage)
     {
-        // //BarrierStat삭제 예정에 따라 임시조치
-        //  if (_targetBarrier.BarrierStat.health > 0)
-        //  {
-        //      _targetBarrier.TakeDamage(damage);
-        //  }
-        // _targetBarrier.TakeDamage(damage);
         _targetBarrier.TakeDamage(damage);
     }
 
@@ -420,7 +785,7 @@ public class Chapter1Boss : IAttackPattern
         {
             _player.walkSpeed = 0f;
             //_player.ClearHoldableObject(); //물건떨구기 임시 비활성화
-            await UniTask.Delay(2000,cancellationToken: _enemyBb.cts.Token);
+            await UniTask.Delay(2000,cancellationToken: EnemyBb.cts.Token);
             _player.walkSpeed = 15f;
         }
         finally
@@ -434,9 +799,9 @@ public class Chapter1Boss : IAttackPattern
         //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
         await UniTask.Delay(
             (int)(1000 * atkFirstDelay),
-            cancellationToken: _enemyBb.cts.Token);
+            cancellationToken: EnemyBb.cts.Token);
         
-        if (!_enemyBb.bCanPattern) return;
+        if (!EnemyBb.bCanPattern) return;
 
         //공격 명령
         action?.Invoke();
@@ -446,52 +811,7 @@ public class Chapter1Boss : IAttackPattern
             //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
             (int)(1000 * (atkCooldown - atkFirstDelay)),
             //공격 도중 죽으면 도중에 취소해야한다.
-            cancellationToken: _enemyBb.cts.Token);
-    }
-}
-
-public class OtherAttack : IAttackPattern
-{
-    private Barrier _targetBarrier;
-    private BlackboardEnemy _enemyBb;
-    private bool _bCanAttack;
-    
-    //판정 적용 선딜레이, 재공격 대기시간.
-    private float _atkFirstDelay;
-    private float _atkCooldown;
-    
-    public override async UniTask RunPattern(BlackboardEnemy enemyBlackboard)
-    {
-        _enemyBb = enemyBlackboard;
-        _targetBarrier = _enemyBb.targetCollider.GetComponent<Barrier>();
-        _atkFirstDelay = _enemyBb.enemyStatus.animFirstDelay;
-        _atkCooldown = _enemyBb.enemyStatus.attackSpeed;
-        
-        _targetBarrier.TakeDamage(_enemyBb.enemyStatus.attackDamage);
-        
-        _enemyBb.bCanPattern = false;
-        await UniTask.CompletedTask;
-    }
-    
-    public override async UniTask DelayAction(Action action, float atkFirstDelay, float atkCooldown)
-    {
-        
-        
-        //공격 모션에 맞게 판정이 나가도록 선딜레이 적용
-        await UniTask.Delay(
-            (int)(1000*atkFirstDelay),
-            cancellationToken: _enemyBb.cts.Token);
-        if (!_enemyBb.bCanPattern) return;
-        
-        //공격 명령
-        action?.Invoke();
-        
-        //공격 대기시간
-        await UniTask.Delay( 
-            //공격 대기시간에 모션 선딜레이시간을 빼서 딜레이 맞추기.
-            (int)(1000*(atkCooldown - atkFirstDelay)), 
-            //공격 도중 죽으면 도중에 취소해야한다.
-            cancellationToken: _enemyBb.cts.Token);
+            cancellationToken: EnemyBb.cts.Token);
     }
 }
 
@@ -500,11 +820,14 @@ public static class PatternHandler
     private static readonly Dictionary<EnemyType, Func<IAttackPattern>> Patterns =
         new Dictionary<EnemyType, Func<IAttackPattern>>
         {
-            {EnemyType.MeleeNormal,() => new MeleeAttack()},
-            {EnemyType.MeleeHeavy,() => new OtherAttack()},
-            {EnemyType.LongRangeNormal,() => new RangeAttack()},
-            {EnemyType.Chapter1Boss,() => new Chapter1Boss()},
-            {(EnemyType)3,() => new OtherAttack()}
+            {EnemyType.MeleeNormal,() => new MeleeNormal()},
+            {EnemyType.MeleeBruiser,() => new MeleeBruiser()},
+            {EnemyType.MeleeFlanker,() => new MeleeFlanker()},
+            {EnemyType.MeleeTanker,() => new MeleeTanker()},
+            {EnemyType.MeleeHider,() => new MeleeHider()},
+            {EnemyType.RangeNormal,() => new RangeNormal()},
+            {EnemyType.RangeMage,() => new RangeMage()},
+            {EnemyType.Chapter1Boss,() => new Chapter1Boss()}
         };
     
     public static IAttackPattern CreatePattern(EnemyType etype)

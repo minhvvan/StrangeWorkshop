@@ -15,9 +15,12 @@ using Random = UnityEngine.Random;
 public enum EnemyType
 {
     MeleeNormal,
-    MeleeHeavy,
-    LongRangeNormal,
-    LongRangeHeavy,
+    MeleeTanker,
+    MeleeBruiser,
+    MeleeFlanker,
+    MeleeHider,
+    RangeNormal,
+    RangeMage,
     Chapter1Boss
 }
 
