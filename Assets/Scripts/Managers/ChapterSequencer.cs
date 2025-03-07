@@ -46,6 +46,8 @@ public class ChapterSequencer
         }
         
         currentCommand = commands[currentCommandIndex++];
+
+        if (!currentCommand.IsInitialized) currentCommand.Initialize();
         currentCommand.Execute(_commandCompleteEventSO);
     }
 }

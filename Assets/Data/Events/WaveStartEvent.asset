@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4517ede9d00f41708c6f811aefd36493, type: 3}
-  m_Name: WaveData
+  m_Script: {fileID: 11500000, guid: 6c44b8cf7cb74e1885d03a174b974b10, type: 3}
+  m_Name: WaveStartEvent
   m_EditorClassIdentifier: 
-  waveNumber: 0
-  duration: 10
-  enemySpawns:
-  - enemyData: {fileID: 11400000, guid: fa893e49ab3d5b542b72e988fa937f02, type: 2}
-    count: 3
-  spawnInterval: 5
+  EventDescription: "\uC6E8\uC774\uBE0C \uC2DC\uC791\uC2DC \uBC1C\uC0DD"

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Managers;
 using UnityEngine;
 
 public class InGameUIController : MonoBehaviour, IGameUI
@@ -42,8 +43,11 @@ public class InGameUIController : MonoBehaviour, IGameUI
     async public void RegisterGameUI(EnemySpawner enemySpawner)
     {
         _waveUIController.gameObject.SetActive(true);
-        enemySpawner.OnWaveClearAction += _waveUIController.OnWaveClearPopup;
-        enemySpawner.OnWaveAlertAction += _waveUIController.OnWaveAlertPopup;
+        var waveClearEvent = await DataManager.Instance.LoadDataAsync<WaveClearEventSO>(Addresses.Events.Game.WAVE_CLEAR);
+        waveClearEvent.AddListener(_waveUIController.OnWaveClearPopup);
+        
+        var waveStartEvent = await DataManager.Instance.LoadDataAsync<WaveStartEventSO>(Addresses.Events.Game.WAVE_START);
+        waveStartEvent.AddListener(_waveUIController.OnWaveAlertPopup);
     }
 
     async public void RegisterGameUI(BarrierController barrierController)
@@ -103,7 +107,6 @@ public class InGameUIController : MonoBehaviour, IGameUI
 
     public void Initialize()
     {
-        throw new NotImplementedException();
     }
 
     public void CleanUp()
