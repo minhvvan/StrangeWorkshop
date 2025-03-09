@@ -1837,6 +1837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce72a26a8723b8843924f34db41eb3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  completedQuests: 
   _chapterDataSO: {fileID: 11400000, guid: d55f248cca58fd04eb3e83be8cd9c833, type: 2}
 --- !u!4 &1140073816
 Transform:
@@ -2266,32 +2267,32 @@ PrefabInstance:
     - target: {fileID: 3206491467758334190, guid: 44a80f2e25c28984d8dbe7b9217eb9bb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.1800003
+      value: 7.549999
       objectReference: {fileID: 0}
     - target: {fileID: 3206491467758334190, guid: 44a80f2e25c28984d8dbe7b9217eb9bb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20.128002
+      value: -27.57
       objectReference: {fileID: 0}
     - target: {fileID: 3206491467758334190, guid: 44a80f2e25c28984d8dbe7b9217eb9bb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -27.5
+      value: 13.4
       objectReference: {fileID: 0}
     - target: {fileID: 3206491467758334190, guid: 44a80f2e25c28984d8dbe7b9217eb9bb,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.84587795
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3206491467758334190, guid: 44a80f2e25c28984d8dbe7b9217eb9bb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.5333765
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3206491467758334190, guid: 44a80f2e25c28984d8dbe7b9217eb9bb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3206491467758334190, guid: 44a80f2e25c28984d8dbe7b9217eb9bb,
         type: 3}

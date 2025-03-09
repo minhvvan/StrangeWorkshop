@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class ObjectiveLimitedTurret : IQuestObjective
 {
     private int _maxTurretNum;
     private int _currentTurretNum;
-    public QuestType questType { get; set; }
     public QuestStatus questStatus { get; set; }
     
     public void Initialize(QuestDataSO questData)
@@ -18,8 +19,7 @@ public class ObjectiveLimitedTurret : IQuestObjective
             return;
         }
         _maxTurretNum = ((QuestLimitedTurretSO)questData).maxTurretNum;
-
-        questType = QuestType.LimitedTurret;
+        
         questStatus = QuestStatus.InProgress;
     }
 

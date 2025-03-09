@@ -38,6 +38,5 @@ public class QuestUIController : MonoBehaviour, IGameUI
 
     public void SetQuests()
     {
-        
     }
 }

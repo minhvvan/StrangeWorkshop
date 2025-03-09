@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23002c97dd4f9a44da3ea01ac64aa7af, type: 3}
-  m_Name: LimitedTurret
+  m_Script: {fileID: 11500000, guid: 50b1f0cdf3b5b6f40b216609d851f399, type: 3}
+  m_Name: QuestList
   m_EditorClassIdentifier: 
-  idx: 0
-  questType: 2
-  description: 
-  maxTurretNum: 0
+  questDataSOs: []

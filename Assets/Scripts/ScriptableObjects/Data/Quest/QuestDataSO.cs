@@ -4,8 +4,10 @@ using UnityEngine;
 
 public abstract class QuestDataSO : ScriptableObject
 {
-    public int idx;
+    public int id;
     public QuestType questType;
     public string description;
-    [SerializeReference] public IQuestObjective objective;
+    public int chapter;
+    public bool cleared;
+    public IQuestObjective objective;
 }
