@@ -30,6 +30,7 @@ public class ConfirmPopupUIController : BasePopupUI
 
     void Awake()
     {
+        Initialize();
         _confirmButton.onClick.AddListener(OnClickConfirm);
         _cancelButton.onClick.AddListener(OnClickCancel);
     }
@@ -57,8 +58,7 @@ public class ConfirmPopupUIController : BasePopupUI
         {
             _backgroundImage.sprite = _confirmPopupTypeTextures[type];
         }
-            
-
-        ShowUI();    
+        
+        ShowUI();
     }
 }
