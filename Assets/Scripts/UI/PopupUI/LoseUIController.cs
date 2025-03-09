@@ -9,9 +9,11 @@ public class LoseUIController : BasePopupUI
 
     void Awake()
     {
+        Initialize();
         _gotoChapterButton.onClick.AddListener(OnClickGotoChapter);
         _restartButton.onClick.AddListener(OnClickRestart);
     }
+
 
     void OnClickGotoChapter()
     {
