@@ -30,7 +30,7 @@ MonoBehaviour:
       type: 3}
     position: {x: 0, y: 0}
   - type: 6
-    prefab: {fileID: 7144695949987194916, guid: f09293667d6394c08ad3287451a02851,
+    prefab: {fileID: 7903435374853878952, guid: 9ac143024b985471380c7096e0e70813,
       type: 3}
     position: {x: 0, y: 0}
   - type: 7
@@ -50,5 +50,9 @@ MonoBehaviour:
     position: {x: 0, y: 0}
   - type: 8
     prefab: {fileID: 4846724393624810698, guid: 3539f145794b74e15ab982d0cde1d9f9,
+      type: 3}
+    position: {x: 0, y: 0}
+  - type: 11
+    prefab: {fileID: 4846724393624810698, guid: cb31086c326674b8499edfd79ee0fe41,
       type: 3}
     position: {x: 0, y: 0}
