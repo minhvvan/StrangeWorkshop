@@ -17,9 +17,14 @@ MonoBehaviour:
     type: 3}
   animFirstDelay: 0.9
   enemyName: Chapter1-Boss
-  hp: 300
-  armor: 5
-  attackDamage: 5
-  attackRange: 3
-  attackSpeed: 3
-  moveSpeed: 5
+  enemyStatus:
+    enemytype: 4
+    animFirstDelay: 0
+    enemyName: 
+    maxHp: 300
+    hp: 300
+    armor: 5
+    attackDamage: 5
+    attackRange: 3
+    attackSpeed: 3
+    moveSpeed: 5
