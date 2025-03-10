@@ -556,6 +556,8 @@ MonoBehaviour:
   _firstSelected: {fileID: 2532087695460403233}
   _bottombarUIPrefab: {fileID: 2577446086499385387, guid: d776fa4265a2949eabec31f0292bd423,
     type: 3}
+  _globalVolume: {fileID: 0}
+  _dof: {fileID: 0}
   _isBlurBackground: 1
   _isBinarizeBackground: 0
   _isStackable: 1
@@ -566,16 +568,19 @@ MonoBehaviour:
   _mainMenuButton: {fileID: 1655325325589629701}
   _titleRect: {fileID: 4826118925080053792}
   _titleMoveDuration: 0.3
-  _titleLocalMoveStartPosition: {x: -750, y: 0}
-  _titleLocalMoveOriginPosition: {x: -42, y: 0}
+  _titleStartPosition: {x: -750, y: 0}
+  _titleOriginPosition: {x: -42, y: 0}
+  _titleEase: 5
   _menuRect: {fileID: 7838771822058352767}
   _menuMoveDuration: 0.3
-  _menuLocalMoveStartPosition: {x: -400, y: -190}
-  _menuLocalMoveOriginPosition: {x: -40, y: -190}
+  _menuStartPosition: {x: -400, y: -190}
+  _menuOriginPosition: {x: -40, y: -190}
+  _menuEase: 5
   _subMenuRect: {fileID: 3308780772886712218}
   _subMenuMoveDuration: 0.3
-  _subMenuLocalMoveStartPosition: {x: -400, y: 0}
-  _subMenuLocalMoveOriginPosition: {x: 0, y: 0}
+  _subMenuStartPosition: {x: -400, y: 0}
+  _subMenuOriginPosition: {x: 0, y: 0}
+  _subMenuEase: 5
 --- !u!1 &3308612648213010807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,7 +1400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selector: {fileID: 13884924186715415}
   _selectorParent: {fileID: 5701146418266016780}
-  _selectorMoveDuration: 0.3
+  _selectorMoveDuration: 0.15
   _originSelectorAnchorPosition: {x: -400, y: 340}
   _firstItemSelectorAnchorPosition: {x: 0, y: 340}
 --- !u!1 &4676488785538060705
@@ -2804,11 +2809,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 2532087695460403233}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 0
   m_Colors:

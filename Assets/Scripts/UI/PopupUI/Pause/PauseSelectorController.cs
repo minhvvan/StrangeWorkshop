@@ -8,7 +8,7 @@ public class PauseSelectorController : MonoBehaviour
 {
     [SerializeField] RectTransform _selector;
     [SerializeField] RectTransform _selectorParent;
-    [SerializeField] float _selectorMoveDuration = 0.3f;
+    [SerializeField] float _selectorMoveDuration = 0.15f;
 
     List<RectTransform> _selectorList = new List<RectTransform>();
 
@@ -18,7 +18,6 @@ public class PauseSelectorController : MonoBehaviour
     
     [SerializeField] Vector2 _originSelectorAnchorPosition = new Vector2(-400, 340);
     [SerializeField] Vector2 _firstItemSelectorAnchorPosition = new Vector2(0, 340);
-
 
 
     void Start()
