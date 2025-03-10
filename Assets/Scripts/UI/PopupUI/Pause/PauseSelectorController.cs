@@ -27,10 +27,6 @@ public class PauseSelectorController : MonoBehaviour
 
     void Initialize()
     {
-        foreach (var selector in _selectorList)
-        {
-            DestroyImmediate(selector);
-        }
         _selectorList.Clear();
 
         foreach (Transform child in _selectorParent)
