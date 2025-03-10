@@ -153,7 +153,13 @@ public class UIManager : Singleton<UIManager>
         {
             if(_popupUIs.Count > 0)
             {
-                _popupUIs.Peek().HideUI();
+                if(_popupUIs.Count == 1){
+                    _popupUIs.Peek().HideUI();
+                }
+                else{
+                    _popupUIs.Peek().HideUIWithoutCancelEffect();                       
+                }
+                
             }
         }   
     }

@@ -137,6 +137,7 @@ public abstract class BasePopupUI: MonoBehaviour, IGameUI
     {
         IsOpen = false;
         Time.timeScale = 1;
+        UnselectUI();
         StopCanvasGroupAnimation();
         CancelBackgroundBlur();
         CancelBinirizeSaturationEffect();
@@ -144,13 +145,54 @@ public abstract class BasePopupUI: MonoBehaviour, IGameUI
 
         //animation
         CanvasDeactivate(() => {
-            UnselectUI();
+            
             PopStackIfStackable();
             _canvasGroup.gameObject.SetActive(false);
         });
         _onCloseEvent?.Invoke();
         AnimatePopupHide();
     }
+
+    /// <summary>
+    /// Transition to hide the popup immediately (without base class animation)
+    /// </summary>
+    public void HideImmediate()
+    {
+        IsOpen = false;
+        Time.timeScale = 1;
+        UnselectUI();
+        CancelBackgroundBlur(true);
+        CancelBinirizeSaturationEffect(true);
+        ReleaseBottomBarUI(true);
+        CanvasDeactivate(null, true);
+        
+        
+        PopStackIfStackable();
+
+        _onCloseEvent?.Invoke();
+    }
+
+    /// <summary>
+    /// not using cancel effect hide function
+    /// </summary>
+    public void HideUIWithoutCancelEffect()
+    {
+        IsOpen = false;
+        UnselectUI();
+        StopCanvasGroupAnimation();
+        
+        ReleaseBottomBarUI(true);
+        CanvasDeactivate(() =>
+        {
+            PopStackIfStackable();
+            _canvasGroup.gameObject.SetActive(false);
+        });
+        _onCloseEvent?.Invoke();
+        AnimatePopupHide();        
+    }
+    
+    
+
 
     //최종 이벤트를 딜레이 후 발생하기 위한 action 포함
     void CanvasDeactivate(Action callback, bool isImmediate = false)
@@ -246,23 +288,7 @@ public abstract class BasePopupUI: MonoBehaviour, IGameUI
         }
     }
 
-    /// <summary>
-    /// Transition to hide the popup immediately (without base class animation)
-    /// </summary>
-    public void HideImmediate()
-    {
-        IsOpen = false;
-        Time.timeScale = 1;
-        CancelBackgroundBlur(true);
-        CancelBinirizeSaturationEffect(true);
-        ReleaseBottomBarUI(true);
-        CanvasDeactivate(null, true);
-        
-        UnselectUI();
-        PopStackIfStackable();
-
-        _onCloseEvent?.Invoke();
-    }
+    
 
     public void SelectFirstUI()
     {
