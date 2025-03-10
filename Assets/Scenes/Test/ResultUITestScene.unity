@@ -16877,6 +16877,8 @@ MonoBehaviour:
   _firstSelected: {fileID: 2295611981379843908}
   _bottombarUIPrefab: {fileID: 2577446086499385387, guid: d776fa4265a2949eabec31f0292bd423,
     type: 3}
+  _globalVolume: {fileID: 0}
+  _dof: {fileID: 0}
   _isBlurBackground: 1
   _isBinarizeBackground: 0
   _isStackable: 1
@@ -16887,16 +16889,19 @@ MonoBehaviour:
   _mainMenuButton: {fileID: 1603397181151448804}
   _titleRect: {fileID: 0}
   _titleMoveDuration: 0.3
-  _titleLocalMoveStartPosition: {x: -750, y: 0}
-  _titleLocalMoveOriginPosition: {x: -42, y: 12}
+  _titleStartPosition: {x: -750, y: 0}
+  _titleOriginPosition: {x: -42, y: 0}
+  _titleEase: 5
   _menuRect: {fileID: 0}
   _menuMoveDuration: 0.3
-  _menuLocalMoveStartPosition: {x: -400, y: 0}
-  _menuLocalMoveOriginPosition: {x: -40, y: 156.33}
+  _menuStartPosition: {x: -400, y: -190}
+  _menuOriginPosition: {x: -40, y: -190}
+  _menuEase: 5
   _subMenuRect: {fileID: 0}
   _subMenuMoveDuration: 0.3
-  _subMenuLocalMoveStartPosition: {x: -400, y: 0}
-  _subMenuLocalMoveOriginPosition: {x: 0, y: 0}
+  _subMenuStartPosition: {x: -400, y: 0}
+  _subMenuOriginPosition: {x: 0, y: 0}
+  _subMenuEase: 5
 --- !u!114 &5722938604348090880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18848,6 +18853,8 @@ MonoBehaviour:
   _firstSelected: {fileID: 3586942362952420677}
   _bottombarUIPrefab: {fileID: 7233008076096618701, guid: 21299c087acf14fd5ba22847316ddc58,
     type: 3}
+  _globalVolume: {fileID: 0}
+  _dof: {fileID: 0}
   _isBlurBackground: 1
   _isBinarizeBackground: 0
   _isStackable: 1
