@@ -36,5 +36,6 @@ public class Barrier : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         _damagedEventSo.Raise(damage);
+        QuestManager.Instance.Notify(QuestType.ProtectBarrier, damage);
     }
 }

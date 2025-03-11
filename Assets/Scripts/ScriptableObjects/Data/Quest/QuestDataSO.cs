@@ -4,7 +4,9 @@ using UnityEngine;
 
 public abstract class QuestDataSO : ScriptableObject
 {
-    public int questID;
+    public int id;
     public QuestType questType;
-    public string questDescription;
+    [Multiline]
+    public string description;
+    public int chapter;
 }
