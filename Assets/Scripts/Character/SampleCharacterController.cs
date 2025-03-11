@@ -54,11 +54,18 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     [SerializeField] float playerInteractDistance = 1f;
     [SerializeField] LayerMask playerInteractLayerMask;
-
+    
+    TutorialManager tutorialManager;
+    
     void Awake()
     {
         InitComponents();
         InitStates();
+    }
+
+    void Start()
+    {
+        PlayerPrefs.SetInt("TutorialCompleted", 0);
     }
 
     void InitComponents()

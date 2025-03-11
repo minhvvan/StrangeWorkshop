@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterInputHandler : BaseInputHandler
 {
     SampleCharacterController _controller;
+    public TutorialManager tutorialManager;
 
     // 필요 이벤트들
     [NonSerialized] public Action OnInteract;
@@ -45,6 +46,12 @@ public class CharacterInputHandler : BaseInputHandler
         if (Input.GetKeyDown(KeyCode.E))
         {
             OnInteract?.Invoke();
+            
+            if (tutorialManager.flag == true)
+            {
+                tutorialManager.CloseTutorial();
+            }
+            
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -55,6 +62,7 @@ public class CharacterInputHandler : BaseInputHandler
         if (Input.GetKeyDown(KeyCode.Space))
         {
             OnDash?.Invoke();
+            TutorialEventManager.OnFirstInput?.Invoke();
         }
     }
 }
