@@ -138,7 +138,7 @@ public class EnemyPathfinder : MonoBehaviour
     ///아무 타겟이나 랜덤하게 받습니다.
     public Transform RandomTarget()
     {
-        return barrierPoints[Random.Range(0, barrierPoints.Count)];
+        return barrierPoints[Random.Range(0, barrierPoints.Count-1)];
     }
 
     // //충돌 상태 전체갱신

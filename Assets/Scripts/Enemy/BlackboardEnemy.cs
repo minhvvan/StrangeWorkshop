@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.Timeline;
 
 public interface IBlackboardEnemy
@@ -36,7 +37,33 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     
     ///방벽감지 및 공격
     private IAttackPattern _atkPattern;
+    private bool _bDetectedFromTower;
     
+    /// <summary>
+    /// 은신 감지타워의 범위내에 들면 호출해주세요.
+    /// </summary>
+    public bool DetectedFromTower
+    {
+        get => _bDetectedFromTower;
+        set
+        {
+            _bDetectedFromTower = value;
+            
+            //true면 공격받도록 Layer변경
+            if (_bDetectedFromTower)
+            {
+                gameObject.layer = LayerMask.NameToLayer("Enemy");
+                ChangeMatColor(matObject, enemyStatus.hp, 1f);
+            }
+            //false면 공격받지 않도록 Layer변경
+            else
+            {
+                gameObject.layer = LayerMask.NameToLayer("Default");
+                ChangeMatColor(matObject, enemyStatus.hp, 0.4f);
+            }
+        }
+    }
+
     [NonSerialized] public string layerName = "Barrier";
     public bool bDetectBarrier = false;
     public bool bCanPattern = false;
@@ -46,6 +73,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     ///자동 재검색 시간. 최초 시간만 20초.
     private float _researchTime = 10f;
     public bool researchOrder = false;
+    public bool useAutoResearch = true;
 
     public bool priorityIncrease = false;
     public int priorityStack = 0;
@@ -107,13 +135,100 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         await UniTask.WaitUntil(() => priorityIncrease);
         PriorityIncreaser().Forget();
     }
+    
+    public void SetModifyStat()
+    {
+        enemyStatus.maxHp = enemyStatus.hp;
+    }
 
+    public void SetTypeSetting()
+    {
+        switch (enemyStatus.enemytype)
+        {
+            case EnemyType.MeleeFlanker:
+                useAutoResearch = false;
+                break;
+            case EnemyType.MeleeHider:
+                DetectedFromTower = false;
+                break;
+            case EnemyType.RangeMage:
+                player = FindObjectOfType<SampleCharacterController>();
+                break;
+            case EnemyType.Chapter1Boss:
+                player = FindObjectOfType<SampleCharacterController>();
+                thisBoss = IsBoss.BOSS;
+                break;
+        }
+    }
+    
+    ///적 공격종류 선택
+    public void SetPattern()
+    {
+        _atkPattern = PatternHandler.CreatePattern(enemyStatus.enemytype);
+        _atkPattern.InitPattern(this);
+    }
+    
+    public void DestroyPattern()
+    {
+        _atkPattern.ClearPattern();
+        Destroy(_atkPattern);
+    }
+    
+    ///패턴 수행
+    public async UniTask OnAttack()
+    {
+        //타겟의 체력이 0이면
+        // if (targetCollider != null)
+        // {
+        //     if(target.GetComponent<Barrier>().BarrierStat.health <= 0)
+        //     {
+        //         //체력이 0인 타겟을 리스트에서 방출.
+        //         EnemyPathfinder.instance.RemoveTarget(target);
+        //         targetCollider = null;
+        //         target = null;
+        //         bCanPattern = false;
+        //         ResearchTarget();
+        //         return;
+        //     }
+        // }
+        
+        //공격 판정 동작.
+        _atkPattern?.RunPattern();
+        await UniTask.WaitUntil(() => !bCanPattern);
+    }
+    
+    //Material 색상변환 함수.
+    public void ChangeMatColor(Transform child, float hp, float alpha = 1f)
+    {
+        if (child != null)
+        {
+            //현재 체력을 최대 체력에 비례해여 0~1로 반환.
+            float colorValue = Mathf.InverseLerp(0f, enemyStatus.maxHp, hp);
+            
+            Color nextColor = new Color(colorValue, colorValue, colorValue, alpha);
+            
+            //색상 변화
+            Renderer childRenderer = child.GetComponent<Renderer>();
+            if (childRenderer != null)
+            { 
+                childRenderer.material.SetColor("_BaseColor", nextColor);
+            }
+        }
+    }
+    
+    //따라갈 타겟 지정
+    public void SetTarget(Transform targetData)
+    {
+        target = targetData;
+    }
     
     /// <summary>
     /// 일정시간이 지나도 타겟에게 공격을 해내지 못하면 타겟을 재검색 합니다.
     /// </summary>
     public async UniTask AutoResearchTarget()
     {
+        if (!useAutoResearch) return;
+         
         researchOrder = true;
         autoResearchCts = new CancellationTokenSource();
         await UniTask.WaitForSeconds(_researchTime,
@@ -129,47 +244,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     
         researchOrder = false;
         autoResearchCts?.Cancel();
-    }
-    
-    public void SetModifyStat()
-    {
-        enemyStatus.maxHp = enemyStatus.hp;
-    }
-
-    public void SetTypeSetting()
-    {
-        switch (enemyStatus.enemytype)
-        {
-            case EnemyType.Chapter1Boss:
-                player = FindObjectOfType<SampleCharacterController>();
-                thisBoss = IsBoss.BOSS;
-                break;
-        }
-    }
-    
-    //Material 색상변환 함수.
-    public void ChangeMatColor(Transform child, float hp)
-    {
-        if (child != null)
-        {
-            //현재 체력을 최대 체력에 비례해여 0~1로 반환.
-            float colorValue = Mathf.InverseLerp(0f, enemyStatus.maxHp, hp);
-            
-            Color nextColor = new Color(colorValue, colorValue, colorValue);
-            
-            //색상 변화
-            Renderer childRenderer = child.GetComponent<Renderer>();
-            if (childRenderer != null)
-            { 
-                childRenderer.material.SetColor("_BaseColor", nextColor);
-            }
-        }
-    }
-    
-    //따라갈 타겟 지정
-    public void SetTarget(Transform targetData)
-    {
-        target = targetData;
     }
     
     //길찾기 기능//
@@ -210,24 +284,22 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
          agent.SetDestination(target.position);
      }
 
-    ///길찾기를 멈춥니다.
-    public void StopTracking()
-    {
-        agent.isStopped = true;
-    }
+     ///길찾기를 멈춥니다.
+     public void StopTracking()
+     {
+         agent.isStopped = true;
+         //agent.updatePosition = false;
+         //agent.updateRotation = false;
+     }
 
-    ///길찾기를 재개합니다.
-    public void ResumeTracking()
-    {
-        agent.isStopped = false;
-        
-    }
-
-    ///적 공격종류 선택
-    public void SetPattern()
-    {
-        _atkPattern = PatternHandler.CreatePattern(enemyStatus.enemytype);
-    }
+     ///길찾기를 재개합니다.
+     public void ResumeTracking()
+     {
+         agent.isStopped = false;
+         //agent.updatePosition = true;
+         //agent.updateRotation = true;
+     }
+     
     ///공격 범위 내 적 찾기
     public void SearchNearTarget()
     {
@@ -277,29 +349,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         //     //주변 타겟 재검색
         //     ResearchTarget();
         // }
-    }
-
-    ///공격 모션 재생 & 데미지 전달 수행
-    public async UniTask OnAttack()
-    {
-        //타겟의 체력이 0이면
-        // if (targetCollider != null)
-        // {
-        //     if(target.GetComponent<Barrier>().BarrierStat.health <= 0)
-        //     {
-        //         //체력이 0인 타겟을 리스트에서 방출.
-        //         EnemyPathfinder.instance.RemoveTarget(target);
-        //         targetCollider = null;
-        //         target = null;
-        //         bCanPattern = false;
-        //         ResearchTarget();
-        //         return;
-        //     }
-        // }
-        
-        //공격 판정 동작.
-        _atkPattern?.RunPattern(this);
-        await UniTask.WaitUntil(() => !bCanPattern);
     }
 
     public void AnimSetSpeed(float speed)

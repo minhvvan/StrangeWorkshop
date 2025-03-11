@@ -53,9 +53,12 @@ public class Enemy_ChaseState : BaseStateEnemy<EnemyFsm>
                 //타겟을 향해 이동한다.
                 FsmBb.transform.rotation = Quaternion.LookRotation(trForward);
                 FsmBb.ResumeTracking();
-                if (!FsmBb.researchOrder)
+                if (FsmBb.useAutoResearch)
                 {
-                    FsmBb.AutoResearchTarget().Forget();
+                    if (!FsmBb.researchOrder)
+                    {
+                        FsmBb.AutoResearchTarget().Forget();
+                    }
                 }
             }
             else

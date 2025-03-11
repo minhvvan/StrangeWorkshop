@@ -30,9 +30,14 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
             Vector3 targetPos = FsmBb.target.position;
             Vector3 currentPos = FsmBb.transform.position;
             Vector3 direction = targetPos - currentPos;
-            Physics.Raycast(currentPos, direction, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
-                1 << LayerMask.NameToLayer(FsmBb.layerName));
-            float distance = Vector3.Distance(FsmBb.hit.point, currentPos);
+            
+            float distance = Mathf.Infinity;
+            
+            if (Physics.Raycast(currentPos, direction, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
+                    1 << LayerMask.NameToLayer(FsmBb.layerName)))
+            {
+                distance = Vector3.Distance(FsmBb.hit.point, currentPos);
+            }
             //사거리 안에 들었을 때, 대상 탐지가 되지 않았다면 검색.
             if (distance <= FsmBb.enemyStatus.attackRange &&
                 FsmBb.targetCollider == null)

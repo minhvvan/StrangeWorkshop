@@ -76,6 +76,7 @@ public class Enemy : MonoBehaviour, IDamageable
             blackboard.cts?.Cancel();
             blackboard.autoResearchCts?.Cancel();
             blackboard.StopTracking();
+            blackboard.DestroyPattern();
             blackboard.AnimDead();
             VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
             // turret이 타겟팅하지 않도록 설정
