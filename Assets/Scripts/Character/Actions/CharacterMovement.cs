@@ -48,6 +48,9 @@ public class CharacterMovement : BaseAction
     /// </summary>
     void MoveCharacter()
     {
+        //상태이상 활성화 시 종료
+        if (!_controller.isMoveable) return;
+        
         // 대쉬 중이면 이동 로직 스킵
         if (_controller.isDashing) return;
 

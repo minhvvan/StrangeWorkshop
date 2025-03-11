@@ -37,6 +37,9 @@ public class CharacterDash : BaseAction
 
     private IEnumerator DashRoutine()
     {
+        //상태이상 활성화 시 종료
+        if (!_controller.isMoveable) yield break;
+        
         // 1) 대쉬 시작
         _controller.isDashing = true;
         _controller.rb.velocity = Vector3.zero; // 기존 속도 초기화
