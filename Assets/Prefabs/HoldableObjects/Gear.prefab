@@ -10,7 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5296486077063377870}
   - component: {fileID: 3163672943617901012}
-  m_Layer: 0
+  - component: {fileID: 5447486772425641672}
+  - component: {fileID: 1712283194224468624}
+  - component: {fileID: 1129018541551213336}
+  - component: {fileID: 8691426195521586807}
+  m_Layer: 16
   m_Name: Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +50,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdableObjectSo: {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
+--- !u!135 &5447486772425641672
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719215754929610611}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1712283194224468624
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719215754929610611}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0.5
+  m_AngularDrag: 0.1
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1129018541551213336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719215754929610611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77fd7c0a9309a7a408c03244d05e126f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &8691426195521586807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719215754929610611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualGameObjectArray: []
 --- !u!1001 &5740905703448606075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57,6 +140,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 4c1dbcbbe51b64059921ba367bc132fd, type: 3}
       propertyPath: m_Name
       value: steampunk_cog
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 4c1dbcbbe51b64059921ba367bc132fd, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4c1dbcbbe51b64059921ba367bc132fd, type: 3}
       propertyPath: m_LocalScale.x

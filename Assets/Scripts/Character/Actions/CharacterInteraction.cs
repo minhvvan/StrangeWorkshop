@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,12 +13,18 @@ public class CharacterInteraction : BaseAction
 {
     SampleCharacterController _controller;
     
+    // equiement UI
+    [NonSerialized] public Action<HoldableObject> OnHoldObjectAction;
+    private InGameUIController _inGameUIController;
+    
     void Awake()
     {
         _controller = GetComponent<SampleCharacterController>();
 
         _controller.AddAction(this);
-    }    
+
+        InitUI();
+    }
     
     public override bool RegistAction()
     {
@@ -39,5 +46,17 @@ public class CharacterInteraction : BaseAction
     {   
         if(!_controller.GetSelectedCounter().IsUnityNull())
             _controller.GetSelectedCounter().Interact(_controller);
+        else if (!_controller._selectedHoldableObject.IsUnityNull() && _controller.GetHoldableObject().IsUnityNull())
+        {
+            _controller._selectedHoldableObject.SetHoldableObjectParent(_controller);
+        }
+        OnHoldObjectAction?.Invoke(_controller.GetHoldableObject());
+    }
+
+    private async void InitUI()
+    {
+        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);
     }
 }

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Turret_Gun
   m_EditorClassIdentifier: 
   prefab: {fileID: 5923909250479408624, guid: 50e460daf762c9a4e900fb3b42e2558e, type: 3}
-  objectName: Turret_Gun
-  objectType: 2
+  objectName: GunTurret
+  objectType: 3
+  objectSprite: {fileID: 21300000, guid: 6e067ebd6009eeb4d955622eaf780f64, type: 3}

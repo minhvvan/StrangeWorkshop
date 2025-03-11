@@ -32,6 +32,9 @@ public class CharacterInputHandler : BaseInputHandler
 
     void DirectControl()
     {
+        //상태이상 활성화 시 종료
+        if (!_controller.isMoveable) return;
+        
         // 1) 이동 입력
         float horizontal = Input.GetAxis("Horizontal");
         float vertical   = Input.GetAxis("Vertical");

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
@@ -29,6 +30,8 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     public float runSpeed  = 10f;
     public float dashSpeed = 30f; // 대쉬 속도
 
+    [NonSerialized] public bool isMoveable = true;
+    
     [Header("Dash Timings")]
     [SerializeField] public float dashAccelTime = 0.5f;
     [SerializeField] public float dashDecelTime = 0.5f;
@@ -51,7 +54,9 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     private Transform gloveObject;
     private HoldableObject _holdableObject;
     private BaseCounter _selectedCounter;
-
+    
+    public  HoldableObject _selectedHoldableObject;
+    
     [SerializeField] float playerInteractDistance = 1f;
     [SerializeField] LayerMask playerInteractLayerMask;
     
@@ -142,7 +147,8 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     private void HandleInteract()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit interactObject, playerInteractDistance))
+        
+        if (Physics.SphereCast(transform.position, 1f, transform.forward, out RaycastHit interactObject, playerInteractDistance, playerInteractLayerMask))
         {
             if (interactObject.transform.TryGetComponent(out BaseCounter baseCounter))
             {
@@ -155,10 +161,20 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
             {
                 SetSelectedCounter(null);
             }
+
+            if (interactObject.transform.TryGetComponent(out HoldableObject holdableObject))
+            {
+                SetSelectedHoldable(holdableObject);
+            }
+            else
+            {
+                SetSelectedHoldable(null);
+            }
         }
         else
         {
             SetSelectedCounter(null);
+            SetSelectedHoldable(null);
         }
     }
 
@@ -166,11 +182,20 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     {
         if (counter == _selectedCounter) return;
         
-        _selectedCounter?.GetComponent<SelectCounterVisual>().Hide();
+        _selectedCounter?.GetComponent<SelectObjectVisual>().Hide();
         _selectedCounter = counter;
-        _selectedCounter?.GetComponent<SelectCounterVisual>().Show();
+        _selectedCounter?.GetComponent<SelectObjectVisual>().Show();
     }
 
+    private void SetSelectedHoldable(HoldableObject holdableObject)
+    {
+        if (holdableObject == _selectedHoldableObject) return;
+        
+        _selectedHoldableObject?.GetComponent<SelectObjectVisual>().Hide();
+        _selectedHoldableObject = holdableObject;
+        _selectedHoldableObject?.GetComponent<SelectObjectVisual>().Show();
+    }
+    
     public BaseCounter GetSelectedCounter()
     {
         return _selectedCounter;

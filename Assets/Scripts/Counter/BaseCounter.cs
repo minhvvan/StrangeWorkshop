@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SelectObjectVisual))]
 public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
 {
     [SerializeField] private Transform counterTopPoint;

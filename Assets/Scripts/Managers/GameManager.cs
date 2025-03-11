@@ -142,4 +142,13 @@ public class GameManager : Singleton<GameManager>
     {
         UIManager.Instance.GetUI<LoseUIController>(UIType.LoseUI).ShowUI();
     }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }
