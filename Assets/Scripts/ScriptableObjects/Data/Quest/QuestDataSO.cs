@@ -6,8 +6,7 @@ public abstract class QuestDataSO : ScriptableObject
 {
     public int id;
     public QuestType questType;
+    [Multiline]
     public string description;
     public int chapter;
-    public bool cleared;
-    public IQuestObjective objective;
 }

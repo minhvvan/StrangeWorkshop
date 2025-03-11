@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23002c97dd4f9a44da3ea01ac64aa7af, type: 3}
   m_Name: LimitedTurret
   m_EditorClassIdentifier: 
-  idx: 0
+  id: 1
   questType: 2
-  description: 
-  maxTurretNum: 0
+  description: "\uD130\uB81B\uC744 1\uAC1C \uC774\uD558\uB85C \uC720\uC9C0\uD558\uC138\uC694\n0/1"
+  chapter: 1
+  maxTurretNum: 1

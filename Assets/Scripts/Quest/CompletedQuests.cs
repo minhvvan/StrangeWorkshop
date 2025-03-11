@@ -7,4 +7,14 @@ using UnityEngine;
 public class CompletedQuests
 {
     public List<int> ids;
+
+    public CompletedQuests()
+    {
+        ids = new List<int>();
+    }
+    
+    public CompletedQuests(List<int> ids)
+    {
+        this.ids = ids;
+    }
 }

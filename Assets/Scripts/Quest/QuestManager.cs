@@ -6,27 +6,32 @@ using Managers;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+using UnityEngine.Serialization;
+
+// todo: save, turretmaxobjective complete 로직 수정
 
 public class QuestManager : Singleton<QuestManager>
 {
     private Dictionary<int, List<QuestDataSO>> _questDataSOsByChapter;
     
-    public List<int> completedQuests;
-
-    private List<QuestDataSO> _availableQuests;
+    // 퀘스트는 퀘스트 달성 + 챕터 클리어가 동반되어야 클리어로 인정된다
+    // e.g. 챕터 중간에 퀘스트를 달성해도 해당 챕터를 클리어하지 못했다면 다시 깨야함
+    // completedQuestIDset은 챕터 클리어 이후 업데이트
+    private SortedSet<int> _completedQuestIdsSet; 
     
-    // Todo: 후에 gamemanager에서 chapter 정보 받아오기
-    [SerializeField] private ChapterDataSO _chapterDataSO;
+    public List<Quest> availableQuests { get; private set; }
+    
+    public bool IsInitialized { get; private set; }
     
     [Header("UI")]
     private InGameUIController _inGameUIController;
-    public Action OnQuestCompleted;
-    public Action OnQuestFailed;
+
+    public Action<Quest> OnQuestProgressUpdated;
     
 
     async void Start()
     {
-        _availableQuests = new List<QuestDataSO>();
+        availableQuests = new List<Quest>();
         
         await Initialize();
     }
@@ -35,94 +40,95 @@ public class QuestManager : Singleton<QuestManager>
     {
         // await UniTask.WaitUntil(() => DataManager.Instance.IsIn
         QuestListSO questListSO = await DataManager.Instance.LoadDataAsync<QuestListSO>(Addresses.Data.Quest.QUESTLIST);
-        await LoadCompletedQuests();
+        await LoadCompletedQuests(questListSO);
         GroupingQuests(questListSO);
+        
+        await InitializeChapter(1);
+        IsInitialized = true;
     }
     
-    async public void InitializeChapter(int chapterIdx)
+    public async UniTask InitializeChapter(int chapterIdx)
     {
+        // Chapter 시작때 호출
+        // availableQuests 초기화
+        foreach (var questDataSO in _questDataSOsByChapter[chapterIdx])
+        {
+            Quest quest = new Quest(questDataSO);
+            if( _completedQuestIdsSet.Contains(quest.id))
+            {
+                quest.SetQuestStatus(QuestStatus.Completed);
+            }
+            availableQuests.Add(quest);
+        }
         // 챕터가 시작될 때마다 호출된다.
         await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
         _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
         _inGameUIController.RegisterGameUI(this);
-        
-        foreach (var questDataSO in _questDataSOsByChapter[chapterIdx])
-        {
-            if (!questDataSO.cleared)
-            {
-                _availableQuests.Add(questDataSO);
-                InitQuestObjective(questDataSO);
-            }
-        }
     }
-
-    public void ClearEvents()
-    {
-        _availableQuests.Clear();
-    }
-
     
     public void Notify(QuestType questType, object param = null)
     {
-        for (int i = _availableQuests.Count - 1; i>=0; i --)
+        for (int i = availableQuests.Count - 1; i>=0; i --)
         {
-            QuestDataSO questData = _availableQuests[i];
+            Quest quest = availableQuests[i];
             // 퀘스트의 클리어여부와 관련있는 코드에서 QuestManager.Notify를 실행
             // 관련있는 quest가 해당 챕터에 없을 경우 실행되지 않는다
-            if (questData.questType == questType)
+            if (quest.questType == questType && quest.GetQuestStatus() != QuestStatus.Completed)
             {
-                questData.objective.UpdateQuestProgress(param);
-                CheckQuestStatus(questData);
+                quest.UpdateQuestProgress(param);
+                CheckQuestStatus(quest);
+                OnQuestProgressUpdated?.Invoke(quest);
             }
         }
     }
 
-    private void InitQuestObjective(QuestDataSO questData)
+    async public void EndChapter()
     {
-        switch (questData.questType)
+        foreach (var quest in availableQuests)
         {
-            case QuestType.ProtectBarrier:
-                questData.objective = new ObjectiveProtectBarrier();
-                break;
-            case QuestType.LimitedTurret:
-                questData.objective = new ObjectiveLimitedTurret();
-                break;
-            default:
-                break;
+            if(quest.GetQuestStatus() == QuestStatus.Completed)
+                _completedQuestIdsSet.Add(quest.id);
         }
         
-        if(questData.objective == null) Debug.LogError($"Quest {questData.questType} not found");
+        SaveCompletedQuests();
         
-        questData.objective.Initialize(questData);
+        availableQuests.Clear();
     }
 
-    private void CheckQuestStatus(QuestDataSO questData)
+    async private void SaveCompletedQuests()
     {
-        if (questData.objective.questStatus == QuestStatus.Completed)
+        CompletedQuests completedQuests = new CompletedQuests(_completedQuestIdsSet.ToList());
+        await JsonDataHandler.SaveData("completed quests", completedQuests);
+    }
+
+    private void CheckQuestStatus(Quest quest)
+    {
+        if (quest.GetQuestStatus() == QuestStatus.Completed)
         {
-            Debug.Log("Quest completed");
-            _availableQuests.Remove(questData); // Quest 추적을 더이상 하지 않도록 함
+            availableQuests.Remove(quest); // Quest 추적을 더이상 하지 않도록 함
             // Todo: UI 변경을 여기 넣으면 될듯?
         }
-        else if (questData.objective.questStatus == QuestStatus.Failed)
+        else if (quest.GetQuestStatus() == QuestStatus.Failed)
         {
-            Debug.Log("Quest Failed");
-            _availableQuests.Remove(questData); // Quest 추적을 더이상 하지 않도록 함
+            availableQuests.Remove(quest); // Quest 추적을 더이상 하지 않도록 함
             // Todo: UI 변경을 여기 넣으면 될듯?
         }
     }
 
     private void GroupingQuests(QuestListSO questList)
     {
+        // 챕터별 quest로 dictionary화
         _questDataSOsByChapter = questList.questDataSOs
             .Select(q=>q)
             .GroupBy(q => q.chapter) // 챕터별로 그룹화
             .ToDictionary(g => g.Key, g => g.ToList()); // Dictionary<int, List<QuestData>> 형태로 변환
     }
     
-    private async UniTask LoadCompletedQuests()
+    private async UniTask LoadCompletedQuests(QuestListSO questList)
     {
-        // completedQuests = 
+        // 클리어한 챕터 id 불러오기
+        CompletedQuests q = await JsonDataHandler.LoadData<CompletedQuests>("completed quests");
+        _completedQuestIdsSet = new SortedSet<int>(q.ids);
     }
 }
 

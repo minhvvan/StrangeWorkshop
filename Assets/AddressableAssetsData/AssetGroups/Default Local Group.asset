@@ -37,6 +37,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b9c5148ef9ed07488fe1e2fda941a5f
+    m_Address: data/quest/questlist
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7ec28c384f98488d9ef1e3ad96651
     m_Address: prefabs/enemy/throw_sword
     m_ReadOnly: 0

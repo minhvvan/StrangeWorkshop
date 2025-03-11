@@ -441,7 +441,7 @@ MonoBehaviour:
   _barrierUIController: {fileID: 34608581835947734}
   _chapterInfoUIController: {fileID: 3623715332809421472}
   _equipmentUIController: {fileID: 4171973836787306767}
-  _questUIController: {fileID: 0}
+  _questUIController: {fileID: 7891820669725245834}
 --- !u!1 &838990112172819772
 GameObject:
   m_ObjectHideFlags: 0
@@ -2625,7 +2625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4082645393170447787
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2645,7 +2645,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 0}
+  m_SizeDelta: {x: 350, y: 130}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7136407328771259085
 CanvasRenderer:
@@ -2707,8 +2707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b12752145b4aa847b2593ed84b58788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _missionText1: {fileID: 0}
-  _missionText2: {fileID: 0}
+  _quest1: {fileID: 8248271191819518659}
+  _quest2: {fileID: 1518253515687668776}
 --- !u!1 &4214834358567910819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,8 +2774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD130\uB81B \uC5C5\uADF8\uB808\uC774\uB4DC \uC5C6\uC774\n\uC2A4\uD14C\uC774\uC9C0
-    \uD074\uB9AC\uC5B4"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fd6f2e7fdd53040469070c9cbb5f0cd0, type: 2}
   m_sharedMaterial: {fileID: 3784192463757812444, guid: fd6f2e7fdd53040469070c9cbb5f0cd0,
@@ -2910,8 +2909,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBC29\uBCBD \uCCB4\uB825\uC744 1,000 \uC774\uC0C1\uC73C\uB85C \uC720\uC9C0\n1,800
-    / 2,000"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fd6f2e7fdd53040469070c9cbb5f0cd0, type: 2}
   m_sharedMaterial: {fileID: 3784192463757812444, guid: fd6f2e7fdd53040469070c9cbb5f0cd0,
@@ -3069,6 +3067,7 @@ GameObject:
   - component: {fileID: 3634172609933115709}
   - component: {fileID: 4570283005704710939}
   - component: {fileID: 3263220310950525032}
+  - component: {fileID: 1518253515687668776}
   m_Layer: 5
   m_Name: Quest2
   m_TagString: Untagged
@@ -3092,10 +3091,10 @@ RectTransform:
   - {fileID: 3726580715289886390}
   m_Father: {fileID: 4082645393170447787}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 185, y: -105}
+  m_SizeDelta: {x: 330, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4570283005704710939
 CanvasRenderer:
@@ -3135,6 +3134,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1518253515687668776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4358648984386201890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e60a9d31c5371a469914547fb72e152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _questText: {fileID: 8883613864277309506}
+  _backgroundImage: {fileID: 3263220310950525032}
+  _checkmark: {fileID: 4741847268380970206}
+  _padding: 5
 --- !u!1 &4741847268380970206
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,7 +3317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8509660071513620146
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3734,6 +3749,7 @@ GameObject:
   - component: {fileID: 7864572238665963146}
   - component: {fileID: 5504229588469199331}
   - component: {fileID: 3431124053714431834}
+  - component: {fileID: 8248271191819518659}
   m_Layer: 5
   m_Name: Quest1
   m_TagString: Untagged
@@ -3757,10 +3773,10 @@ RectTransform:
   - {fileID: 3518094623482121845}
   m_Father: {fileID: 4082645393170447787}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 185, y: -45}
+  m_SizeDelta: {x: 330, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5504229588469199331
 CanvasRenderer:
@@ -3800,6 +3816,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8248271191819518659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325578524830928191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e60a9d31c5371a469914547fb72e152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _questText: {fileID: 4286982530838186341}
+  _backgroundImage: {fileID: 3431124053714431834}
+  _checkmark: {fileID: 2769066829647289756}
+  _padding: 5
 --- !u!1 &7407277846363885765
 GameObject:
   m_ObjectHideFlags: 0

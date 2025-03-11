@@ -1,31 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class JsonDataHandler
 {
-    private static readonly string folderPath = Application.dataPath;
+    private static string folderPath
+    {
+        get
+        {
+            if (Application.isEditor) return Path.Combine(Application.dataPath, "Data", "Json");
+            else return Application.persistentDataPath;
+        }
+    }
     
-    public static void SaveData<T>(string fileName, T data)
+    public static async UniTask SaveData<T>(string fileName, T data)
     {
         string path = Path.Combine(folderPath, fileName + ".json");
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(path, json);
+        await File.WriteAllTextAsync(path, json);
         Debug.Log($"저장 완료: {path}");
+        #if UNITY_EDITOR
+                UnityEditor.AssetDatabase.Refresh();
+        #endif
     }
 
-    public static T LoadData<T>(string fileName)
+    public static async UniTask<T> LoadData<T>(string fileName) where T : new()
     {
         string path = Path.Combine(folderPath, fileName + ".json");
-        if (!File.Exists(path))
+        if (!File.Exists(path)) // 파일이 없으면 기본 데이터로 생성
         {
-            Debug.Log($"파일을 찾을 수 없음: {path}");
-            return default;
+            Debug.Log($"파일이 없습니다. 기본 데이터로 생성합니다: {path}");
+            T data = new T();
+            await SaveData<T>(fileName, data);
+            return data;
         }
-        
-        
-        string json = File.ReadAllText(path);
+        string json = await File.ReadAllTextAsync(path);
         return JsonUtility.FromJson<T>(json);
     }
 

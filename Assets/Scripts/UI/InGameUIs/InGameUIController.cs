@@ -26,6 +26,7 @@ public class InGameUIController : MonoBehaviour, IGameUI
         gameUIControllers.Add(_waveUIController);
         gameUIControllers.Add(_barrierUIController);
         gameUIControllers.Add(_chapterInfoUIController);
+        gameUIControllers.Add(_questUIController);
 
         RegisterGameUI();
     }
@@ -62,6 +63,7 @@ public class InGameUIController : MonoBehaviour, IGameUI
     {
         _questUIController.gameObject.SetActive(true);
         _questUIController.SetQuests();
+        QuestManager.Instance.OnQuestProgressUpdated += _questUIController.UpdateQuestProgress;
     }
     
     async public void RegisterGameUI()
@@ -85,7 +87,6 @@ public class InGameUIController : MonoBehaviour, IGameUI
         {
             gameUI.HideUI();
         }
-        
     }
 
     public void ShowUI()
@@ -112,11 +113,3 @@ public class InGameUIController : MonoBehaviour, IGameUI
         throw new NotImplementedException();
     }
 }
-
-/*
- * child UI controller들은 awake가 아니라 onenable을 사용하는게 좋을지도?
- * child UI controller는 IGameUI가 아닌 다른 interface를 만들어도 될 것 같다.
- * childUIcontroller의 showUI는 enable 될때 등장하는 animation
- * hide UI는 disable 될때 퇴장하는 animation
- * 
-*/
