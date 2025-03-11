@@ -10,7 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6671876343700008376}
   - component: {fileID: 5827698845315225113}
-  m_Layer: 0
+  - component: {fileID: 2649922926275994377}
+  - component: {fileID: 1555989266252076822}
+  - component: {fileID: 8907398913681665733}
+  - component: {fileID: 404929992426450694}
+  m_Layer: 16
   m_Name: Cyrstal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1.3, z: 2}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5437474772414058467}
@@ -46,6 +50,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdableObjectSo: {fileID: 11400000, guid: 056a7d9da0d1533429723b537c34e843, type: 2}
+--- !u!135 &2649922926275994377
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520189833958277475}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1555989266252076822
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520189833958277475}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0.5
+  m_AngularDrag: 0.1
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8907398913681665733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520189833958277475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77fd7c0a9309a7a408c03244d05e126f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &404929992426450694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520189833958277475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualGameObjectArray: []
 --- !u!1001 &5548279720021207048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,7 +155,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 053f05c99fa8e47989cbde1dc1c4d0f9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.19999999
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 053f05c99fa8e47989cbde1dc1c4d0f9,
         type: 3}
@@ -82,7 +165,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 053f05c99fa8e47989cbde1dc1c4d0f9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.352
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 053f05c99fa8e47989cbde1dc1c4d0f9,
         type: 3}
@@ -133,6 +216,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: crystal_01_LP
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 053f05c99fa8e47989cbde1dc1c4d0f9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3451118302482216456, guid: 053f05c99fa8e47989cbde1dc1c4d0f9, type: 3}

@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
+  selectType: 0
   visualGameObjectArray:
   - {fileID: 3156364277837729730}
 --- !u!114 &6115089911551680583
