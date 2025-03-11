@@ -52,7 +52,7 @@ public class RecipeUIController : MonoBehaviour, IGameUI
             _recipePartUIs[recipe.output.objectName] = recipeUI.GetComponent<RecipePartUI>();
         }
         
-        ShowUI();
+        // ShowUI();
         UpdateUI(null, null);
     }
     

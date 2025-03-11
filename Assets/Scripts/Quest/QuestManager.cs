@@ -32,8 +32,8 @@ public class QuestManager : Singleton<QuestManager>
     async void Start()
     {
         availableQuests = new List<Quest>();
-        
-        await Initialize();
+
+        Initialize();
     }
 
     public async UniTask Initialize()
@@ -60,6 +60,7 @@ public class QuestManager : Singleton<QuestManager>
             }
             availableQuests.Add(quest);
         }
+        
         // 챕터가 시작될 때마다 호출된다.
         await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
         _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);

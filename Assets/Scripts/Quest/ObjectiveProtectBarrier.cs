@@ -23,10 +23,10 @@ public class ObjectiveProtectBarrier : IQuestObjective
             return;
         }
         
-        _barrierStatSO = await DataManager.Instance.LoadDataAsync<BarrierStatSO>(Addresses.Data.Barrier.STAT);
-        
         questStatus = QuestStatus.InProgress;
         description = questData.description;
+        
+        _barrierStatSO = await DataManager.Instance.LoadDataAsync<BarrierStatSO>(Addresses.Data.Barrier.STAT);
     
         _currentHealth = _barrierStatSO.totalHP;
         _failurePercentage = ((QuestProtectBarrierSO)questData).failurePercentage;

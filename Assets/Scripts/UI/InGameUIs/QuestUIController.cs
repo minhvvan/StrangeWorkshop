@@ -11,16 +11,9 @@ public class QuestUIController : MonoBehaviour, IGameUI
 
     [SerializeField] private QuestUI _quest1;
     [SerializeField] private QuestUI _quest2;
-    
-    private Dictionary<Quest, QuestUI> _questUIs = new Dictionary<Quest, QuestUI>();
 
-    async void Awake()
-    {
-        _root = GetComponent<RectTransform>();
-        await UniTask.WaitUntil(() => QuestManager.Instance.IsInitialized);
-        SetQuests();
-        ShowUI();
-    }
+    private Dictionary<int, QuestUI> _questUIs = new Dictionary<int, QuestUI>();
+
     public void ShowUI()
     {
         UIAnimationUtility.SlideInLeft(_root);
@@ -29,29 +22,32 @@ public class QuestUIController : MonoBehaviour, IGameUI
     public void HideUI()
     {
         Vector2 originalPos = _root.anchoredPosition;
-        UIAnimationUtility.SlideOutLeft(_root, callback: ()=>{_root.anchoredPosition = originalPos;});
+        UIAnimationUtility.SlideOutLeft(_root, callback: () => { _root.anchoredPosition = originalPos; });
     }
 
-    public void Initialize()
+    async public void Initialize()
     {
+        _root = GetComponent<RectTransform>();
+        await UniTask.WaitUntil(() => QuestManager.Instance.IsInitialized);
+        SetQuests();
     }
 
     public void CleanUp()
     {
     }
 
-    public void SetQuests()
+    public void UpdateQuestProgress(Quest quest)
+    {
+        _questUIs[quest.id].UpdateUI();
+    }
+
+    private void SetQuests()
     {
         Quest quest1 = QuestManager.Instance.availableQuests[0];
         Quest quest2 = QuestManager.Instance.availableQuests[1];
-        _questUIs[quest1] = _quest1;
-        _questUIs[quest2] = _quest2;
+        _questUIs[quest1.id] = _quest1;
+        _questUIs[quest2.id] = _quest2;
         _quest1.Init(quest1);
         _quest2.Init(quest2);
-    }
-
-    public void UpdateQuestProgress(Quest quest)
-    {
-        _questUIs[quest].UpdateUI();
     }
 }

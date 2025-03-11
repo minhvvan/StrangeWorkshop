@@ -30,7 +30,6 @@ public class BarrierUIController : MonoBehaviour, IGameUI
         _barrierController.OnBarrierHealthChangedAction += UpdateBarrierTotalHealth;
         
         Initialize();
-        ShowUI();
     }
 
     public void ShowUI()

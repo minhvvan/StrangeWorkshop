@@ -51,8 +51,7 @@ public static class GameBootstrapper
             RecipeManager.Instance.Initialize().AsTask(),
             GameManager.Instance.Initialize().AsTask(),
             VFXManager.Instance.Initialize().AsTask(),
-            SFXManager.Instance.Initialize().AsTask(),
-            QuestManager.Instance.Initialize().AsTask()
+            SFXManager.Instance.Initialize().AsTask()
         );
 
         EventManager.Instance.AddComponent<DontDestroyOnLoad>();

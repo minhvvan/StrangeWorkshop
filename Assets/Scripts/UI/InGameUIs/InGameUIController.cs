@@ -2,31 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 public class InGameUIController : MonoBehaviour, IGameUI
 {
-    List<IGameUI> gameUIControllers = new List<IGameUI>();
+    List<(IGameUI, GameObject)> gameUIControllers = new List<(IGameUI, GameObject)>();
     private List<IGameUI> tabUIControllers = new List<IGameUI>();
-    
+
     [SerializeField] private RecipeUIController _recipeUIController;
     [SerializeField] private WaveUIController _waveUIController;
     [SerializeField] private BarrierUIController _barrierUIController;
     [SerializeField] private ChapterInfoUIController _chapterInfoUIController;
     [SerializeField] private EquipmentUIController _equipmentUIController;
     [SerializeField] private QuestUIController _questUIController;
-    
-    public static event Action<bool> OnTabToggled; // Tab UI 토글 이벤트
-    private bool isTabActive = false;
+
+    private bool gameUIActivated = false;
 
     async void Awake()
     {
-        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
-        gameUIControllers.Add(_recipeUIController);
-        gameUIControllers.Add(_waveUIController);
-        gameUIControllers.Add(_barrierUIController);
-        gameUIControllers.Add(_chapterInfoUIController);
-        gameUIControllers.Add(_questUIController);
+        await UniTask.WaitUntil(() => UIManager.Instance.IsInitialized);
 
         RegisterGameUI();
     }
@@ -34,58 +30,52 @@ public class InGameUIController : MonoBehaviour, IGameUI
     async public void RegisterGameUI(CraftCounter craftCounter)
     {
         await UniTask.WaitUntil(() => RecipeManager.Instance.IsInitialized);
-        _recipeUIController.gameObject.SetActive(true);
         _recipeUIController.Initialize(RecipeManager.Instance.GetCraftRecipeCollection);
         craftCounter.OnObjectsChangedAction += _recipeUIController.UpdateUI;
         craftCounter.OnCraftCompleteAction += _recipeUIController.CraftComplete;
+        gameUIControllers.Add((_recipeUIController, _recipeUIController.gameObject));
     }
 
     async public void RegisterGameUI(EnemySpawner enemySpawner)
     {
-        _waveUIController.gameObject.SetActive(true);
         enemySpawner.OnWaveClearAction += _waveUIController.OnWaveClearPopup;
         enemySpawner.OnWaveAlertAction += _waveUIController.OnWaveAlertPopup;
+        gameUIControllers.Add((_waveUIController, _waveUIController.gameObject));
     }
 
     async public void RegisterGameUI(BarrierController barrierController)
     {
-        _barrierUIController.gameObject.SetActive(true);
         _barrierUIController.SetBarrierController(barrierController);
+        gameUIControllers.Add((_barrierUIController, _barrierUIController.gameObject));
     }
 
     async public void RegisterGameUI(CharacterInteraction characterInteraction)
     {
-        _equipmentUIController.gameObject.SetActive(true);
         characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
-    }
-    
-    async public void RegisterGameUI(QuestManager questManager)
-    {
-        _questUIController.gameObject.SetActive(true);
-        _questUIController.SetQuests();
-        QuestManager.Instance.OnQuestProgressUpdated += _questUIController.UpdateQuestProgress;
-    }
-    
-    async public void RegisterGameUI()
-    {
-        _chapterInfoUIController.gameObject.SetActive(true);
-    }
-    
-    
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            isTabActive = !isTabActive;
-            OnTabToggled?.Invoke(isTabActive); // 이벤트 발생 (모든 구독자에게 전달)
-        }
+        gameUIControllers.Add((_equipmentUIController, _equipmentUIController.gameObject));
     }
 
-    private void OpenTabUI()
+    async public void RegisterGameUI(QuestManager questManager)
     {
-        foreach (var gameUI in gameUIControllers)
+        _questUIController.Initialize();
+        QuestManager.Instance.OnQuestProgressUpdated += _questUIController.UpdateQuestProgress;
+        gameUIControllers.Add((_questUIController, _questUIController.gameObject));
+    }
+
+    async public void RegisterGameUI()
+    {
+        gameUIControllers.Add((_chapterInfoUIController, _chapterInfoUIController.gameObject));
+    }
+
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            gameUI.HideUI();
+            if (gameUIActivated) HideUI();
+            else ShowUI();
+
+            gameUIActivated = !gameUIActivated;
         }
     }
 
@@ -94,13 +84,17 @@ public class InGameUIController : MonoBehaviour, IGameUI
         // 모든 자식 UI controller들 활성화
         foreach (var gameUI in gameUIControllers)
         {
-            gameUI.ShowUI();
+            gameUI.Item2.SetActive(true);
+            gameUI.Item1.ShowUI();
         }
     }
 
     public void HideUI()
     {
-        throw new NotImplementedException();
+        foreach (var gameUI in gameUIControllers)
+        {
+            gameUI.Item1.HideUI();
+        }
     }
 
     public void Initialize()

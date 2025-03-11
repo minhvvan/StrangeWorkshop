@@ -18,7 +18,7 @@ public abstract class HoldableObject : MonoBehaviour
     public virtual bool SetHoldableObjectParent(IHoldableObjectParent parent)
     {
         parent.SetHoldableObject(this);
-        
+            
         transform.parent = parent.GetHoldableObjectFollowTransform();
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
