@@ -897,13 +897,13 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 94
   m_CollisionDetection: 0
 --- !u!136 &-1949847935313084450
 CapsuleCollider:
@@ -973,6 +973,7 @@ MonoBehaviour:
   bCanPattern: 0
   player: {fileID: 0}
   researchOrder: 0
+  useAutoResearch: 0
   priorityIncrease: 0
   priorityStack: 0
   matObject: {fileID: 0}
@@ -1000,14 +1001,14 @@ NavMeshAgent:
   m_GameObject: {fileID: 7644942853492707573}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
-  m_Acceleration: 50
+  m_Acceleration: 100
   avoidancePriority: 2
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 0
   m_Height: 1
   m_BaseOffset: 0

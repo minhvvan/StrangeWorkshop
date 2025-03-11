@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 3074564726341011141}
   - component: {fileID: 612816716866017366}
   - component: {fileID: 6017699199359986578}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: KnightDemoModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,6 +282,7 @@ MonoBehaviour:
   bCanPattern: 0
   player: {fileID: 0}
   researchOrder: 0
+  useAutoResearch: 0
   priorityIncrease: 0
   priorityStack: 0
   matObject: {fileID: 0}
@@ -319,13 +320,13 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 94
   m_CollisionDetection: 0
 --- !u!95 &2222113300538355322
 Animator:
@@ -393,6 +394,7 @@ MonoBehaviour:
   bCanPattern: 0
   player: {fileID: 0}
   researchOrder: 0
+  useAutoResearch: 0
   priorityIncrease: 0
   priorityStack: 0
   matObject: {fileID: 0}
@@ -409,12 +411,12 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0

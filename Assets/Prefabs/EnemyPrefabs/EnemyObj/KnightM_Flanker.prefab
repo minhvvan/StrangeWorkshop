@@ -29,7 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1755284509268643714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 6637448975566377456}
   - component: {fileID: 6779179004079956078}
   - component: {fileID: 4305439819385461087}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: KnightM_Flanker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,8 +287,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3259518172507857080}
   - {fileID: 1740809700394040848}
@@ -326,13 +326,13 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 94
   m_CollisionDetection: 0
 --- !u!136 &8634044539181281335
 CapsuleCollider:
@@ -354,9 +354,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &8204565274647062709
 Animator:
   serializedVersion: 5
@@ -423,6 +423,7 @@ MonoBehaviour:
   bCanPattern: 0
   player: {fileID: 0}
   researchOrder: 0
+  useAutoResearch: 0
   priorityIncrease: 0
   priorityStack: 0
   matObject: {fileID: 0}
@@ -437,14 +438,14 @@ NavMeshAgent:
   m_GameObject: {fileID: 5100435670091408089}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0

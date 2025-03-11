@@ -15,11 +15,11 @@ MonoBehaviour:
   enemytype: 6
   enemyPrefab: {fileID: 6765813631541794148, guid: e54dbfdb73bce5148821a918c8f32afe,
     type: 3}
-  animFirstDelay: 0.5
+  animFirstDelay: 4
   enemyName: RangeMage
-  hp: 40
-  armor: 3
+  hp: 30
+  armor: 2
   attackDamage: 0
-  attackRange: 3
-  attackSpeed: 1
+  attackRange: 6
+  attackSpeed: 5
   moveSpeed: 5
