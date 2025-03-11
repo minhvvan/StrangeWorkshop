@@ -21,8 +21,6 @@ public class ChapterInfoUIController : MonoBehaviour, IGameUI
     void Awake()
     {
         _root = GetComponent<RectTransform>();
-
-        ShowUI();
     }
     
     public void ShowUI()

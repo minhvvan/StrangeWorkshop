@@ -87,6 +87,11 @@ public static class Addresses
             public const string VFXLOADER = "data/fx/vfxloader";
             public const string SFXLOADER = "data/fx/sfxloader";
         }
+
+        public static class Quest
+        {
+            public const string QUESTLIST = "data/quest/questlist";
+        }
     }
     
     public static class Prefabs
