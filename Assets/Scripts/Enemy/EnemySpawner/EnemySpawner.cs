@@ -15,9 +15,12 @@ using Random = UnityEngine.Random;
 public enum EnemyType
 {
     MeleeNormal,
-    MeleeHeavy,
-    LongRangeNormal,
-    LongRangeHeavy,
+    MeleeTanker,
+    MeleeBruiser,
+    MeleeFlanker,
+    MeleeHider,
+    RangeNormal,
+    RangeMage,
     Chapter1Boss
 }
 
@@ -68,8 +71,9 @@ public class EnemySpawner : MonoBehaviour
     private List<EnemySpawnInfo> _spawnInfos = new(); //스폰할 적 정보, 소환할 양.
     private List<WaveDataSO> _waveDatas = new(); //챕터에게서 받을 웨이브 데이터 리스트
     // private WaveUIController _waveUIController;
+    private ChapterDataSO _chapterData;
+    private bool _initOnline = false;
     
-    [SerializeField] private ChapterDataSO _chapterData;
 
     private CancellationTokenSource _cts;//Delay강제종료
 
@@ -103,15 +107,41 @@ public class EnemySpawner : MonoBehaviour
 
     private async void Start()
     {
-        await UniTask.WaitUntil(() => _chapterData != null);
-        // await UniTask.WaitUntil(() => _waveUIController != null);
-        ChapterSequence(_chapterData).Forget();
+        Initialize().Forget();
     }
 
     private void Update()
     {
 #if TestMode
+        //임시 시작 버튼.
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            InitOnline();
+        }
 #endif
+    }
+
+    /// <summary>
+    /// 호출 시, 웨이브 시퀀스를 시작합니다.
+    /// EnemySpawner.Instance.InitOnline(); 
+    /// </summary>
+    public void InitOnline()
+    {
+        _initOnline = true;
+    }
+
+    private async UniTask Initialize()
+    {
+        await UniTask.WaitUntil(() => _chapterData != null);
+        // await UniTask.WaitUntil(() => _waveUIController != null);
+        
+        //대기 시간없이 바로 실행되었을때 pathfinder를 못 긁어오는 부분 방지.
+        await UniTask.WaitUntil(() => EnemyPathfinder.instance.isBPloaded);
+
+        //챕터 첫 시작 시점은 InitOnline()을 호출하는 것으로 시작합니다.
+        await UniTask.WaitUntil(() => _initOnline);
+        
+        ChapterSequence(_chapterData).Forget();
     }
     
     private async UniTask ChapterSequence(ChapterDataSO _chapterData)

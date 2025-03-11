@@ -14,6 +14,7 @@ public class Enemy_IdleState : BaseStateEnemy<EnemyFsm>
     public override void Enter()
     {
         Fsm.blackboard.AnimIdle();
+        Fsm.blackboard.currentState = 0;
     }
 
     public override void UpdateState()
