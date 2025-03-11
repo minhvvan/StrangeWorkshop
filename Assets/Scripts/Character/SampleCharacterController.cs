@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
@@ -29,6 +30,8 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     public float runSpeed  = 10f;
     public float dashSpeed = 30f; // 대쉬 속도
 
+    [NonSerialized] public bool isMoveable = true;
+    
     [Header("Dash Timings")]
     [SerializeField] public float dashAccelTime = 0.5f;
     [SerializeField] public float dashDecelTime = 0.5f;

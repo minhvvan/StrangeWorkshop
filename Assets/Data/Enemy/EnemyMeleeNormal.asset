@@ -17,9 +17,9 @@ MonoBehaviour:
     type: 3}
   animFirstDelay: 0.5
   enemyName: MeleeNormal
-  hp: 10
-  armor: 0
+  hp: 25
+  armor: 1
   attackDamage: 1
   attackRange: 1.5
-  attackSpeed: 3
+  attackSpeed: 2
   moveSpeed: 3
