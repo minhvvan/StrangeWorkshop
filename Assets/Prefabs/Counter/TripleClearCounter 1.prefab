@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2862806171277150359}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: TripleClearCounter 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 1788639877482023363}
 --- !u!114 &7415456918124701695
@@ -270,6 +269,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: table-large (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 051f2498c7ca1ce4290cd71e1d4de806,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 051f2498c7ca1ce4290cd71e1d4de806,
         type: 3}
@@ -424,7 +428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 1788639877482023363}
 --- !u!114 &7044127491757272784
@@ -529,6 +532,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: table-large (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 051f2498c7ca1ce4290cd71e1d4de806,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -618,6 +626,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: table-large (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 051f2498c7ca1ce4290cd71e1d4de806,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -706,6 +719,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: table-large
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 051f2498c7ca1ce4290cd71e1d4de806,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -855,7 +873,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 1788639877482023363}
 --- !u!114 &4737288032149185070
