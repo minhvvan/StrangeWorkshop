@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3285776527518665358}
   - component: {fileID: 697845672810478693}
   - component: {fileID: 2931194674063470316}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: WasteCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 3001404369552625763}
 --- !u!114 &2931194674063470316
@@ -114,7 +113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3028466574229793643}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: CounterTopPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,6 +147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Selected
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589716710238282922, guid: c4e141bc61e807b4b832b850d92f5fd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4589716710238282922, guid: c4e141bc61e807b4b832b850d92f5fd7,
         type: 3}
@@ -221,6 +225,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7880980075579474333, guid: c4e141bc61e807b4b832b850d92f5fd7,
         type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880980075579474333, guid: c4e141bc61e807b4b832b850d92f5fd7,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -258,6 +267,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TrashCounter_Visual
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589716710238282922, guid: c4e141bc61e807b4b832b850d92f5fd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4589716710238282923, guid: c4e141bc61e807b4b832b850d92f5fd7,
         type: 3}
@@ -323,6 +337,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880980075579474333, guid: c4e141bc61e807b4b832b850d92f5fd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

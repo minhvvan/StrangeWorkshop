@@ -58,6 +58,12 @@ public class InGameUIController : MonoBehaviour, IGameUI
         characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
     }
     
+    async public void RegisterGameUI(CharacterInteractionAlternate characterInteraction)
+    {
+        _equipmentUIController.gameObject.SetActive(true);
+        characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
+    }
+    
     async public void RegisterGameUI()
     {
         _chapterInfoUIController.gameObject.SetActive(true);

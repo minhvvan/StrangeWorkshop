@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1172119222972137270}
   - component: {fileID: 4239652697655193629}
   - component: {fileID: 5122746719885422683}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: FX Hex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4839,7 +4839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7165344096070765548}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: FX Hex Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4871,7 +4871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5214444736977506162}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4905,7 +4905,7 @@ GameObject:
   - component: {fileID: 6096290715205713753}
   - component: {fileID: 8228286204532436641}
   - component: {fileID: 3240913254101243999}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Hexagon 17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5013,7 +5013,7 @@ GameObject:
   - component: {fileID: 2124094813033934231}
   - component: {fileID: 3171544812019267406}
   - component: {fileID: 4248768687028331968}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: MaterialCout_Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5084,7 +5084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray: []
 --- !u!114 &4248768687028331968
 MonoBehaviour:

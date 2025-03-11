@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8888203941619863410}
   - component: {fileID: 6418959961103436139}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: _BaseCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3028466574229793643}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: CounterTopPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

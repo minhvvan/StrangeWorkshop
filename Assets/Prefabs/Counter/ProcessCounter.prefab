@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4055614968517760707}
   - component: {fileID: 8448380636177546595}
   - component: {fileID: 2931194674063470316}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ProcessCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 7902319256375147108}
 --- !u!114 &2931194674063470316
@@ -121,7 +120,7 @@ GameObject:
   - component: {fileID: 6982792013246643374}
   - component: {fileID: 1363115650877928606}
   - component: {fileID: 517251284828045}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3028466574229793643}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: CounterTopPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,6 +253,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BarUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1033709537482491126, guid: 43cef140dfaba6341a0021c810e024ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164726938516353031, guid: 43cef140dfaba6341a0021c810e024ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5132249524867645746, guid: 43cef140dfaba6341a0021c810e024ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787222075034189160, guid: 43cef140dfaba6341a0021c810e024ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6919213944916446321, guid: 43cef140dfaba6341a0021c810e024ee,
         type: 3}
@@ -396,6 +415,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8888203941619863410}
     m_Modifications:
+    - target: {fileID: 7014101586223088768, guid: 868592542f9bc5643b95c9ceac28e122,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8070160526179809932, guid: 868592542f9bc5643b95c9ceac28e122,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -450,6 +474,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FX Smoke Black
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368416079530915422, guid: 868592542f9bc5643b95c9ceac28e122,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -547,6 +576,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 183a8c306b483304d970434a8142e3c5,
         type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 183a8c306b483304d970434a8142e3c5,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -579,6 +613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Factory 01
+      objectReference: {fileID: 0}
+    - target: {fileID: 488595662255261069, guid: fbde9e2a75019f6429e03511417e5bbd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 976163491829636919, guid: fbde9e2a75019f6429e03511417e5bbd,
         type: 3}
