@@ -12,6 +12,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField] private TMP_Text _questText;
     [SerializeField] private Image _backgroundImage;
     [SerializeField] private GameObject _checkmark;
+    [SerializeField] private GameObject _failedMark;
 
     [SerializeField] private float _padding;
     private float alpha;
@@ -21,7 +22,6 @@ public class QuestUI : MonoBehaviour
         this.quest = quest;
         _root = GetComponent<RectTransform>();
         alpha = _backgroundImage.color.a;
-        // Debug.Log(quest.GetQuestDescription());
         UpdateUI();
     }
 
@@ -44,7 +44,7 @@ public class QuestUI : MonoBehaviour
             color.a = alpha;
             _backgroundImage.color = color;
             
-            _backgroundImage.color = color;
+            _failedMark.SetActive(true);
         }
     }
 }

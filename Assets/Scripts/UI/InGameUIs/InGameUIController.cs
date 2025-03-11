@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.HID;
 
 public class InGameUIController : MonoBehaviour, IGameUI
 {
-    List<(IGameUI, GameObject)> gameUIControllers = new List<(IGameUI, GameObject)>();
+    Dictionary<InGameUIType, (IGameUI, GameObject)> gameUIControllers = new Dictionary<InGameUIType, (IGameUI, GameObject)>();
     private List<IGameUI> tabUIControllers = new List<IGameUI>();
 
     [SerializeField] private RecipeUIController _recipeUIController;
@@ -23,8 +23,13 @@ public class InGameUIController : MonoBehaviour, IGameUI
     async void Awake()
     {
         await UniTask.WaitUntil(() => UIManager.Instance.IsInitialized);
-
-        RegisterGameUI();
+        
+        gameUIControllers[InGameUIType.Recipe] = (_recipeUIController, _recipeUIController.gameObject);
+        gameUIControllers[InGameUIType.Wave] = (_waveUIController, _waveUIController.gameObject);
+        gameUIControllers[InGameUIType.Barrier] = (_barrierUIController, _barrierUIController.gameObject);
+        gameUIControllers[InGameUIType.Equipment] = (_equipmentUIController, _equipmentUIController.gameObject);
+        gameUIControllers[InGameUIType.ChapterInfo] = (_chapterInfoUIController, _chapterInfoUIController.gameObject);
+        gameUIControllers[InGameUIType.Quest] = (_questUIController, _questUIController.gameObject);
     }
 
     async public void RegisterGameUI(CraftCounter craftCounter)
@@ -33,38 +38,32 @@ public class InGameUIController : MonoBehaviour, IGameUI
         _recipeUIController.Initialize(RecipeManager.Instance.GetCraftRecipeCollection);
         craftCounter.OnObjectsChangedAction += _recipeUIController.UpdateUI;
         craftCounter.OnCraftCompleteAction += _recipeUIController.CraftComplete;
-        gameUIControllers.Add((_recipeUIController, _recipeUIController.gameObject));
     }
 
     async public void RegisterGameUI(EnemySpawner enemySpawner)
     {
         enemySpawner.OnWaveClearAction += _waveUIController.OnWaveClearPopup;
         enemySpawner.OnWaveAlertAction += _waveUIController.OnWaveAlertPopup;
-        gameUIControllers.Add((_waveUIController, _waveUIController.gameObject));
     }
 
     async public void RegisterGameUI(BarrierController barrierController)
     {
         _barrierUIController.SetBarrierController(barrierController);
-        gameUIControllers.Add((_barrierUIController, _barrierUIController.gameObject));
     }
 
     async public void RegisterGameUI(CharacterInteraction characterInteraction)
     {
         characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
-        gameUIControllers.Add((_equipmentUIController, _equipmentUIController.gameObject));
+    }
+    async public void RegisterGameUI(CharacterInteractionAlternate characterInteraction)
+    {
+        characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
     }
 
     async public void RegisterGameUI(QuestManager questManager)
     {
         _questUIController.Initialize();
         QuestManager.Instance.OnQuestProgressUpdated += _questUIController.UpdateQuestProgress;
-        gameUIControllers.Add((_questUIController, _questUIController.gameObject));
-    }
-
-    async public void RegisterGameUI()
-    {
-        gameUIControllers.Add((_chapterInfoUIController, _chapterInfoUIController.gameObject));
     }
 
 
@@ -82,28 +81,36 @@ public class InGameUIController : MonoBehaviour, IGameUI
     public void ShowUI()
     {
         // 모든 자식 UI controller들 활성화
-        foreach (var gameUI in gameUIControllers)
+        foreach (var gameUIType in gameUIControllers.Keys)
         {
-            gameUI.Item2.SetActive(true);
-            gameUI.Item1.ShowUI();
+            gameUIControllers[gameUIType].Item2.SetActive(true);
+            gameUIControllers[gameUIType].Item1.ShowUI();
         }
     }
 
     public void HideUI()
     {
-        foreach (var gameUI in gameUIControllers)
+        foreach (var gameUIType in gameUIControllers.Keys)
         {
-            gameUI.Item1.HideUI();
+            gameUIControllers[gameUIType].Item1.HideUI();
         }
     }
 
     public void Initialize()
     {
-        throw new NotImplementedException();
     }
 
     public void CleanUp()
     {
-        throw new NotImplementedException();
+    }
+
+    private enum InGameUIType
+    {
+        Wave,
+        Equipment,
+        ChapterInfo,
+        Quest,
+        Recipe,
+        Barrier
     }
 }
