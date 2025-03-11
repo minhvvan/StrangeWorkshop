@@ -124,6 +124,8 @@ public static class Addresses
         public static class Enemy
         {
             public const string THROW_SWORD = "prefabs/enemy/throw_sword";
+            public const string SPELL_FIELD = "prefabs/enemy/spell_field";
+            
         }
     }
 }

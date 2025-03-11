@@ -46,6 +46,10 @@ public class CharacterInteraction : BaseAction
     {   
         if(!_controller.GetSelectedCounter().IsUnityNull())
             _controller.GetSelectedCounter().Interact(_controller);
+        else if (!_controller._selectedHoldableObject.IsUnityNull() && _controller.GetHoldableObject().IsUnityNull())
+        {
+            _controller._selectedHoldableObject.SetHoldableObjectParent(_controller);
+        }
         OnHoldObjectAction?.Invoke(_controller.GetHoldableObject());
     }
 

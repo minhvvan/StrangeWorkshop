@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4517ede9d00f41708c6f811aefd36493, type: 3}
+  m_Name: Chapter1wave0test
+  m_EditorClassIdentifier: 
+  waveNumber: 1
+  duration: 0
+  enemySpawns:
+  - enemyData: {fileID: 11400000, guid: 0f6f381516fb5cd4d8f4207ee38e5284, type: 2}
+    count: 1
+    areaID: 0
+  - enemyData: {fileID: 11400000, guid: 7dd389ecf0dfe2b478772716ca8bdd1a, type: 2}
+    count: 1
+    areaID: 0
+  - enemyData: {fileID: 11400000, guid: cf83e207a661e4b4fb935e192cce8d67, type: 2}
+    count: 1
+    areaID: 1
+  - enemyData: {fileID: 11400000, guid: b500fd2e30dfa3f4eb45f8b554da0901, type: 2}
+    count: 1
+    areaID: 1
+  - enemyData: {fileID: 11400000, guid: 14517e6f51d48f744953466a68ec6df9, type: 2}
+    count: 1
+    areaID: 2
+  - enemyData: {fileID: 11400000, guid: 81aae66223bb2d84586ab720205c806f, type: 2}
+    count: 1
+    areaID: 2
+  spawnInterval: 1

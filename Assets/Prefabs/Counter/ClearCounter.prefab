@@ -207,7 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 0}
 --- !u!114 &5129573203542080418

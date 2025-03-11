@@ -18,7 +18,12 @@ public abstract class HoldableObject : MonoBehaviour
     public virtual bool SetHoldableObjectParent(IHoldableObjectParent parent)
     {
         parent.SetHoldableObject(this);
-            
+
+        if (TryGetComponent(out Collider col) && TryGetComponent(out Rigidbody rig))
+        {
+            col.isTrigger = true;
+            rig.isKinematic = true;
+        }
         transform.parent = parent.GetHoldableObjectFollowTransform();
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;

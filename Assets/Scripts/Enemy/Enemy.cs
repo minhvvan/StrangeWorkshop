@@ -33,9 +33,9 @@ public class Enemy : MonoBehaviour, IDamageable
     private void Start()
     {
         _fsm.InitStates();
-        EnemyPathfinder.instance.enemyInCounter.Add(blackboard.capsuleCol);
-        EnemyPathfinder.instance.ColliderSet(blackboard.capsuleCol);
-        blackboard.SetMaxHp();
+        // EnemyPathfinder.instance.enemyInCounter.Add(blackboard.capsuleCol);
+        // EnemyPathfinder.instance.ColliderSet(blackboard.capsuleCol);
+        blackboard.SetModifyStat();
         blackboard.SetTypeSetting();
         blackboard.SetPattern();
         blackboard.ResearchTarget();
@@ -45,7 +45,8 @@ public class Enemy : MonoBehaviour, IDamageable
     private void Update()
     {
         _fsm.Update();
-        if (Input.GetKeyDown(KeyCode.Q))
+        //입력 시, 필드에 존재하는 모든 enemy에게 2 데미지를 가합니다.
+        if (Input.GetKeyDown(KeyCode.P))
         {
             TakeDamage(2f);
         }
@@ -56,9 +57,18 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         
         //적 방어력에 따른 데미지 감소
-        float dmgOperation = damage * (100f / (100f + blackboard.enemyStatus.armor));
+        float dmgOperation = damage * (10f / (10f + blackboard.enemyStatus.armor));
+
+        //보스인지에 따라 피격에 따른 색상변경 적용 판별
+        if (blackboard.thisBoss == BlackboardEnemy.IsBoss.NONE)
+        {
+            blackboard.ChangeMatColor(blackboard.matObject, blackboard.enemyStatus.hp -= dmgOperation);
+        }
+        else
+        {
+            blackboard.enemyStatus.hp -= dmgOperation;
+        }
         
-        blackboard.ChangeMatColor(blackboard.matObject, blackboard.enemyStatus.hp -= dmgOperation);
         if (blackboard.enemyStatus.hp <= 0)
         {
             blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
@@ -66,6 +76,7 @@ public class Enemy : MonoBehaviour, IDamageable
             blackboard.cts?.Cancel();
             blackboard.autoResearchCts?.Cancel();
             blackboard.StopTracking();
+            blackboard.DestroyPattern();
             blackboard.AnimDead();
             VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
             // turret이 타겟팅하지 않도록 설정
@@ -84,17 +95,18 @@ public class Enemy : MonoBehaviour, IDamageable
             case true : Gizmos.color = Color.blue;
                 break;
         }
-        
+
+        //Gizmos.DrawLine(blackboard.transform.position, blackboard.hitNearPoint);
         Gizmos.DrawWireSphere(blackboard.transform.position + new Vector3(0,1f,0), blackboard.enemyStatus.attackRange);
     }
 
     public void OnDestroy()
     {
-        EnemyPathfinder.instance.enemyInCounter.Remove(blackboard.capsuleCol);
-        if (EnemyPathfinder.instance.ignoreColliders.Contains(blackboard.capsuleCol))
-        {
-            EnemyPathfinder.instance.ignoreColliders.Remove(blackboard.capsuleCol);
-        }
+        // EnemyPathfinder.instance.enemyInCounter.Remove(blackboard.capsuleCol);
+        // if (EnemyPathfinder.instance.ignoreColliders.Contains(blackboard.capsuleCol))
+        // {
+        //     EnemyPathfinder.instance.ignoreColliders.Remove(blackboard.capsuleCol);
+        // }
 
         //언 카운트
         EnemySpawner.Instance.enemyCountList.Remove(gameObject);

@@ -566,18 +566,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43cef140dfaba6341a0021c810e024ee, type: 3}
---- !u!114 &6188186434977517483 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6704972345894854985, guid: 43cef140dfaba6341a0021c810e024ee,
-    type: 3}
-  m_PrefabInstance: {fileID: 642891133027397346}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a0105133ed62e94aac5613e24859684, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7147668662603440422 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7772540962432339908, guid: 43cef140dfaba6341a0021c810e024ee,
@@ -695,7 +683,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterTopPoint: {fileID: 4014050112837674821}
-  _progressBar: {fileID: 6188186434977517483}
 --- !u!114 &4540300228668913236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,7 +695,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 1024396997892831712}
 --- !u!114 &7954934015991075401
