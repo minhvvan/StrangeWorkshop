@@ -7,19 +7,39 @@ using UnityEngine;
 
 public class KnightSword : MonoBehaviour
 {
+    public enum ThrowType
+    {
+        RangeAttack,
+        BossPattern
+    }
+    
+    public ThrowType throwType;
+    
     public void OnTriggerEnter(Collider other)
     {
         //if (other.name == "Player")
-        if (other.name == "chest_low")
+        if (throwType == ThrowType.BossPattern)
         {
-            //var player = GetComponentInParent<SampleCharacterController>();
-            var player = FindObjectOfType<SampleCharacterController>();
+            if (other.name == "chest_low")
+            {
+                //var player = GetComponentInParent<SampleCharacterController>();
+                var player = FindObjectOfType<SampleCharacterController>();
             
-            //임시 강제제어. 
-            float originSpeed = 15f;
-            player.walkSpeed = originSpeed * 0.6f; //40% 둔화
-            DOVirtual.DelayedCall(2f, () => player.walkSpeed = originSpeed);
+                //임시 강제제어. 
+                float originSpeed = 15f;
+                player.walkSpeed = originSpeed * 0.6f; //40% 둔화
+                DOVirtual.DelayedCall(2f, () => player.walkSpeed = originSpeed);
+            }
         }
+        else if (throwType == ThrowType.RangeAttack)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void OnAction(Action action)
+    {
+        action?.Invoke();
     }
 
     private void OnDestroy()

@@ -26,7 +26,7 @@ public static class EnemyFactory
                 waveDataSo = chapterDatas.chapters[1];
                 break;
             case "IntegrationTestScene":
-                waveDataSo = chapterDatas.chapters[0];
+                waveDataSo = chapterDatas.chapters[^1];
                 break;
             case "HUDTest":
                 waveDataSo = chapterDatas.chapters[0];

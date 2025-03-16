@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6948797084185424655}
   - component: {fileID: 5079321205724863111}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: CircleSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 1485019063286409684}
   - component: {fileID: 3397162289639519615}
   - component: {fileID: 2931194674063470316}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: GloveCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e3a6e51e7ac1a4793006fe6b0c89f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectType: 1
   visualGameObjectArray:
   - {fileID: 963496226504983953}
 --- !u!114 &2931194674063470316
@@ -201,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1425047970782969011}
   - component: {fileID: 4621812670972939418}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: CircleSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3028466574229793643}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: CounterTopPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,10 +383,20 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 88ec91f6b1edf134483d6949a0819481, type: 2}
+    - target: {fileID: -4468621223483337608, guid: addaf5777ddb81447b8232cda3c4fc1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: addaf5777ddb81447b8232cda3c4fc1f,
         type: 3}
       propertyPath: m_Name
       value: Selected
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: addaf5777ddb81447b8232cda3c4fc1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: addaf5777ddb81447b8232cda3c4fc1f,
         type: 3}
@@ -488,10 +497,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4468621223483337608, guid: addaf5777ddb81447b8232cda3c4fc1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: addaf5777ddb81447b8232cda3c4fc1f,
         type: 3}
       propertyPath: m_Name
       value: basemodule_garage
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: addaf5777ddb81447b8232cda3c4fc1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

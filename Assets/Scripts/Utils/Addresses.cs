@@ -87,6 +87,11 @@ public static class Addresses
             public const string VFXLOADER = "data/fx/vfxloader";
             public const string SFXLOADER = "data/fx/sfxloader";
         }
+
+        public static class Quest
+        {
+            public const string QUESTLIST = "data/quest/questlist";
+        }
     }
     
     public static class Prefabs
@@ -119,6 +124,8 @@ public static class Addresses
         public static class Enemy
         {
             public const string THROW_SWORD = "prefabs/enemy/throw_sword";
+            public const string SPELL_FIELD = "prefabs/enemy/spell_field";
+            
         }
     }
 }

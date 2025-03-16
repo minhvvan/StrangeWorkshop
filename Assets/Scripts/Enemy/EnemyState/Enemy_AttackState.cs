@@ -14,9 +14,10 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
     public override void Enter()
     {
         //공격도중(정지시) 적들간 밀림방지. 이동중인 개체는 상관없음.
-        EnemyPathfinder.instance.ColliderDisable(Fsm.blackboard.capsuleCol);
+        //EnemyPathfinder.instance.ColliderDisable(Fsm.blackboard.capsuleCol);
         Fsm.blackboard.priorityIncrease = false;
         Fsm.blackboard.agent.avoidancePriority = 1;
+        Fsm.blackboard.currentState = 2;
     }
 
     public override void UpdateState()
@@ -29,9 +30,14 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
             Vector3 targetPos = FsmBb.target.position;
             Vector3 currentPos = FsmBb.transform.position;
             Vector3 direction = targetPos - currentPos;
-            Physics.Raycast(currentPos, direction, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
-                1 << LayerMask.NameToLayer(FsmBb.layerName));
-            float distance = Vector3.Distance(FsmBb.hit.point, currentPos);
+            
+            float distance = Mathf.Infinity;
+            
+            if (Physics.Raycast(currentPos, direction, out FsmBb.hit, FsmBb.enemyStatus.attackRange,
+                    1 << LayerMask.NameToLayer(FsmBb.layerName)))
+            {
+                distance = Vector3.Distance(FsmBb.hit.point, currentPos);
+            }
             //사거리 안에 들었을 때, 대상 탐지가 되지 않았다면 검색.
             if (distance <= FsmBb.enemyStatus.attackRange &&
                 FsmBb.targetCollider == null)
@@ -83,6 +89,6 @@ public class Enemy_AttackState : BaseStateEnemy<EnemyFsm>
 
     public override void Exit()
     {
-        EnemyPathfinder.instance.ColliderReEnable(Fsm.blackboard.capsuleCol);
+        //EnemyPathfinder.instance.ColliderReEnable(Fsm.blackboard.capsuleCol);
     }
 }

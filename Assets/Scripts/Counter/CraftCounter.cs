@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class CraftCounter : BaseCounter
 {
@@ -14,24 +16,37 @@ public class CraftCounter : BaseCounter
     private int _craftIndex;
     private int _currentIndex;
     private bool cooltime = true;
-    public ProgressBar _progressBar;
     
     private InGameUIController _inGameUIController;
 
+    private float roatateSpeed = 100f;
+    
     [Header("Events")]
     public Action<List<CraftRecipeSO>, List<string>> OnObjectsChangedAction;
     public Action<HoldableObjectSO> OnCraftCompleteAction;
 
     async void Awake()
     {
-        _progressBar.Initialize();
-        _progressBar.SetColor(Color.green);
-        _progressBar.gameObject.SetActive(false);
-        
         await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
         _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
         // _inGameUIController = GetComponentInParent<InGameUIController>();
         _inGameUIController.RegisterGameUI(this);
+    }
+
+    private void Update()
+    {
+        if (HasHoldableObject())
+        {
+            foreach (var obj in GetHoldableObjectList())
+            {
+                Vector3 directionToCenter = (GetHoldableObjectFollowTransform().position - obj.transform.position).normalized;
+                Vector3 rotationAxis = Vector3.Cross(directionToCenter, Vector3.forward).y > 0 ? Vector3.Cross(directionToCenter, Vector3.forward).normalized : -Vector3.Cross(directionToCenter, Vector3.forward).normalized; ;
+
+                // 🌎 중심점을 기준으로 회전 (올바른 공전 궤도 유지)
+                obj.transform.RotateAround(GetHoldableObjectFollowTransform().position, rotationAxis, roatateSpeed * Time.deltaTime);    
+            }
+            
+        }
     }
 
     public override void Interact(IHoldableObjectParent parent)
@@ -53,7 +68,7 @@ public class CraftCounter : BaseCounter
             }
             
             parent.GiveHoldableObject(this);
-            
+            GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
             // 현재 만들 수 있는 레시피가 있으면 저장
             _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
             SetCurrentCraftIndex();
@@ -76,36 +91,7 @@ public class CraftCounter : BaseCounter
         }
     }
     
-    // 레시피가 존재하면 상호작용시 결과 반환
-    public override void InteractAlternate(IHoldableObjectParent player)
-    {
-        if (!_currentCraftRecipeSO.IsUnityNull())
-        {
-            if (_craftIndex > _currentIndex && cooltime)
-            {
-                _currentIndex++;
-                _progressBar.UpdateProgressBar(_currentIndex);
-                CoolTime();
-                
-                //UI 
-            }
-
-            if (_craftIndex <= _currentIndex)
-            {
-                ClearHoldableObject();
-                HoldableObject.SpawnHoldableObject(_currentCraftRecipeSO.output, this);
-                OnCraftCompleteAction?.Invoke(_currentCraftRecipeSO.output);
-                _currentCraftRecipeSO = null;
-                _currentIndex = 0;
-                _progressBar.ResetBar();
-                _progressBar.gameObject.SetActive(false);
-                
-
-            }
-            VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position + 
-                                                                        new Vector3(0f, GetComponent<BoxCollider>().size.y/2, 0f));
-        }
-    }
+    
 
     private void SetCurrentCraftIndex()
     {
@@ -113,16 +99,26 @@ public class CraftCounter : BaseCounter
         {
             _craftIndex = _currentCraftRecipeSO.craftNumberOfTimes;
             _currentIndex = 0;
-            _progressBar.ResetBar();
-            _progressBar.gameObject.SetActive(true);
-            _progressBar.SetBar(_craftIndex);
+            // _progressBar.ResetBar();
+            // _progressBar.gameObject.SetActive(true);
+            // _progressBar.SetBar(_craftIndex);
         }
         else
         {
-            _progressBar.gameObject.SetActive(false);
+            // _progressBar.gameObject.SetActive(false);
         }
     }
 
+    public float GetCraftIndex()
+    {
+        return _craftIndex;
+    }
+
+    public CraftRecipeSO GetCurrentCraftRecipeSO()
+    {
+        return _currentCraftRecipeSO;
+    }
+    
     async void CoolTime()
     {
         cooltime = false;

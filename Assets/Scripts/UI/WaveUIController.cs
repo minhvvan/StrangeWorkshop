@@ -24,7 +24,6 @@ public class WaveUIController : MonoBehaviour, IGameUI
         CleanUp();
         _onUI = onUI;
         Initialize();
-        ShowUI();
     }
 
     public void SetPreparationTime(float duration)
