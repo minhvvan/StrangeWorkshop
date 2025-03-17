@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WaveData", menuName = "SO/Chapter/WaveData")]
-public class WaveDataSO : SequenceCommandSO
+public class WaveCommandSO : SequenceCommandSO
 {
     [Header("Wave Info")]
     public int waveNumber;
@@ -20,8 +20,10 @@ public class WaveDataSO : SequenceCommandSO
     private SpawnEnemyEventSO _spawnEventSO;
     private WaveClearEventSO _waveClearEventSO;
     private WaveStartEventSO _waveStartEventSO;
+
+    private CommandCompleteEventSO so;
     
-    public override async UniTaskVoid Initialize()
+    public override async void Initialize()
     {
         IsInitialized = false;
         

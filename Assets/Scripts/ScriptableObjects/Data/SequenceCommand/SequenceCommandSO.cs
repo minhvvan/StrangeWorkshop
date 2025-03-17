@@ -10,7 +10,7 @@ public abstract class SequenceCommandSO : ScriptableObject
     public bool IsInitialized { get; protected set; }
 
     //초기화
-    public abstract UniTaskVoid Initialize();
+    public abstract void Initialize();
     
     // 커맨드 실행
     public abstract void Execute(CommandCompleteEventSO completeEventSo);
