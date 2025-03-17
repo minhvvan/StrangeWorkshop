@@ -28,10 +28,10 @@ public class CraftCounter : BaseCounter
         _progressBar.SetColor(Color.green);
         _progressBar.gameObject.SetActive(false);
         
-        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
-        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        // await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        // _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
         // _inGameUIController = GetComponentInParent<InGameUIController>();
-        _inGameUIController.RegisterGameUI(this);
+        // _inGameUIController.RegisterGameUI(this);
     }
 
     public override void Interact(IHoldableObjectParent parent)

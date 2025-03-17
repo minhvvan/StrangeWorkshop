@@ -48,9 +48,9 @@ public class EnemySpawner : MonoBehaviour
         //씬에 생성된 모든 SpawnArea를 받아
         FindSpawnArea();
         
-        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
-        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
-        _inGameUIController.RegisterGameUI(this);
+        // await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        // _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        // _inGameUIController.RegisterGameUI(this);
 
         var spawnEventSO = await DataManager.Instance.LoadDataAsync<SpawnEnemyEventSO>(Addresses.Events.Game.ENEMY_SPAWN);
         spawnEventSO.AddListener(SpawnEnemyCallback);

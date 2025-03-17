@@ -45,8 +45,8 @@ public class BarrierController : MonoBehaviour
         _destroyEventSO.AddListener(OnBarrierDestroy);
         Barriers = GetComponentsInChildren<Barrier>().ToList();
         
-        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
-        _inGameUIController.RegisterGameUI(this);
+        // _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        // _inGameUIController.RegisterGameUI(this);
     }
 
     private void OnBarrierDamaged(float damage)
