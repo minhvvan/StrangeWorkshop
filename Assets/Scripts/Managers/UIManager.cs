@@ -11,9 +11,6 @@ using UnityEngine.SceneManagement;
 public enum UIType 
 {
     None,
-    MinimapUI,
-    WaveUI,
-    RecipeUI,
     InGameUI,
     ChapterUI,
     PauseUI,
@@ -21,6 +18,7 @@ public enum UIType
     ClearUI,
     LoseUI,
     ConfirmPopupUI,
+    DialogueUI,
     Max,
 }
 
