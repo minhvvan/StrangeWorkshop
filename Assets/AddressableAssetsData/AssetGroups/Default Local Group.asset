@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08244c1cb6deb984ea0145cc2c0cb2a4
+    m_Address: prefabs/enemy/spell_field
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0f3fcd37d78e96044b76b4e77399b211
     m_Address: events/barrier/destroyed
     m_ReadOnly: 0
@@ -39,6 +44,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3321b19b2f084494280028cf7f74adc2
     m_Address: data/recipes/Process
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b9c5148ef9ed07488fe1e2fda941a5f
+    m_Address: data/quest/questlist
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -77,6 +87,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
+    m_Address: data/chapters/chapter_1
   - m_GUID: ca8868471576f334faa629099e01a963
     m_Address: events/game/command_complete
     m_ReadOnly: 0

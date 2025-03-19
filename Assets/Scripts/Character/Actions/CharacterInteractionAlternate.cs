@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,11 +13,16 @@ public class CharacterInteractionAlternate : BaseAction
 {
     SampleCharacterController _controller;
     
+    [NonSerialized] public Action<HoldableObject> OnHoldObjectAction;
+    private InGameUIController _inGameUIController;
+    
     void Awake()
     {
         _controller = GetComponent<SampleCharacterController>();
 
         _controller.AddAction(this);
+        
+        InitUI();
     }    
     
     public override bool RegistAction()
@@ -39,5 +45,28 @@ public class CharacterInteractionAlternate : BaseAction
     {   
         if(!_controller.GetSelectedCounter().IsUnityNull())
             _controller.GetSelectedCounter().InteractAlternate(_controller);
+        else
+        {
+            if (!_controller.GetHoldableObject().IsUnityNull())
+            {
+                GameObject holdable = _controller.GetHoldableObject().gameObject;
+                if (holdable.TryGetComponent(out Rigidbody rig) && holdable.TryGetComponent(out Collider col))
+                {
+                    _controller.SetHoldableObject(null);
+                    holdable.transform.parent = null;
+                    col.isTrigger = false;
+                    rig.isKinematic = false;
+                    rig.AddForce(_controller.transform.forward * 1000);
+                }
+            }
+        }
+        OnHoldObjectAction?.Invoke(_controller.GetHoldableObject());
+    }
+    
+    private async void InitUI()
+    {
+        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);
     }
 }

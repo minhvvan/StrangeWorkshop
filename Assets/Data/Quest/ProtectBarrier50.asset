@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a347a2a609f564385200657a84124b, type: 3}
   m_Name: ProtectBarrier50
   m_EditorClassIdentifier: 
-  questID: 0
+  id: 0
   questType: 1
-  questDescription: 
-  requiredHealthPercentage: 50
+  description: "\uBC29\uBCBD\uC758 \uCCB4\uB825\uC744 50% \uC774\uC0C1\uC73C\uB85C\n\uC720\uC9C0\uD558\uC138\uC694\n2000/2000"
+  chapter: 1
+  failurePercentage: 50

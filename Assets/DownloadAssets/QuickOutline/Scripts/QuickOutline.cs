@@ -103,6 +103,10 @@ public class QuickOutline : MonoBehaviour {
     foreach (var renderer in renderers) {
 
       // Append outline shaders
+      if (renderer as ParticleSystemRenderer)
+      {
+        continue;
+      }
       var materials = renderer.sharedMaterials.ToList();
 
       materials.Add(outlineMaskMaterial);
