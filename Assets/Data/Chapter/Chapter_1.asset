@@ -19,6 +19,8 @@ MonoBehaviour:
   endingStory: {fileID: 0}
   sequence:
   - {fileID: 11400000, guid: 5d8a882c02c02864ca2e99c286073dc8, type: 2}
+  - {fileID: 11400000, guid: 6920fa7eef431614885cb9a8bf08b5c5, type: 2}
+  - {fileID: 11400000, guid: f6210d264efebb84480da149a90fa97f, type: 2}
   - {fileID: 11400000, guid: fc8c33c58f4eb7d4b8a1ea8a5e790507, type: 2}
   - {fileID: 11400000, guid: 0fd5627bcbe07db43931377729ee004b, type: 2}
   - {fileID: 11400000, guid: 9c23ae076132b1c428706e1e50efa6fc, type: 2}
