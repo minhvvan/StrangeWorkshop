@@ -29,8 +29,7 @@ public class CraftCounter : BaseCounter
     {
         await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
         _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
-        // _inGameUIController = GetComponentInParent<InGameUIController>();
-        // _inGameUIController.RegisterGameUI(this);
+        _inGameUIController.RegisterGameUI(this);
     }
 
     private void Update()
