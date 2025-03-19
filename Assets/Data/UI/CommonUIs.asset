@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   commonUIs:
   - type: 1
-    prefab: {fileID: 5090524505752664602, guid: dd14ad91cf873f94e92df1f1b5d10221,
+    prefab: {fileID: 6879401865335359522, guid: 452944e928e299540bfe20e88b567759,
       type: 3}
     position: {x: 0, y: 0}
   - type: 2
@@ -49,6 +49,6 @@ MonoBehaviour:
       type: 3}
     position: {x: 0, y: 0}
   - type: 8
-    prefab: {fileID: 4846724393624810698, guid: 3539f145794b74e15ab982d0cde1d9f9,
+    prefab: {fileID: 4717100343642824186, guid: acfa3776bd4624942bb5ef60c601057a,
       type: 3}
     position: {x: 0, y: 0}
