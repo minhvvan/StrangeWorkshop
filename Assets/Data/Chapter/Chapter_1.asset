@@ -17,7 +17,10 @@ MonoBehaviour:
   description: 
   openingStory: {fileID: 11400000, guid: 2ab85dfcae4c63d4d9303c93f231b14f, type: 2}
   endingStory: {fileID: 0}
-  waves:
+  sequence:
+  - {fileID: 11400000, guid: 5d8a882c02c02864ca2e99c286073dc8, type: 2}
+  - {fileID: 11400000, guid: 6920fa7eef431614885cb9a8bf08b5c5, type: 2}
+  - {fileID: 11400000, guid: f6210d264efebb84480da149a90fa97f, type: 2}
   - {fileID: 11400000, guid: fc8c33c58f4eb7d4b8a1ea8a5e790507, type: 2}
   - {fileID: 11400000, guid: 0fd5627bcbe07db43931377729ee004b, type: 2}
   - {fileID: 11400000, guid: 9c23ae076132b1c428706e1e50efa6fc, type: 2}
@@ -33,7 +36,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dcbb3713089cd4e4f9eecbfaa088b807, type: 2}
   - {fileID: 11400000, guid: b59512769e64fd643b02ad99bea6e722, type: 2}
   - {fileID: 11400000, guid: 8a3f0a741b0c8f94e84a872b7eebc2e5, type: 2}
-  preparationTime: 0
   playerSpawnPoint: {x: 0, y: 0, z: 0}
   quests:
   - {fileID: 11400000, guid: 40358c538aacd7b4a8f75a88dee4db1d, type: 2}

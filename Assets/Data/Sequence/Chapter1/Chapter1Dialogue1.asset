@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e08a33f8ea4ea0bd5ddd27e4be3bbb, type: 3}
+  m_Name: Chapter1Dialogue1
+  m_EditorClassIdentifier: 
+  startDelay: 1
+  completionDelay: 1
+  _dialogueData:
+  - Talker: Test
+    Dialogue:
+    - "\uC548\uB155\uD558\uC138\uC694"
+    - "\uC774\uAC70\uB294 \uD14C\uC2A4\uD2B8\uC785\uB2C8\uB2E4"
+  - Talker: "\uC8FC\uC778\uACF5"
+    Dialogue:
+    - "\uD558\uC774"
+    - "\uBC14\uC774"
