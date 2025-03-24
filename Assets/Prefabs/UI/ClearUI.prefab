@@ -336,8 +336,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 4819651793369225507}
+  _popupRect: {fileID: 0}
   fadeDuration: 0
   _firstSelected: {fileID: 0}
+  _bottombarUIPrefab: {fileID: 0}
+  _isBlurBackground: 1
+  _isBinarizeBackground: 0
   backgroundBar: {fileID: 4965233224192054368}
   tmpAnimation: {fileID: 5908621475605823581}
   backgroundPattern: {fileID: 2931769438806661955}

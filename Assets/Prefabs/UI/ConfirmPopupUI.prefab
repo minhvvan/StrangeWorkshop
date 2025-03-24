@@ -789,8 +789,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 6106368311015134858}
+  _popupRect: {fileID: 215863234660721699}
   fadeDuration: 0.3
   _firstSelected: {fileID: 8879282637862035664}
+  _bottombarUIPrefab: {fileID: 0}
+  _isBlurBackground: 1
+  _isBinarizeBackground: 0
   _confirmPopupTypeTextures:
     _serializedList:
     - Key: 4
