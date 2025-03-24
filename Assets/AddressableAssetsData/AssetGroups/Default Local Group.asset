@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23526a88fb12eba44be6df73f8465d8d
+    m_Address: events/game/wave_clear
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 27cd494195e67784bb381d36d355edfc
     m_Address: events/game/state_changed
     m_ReadOnly: 0
@@ -52,8 +57,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71fec69487acef041bc81adeb9d74df1
+    m_Address: events/game/enemy_spawn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 75c4dff732dbf484997a80e8f049612f
     m_Address: data/recipes/Craft
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c4c16c8fd3514e488e8ddc788158dba
+    m_Address: events/game/wave_start
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -74,6 +89,8 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
     m_Address: data/chapters/chapter_1
+  - m_GUID: ca8868471576f334faa629099e01a963
+    m_Address: events/game/command_complete
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

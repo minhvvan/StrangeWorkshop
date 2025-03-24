@@ -67,7 +67,7 @@ public class LoadingManager : Singleton<LoadingManager>
     private void MoveToGameScene()
     {   
         _nextSceneLoad.allowSceneActivation = true;
-        GameManager.Instance.RequestChangeGameState(GameState.InGame);
+        GameManager.Instance.PlayChapterSequence();
     }
     
     private async UniTask WaitForSceneLoad(IProgress<float> progress = null)
