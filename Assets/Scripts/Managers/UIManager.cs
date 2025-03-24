@@ -18,6 +18,7 @@ public enum UIType
     ClearUI,
     LoseUI,
     ConfirmPopupUI,
+    LoseEffectUI,
     DialogueUI,
     Max,
 }
@@ -26,6 +27,9 @@ public class UIManager : Singleton<UIManager>
 {
     private List<UIMapping> _gameUIs = new();
     private Dictionary<UIType, IGameUI> _activeUIs = new();
+
+    //popup ui(BasePopupUI 상속받은 클래스의 경우)를 띄울 경우 쌓아서 관리하기 위함
+    private Stack<BasePopupUI> _popupUIs = new Stack<BasePopupUI>();
 
     private Canvas _mainCanvas;
     private Camera _mainCamera;
@@ -117,5 +121,44 @@ public class UIManager : Singleton<UIManager>
         
         var instance = Instantiate(ui.prefab, _mainCanvas.transform).GetComponent<T>();
         return (T)(_activeUIs[type] = instance);
+    }
+
+    /// <summary>
+    /// 팝업 UI의 스택관리를 위함
+    /// </summary>
+    public void PushPopupUI(BasePopupUI popupUI)
+    {
+        if(_popupUIs.Contains(popupUI)) return;
+        _popupUIs.Push(popupUI);
+    }
+
+    public void PopPopupUI()
+    {
+        if (_popupUIs.Count == 0) return;
+        
+        _popupUIs.Pop();
+        
+        if (_popupUIs.Count > 0)
+        {
+            _popupUIs.Peek().SetFocus();
+        }
+    }
+
+    void Update()
+    {
+        //UI Control
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(_popupUIs.Count > 0)
+            {
+                if(_popupUIs.Count == 1){
+                    _popupUIs.Peek().HideUI();
+                }
+                else{
+                    _popupUIs.Peek().HideUIWithoutCancelEffect();                       
+                }
+                
+            }
+        }   
     }
 }

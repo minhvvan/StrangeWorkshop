@@ -14,8 +14,24 @@ public class UITestManager : MonoBehaviour
             Debug.Log(UIManager.Instance);
 
             var tmp = UIManager.Instance.GetUI<ClearUIController>(UIType.ClearUI);
+            tmp.ShowUI();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            var tmp = UIManager.Instance.GetUI<LoseEffectUIController>(UIType.LoseEffectUI);
+            tmp.ShowUI();
+        }
 
-            Debug.Log(tmp);
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            var tmp = UIManager.Instance.GetUI<PauseUIController>(UIType.PauseUI);
+            tmp.ShowUI();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            var tmp = UIManager.Instance.GetUI<ResultUIContorller>(UIType.ResultUI);
             tmp.ShowUI();
         }
     }
