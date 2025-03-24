@@ -32,15 +32,12 @@ public class UISelectionEffect : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             backgroundImage = GetComponent<Image>();
         }
-    }
-    
 
-    void OnDisable()
+        InitializeColor();
+    }
+
+    void InitializeColor()
     {
-        transform.localScale = originalScale;
-        isSelected = false;
-        
-        transform.localScale = originalScale;
         if (text != null)
         {
             text.color = normalColor;
@@ -50,6 +47,16 @@ public class UISelectionEffect : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             backgroundImage.color = normalColor;
         }
+    }
+    
+
+    void OnDisable()
+    {
+        transform.localScale = originalScale;
+        isSelected = false;
+        
+        transform.localScale = originalScale;
+        InitializeColor();
     }
 
     public void OnSelect(BaseEventData eventData)

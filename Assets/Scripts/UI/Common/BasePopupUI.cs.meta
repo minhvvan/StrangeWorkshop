@@ -3,7 +3,11 @@ guid: bbb78e80521454f85924cb2b406cf760
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _canvasGroup: {instanceID: 0}
+  - _firstSelected: {instanceID: 0}
+  - _bottombarUIPrefab: {fileID: 7233008076096618701, guid: 21299c087acf14fd5ba22847316ddc58,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

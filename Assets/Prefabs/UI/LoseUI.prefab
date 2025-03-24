@@ -864,8 +864,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 4553700347113798269}
-  fadeDuration: 0.3
+  _popupRect: {fileID: 353931100519100521}
+  fadeDuration: 0
   _firstSelected: {fileID: 1117296098569254875}
+  _bottombarUIPrefab: {fileID: 7233008076096618701, guid: 21299c087acf14fd5ba22847316ddc58,
+    type: 3}
+  _isBlurBackground: 1
+  _isBinarizeBackground: 1
   _restartButton: {fileID: 1117296098569254875}
   _gotoChapterButton: {fileID: 4255032126429646070}
 --- !u!1 &8526964566774262997
