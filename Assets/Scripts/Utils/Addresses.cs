@@ -9,8 +9,10 @@ public static class Addresses
         public static class Game
         {
             public const string STATE_CHANGED = "events/game/state_changed";
+            public const string COMMAND_COMPLETE = "events/game/command_complete";
+            public const string ENEMY_SPAWN = "events/game/enemy_spawn";
             public const string WAVE_START = "events/game/wave_start";
-            public const string WAVE_END = "events/game/wave_end";
+            public const string WAVE_CLEAR = "events/game/wave_clear";
             public const string GAME_START = "events/game/game_start";
             public const string GAME_OVER = "events/game/game_over";
             public const string GAME_CLEAR = "events/game/game_clear";

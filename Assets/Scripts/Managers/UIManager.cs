@@ -11,9 +11,6 @@ using UnityEngine.SceneManagement;
 public enum UIType 
 {
     None,
-    MinimapUI,
-    WaveUI,
-    RecipeUI,
     InGameUI,
     ChapterUI,
     PauseUI,
@@ -22,6 +19,7 @@ public enum UIType
     LoseUI,
     ConfirmPopupUI,
     LoseEffectUI,
+    DialogueUI,
     Max,
 }
 
@@ -104,25 +102,25 @@ public class UIManager : Singleton<UIManager>
         ui.HideUI();
     }
     
-    public T GetUI<T>(UIType type) where T : Component, IGameUI
+    public T GetUI<T>(UIType type) where T : IGameUI
     {
         if (_activeUIs.TryGetValue(type, out var ui))
         {
             if(ui.IsUnityNull()) return CreateUI<T>(type);
 
-            return ui as T;
+            return (T)ui;
         }
 
         return CreateUI<T>(type);
     }
 
-    private T CreateUI<T>(UIType type) where T : Component, IGameUI
+    private T CreateUI<T>(UIType type) where T : IGameUI
     {
         var ui = _gameUIs.Find(ui => ui.type == type);
-        if (ui == null || ui.prefab == null) return null;
+        if (ui == null || ui.prefab == null) return default;
         
         var instance = Instantiate(ui.prefab, _mainCanvas.transform).GetComponent<T>();
-        return (_activeUIs[type] = instance) as T;
+        return (T)(_activeUIs[type] = instance);
     }
 
     /// <summary>
