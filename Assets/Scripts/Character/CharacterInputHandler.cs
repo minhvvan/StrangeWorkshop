@@ -14,8 +14,6 @@ public class CharacterInputHandler : BaseInputHandler
     IEnumerator Start()
     {
         _controller = GetComponent<SampleCharacterController>();
-        OnActions += DirectControl;
-
         _controller.SetInputHandler(this);
 
         // 초기화 타이밍 문제 방지 (약간의 대기)
@@ -23,8 +21,10 @@ public class CharacterInputHandler : BaseInputHandler
         _controller.SetInputHandler(this);
     }
 
-    void DirectControl(InputData input)
+    public override void ProcessInput(InputData input)
     {
+        base.ProcessInput(input);
+        
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
         
