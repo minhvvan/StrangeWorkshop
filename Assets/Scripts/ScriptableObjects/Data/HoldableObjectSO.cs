@@ -11,6 +11,15 @@ public enum HoldableObjectType
     Upgrade
 }
 
+public enum PartMaterialType
+{
+    None,
+    Carbon,
+    Gear,
+    Ore,
+    Bolt
+}
+
 [CreateAssetMenu(menuName = "SO/Counter/HoldableObjectSO")]
 public class HoldableObjectSO : ScriptableObject
 { 
