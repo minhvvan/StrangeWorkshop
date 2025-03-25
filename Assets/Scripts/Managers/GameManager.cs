@@ -14,7 +14,6 @@ public class GameManager : Singleton<GameManager>
     private GameState _currentGameState;
     private ChapterDataSO _currentChapter;
     private ChapterListSO _chapterList;
-
     public ChapterDataSO CurrentChapterData => _currentChapter;
 
     [Header("Event")]
@@ -22,11 +21,20 @@ public class GameManager : Singleton<GameManager>
 
     public bool IsInitialized { get; private set; }
     private const string START_SCENE_NAME = "StartUpScene";
+    
+    private ChapterSequencer _chapterSequencer;
 
     private async void Start()
     {
+        _chapterSequencer = new();
+        
         //로딩 화면을 보여주고 필요한 데이터 로드
         await Initialize();
+
+        if (SceneManager.GetActiveScene().name.Equals("Chapter1"))
+        {
+            PlayChapterSequence();
+        }
     }
 
     public async UniTask Initialize()
@@ -58,7 +66,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-
     public void LoadMainMenu()
     {
         ChangeGameState(GameState.MainMenu);
@@ -71,6 +78,13 @@ public class GameManager : Singleton<GameManager>
         LoadingManager.Instance.LoadChapter(_currentChapter);
 
         ChangeGameState(GameState.InGame);
+    }
+    
+    public async void PlayChapterSequence()
+    {
+        GameManager.Instance.RequestChangeGameState(GameState.InGame);
+        await _chapterSequencer.Initialize(_currentChapter.sequence);
+        _chapterSequencer.StartSequence();
     }
 
     public void RestartGame(){
@@ -92,7 +106,6 @@ public class GameManager : Singleton<GameManager>
 
     private void ChangeGameState(GameState newState)
     {
-        //Test
         _currentGameState = newState;
         _gameStateEvent.Raise(_currentGameState);
     }
@@ -140,7 +153,7 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver()
     {
-        UIManager.Instance.GetUI<LoseUIController>(UIType.LoseUI).ShowUI();
+        UIManager.Instance.GetUI<LoseEffectUIController>(UIType.LoseEffectUI).ShowUI();
     }
 
     public void QuitGame()

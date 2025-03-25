@@ -28,9 +28,9 @@ public class Barrier : MonoBehaviour, IDamageable
 #endif
         _damagedEventSo = await DataManager.Instance.LoadDataAsync<BarrierDamagedEventSO>(Addresses.Events.Barrier.BARRIER_DAMAGED);
         
-        float x = GetComponent<BoxCollider>().size.x / 2f;
-        _barrierEff = VFXManager.Instance.TriggerVFX(VFXType.BARRIERSHIELD, transform, rotation: Quaternion.Euler(-90f, 0f, 0f),
-            size: new Vector3(x, 1f, 10f), returnAutomatically:false);
+        // float x = GetComponent<BoxCollider>().size.x / 2f;
+        // _barrierEff = VFXManager.Instance.TriggerVFX(VFXType.BARRIERSHIELD, transform, rotation: Quaternion.Euler(-90f, 0f, 0f),
+        //     size: new Vector3(x, 1f, 10f), returnAutomatically:false);
     }
 
     public void TakeDamage(float damage)
