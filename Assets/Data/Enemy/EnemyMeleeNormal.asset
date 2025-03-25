@@ -12,15 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: EnemyMeleeNormal
   m_EditorClassIdentifier: 
-  enemytype: 0
   enemyPrefab: {fileID: 7644942853492707573, guid: c3e7b991cc687ac4892d17eeab64a7aa,
     type: 3}
-  animFirstDelay: 0.5
-  enemyName: MeleeNormal
   enemyStatus:
     enemytype: 0
-    animFirstDelay: 0
-    enemyName: 
+    animFirstDelay: 0.5
+    enemyName: MeleeNormal
     maxHp: 10
     hp: 10
     armor: 0
@@ -28,9 +25,3 @@ MonoBehaviour:
     attackRange: 1.5
     attackSpeed: 3
     moveSpeed: 3
-  hp: 10
-  armor: 0
-  attackDamage: 1
-  attackRange: 1.5
-  attackSpeed: 2
-  moveSpeed: 3

@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: EnemyMeleeHider
   m_EditorClassIdentifier: 
-  enemytype: 4
   enemyPrefab: {fileID: 1012461600417090338, guid: b7f449590d6b1914fbae6f0fc4335711,
     type: 3}
-  animFirstDelay: 0.5
-  enemyName: MeleeHider
-  hp: 25
-  armor: 1
-  attackDamage: 3
-  attackRange: 1.5
-  attackSpeed: 2.5
-  moveSpeed: 3
+  enemyStatus:
+    enemytype: 4
+    animFirstDelay: 0.5
+    enemyName: MeleeHider
+    maxHp: 0
+    hp: 25
+    armor: 1
+    attackDamage: 3
+    attackRange: 1.5
+    attackSpeed: 2.5
+    moveSpeed: 3
