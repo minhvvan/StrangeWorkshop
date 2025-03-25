@@ -23,20 +23,14 @@ public class CharacterInputHandler : BaseInputHandler
         _controller.SetInputHandler(this);
     }
 
-    protected override void Update()
-    {
-        // 상위 BaseInputHandler 로직
-        base.Update();
-    }
-
-    void DirectControl()
+    void DirectControl(InputData input)
     {
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
         
         // 1) 이동 입력
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical   = Input.GetAxis("Vertical");
+        float horizontal = input.moveInput.X;
+        float vertical   = input.moveInput.Y;
 
         MovementInput = new Vector2(horizontal, vertical).normalized;
         Horizontal    = horizontal;
@@ -44,18 +38,17 @@ public class CharacterInputHandler : BaseInputHandler
         
         IsWalking = MovementInput.magnitude > 0.1f;
 
-        // 3) 상호작용
-        if (Input.GetKeyDown(KeyCode.E))
+        if (input.interactPressed)
         {
             OnInteract?.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+
+        if (input.interactAlternatePressed)
         {
             OnInteractAlternate?.Invoke();
         }
 
-        // 4) 대쉬
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (input.dashPressed)
         {
             OnDash?.Invoke();
         }

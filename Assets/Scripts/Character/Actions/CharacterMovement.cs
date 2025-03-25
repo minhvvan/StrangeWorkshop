@@ -46,7 +46,7 @@ public class CharacterMovement : BaseAction
     /// <summary>
     /// 입력값으로 이동/회전 처리 (이동속도 = walkSpeed 고정)
     /// </summary>
-    void MoveCharacter()
+    void MoveCharacter(InputData input)
     {
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
