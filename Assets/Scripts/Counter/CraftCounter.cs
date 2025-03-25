@@ -41,7 +41,7 @@ public class CraftCounter : BaseCounter
                 Vector3 directionToCenter = (GetHoldableObjectFollowTransform().position - obj.transform.position).normalized;
                 Vector3 rotationAxis = Vector3.Cross(directionToCenter, Vector3.forward).y > 0 ? Vector3.Cross(directionToCenter, Vector3.forward).normalized : -Vector3.Cross(directionToCenter, Vector3.forward).normalized; ;
 
-                // 🌎 중심점을 기준으로 회전 (올바른 공전 궤도 유지)
+                // 중심점을 기준으로 회전 (올바른 공전 궤도 유지)
                 obj.transform.RotateAround(GetHoldableObjectFollowTransform().position, rotationAxis, roatateSpeed * Time.deltaTime);    
             }
             

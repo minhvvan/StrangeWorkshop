@@ -99,7 +99,7 @@ public class RecipeManager : Singleton<RecipeManager>
         return true;
     }
 
-    private bool CanMake(List<HoldableObjectSO> inputs, CraftRecipeSO craftRecipe)
+    public bool CanMake(List<HoldableObjectSO> inputs, CraftRecipeSO craftRecipe)
     {
         ISet<int> inputSet = new HashSet<int>();
         foreach (HoldableObjectSO recipeInput in craftRecipe.inputs)
