@@ -53,4 +53,13 @@ public class CharacterInputHandler : BaseInputHandler
             OnDash?.Invoke();
         }
     }
+
+    public override void OnControlEnd()
+    {
+        base.OnControlEnd();
+        
+        _controller.rb.velocity = Vector3.zero;
+        _controller.rb.angularVelocity = Vector3.zero;
+        _controller.anim.SetFloat("Blend", 0f);
+    }
 }

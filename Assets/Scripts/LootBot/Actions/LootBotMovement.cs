@@ -139,5 +139,8 @@ public class LootBotMovement : BaseAction
     public override void UnregistAction()
     {
         _inputHandler.OnActions -= MoveCharacter;
+
+        _lootBotBlackBoard.rigidbody.velocity = Vector3.zero;
+        _lootBotBlackBoard.animator.SetFloat("Blend", 0f);
     }
 }

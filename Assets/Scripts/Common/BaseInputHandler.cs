@@ -61,6 +61,11 @@ public abstract class BaseInputHandler : MonoBehaviour, IControllable
 
     public virtual void OnControlEnd()
     {
+        MovementInput = Vector2.zero;
+        IsRunning = false;
+        Horizontal = 0f;
+        Vertical = 0f;
+        IsWalking = false;
     }
 
     public virtual void ProcessInput(InputData input)

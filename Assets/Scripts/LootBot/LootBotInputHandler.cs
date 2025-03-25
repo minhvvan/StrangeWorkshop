@@ -16,6 +16,8 @@ public class LootBotInputHandler: BaseInputHandler
 
     public override void OnControlEnd()
     {
+        base.OnControlEnd();
+        
         foreach (var action in _actions)
         {
             action.UnregistAction();
@@ -35,7 +37,7 @@ public class LootBotInputHandler: BaseInputHandler
 
         if (input.interactAlternatePressed)
         {
-            //TODO 임시로 전환
+            //TODO 임시로 전환 -> 전환 규칙 만들어야 함
             InputManager.Instance.ReturnToPlayerControl();
         }
     }
