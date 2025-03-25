@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LootBotMovement : BaseAction
 {
+    private static readonly int Speed = Animator.StringToHash("Speed");
+
     // 착지 여부 및 수직속도
     private bool isGrounded;
     private float verticalVel;
@@ -41,7 +43,7 @@ public class LootBotMovement : BaseAction
         // (선택) 애니메이션 블렌딩을 위한 속도
         float speed = inputDir.sqrMagnitude; // 0 ~ 1 범위
         _lootBotBlackBoard.animator.SetFloat(
-            "Blend",
+            Speed,
             speed,
             (speed > _lootBotBlackBoard.allowRotation) ? _lootBotBlackBoard.startAnimTime : _lootBotBlackBoard.stopAnimTime,
             Time.deltaTime
@@ -141,6 +143,6 @@ public class LootBotMovement : BaseAction
         _inputHandler.OnActions -= MoveCharacter;
 
         _lootBotBlackBoard.rigidbody.velocity = Vector3.zero;
-        _lootBotBlackBoard.animator.SetFloat("Blend", 0f);
+        _lootBotBlackBoard.animator.SetFloat(Speed, 0f);
     }
 }

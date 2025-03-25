@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterInputHandler : BaseInputHandler
 {
+    private static readonly int Speed = Animator.StringToHash("Speed");
     SampleCharacterController _controller;
 
     // 필요 이벤트들
@@ -60,6 +61,6 @@ public class CharacterInputHandler : BaseInputHandler
         
         _controller.rb.velocity = Vector3.zero;
         _controller.rb.angularVelocity = Vector3.zero;
-        _controller.anim.SetFloat("Blend", 0f);
+        _controller.anim.SetFloat(Speed, 0f);
     }
 }

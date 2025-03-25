@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SampleCharacterController))]
 public class CharacterMovement : BaseAction
 {
+    private static readonly int Speed = Animator.StringToHash("Speed");
+
     // 착지 여부 및 수직속도
     private bool isGrounded;
     private float verticalVel;
@@ -74,7 +76,7 @@ public class CharacterMovement : BaseAction
         // (선택) 애니메이션 블렌딩을 위한 속도
         float speed = inputDir.sqrMagnitude; // 0 ~ 1 범위
         _controller.anim.SetFloat(
-            "Blend",
+            Speed,
             speed,
             (speed > _controller.allowPlayerRotation) ? _controller.StartAnimTime : _controller.StopAnimTime,
             Time.deltaTime
