@@ -25,6 +25,13 @@ public class LootBotInputHandler: BaseInputHandler
     public override void ProcessInput(InputData input)
     {
         base.ProcessInput(input);
+        
+        // 1) 이동 입력
+        Horizontal = input.moveInput.X;
+        Vertical   = input.moveInput.Y;
+
+        MovementInput = new Vector2(Horizontal, Vertical).normalized;
+        IsWalking = MovementInput.magnitude > 0.1f;
 
         if (input.interactAlternatePressed)
         {
