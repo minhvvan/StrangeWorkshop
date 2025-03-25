@@ -12,15 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: Chapter1Boss
   m_EditorClassIdentifier: 
-  enemytype: 7
   enemyPrefab: {fileID: 5576117492302987715, guid: 0661c80556ddbe84b906b7a116911501,
     type: 3}
-  animFirstDelay: 0.9
-  enemyName: Chapter1-Boss
   enemyStatus:
-    enemytype: 4
-    animFirstDelay: 0
-    enemyName: 
+    enemytype: 7
+    animFirstDelay: 0.9
+    enemyName: Chapter1-Boss
     maxHp: 300
     hp: 300
     armor: 5

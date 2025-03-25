@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: EnemyMeleeFlanker
   m_EditorClassIdentifier: 
-  enemytype: 3
   enemyPrefab: {fileID: 5100435670091408089, guid: ddf0e956a77533943b974cd76ff7dfa6,
     type: 3}
-  animFirstDelay: 0.5
-  enemyName: MeleeFlanker
-  hp: 40
-  armor: 2
-  attackDamage: 2.5
-  attackRange: 3
-  attackSpeed: 1
-  moveSpeed: 5
+  enemyStatus:
+    enemytype: 3
+    animFirstDelay: 0.5
+    enemyName: MeleeFlanker
+    maxHp: 0
+    hp: 40
+    armor: 2
+    attackDamage: 2.5
+    attackRange: 3
+    attackSpeed: 1
+    moveSpeed: 5
