@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class InGameDataController : MonoBehaviour
+public class InGameDataController
 {
+    private CancellationTokenSource _cancellationToken;
     private bool _playing = false;
     
     [Header("Turret")] 
@@ -21,7 +23,7 @@ public class InGameDataController : MonoBehaviour
     
     [Header("Gold")]
     private int _gold;
-    private float _interval = 1f;
+    private int _interval = 1000;
     private int _goldPerInterval = 1;
 
     [Header("Time")] 
@@ -31,34 +33,45 @@ public class InGameDataController : MonoBehaviour
     private Dictionary<PartMaterialType, int> _partMaterialCounts;
 
     [Header("Wave")] 
-    private float _currentWave;
+    private int _currentWave;
     
-    public void Initialize()
+    private InGameUIController _uiController;
+    [Header("Events")]
+    public Action<int> OnGoldChanged;
+    
+    public InGameDataController()
     {
+        _turretCounts = new Dictionary<TurretType, int>();
+        _killedEnemyCounts = new Dictionary<EnemyType, int>();
+        _partMaterialCounts = new Dictionary<PartMaterialType, int>();
+        
+        var _uiController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _uiController.RegisterGameUI(this);
     }
 
-    public void StartGame()
+    public void StartChapter()
     {
-        _playing = true;
-        // todo: 처음 설치된 turret 개수 불러오기
-        // _turretCounts = new Dictionary<TurretType, int>();
-        
-        _killedEnemyCounts = new Dictionary<EnemyType, int>();
-        foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType)))
-        {
-            _killedEnemyCounts[enemyType] = 0;
-        }
+        ResetGameData();
+        OnGoldChanged?.Invoke(_gold);
+        ResumeGame();
+    }
 
+    public void ResumeGame()
+    {
+        _cancellationToken = new CancellationTokenSource();
+        _playing = true;
         CheckPlayTime();
         EarnGoldContinuously();
     }
 
-    public void StopGame()
+    public void PauseGame()
     {
+        _cancellationToken?.Cancel();
+        _cancellationToken?.Dispose();
         _playing = false;
     }
 
-    public void ModifyInGameState<T>(InGameDataType dataType, object value, [CanBeNull] object subType = null)
+    public void ModifyInGameData(InGameDataType dataType, object value, [CanBeNull] object subType = null)
     {
         switch (dataType)
         {
@@ -90,6 +103,7 @@ public class InGameDataController : MonoBehaviour
     public void EarnGold(int gold)
     {
         _gold += gold;
+        OnGoldChanged?.Invoke(_gold);
     }
 
     public bool Purchasable(int gold)
@@ -102,6 +116,7 @@ public class InGameDataController : MonoBehaviour
         if (_gold >= gold)
         {
             _gold -= gold;
+            OnGoldChanged?.Invoke(_gold);
             return true;
         }
         
@@ -110,20 +125,46 @@ public class InGameDataController : MonoBehaviour
     
     public async UniTask EarnGoldContinuously() // 주기적으로 획득하는 골드
     {
-        while (_playing)
+        while (!_cancellationToken.IsCancellationRequested)
         {
-            await UniTask.WaitForSeconds(_interval);
-            _gold += _goldPerInterval;
+            await UniTask.Delay(_interval, cancellationToken:_cancellationToken.Token);
+            if (!_cancellationToken.IsCancellationRequested)
+            {
+                _gold += _goldPerInterval;
+                OnGoldChanged?.Invoke(_gold);
+            }
         }
     }
     
     private async UniTask CheckPlayTime()
     {
-        while (_playing)
+        while (!_cancellationToken.IsCancellationRequested)
         {
             _chapterPlayTime += Time.deltaTime;
-            UniTask.Yield();
+            await UniTask.Yield();
         }
+    }
+
+    private void ResetGameData()
+    {
+        // todo: turret 관련 데이터 초기화
+
+        foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType)))
+        {
+            _killedEnemyCounts[enemyType] = 0;
+        }
+
+        // todo: barrier 관련 데이터 초기화
+
+        _gold = 0;
+        _chapterPlayTime = 0f;
+
+        foreach (PartMaterialType partMaterialType in Enum.GetValues(typeof(PartMaterialType)))
+        {
+            _partMaterialCounts[partMaterialType] = 0;
+        }
+
+        _currentWave = 1;
     }
 }
 
