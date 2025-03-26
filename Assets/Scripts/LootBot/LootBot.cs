@@ -5,7 +5,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class LootBot : MonoBehaviour
+public class LootBot : MonoBehaviour, IInteractAgent
 {
     private LootBotInputHandler _inputHandler;
     private LootBotBlackBoard _blackBoard;
@@ -35,6 +35,35 @@ public class LootBot : MonoBehaviour
         
         _blackBoard.canMove = true;
     }
+    
+    private void Update()
+    {
+        if (Physics.SphereCast(transform.position, 1f, transform.forward, out RaycastHit interactObject, _blackBoard.interactionDistance, _blackBoard.interactLayerMask))
+        {
+            if (interactObject.transform.TryGetComponent(out IInteractable interactable))
+            {
+                if (_blackBoard._selectedInteractable == interactable) return;
+                
+                _blackBoard._selectedInteractable?.GetGameObject().GetComponent<SelectObjectVisual>().Hide();
+                _blackBoard._selectedInteractable = interactable;
+                _blackBoard._selectedInteractable.GetGameObject().GetComponent<SelectObjectVisual>().Show();
+            }
+            else
+            {
+                ResetSelectedInteractable();
+            }
+        }
+        else
+        {
+            ResetSelectedInteractable();
+        }
+    }
+
+    private void ResetSelectedInteractable()
+    {
+        _blackBoard._selectedInteractable?.GetGameObject().GetComponent<SelectObjectVisual>().Hide();
+        _blackBoard._selectedInteractable = null;
+    }
 
     private async void HandlePowerDown()
     {
@@ -57,7 +86,7 @@ public class LootBot : MonoBehaviour
         ShutdownLootBot();
     }
 
-    public void ShutdownLootBot()
+    private void ShutdownLootBot()
     {
         Destroy(gameObject);
         CameraManager.Instance.ResetFollowTarget();
@@ -75,5 +104,17 @@ public class LootBot : MonoBehaviour
     {
         _cts?.Cancel();
         _cts?.Dispose();
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
+    public void SuccessReturn()
+    {
+        //todo 재화 추가
+        Debug.Log($"Success Return: {_blackBoard.stats.CurrentGold}");
+        ShutdownLootBot();
     }
 }

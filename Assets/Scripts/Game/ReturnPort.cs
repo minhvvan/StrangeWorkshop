@@ -1,19 +1,14 @@
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class ReturnPort : MonoBehaviour, IInteractable
+public class ReturnPort : MonoBehaviour
 {
-    public void Interact(IInteractAgent agent = null)
+    private void OnTriggerEnter(Collider other)
     {
-        //TODO: 재화 추가 및 로봇 삭제
-        
-    }
-
-    public void InteractAlternate(IInteractAgent agent = null)
-    {
-    }
-
-    public GameObject GetGameObject()
-    {
-        return gameObject;
+        if (other.TryGetComponent(out LootBot lootBot))
+        {
+            lootBot.SuccessReturn();
+        }
     }
 }

@@ -6,8 +6,14 @@ using UnityEngine.Serialization;
 
 public class LootBotBlackBoard : BaseBlackBoard, IDamageable
 {
+    #region Components
+
     public LootBotStats stats = new LootBotStats();
     public SphereCollider goldCollectCollider;
+
+    #endregion
+
+    #region Data
     
     public float startAnimTime = .3f;
     public float stopAnimTime = .15f;
@@ -15,6 +21,15 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
     public float allowRotation;
     public bool canMove = true;
 
+    public float interactionDistance;
+    public LayerMask interactLayerMask;
+    #endregion
+
+    #region Ref
+    public LootBot lootBot;
+    public IInteractable _selectedInteractable;
+    #endregion
+    
     public Action OnBotPowerDown;
     
     private CancellationTokenSource _cts;
@@ -24,6 +39,7 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
         base.Awake();
         
         //stat에 맞게 초기화
+        lootBot = GetComponent<LootBot>();
         goldCollectCollider.radius = stats.CollectionRadius;
     }
 
@@ -32,12 +48,7 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
         _cts = new CancellationTokenSource();
         StartEnergyConsumption(_cts.Token).Forget();
     }
-
-    private void Update()
-    {
-        Debug.Log($"Current Energy : {stats.CurrentEnergy}");
-    }
-
+    
     private async UniTask StartEnergyConsumption(CancellationToken cts)
     {
         float time = 0f;

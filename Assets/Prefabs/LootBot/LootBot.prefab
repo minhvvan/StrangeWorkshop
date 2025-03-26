@@ -4962,7 +4962,8 @@ GameObject:
   - component: {fileID: -524973086497376186}
   - component: {fileID: -7834916823181463880}
   - component: {fileID: 8373368075805642100}
-  m_Layer: 15
+  - component: {fileID: -8553709525717919382}
+  m_Layer: 19
   m_Name: LootBot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5124,6 +5125,7 @@ MonoBehaviour:
     m_Bits: 0
   _actions:
   - {fileID: -524973086497376186}
+  - {fileID: -8553709525717919382}
 --- !u!114 &212482925679492545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5141,7 +5143,7 @@ MonoBehaviour:
   stats:
     MaxEnergy: 100
     CurrentEnergy: 100
-    EnergyConsumptionRate: 10
+    EnergyConsumptionRate: 5
     EnergyConsumptionDuration: 1
     MaxGoldCapacity: 100
     CurrentGold: 0
@@ -5154,6 +5156,11 @@ MonoBehaviour:
   desiredRotationSpeed: 0.5
   allowRotation: 0.1
   canMove: 1
+  interactionDistance: 3
+  interactLayerMask:
+    serializedVersion: 2
+    m_Bits: 262144
+  lootBot: {fileID: 0}
 --- !u!114 &-524973086497376186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5193,7 +5200,7 @@ SphereCollider:
     m_Bits: 131072
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 103807
+    m_Bits: 365951
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -5201,6 +5208,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-8553709525717919382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587647839447136670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45f3a87a2979484bbbb27b2ff0e36528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8612187390582409386
 GameObject:
   m_ObjectHideFlags: 0
