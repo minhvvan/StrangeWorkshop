@@ -5076,7 +5076,6 @@ MonoBehaviour:
   walkSpeed: 15
   runSpeed: 10
   dashSpeed: 40
-  isMoveable: 1
   dashAccelTime: 0.2
   dashDecelTime: 0.4
   desiredRotationSpeed: 0.5
@@ -5084,6 +5083,7 @@ MonoBehaviour:
   StartAnimTime: 0.155
   StopAnimTime: 0.423
   holdableObjectHoldPoint: {fileID: 7629501217366854623}
+  _selectedHoldableObject: {fileID: 0}
   playerInteractDistance: 3
   playerInteractLayerMask:
     serializedVersion: 2
@@ -5176,7 +5176,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112

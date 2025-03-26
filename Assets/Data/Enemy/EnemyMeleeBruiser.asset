@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: EnemyMeleeBruiser
   m_EditorClassIdentifier: 
-  enemytype: 2
   enemyPrefab: {fileID: 3771608433176732233, guid: 5a9d642b3ac5f4842aed3af556822ddc,
     type: 3}
-  animFirstDelay: 0.5
-  enemyName: MeleeBruiser
-  hp: 40
-  armor: 3
-  attackDamage: 1.5
-  attackRange: 3
-  attackSpeed: 1
-  moveSpeed: 5
+  enemyStatus:
+    enemytype: 2
+    animFirstDelay: 0.5
+    enemyName: MeleeBruiser
+    maxHp: 0
+    hp: 40
+    armor: 3
+    attackDamage: 1.5
+    attackRange: 3
+    attackSpeed: 1
+    moveSpeed: 5
