@@ -5,7 +5,9 @@ using UnityEngine;
 public class LootBotInputHandler: BaseInputHandler
 {
     [SerializeField] private List<BaseAction> _actions = new List<BaseAction>();
-
+    public Action OnInteract;
+    public Action OnInteractAlternate;
+    
     public override void OnControlStart()
     {
         foreach (var action in _actions)
@@ -35,10 +37,14 @@ public class LootBotInputHandler: BaseInputHandler
         MovementInput = new Vector2(Horizontal, Vertical).normalized;
         IsWalking = MovementInput.magnitude > 0.1f;
 
+        if (input.interactPressed)
+        {
+            OnInteract?.Invoke();
+        }
+        
         if (input.interactAlternatePressed)
         {
-            //TODO 임시로 전환 -> 전환 규칙 만들어야 함
-            InputManager.Instance.ReturnToPlayerControl();
+            OnInteractAlternate?.Invoke();
         }
     }
 }

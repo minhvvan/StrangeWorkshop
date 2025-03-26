@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 423e087e4852d5c4889e9fff8d1726dc
+    m_Address: prefabs/turrets/loot_bot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7ec28c384f98488d9ef1e3ad96651
     m_Address: prefabs/enemy/throw_sword
     m_ReadOnly: 0
@@ -87,10 +92,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
-    m_Address: data/chapters/chapter_1
   - m_GUID: ca8868471576f334faa629099e01a963
     m_Address: events/game/command_complete
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
+    m_Address: data/chapters/chapter_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
