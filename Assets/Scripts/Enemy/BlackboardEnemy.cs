@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Managers;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -34,6 +35,8 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
 
     ///킬 스위치, false가 되면 모든 동작이 멈춘다.
     public bool bEnable = true;
+    private BossEndEventSO _bossEndEventSO;
+    
     
     ///방벽감지 및 공격
     private IAttackPattern _atkPattern;
@@ -141,10 +144,16 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         enemyStatus.maxHp = enemyStatus.hp;
     }
 
-    public void SetTypeSetting()
+    public async UniTask SetTypeSetting()
     {
         switch (enemyStatus.enemytype)
         {
+            case EnemyType.MeleeBruiser:
+                //보스 테스트를 위한 임시 할당.
+                thisBoss = IsBoss.BOSS;
+                _bossEndEventSO = await DataManager.Instance.LoadDataAsync<BossEndEventSO>
+                    (Addresses.Events.Game.BOSS_END);
+                break;
             case EnemyType.MeleeFlanker:
                 useAutoResearch = false;
                 break;
@@ -157,6 +166,8 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
             case EnemyType.Chapter1Boss:
                 player = FindObjectOfType<SampleCharacterController>();
                 thisBoss = IsBoss.BOSS;
+                _bossEndEventSO = await DataManager.Instance.LoadDataAsync<BossEndEventSO>
+                    (Addresses.Events.Game.BOSS_END);
                 break;
         }
     }
@@ -171,7 +182,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public void DestroyPattern()
     {
         _atkPattern.ClearPattern();
-        Destroy(_atkPattern);
+        _atkPattern = null;
     }
     
     ///패턴 수행
@@ -420,5 +431,13 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
         //킬스위치 활성화
         bEnable = false;
+    }
+    
+    public void OnBossEnd()
+    {
+        if (_bossEndEventSO != null)
+        {
+            _bossEndEventSO.Raise();
+        }
     }
 }

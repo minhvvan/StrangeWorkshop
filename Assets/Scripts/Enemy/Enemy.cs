@@ -71,18 +71,29 @@ public class Enemy : MonoBehaviour, IDamageable
         
         if (blackboard.enemyStatus.hp <= 0)
         {
-            blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
-            blackboard.rb.isKinematic = true;
-            blackboard.cts?.Cancel();
-            blackboard.autoResearchCts?.Cancel();
-            blackboard.StopTracking();
-            blackboard.DestroyPattern();
-            blackboard.AnimDead();
-            VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
-            // turret이 타겟팅하지 않도록 설정
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            Destroy(gameObject, 3f);
+            OnDeath();
         }
+    }
+
+    public void OnDeath()
+    {
+        blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
+        blackboard.rb.isKinematic = true;
+        blackboard.cts?.Cancel();
+        blackboard.autoResearchCts?.Cancel();
+        blackboard.StopTracking();
+        blackboard.DestroyPattern();
+        blackboard.AnimDead();
+        if (blackboard.thisBoss == BlackboardEnemy.IsBoss.BOSS) blackboard.OnBossEnd();
+        VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
+        // turret이 타겟팅하지 않도록 설정
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        Destroy(gameObject, 3f);
+    }
+
+    public void DropTrophy()
+    {
+        //TODO: 처치시 전리품 드랍. 다양한 아이템을 떨굴 수 있게 만들기.
     }
     
     //RayCast 시각화
