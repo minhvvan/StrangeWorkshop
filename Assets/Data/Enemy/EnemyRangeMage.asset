@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: EnemyRangeMage
   m_EditorClassIdentifier: 
-  enemytype: 6
   enemyPrefab: {fileID: 6765813631541794148, guid: e54dbfdb73bce5148821a918c8f32afe,
     type: 3}
-  animFirstDelay: 4
-  enemyName: RangeMage
-  hp: 30
-  armor: 2
-  attackDamage: 0
-  attackRange: 6
-  attackSpeed: 5
-  moveSpeed: 5
+  enemyStatus:
+    enemytype: 6
+    animFirstDelay: 4
+    enemyName: RangeMage
+    maxHp: 0
+    hp: 30
+    armor: 2
+    attackDamage: 0
+    attackRange: 6
+    attackSpeed: 5
+    moveSpeed: 5

@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: EnemyRangeNormal
   m_EditorClassIdentifier: 
-  enemytype: 5
   enemyPrefab: {fileID: 7644942853492707573, guid: f5b35e9e061ef9e478b2301c5259c3d6,
     type: 3}
-  animFirstDelay: 0.67
-  enemyName: RangeNormal
-  hp: 15
-  armor: 1
-  attackDamage: 2
-  attackRange: 8
-  attackSpeed: 1.5
-  moveSpeed: 3
+  enemyStatus:
+    enemytype: 5
+    animFirstDelay: 0.67
+    enemyName: RangeNormal
+    maxHp: 0
+    hp: 15
+    armor: 1
+    attackDamage: 2
+    attackRange: 8
+    attackSpeed: 1.5
+    moveSpeed: 3
