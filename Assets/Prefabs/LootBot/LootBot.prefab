@@ -4960,6 +4960,8 @@ GameObject:
   - component: {fileID: 4001388600161592775}
   - component: {fileID: 212482925679492545}
   - component: {fileID: -524973086497376186}
+  - component: {fileID: -7834916823181463880}
+  - component: {fileID: 8373368075805642100}
   m_Layer: 15
   m_Name: LootBot
   m_TagString: Untagged
@@ -5076,7 +5078,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -5136,11 +5138,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 0}
   animator: {fileID: 0}
+  stats:
+    MaxEnergy: 100
+    CurrentEnergy: 100
+    EnergyConsumptionRate: 10
+    EnergyConsumptionDuration: 1
+    MaxGoldCapacity: 100
+    CurrentGold: 0
+    CollectionRadius: 1.5
+    GoldMultiplier: 1
+    MoveSpeed: 15
+  goldCollectCollider: {fileID: 8373368075805642100}
   startAnimTime: 0.3
   stopAnimTime: 0.15
-  walkSpeed: 15
   desiredRotationSpeed: 0.5
   allowRotation: 0.1
+  canMove: 1
 --- !u!114 &-524973086497376186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5155,6 +5168,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capsuleHeight: 1.8
   capsuleRadius: 0.5
+--- !u!114 &-7834916823181463880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587647839447136670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4f3079becf9f0459f28df5e6440ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &8373368075805642100
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587647839447136670}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 131072
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 103807
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8612187390582409386
 GameObject:
   m_ObjectHideFlags: 0

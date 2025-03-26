@@ -13,11 +13,12 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
     public float stopAnimTime = .15f;
     public float desiredRotationSpeed;
     public float allowRotation;
+    public bool canMove = true;
 
     public Action OnBotPowerdown;
     
     private CancellationTokenSource _cts;
-    
+
     protected override void Awake()
     {
         base.Awake();

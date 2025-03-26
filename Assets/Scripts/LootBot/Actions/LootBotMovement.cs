@@ -26,6 +26,8 @@ public class LootBotMovement : BaseAction
     /// </summary>
     void MoveCharacter(InputData input)
     {
+        if (_lootBotBlackBoard.canMove == false) return;
+        
         // 1) 바닥 체크 및 수직 속도 갱신
         HandleGravity();
 
