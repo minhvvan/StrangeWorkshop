@@ -32,4 +32,19 @@ public class InGameDataManager : SingletonDontDestroy<InGameDataManager>
     {
         
     }
+
+    public bool Purchasable(int gold)
+    {
+        return inGameDataController.Purchasable(gold);
+    }
+
+    public bool UseGold(int gold)
+    {
+        return inGameDataController.UseGold(gold);
+    }
+
+    public void EarnGold(int gold)
+    {
+        inGameDataController.EarnGold(gold);
+    }
 }
