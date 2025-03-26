@@ -16,3 +16,4 @@ MonoBehaviour:
   objectName: Bullet
   objectType: 2
   objectSprite: {fileID: 21300000, guid: 078def7792561b142b600826c2a7335d, type: 3}
+  price: 0
