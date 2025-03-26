@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04a4595d7f145f54bb4ff79e93ae7018
+    m_Address: events/game/boss_end
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 08244c1cb6deb984ea0145cc2c0cb2a4
     m_Address: prefabs/enemy/spell_field
     m_ReadOnly: 0
@@ -87,10 +92,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
-    m_Address: data/chapters/chapter_1
   - m_GUID: ca8868471576f334faa629099e01a963
     m_Address: events/game/command_complete
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
+    m_Address: data/chapters/chapter_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
