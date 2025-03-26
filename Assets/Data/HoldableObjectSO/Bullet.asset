@@ -15,4 +15,4 @@ MonoBehaviour:
   prefab: {fileID: 396835460101947609, guid: e245e45343983384d8ed3bb983558410, type: 3}
   objectName: Bullet
   objectType: 2
-  objectSprite: {fileID: 21300000, guid: 078def7792561b142b600826c2a7335d, type: 3}
+  objectSprite: {fileID: 21300000, guid: 5f5a67981da5e1b48a5b8b7e29f8fbe0, type: 3}

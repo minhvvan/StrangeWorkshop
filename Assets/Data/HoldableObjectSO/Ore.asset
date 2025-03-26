@@ -15,4 +15,4 @@ MonoBehaviour:
   prefab: {fileID: 2520189833958277475, guid: 1716a82ed30f3374f87b59fde01bb072, type: 3}
   objectName: Ore
   objectType: 1
-  objectSprite: {fileID: 21300000, guid: fad730011fba0bc499957402d1371c4b, type: 3}
+  objectSprite: {fileID: 21300000, guid: 6fcb6fc9e9649fd4b90b3c9a283a8568, type: 3}

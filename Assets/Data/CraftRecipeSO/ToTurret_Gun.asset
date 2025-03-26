@@ -19,3 +19,4 @@ MonoBehaviour:
   craftNumberOfTimes: 5
   craftRecipeUI: {fileID: 8409750582007153381, guid: ae45c3d6900944a468705525a5c4ab2c,
     type: 3}
+  craftRecipeIcon: {fileID: 21300000, guid: f6f9c8141c9ae154e983088ae02c6799, type: 3}
