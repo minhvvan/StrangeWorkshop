@@ -42,24 +42,12 @@ public class CharacterInteractionAlternate : BaseAction
     }
 
     void HandleInteractionAlternate()
-    {   
-        if(!_controller.GetSelectedCounter().IsUnityNull())
-            _controller.GetSelectedCounter().InteractAlternate(_controller);
-        else
+    {
+        if (!_controller.GetSelectedInteractableObject().IsUnityNull())
         {
-            if (!_controller.GetHoldableObject().IsUnityNull())
-            {
-                GameObject holdable = _controller.GetHoldableObject().gameObject;
-                if (holdable.TryGetComponent(out Rigidbody rig) && holdable.TryGetComponent(out Collider col))
-                {
-                    _controller.SetHoldableObject(null);
-                    holdable.transform.parent = null;
-                    col.isTrigger = false;
-                    rig.isKinematic = false;
-                    rig.AddForce(_controller.transform.forward * 1000);
-                }
-            }
+            _controller.GetSelectedInteractableObject().InteractAlternate(_controller);
         }
+        
         OnHoldObjectAction?.Invoke(_controller.GetHoldableObject());
     }
     

@@ -24,7 +24,7 @@ public class MaterialCounter : BaseCounter
         }
     }
 
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IHoldableObjectParent parent = null)
     {
         if (!parent.HasHoldableObject() && HasHoldableObject())
         {

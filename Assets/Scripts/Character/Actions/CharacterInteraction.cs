@@ -43,13 +43,12 @@ public class CharacterInteraction : BaseAction
     }
 
     void HandleInteraction()
-    {   
-        if(!_controller.GetSelectedCounter().IsUnityNull())
-            _controller.GetSelectedCounter().Interact(_controller);
-        else if (!_controller._selectedHoldableObject.IsUnityNull() && _controller.GetHoldableObject().IsUnityNull())
+    {
+        if (!_controller.GetSelectedInteractableObject().IsUnityNull())
         {
-            _controller._selectedHoldableObject.SetHoldableObjectParent(_controller);
+            _controller.GetSelectedInteractableObject().Interact(_controller);
         }
+
         OnHoldObjectAction?.Invoke(_controller.GetHoldableObject());
     }
 

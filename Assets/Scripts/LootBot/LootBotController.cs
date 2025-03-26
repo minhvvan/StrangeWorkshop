@@ -10,8 +10,17 @@ public class LootBotController : MonoBehaviour, IInteractable
         _lootBotInputHandler = GetComponent<LootBotInputHandler>();
     }
 
-    public void Interact()
+    public void Interact(IHoldableObjectParent parent = null)
     {
         InputManager.Instance.SwitchControl(_lootBotInputHandler);
+    }
+
+    public void InteractAlternate(IHoldableObjectParent parent = null)
+    {
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }

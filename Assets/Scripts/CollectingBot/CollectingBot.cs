@@ -88,4 +88,9 @@ public class CollectingBot : MonoBehaviour, IHoldableObjectParent
     {
         return true;
     }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
 }
