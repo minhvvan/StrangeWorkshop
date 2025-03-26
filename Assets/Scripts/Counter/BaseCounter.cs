@@ -10,7 +10,7 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent, IInter
     private List<HoldableObject> _holdableObject = new();
     
     // 상호작용, 키보드 e, 재료를 옮길 때 사용
-    public virtual void Interact(IHoldableObjectParent parent = null)
+    public virtual void Interact(IInteractAgent agent = null)
     {
     }
 
@@ -20,7 +20,7 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent, IInter
     }
 
     // 상호작용, 키도브 f, 가공 및 작업할 때 사용
-    public virtual void InteractAlternate(IHoldableObjectParent player)
+    public virtual void InteractAlternate(IInteractAgent agent = null)
     {
     }
     

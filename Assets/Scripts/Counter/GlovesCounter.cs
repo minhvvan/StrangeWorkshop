@@ -8,15 +8,18 @@ public class GlovesCounter : BaseCounter
     [SerializeField] Transform glovePrefab;
 
     private Transform glove;
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IInteractAgent agent = null)
     {
-        SampleCharacterController player = parent as SampleCharacterController;
-        if (player != null && !player.HasHoldableObject())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            player.WearGlove(glove);
-            glove.localPosition = Vector3.zero;
-            glove.localRotation = Quaternion.identity;
-            StartCoroutine(SpawnGlove());
+            SampleCharacterController player = parent as SampleCharacterController;
+            if (player != null && !player.HasHoldableObject())
+            {
+                player.WearGlove(glove);
+                glove.localPosition = Vector3.zero;
+                glove.localRotation = Quaternion.identity;
+                StartCoroutine(SpawnGlove());
+            }
         }
     }
 

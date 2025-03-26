@@ -31,7 +31,7 @@ public class LootBotConsole : MonoBehaviour, IInteractable
         Debug.Log("LootBot Interact");
     }
 
-    public void Interact(IHoldableObjectParent parent = null)
+    public void Interact(IInteractAgent agent = null)
     {
         _lootBot = Instantiate(_lootBotPrefab, lootBotSpawnPosition.position, lootBotSpawnPosition.rotation);
 
@@ -39,7 +39,6 @@ public class LootBotConsole : MonoBehaviour, IInteractable
         {
             _currentLootBotInputHandler = inputHandler;
             
-            //TODO: 해제 필요
             _currentLootBotInputHandler.OnInteract += OnLootBotInteract;
             _currentLootBotInputHandler.OnInteractAlternate += OnLootBotInteractAlternate;
             
@@ -48,7 +47,7 @@ public class LootBotConsole : MonoBehaviour, IInteractable
         }
     }
 
-    public void InteractAlternate(IHoldableObjectParent parent = null)
+    public void InteractAlternate(IInteractAgent agent = null)
     {
     }
 

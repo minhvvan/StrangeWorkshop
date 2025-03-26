@@ -7,13 +7,15 @@ using UnityEngine;
 
 public class LootBot : MonoBehaviour
 {
+    private LootBotInputHandler _inputHandler;
     private LootBotBlackBoard _blackBoard;
     private CancellationTokenSource _cts;
 
     private void Awake()
     {
+        _inputHandler = GetComponent<LootBotInputHandler>();
         _blackBoard = GetComponent<LootBotBlackBoard>();
-        _blackBoard.OnBotPowerdown += HandlePowerDown;
+        _blackBoard.OnBotPowerDown += HandlePowerDown;
     }
 
     private async void Start()
@@ -38,7 +40,7 @@ public class LootBot : MonoBehaviour
     {
         _cts = new CancellationTokenSource();
         
-        _blackBoard.OnBotPowerdown -= HandlePowerDown;
+        _blackBoard.OnBotPowerDown -= HandlePowerDown;
         _blackBoard.rigidbody.velocity = Vector3.zero;
         _blackBoard.rigidbody.angularVelocity = Vector3.zero;
         _blackBoard.animator.Play("PowerDown");
@@ -52,12 +54,17 @@ public class LootBot : MonoBehaviour
             await UniTask.Yield();
         }
 
+        ShutdownLootBot();
+    }
+
+    public void ShutdownLootBot()
+    {
         Destroy(gameObject);
         CameraManager.Instance.ResetFollowTarget();
         InputManager.Instance.ReturnToPlayerControl();
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         //TODO: 재화 수집(Gold 오브젝트에서 값 가져와야 함)
         _blackBoard.AddGold(10);

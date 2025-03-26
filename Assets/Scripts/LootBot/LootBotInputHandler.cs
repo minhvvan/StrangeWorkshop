@@ -19,6 +19,9 @@ public class LootBotInputHandler: BaseInputHandler
     public override void OnControlEnd()
     {
         base.OnControlEnd();
+
+        OnInteract = null;
+        OnInteractAlternate = null;
         
         foreach (var action in _actions)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
+public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, IInteractAgent
 {
     StateMachine _stateMachine;
 

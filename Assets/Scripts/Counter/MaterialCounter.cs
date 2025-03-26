@@ -24,13 +24,16 @@ public class MaterialCounter : BaseCounter
         }
     }
 
-    public override void Interact(IHoldableObjectParent parent = null)
+    public override void Interact(IInteractAgent agent = null)
     {
-        if (!parent.HasHoldableObject() && HasHoldableObject())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            GiveHoldableObject(parent);
-            StartCoroutine(SpawnHoldableObject());
-            TakeOffPlayerGlove(parent);
+            if (!parent.HasHoldableObject() && HasHoldableObject())
+            {
+                GiveHoldableObject(parent);
+                StartCoroutine(SpawnHoldableObject());
+                TakeOffPlayerGlove(parent);
+            }
         }
     }
 

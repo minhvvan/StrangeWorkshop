@@ -15,7 +15,7 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
     public float allowRotation;
     public bool canMove = true;
 
-    public Action OnBotPowerdown;
+    public Action OnBotPowerDown;
     
     private CancellationTokenSource _cts;
 
@@ -64,7 +64,7 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
 
         if (stats.CurrentEnergy <= 0)
         {
-            OnBotPowerdown?.Invoke();
+            OnBotPowerDown?.Invoke();
         }
     }
 

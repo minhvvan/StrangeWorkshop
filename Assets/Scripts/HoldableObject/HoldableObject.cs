@@ -46,27 +46,33 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
         return false;
     }
 
-    public void Interact(IHoldableObjectParent parent = null)
+    public void Interact(IInteractAgent agent = null)
     {
-        if (parent == null || parent.HasHoldableObject()) return;
-        SetHoldableObjectParent(parent);
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
+        {
+            if (parent.HasHoldableObject()) return;
+            SetHoldableObjectParent(parent);
+        }
     }
 
-    public void InteractAlternate(IHoldableObjectParent parent = null)
+    public void InteractAlternate(IInteractAgent agent = null)
     {
-        if (parent == null)
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            Debug.LogError("parent is null");
-            return;
-        }
-        
-        if (TryGetComponent(out Rigidbody rig) && TryGetComponent(out Collider col))
-        {
-            parent.SetHoldableObject(null);
-            transform.parent = null;
-            col.isTrigger = false;
-            rig.isKinematic = false;
-            rig.AddForce(parent.GetGameObject().transform.forward * 1000);
+            if (parent == null)
+            {
+                Debug.LogError("parent is null");
+                return;
+            }
+            
+            if (TryGetComponent(out Rigidbody rig) && TryGetComponent(out Collider col))
+            {
+                parent.SetHoldableObject(null);
+                transform.parent = null;
+                col.isTrigger = false;
+                rig.isKinematic = false;
+                rig.AddForce(parent.GetGameObject().transform.forward * 1000);
+            }
         }
     }
 
