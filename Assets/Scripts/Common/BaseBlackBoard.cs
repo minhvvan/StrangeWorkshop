@@ -6,7 +6,7 @@ public class BaseBlackBoard: MonoBehaviour
     public Rigidbody rigidbody;
     public Animator animator;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
