@@ -5346,6 +5346,7 @@ GameObject:
   - component: {fileID: 1493045043149950380}
   - component: {fileID: 6521511891158429176}
   - component: {fileID: 5133098183096569773}
+  - component: {fileID: -4894966740603730133}
   m_Layer: 0
   m_Name: Turret_Gun
   m_TagString: Untagged
@@ -5422,6 +5423,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeData: {fileID: 11400000, guid: 3336c2455c7096947810a6ef258ff4ef, type: 2}
   _progressBar: {fileID: 4243399316521920687}
+--- !u!114 &-4894966740603730133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923909250479408624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc665c063d5276745a67a6ae2f9ce7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counter: {fileID: 0}
 --- !u!1 &6949506697220348682
 GameObject:
   m_ObjectHideFlags: 0
