@@ -81,7 +81,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void OnDeath()
     {
+        // turret이 타겟팅하지 않도록 설정
         blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
+        VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
+
         blackboard.rb.isKinematic = true;
         blackboard.cts?.Cancel();
         blackboard.autoResearchCts?.Cancel();
@@ -89,9 +92,8 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.DestroyPattern();
         blackboard.AnimDead();
         if (blackboard.thisBoss == BlackboardEnemy.IsBoss.BOSS) blackboard.OnBossEnd();
-        VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
-        // turret이 타겟팅하지 않도록 설정
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        
+        blackboard.DropItem();
         Destroy(gameObject, 3f);
     }
 
