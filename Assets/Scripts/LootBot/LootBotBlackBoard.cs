@@ -70,7 +70,7 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
 
         if (cts.IsCancellationRequested)
         {
-            Debug.Log("Energy Consumption Cancelled");
+            // Debug.Log("Energy Consumption Cancelled");
         }
 
         if (stats.CurrentEnergy <= 0)
@@ -83,8 +83,6 @@ public class LootBotBlackBoard : BaseBlackBoard, IDamageable
     {
         stats.CurrentGold += amount;
         stats.CurrentGold = Mathf.Min(stats.CurrentGold, stats.MaxGoldCapacity);
-        
-        Debug.Log($"Gold Update: {stats.CurrentGold}");
 
         //TODO: UI 업데이트??
     }

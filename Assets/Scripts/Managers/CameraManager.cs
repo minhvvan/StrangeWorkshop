@@ -41,7 +41,6 @@ public class CameraManager : Singleton<CameraManager>
         {
             _originTarget = activeVirtualCamera.Follow;
             activeVirtualCamera.Follow = followTarget.transform;
-            Debug.Log($"카메라 '{activeVirtualCamera}'의 Follow 타겟이 '{followTarget.name}'으로 변경되었습니다.");
         }
         else
         {
