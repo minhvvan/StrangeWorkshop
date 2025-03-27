@@ -1,19 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-
-[Serializable]
-public struct ItemInfo
-{
-    public ItemType itemType;
-    public ItemName itemName;
-    public float itemValue;
-    public CancellationTokenSource Cts;
-}
 
 public class DropItem : MonoBehaviour
 {
