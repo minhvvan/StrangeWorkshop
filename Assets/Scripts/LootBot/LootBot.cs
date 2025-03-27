@@ -93,11 +93,14 @@ public class LootBot : MonoBehaviour, IInteractAgent
         InputManager.Instance.ReturnToPlayerControl();
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other) 
     {
-        //TODO: 재화 수집(Gold 오브젝트에서 값 가져와야 함)
-        _blackBoard.AddGold(10);
-        Destroy(other.gameObject);
+        if (other.gameObject.layer == LayerMask.NameToLayer("Gold"))
+        {
+            //TODO: 재화 수집(Gold 오브젝트에서 값 가져와야 함)
+            _blackBoard.AddGold(10);
+            Destroy(other.gameObject);
+        }
     }
 
     private void OnDestroy()
@@ -113,8 +116,7 @@ public class LootBot : MonoBehaviour, IInteractAgent
 
     public void SuccessReturn()
     {
-        //todo 재화 추가
-        Debug.Log($"Success Return: {_blackBoard.stats.CurrentGold}");
+        InGameDataManager.Instance.EarnGold(_blackBoard.stats.CurrentGold);
         ShutdownLootBot();
     }
 }
