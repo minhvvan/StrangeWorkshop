@@ -71,7 +71,7 @@ public class InGameDataController
         _playing = false;
     }
 
-    public void ModifyInGameData(InGameDataType dataType, object value, [CanBeNull] object subType = null)
+    public void ModifyInGameData(InGameDataType dataType, object value, object subType = null)
     {
         switch (dataType)
         {
@@ -97,6 +97,31 @@ public class InGameDataController
                 _currentWave += (int)value;
                 break;
         }
+    }
+
+    public object GetInGameData(InGameDataType dataType)
+    {
+        switch (dataType)
+        {
+            case InGameDataType.TurretCount:
+                return _turretCounts;
+            case InGameDataType.KilledEnemy:
+                return _killedEnemyCounts;
+            case InGameDataType.BarrierCount:
+                return _remainingBarrierCount;
+            case InGameDataType.TotalHP:
+                return _remainingTotalHP;
+            case InGameDataType.Gold:
+                return _gold;
+            case InGameDataType.PlayTime:
+                return _chapterPlayTime;
+            case InGameDataType.PartMaterialCount:
+                return _partMaterialCounts;
+            case InGameDataType.Wave:
+                return _currentWave;
+        }
+
+        return null;
     }
     
     
