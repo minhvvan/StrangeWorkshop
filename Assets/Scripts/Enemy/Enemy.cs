@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.ResearchTarget();
         blackboard.SetPathfinder();
         
-        UpdateRigidbody();
+        AwakeRigidbody(); // Unity에서 enemy의 rigidbody를 자동으로 sleep 상태로 만드는 것을 방지
     }
 
     private void Update()
@@ -127,12 +127,15 @@ public class Enemy : MonoBehaviour, IDamageable
         EnemySpawner.Instance.enemyCountList.Remove(gameObject);
     }
 
-    public async UniTask UpdateRigidbody()
+    public async UniTask AwakeRigidbody()
     {
         while (true)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(40));
-            blackboard.rb.velocity += Vector3.zero;
+            if (blackboard.rb.IsSleeping())
+            {
+                blackboard.rb.WakeUp();
+            }
+            await UniTask.Delay(TimeSpan.FromSeconds(2));
         }
     }
 }
