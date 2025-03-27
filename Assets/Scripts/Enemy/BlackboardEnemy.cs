@@ -433,6 +433,12 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         bEnable = false;
     }
     
+    public void DropItem()
+    {
+        DropItemManager.Instance.GetDropItemByName
+            (ItemName.GOLD_PENNY, transform.position, duration: Mathf.Infinity);
+    }
+    
     public void OnBossEnd()
     {
         if (_bossEndEventSO != null)
