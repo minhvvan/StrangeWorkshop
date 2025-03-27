@@ -96,11 +96,6 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.DropItem();
         Destroy(gameObject, 3f);
     }
-
-    public void DropTrophy()
-    {
-        //TODO: 처치시 전리품 드랍. 다양한 아이템을 떨굴 수 있게 만들기.
-    }
     
     //RayCast 시각화
     public void OnDrawGizmos()
