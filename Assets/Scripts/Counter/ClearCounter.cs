@@ -28,32 +28,35 @@ public class ClearCounter : BaseCounter
         }
     }
     
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IInteractAgent agent = null)
     {
-        if (!HasHoldableObject()) // clearcounter에 아무것도 없음
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            if (parent.HasHoldableObject())
+            if (!HasHoldableObject())
             {
-                parent.GiveHoldableObject(this);
-                _cancelChargeTokenSource.Cancel();
-                _cancelChargeTokenSource.Dispose();
-            }
-        }
-        else
-        {
-            if (parent.HasHoldableObject())
-            {
-                if (GetHoldableObject().Acceptable(parent.GetHoldableObject()))
+                if (parent.HasHoldableObject())
                 {
-                    parent.ClearHoldableObject();
+                    parent.GiveHoldableObject(this);
+                    _cancelChargeTokenSource.Cancel();
+                    _cancelChargeTokenSource.Dispose();
                 }
             }
-            
-            if (!parent.HasHoldableObject()) // 들기
+            else
             {
-                GiveHoldableObject(parent);
-                TakeOffPlayerGlove(parent);
-                UniTask.Void(async () => await StartCharging());
+                if (parent.HasHoldableObject())
+                {
+                    if (GetHoldableObject().Acceptable(parent.GetHoldableObject()))
+                    {
+                        parent.ClearHoldableObject();
+                    }
+                }
+                
+                if (!parent.HasHoldableObject())
+                {
+                    GiveHoldableObject(parent);
+                    TakeOffPlayerGlove(parent);
+                    UniTask.Void(async () => await StartCharging());
+                }
             }
         }
     }
