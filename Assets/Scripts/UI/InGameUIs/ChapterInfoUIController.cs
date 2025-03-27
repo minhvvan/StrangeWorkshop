@@ -48,9 +48,9 @@ public class ChapterInfoUIController : MonoBehaviour, IGameUI
         _waveText.text = $"{_currentWave}  /  10";
     }
     
-    public void UpdateGold(int goldChangeAmount)
+    public void UpdateGold(int gold)
     {
-        _currentGold += goldChangeAmount;
+        _currentGold = gold;
         _goldText.text = $"{_currentGold}";
     }
 }

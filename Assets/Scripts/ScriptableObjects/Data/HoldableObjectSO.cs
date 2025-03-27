@@ -11,6 +11,15 @@ public enum HoldableObjectType
     Upgrade
 }
 
+public enum PartMaterialType
+{
+    None,
+    Carbon,
+    Gear,
+    Ore,
+    Bolt
+}
+
 [CreateAssetMenu(menuName = "SO/Counter/HoldableObjectSO")]
 public class HoldableObjectSO : ScriptableObject
 { 
@@ -18,4 +27,5 @@ public class HoldableObjectSO : ScriptableObject
     public string objectName;
     public HoldableObjectType objectType;
     public Sprite objectSprite;
+    public int price;
 }
