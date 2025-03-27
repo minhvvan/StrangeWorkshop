@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class HoldableObject : MonoBehaviour
+public abstract class HoldableObject : MonoBehaviour, IInteractable
 {
     [SerializeField] private HoldableObjectSO holdableObjectSo;
     
@@ -44,5 +44,40 @@ public abstract class HoldableObject : MonoBehaviour
     public virtual bool Acceptable(HoldableObject holdableObject)
     {
         return false;
+    }
+
+    public void Interact(IInteractAgent agent = null)
+    {
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
+        {
+            if (parent.HasHoldableObject()) return;
+            SetHoldableObjectParent(parent);
+        }
+    }
+
+    public void InteractAlternate(IInteractAgent agent = null)
+    {
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
+        {
+            if (parent == null)
+            {
+                Debug.LogError("parent is null");
+                return;
+            }
+            
+            if (TryGetComponent(out Rigidbody rig) && TryGetComponent(out Collider col))
+            {
+                parent.SetHoldableObject(null);
+                transform.parent = null;
+                col.isTrigger = false;
+                rig.isKinematic = false;
+                rig.AddForce(parent.GetGameObject().transform.forward * 1000);
+            }
+        }
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }

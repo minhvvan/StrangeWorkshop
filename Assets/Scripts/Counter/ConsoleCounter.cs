@@ -21,37 +21,40 @@ public class ConsoleCounter : BaseCounter
         progressBar.gameObject.SetActive(false);
     }
 
-    public override void InteractAlternate(IHoldableObjectParent player)
+    public override void InteractAlternate(IInteractAgent agent = null)
     {
-        var currentCraftRecipeSO = craftCounter.GetCurrentCraftRecipeSO();
-        
-        if (!currentCraftRecipeSO.IsUnityNull())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            var craftIndex = craftCounter.GetCraftIndex();
-            progressBar.gameObject.SetActive(true);
-            progressBar.SetBar(craftIndex);
-            if (craftIndex > _currentIndex && cooltime)
+            var currentCraftRecipeSO = craftCounter.GetCurrentCraftRecipeSO();
+        
+            if (!currentCraftRecipeSO.IsUnityNull())
             {
-                _currentIndex++;
-                progressBar.UpdateProgressBar(_currentIndex);
-                CoolTime();
+                var craftIndex = craftCounter.GetCraftIndex();
+                progressBar.gameObject.SetActive(true);
+                progressBar.SetBar(craftIndex);
+                if (craftIndex > _currentIndex && cooltime)
+                {
+                    _currentIndex++;
+                    progressBar.UpdateProgressBar(_currentIndex);
+                    CoolTime();
                 
-                //UI 
-            }
+                    //UI 
+                }
 
-            if (craftIndex <= _currentIndex)
-            {
-                craftCounter.ClearHoldableObject();
-                var spawnHoldableObject = HoldableObject.SpawnHoldableObject(currentCraftRecipeSO.output, craftCounter);
-                var defaultScale = spawnHoldableObject.transform.localScale;
-                spawnHoldableObject.transform.localScale = Vector3.zero;
-                spawnHoldableObject.transform.DOScale(defaultScale, 1f);
-                craftCounter.OnCraftCompleteAction?.Invoke(currentCraftRecipeSO.output);
-                _currentIndex = 0;
-                progressBar.ResetBar();
-                progressBar.gameObject.SetActive(false);
+                if (craftIndex <= _currentIndex)
+                {
+                    craftCounter.ClearHoldableObject();
+                    var spawnHoldableObject = HoldableObject.SpawnHoldableObject(currentCraftRecipeSO.output, craftCounter);
+                    var defaultScale = spawnHoldableObject.transform.localScale;
+                    spawnHoldableObject.transform.localScale = Vector3.zero;
+                    spawnHoldableObject.transform.DOScale(defaultScale, 1f);
+                    craftCounter.OnCraftCompleteAction?.Invoke(currentCraftRecipeSO.output);
+                    _currentIndex = 0;
+                    progressBar.ResetBar();
+                    progressBar.gameObject.SetActive(false);
+                }
+                //VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position);
             }
-            //VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position);
         }
     }
     

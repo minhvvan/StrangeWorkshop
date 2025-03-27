@@ -57,6 +57,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 423e087e4852d5c4889e9fff8d1726dc
+    m_Address: prefabs/turrets/loot_bot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7ec28c384f98488d9ef1e3ad96651
     m_Address: prefabs/enemy/throw_sword
     m_ReadOnly: 0

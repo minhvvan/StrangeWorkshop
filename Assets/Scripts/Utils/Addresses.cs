@@ -112,21 +112,18 @@ public static class Addresses
             public const string MATERIAL = "prefabs/counters/material_counter";
         }
         
-        public static class Turrets
+        public static class Game
         {
             public const string BASIC = "prefabs/turrets/basic_turret";
             public const string MISSILE = "prefabs/turrets/missile_turret";
             public const string LASER = "prefabs/turrets/laser_turret";
+            public const string LOOTBOT = "prefabs/turrets/loot_bot";
         }
         
         public static class Effects
         {
             public const string EXPLOSION = "prefabs/effects/explosion";
             public const string SPARK = "prefabs/effects/spark";
-        }
-        
-        public static class UI
-        {
         }
         
         public static class Enemy

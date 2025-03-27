@@ -27,4 +27,5 @@ public class HoldableObjectSO : ScriptableObject
     public string objectName;
     public HoldableObjectType objectType;
     public Sprite objectSprite;
+    public int price;
 }
