@@ -95,6 +95,11 @@ public static class Addresses
         {
             public const string QUESTLIST = "data/quest/questlist";
         }
+        
+        public static class Drops
+        {
+            public const string DROPITEMS = "data/drops/dropitems";
+        }
     }
     
     public static class Prefabs
@@ -128,7 +133,6 @@ public static class Addresses
         {
             public const string THROW_SWORD = "prefabs/enemy/throw_sword";
             public const string SPELL_FIELD = "prefabs/enemy/spell_field";
-            
         }
     }
 }
