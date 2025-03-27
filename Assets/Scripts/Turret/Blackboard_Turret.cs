@@ -17,8 +17,9 @@ public class Blackboard_Turret : MonoBehaviour
     public TurretDataSO so;
     
     // 모든 turret 공통
-    [NonSerialized] public float fixTime;
-    [NonSerialized] public Color crashedColor = Color.red;
+    // [NonSerialized] public float fixTime;
+    // [NonSerialized] public Color crashedColor = Color.red;
+    [NonSerialized] public Color deactivatedColor = Color.gray;
     [NonSerialized] public float lookSpeed;
     
     // turret 스탯
@@ -26,28 +27,32 @@ public class Blackboard_Turret : MonoBehaviour
     [NonSerialized] public float damage;
     [NonSerialized] public float attackRange;
     [NonSerialized] public float fireRate;
-    [NonSerialized] public int maxBulletNum;
+    [NonSerialized] public float energyCost;
+    // [NonSerialized] public int maxBulletNum;
     
     // bullet
     [NonSerialized] public GameObject bullet;
 
     // turret 상태정보
     [NonSerialized] public GameObject target;
-    [NonSerialized] public int currentBulletNum;
-    [NonSerialized] public bool isOnCounter = false;
-    [NonSerialized] public bool isCrashed = false;
+    // [NonSerialized] public int currentBulletNum;
+    // [NonSerialized] public bool isOnCounter = false;
+    // [NonSerialized] public bool isCrashed = false;
     [NonSerialized] public bool isUpgrading = false;
 
     // 전략패턴
     public ITargetStrategy targetStrategy;
     public ShootingStrategy shootingStrategy;
     
+    // parent
+    [NonSerialized] public ClearCounter parentClearCounter;
+    
     // caching
     [Header("caching")]
     public Transform turretHead;
     public GameObject rangeEff;
     public MeshRenderer[] renderers;
-    public GameObject noAmmoImage;
+    // public GameObject noAmmoImage;
     
     public Transform muzzleMain;
     public Transform muzzleSub;
@@ -57,18 +62,19 @@ public class Blackboard_Turret : MonoBehaviour
     public void Initialize()
     {
         // stat 초기화
-        fixTime = so.fixTime;
-        crashedColor = so.crashedColor;
+        // fixTime = so.fixTime;
+        // crashedColor = so.crashedColor;
         lookSpeed = so.lookSpeed;
         turretType = so.turretType;
         damage = so.damage;
         attackRange = so.attackRange;
         fireRate = so.fireRate;
-        maxBulletNum = so.maxBulletNum;
+        // maxBulletNum = so.maxBulletNum;
         bullet = so.bullet;
+        energyCost = so.energyCost;
         
         // status
-        currentBulletNum = maxBulletNum;
+        // currentBulletNum = maxBulletNum;
         
         // range effect
         float size = attackRange * 2f;
@@ -77,7 +83,7 @@ public class Blackboard_Turret : MonoBehaviour
         
         // BarUI
         progressBarFix.Initialize();
-        progressBarFix.SetBar(fixTime);
+        // progressBarFix.SetBar(fixTime);
         progressBarFix.gameObject.SetActive(false);
         
         // init strategies
@@ -94,6 +100,18 @@ public class Blackboard_Turret : MonoBehaviour
                 break;
             default:
                 break;
+        }
+        
+        // parent clear counter 초기화
+        Transform current = transform.parent;
+        while (current != null)
+        {
+            if (current.TryGetComponent<ClearCounter>(out ClearCounter clearCounter))
+            {
+                parentClearCounter = clearCounter;
+                break;
+            }
+            current = current.parent;
         }
     }
 }
