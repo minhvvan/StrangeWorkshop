@@ -9,7 +9,7 @@ public class Turret_NotWorkingState : BaseState<Turret>
     /*
      * 공격을 할 수 없는 상태를 의미한다.
      * 아래와 같은 상황에서 진입한다
-     * 플레이어가 들고 있다, 총알이 없다, 업그레이드 중이다. 
+     * 플레이어가 들고 있다, 에너지가 없다, 업그레이드 중이다. 
      */
     private Blackboard_Turret _turretData;
 
@@ -36,10 +36,6 @@ public class Turret_NotWorkingState : BaseState<Turret>
 
     public override void UpdateState()
     {
-        // 총알이 있는가?
-        // if (_turretData.currentBulletNum > 0) _turretData.noAmmoImage.SetActive(false);
-        // else _turretData.noAmmoImage.SetActive(true);
-
         if (_turretData.parentClearCounter == null || _turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost))
         {
             for (int i = 0; i < _turretData.renderers.Length; i++)
@@ -78,11 +74,6 @@ public class Turret_NotWorkingState : BaseState<Turret>
     private void ChangeState()
     {
         // 고장났는지 체크 -> 작동 가능한지 체크 -> target이 있는지 체크
-        // if (_turretData.isCrashed)
-        // {
-        //     _controller.SetState(_controller.crashState);
-        // }
-        // else if (_turretData.isOnCounter && _turretData.currentBulletNum > 0 && !_turretData.isUpgrading)
         if (_turretData.parentClearCounter != null && !_turretData.isUpgrading && !_turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost))
         {
             if(_turretData.target != null) { _controller.SetState(_controller.attackState); }

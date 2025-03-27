@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class PlaceTurretOnClearCounter : MonoBehaviour
 {
+    // editor 상에서 터렛 위치 편집을 쉽도록 하는 class
+    // play중에는 작동하지 않는다
     private CancellationTokenSource cancelToken;
     public async UniTask UpdateClosestCounter()
     {            
@@ -31,7 +33,6 @@ public class PlaceTurretOnClearCounter : MonoBehaviour
                 }
             }
             await UniTask.Yield();
-            // await UniTask.WaitForSeconds(0.1f);
         }
     }
 

@@ -22,7 +22,6 @@ public class Turret_AttackState : BaseState<Turret>
     public override void UpdateState()
     {
         _timer += Time.deltaTime;
-        // if (_controller.turretData.target != null && _controller.turretData.currentBulletNum > 0)
         if (_turretData.target != null && !_turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost))
         {
             _turretData.shootingStrategy.FollowTarget(_turretData.target);
@@ -45,10 +44,6 @@ public class Turret_AttackState : BaseState<Turret>
     private void ChangeState()
     {
         // 작동 가능한지 체크 -> target이 있는지 체크 
-        // if (_turretData.isCrashed)
-        // {
-        //     _controller.SetState(_controller.crashState);
-        // }
         if (_turretData.parentClearCounter == null || _turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost) || _turretData.isUpgrading)
         {
             _controller.SetState(_controller.notWorkingState);

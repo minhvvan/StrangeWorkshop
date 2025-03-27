@@ -41,13 +41,7 @@ public class TurretManager : Singleton<TurretManager>
             turret.turretData.rangeEff.SetActive(rangeEffOn);
         }
     }
-
-    // void DestroyTurret(Turret turret)
-    // {
-    //     _turrets.Remove(turret);
-    //     Destroy(turret.gameObject);
-    // }
-    //
+    
     void ClearTurrets()
     {
         foreach (Turret turret in _turrets)
