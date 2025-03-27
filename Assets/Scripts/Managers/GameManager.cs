@@ -31,7 +31,7 @@ public class GameManager : Singleton<GameManager>
         //로딩 화면을 보여주고 필요한 데이터 로드
         await Initialize();
 
-        if (SceneManager.GetActiveScene().name.Equals("Chapter1"))
+        if (SceneManager.GetActiveScene().name.StartsWith("Chapter"))
         {
             PlayChapterSequence();
         }

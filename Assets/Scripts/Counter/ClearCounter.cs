@@ -5,29 +5,32 @@ using UnityEngine;
 
 public class ClearCounter : BaseCounter
 {
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IInteractAgent agent = null)
     {
-        if (!HasHoldableObject())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            if (parent.HasHoldableObject())
+            if (!HasHoldableObject())
             {
-                parent.GiveHoldableObject(this);
-            }
-        }
-        else
-        {
-            if (parent.HasHoldableObject())
-            {
-                if (GetHoldableObject().Acceptable(parent.GetHoldableObject()))
+                if (parent.HasHoldableObject())
                 {
-                    parent.ClearHoldableObject();
+                    parent.GiveHoldableObject(this);
                 }
             }
-            
-            if (!parent.HasHoldableObject())
+            else
             {
-                GiveHoldableObject(parent);
-                TakeOffPlayerGlove(parent);
+                if (parent.HasHoldableObject())
+                {
+                    if (GetHoldableObject().Acceptable(parent.GetHoldableObject()))
+                    {
+                        parent.ClearHoldableObject();
+                    }
+                }
+                
+                if (!parent.HasHoldableObject())
+                {
+                    GiveHoldableObject(parent);
+                    TakeOffPlayerGlove(parent);
+                }
             }
         }
     }
