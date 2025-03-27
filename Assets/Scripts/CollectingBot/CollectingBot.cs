@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class CollectingBot : MonoBehaviour, IHoldableObjectParent
+public class CollectingBot : MonoBehaviour, IHoldableObjectParent, IInteractAgent
 {
     /* TODO: 직접할당이 아닌 Ore찾는 Method불러오기(PathFinder 이용), collectCounter find로 가져오기(씬에 하나만 있다고 가정)
     */
@@ -87,5 +87,10 @@ public class CollectingBot : MonoBehaviour, IHoldableObjectParent
     public bool CanSetHoldableObject()
     {
         return true;
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }

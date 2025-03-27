@@ -33,40 +33,46 @@ public class ProcessCounter : BaseCounter
         _stateMachine.Update();
     }
 
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IInteractAgent agent = null)
     {
-        if (!HasHoldableObject())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            if (parent.HasHoldableObject())
+            if (!HasHoldableObject())
             {
-                //플레이어가 가지고 있는 HoldableObject로 가공품을 만들 수 있지 검사
-                currentRecipe = RecipeManager.Instance.FindProcessRecipe(parent.GetHoldableObject());
-                if (currentRecipe.IsUnityNull()) return;
-                parent.GiveHoldableObject(this);
-            }
-        }
-        else
-        {
-            if (!parent.HasHoldableObject())
-            {
-                GiveHoldableObject(parent);
-                TakeOffPlayerGlove(parent);
-                if (!HasHoldableObject())
+                if (parent.HasHoldableObject())
                 {
-                    SetState(_noneState);
-                    isWork = false;
-                    currentRecipe = null;
+                    //플레이어가 가지고 있는 HoldableObject로 가공품을 만들 수 있지 검사
+                    currentRecipe = RecipeManager.Instance.FindProcessRecipe(parent.GetHoldableObject());
+                    if (currentRecipe.IsUnityNull()) return;
+                    parent.GiveHoldableObject(this);
+                }
+            }
+            else
+            {
+                if (!parent.HasHoldableObject())
+                {
+                    GiveHoldableObject(parent);
+                    TakeOffPlayerGlove(parent);
+                    if (!HasHoldableObject())
+                    {
+                        SetState(_noneState);
+                        isWork = false;
+                        currentRecipe = null;
+                    }
                 }
             }
         }
     }
 
     // 레시피가 존재하면 상호작용
-    public override void InteractAlternate(IHoldableObjectParent player)
+    public override void InteractAlternate(IInteractAgent agent = null)
     {
-        if (!currentRecipe.IsUnityNull())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            isWork = true;
+            if (!currentRecipe.IsUnityNull())
+            {
+                isWork = true;
+            }
         }
     }
     

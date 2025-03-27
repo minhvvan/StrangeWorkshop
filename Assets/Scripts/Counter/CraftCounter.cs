@@ -48,44 +48,47 @@ public class CraftCounter : BaseCounter
         }
     }
 
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IInteractAgent agent = null)
     {
-        // 플레이어가 물체를 들고 있으면
-        if (parent.HasHoldableObject())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            // DeepCopy로 연산에 필요한 List생성 후 계산
-            List<HoldableObject> CompareList = new(GetHoldableObjectList())
+            // 플레이어가 물체를 들고 있으면
+            if (parent.HasHoldableObject())
             {
-                parent.GetHoldableObject()
-            };
+                // DeepCopy로 연산에 필요한 List생성 후 계산
+                List<HoldableObject> CompareList = new(GetHoldableObjectList())
+                {
+                    parent.GetHoldableObject()
+                };
             
-            // 플레이어의 재료를 놓을 때 만들 수 있는 레시피가 있는 검사
-            List<CraftRecipeSO> recipeCandidates = RecipeManager.Instance.FindCraftRecipeCandidate(CompareList);
-            if (recipeCandidates.Count <= 0)
-            {
-                return;
-            }
+                // 플레이어의 재료를 놓을 때 만들 수 있는 레시피가 있는 검사
+                List<CraftRecipeSO> recipeCandidates = RecipeManager.Instance.FindCraftRecipeCandidate(CompareList);
+                if (recipeCandidates.Count <= 0)
+                {
+                    return;
+                }
             
-            parent.GiveHoldableObject(this);
-            GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
-            // 현재 만들 수 있는 레시피가 있으면 저장
-            _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
-            SetCurrentCraftIndex();
-            
-            var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
-            OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
-        }
-        else
-        {
-            if (HasHoldableObject())
-            {
-                GiveHoldableObject(parent);
+                parent.GiveHoldableObject(this);
+                GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
+                // 현재 만들 수 있는 레시피가 있으면 저장
                 _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
                 SetCurrentCraftIndex();
-                TakeOffPlayerGlove(parent);
-                
+            
                 var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
-                OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
+                OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
+            }
+            else
+            {
+                if (HasHoldableObject())
+                {
+                    GiveHoldableObject(parent);
+                    _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
+                    SetCurrentCraftIndex();
+                    TakeOffPlayerGlove(parent);
+                
+                    var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
+                    OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
+                }
             }
         }
     }

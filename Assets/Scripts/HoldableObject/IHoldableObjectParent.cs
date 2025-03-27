@@ -24,4 +24,6 @@ public interface IHoldableObjectParent
     
     // HoldableObject를 둘 수 있는 상태인지 검사(완성품일 때 검사하기 위해 호출됨)
     public bool CanSetHoldableObject();
+    
+    public GameObject GetGameObject();
 }
