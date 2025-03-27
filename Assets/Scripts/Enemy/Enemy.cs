@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
@@ -125,9 +126,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
         //언 카운트
         EnemySpawner.Instance.enemyCountList.Remove(gameObject);
+        blackboard.rbUpdateCts?.Cancel();
     }
 
-    public async UniTask AwakeRigidbody()
+    private async UniTask AwakeRigidbody()
     {
         while (true)
         {
@@ -135,7 +137,7 @@ public class Enemy : MonoBehaviour, IDamageable
             {
                 blackboard.rb.WakeUp();
             }
-            await UniTask.Delay(TimeSpan.FromSeconds(2));
+            await UniTask.Delay(TimeSpan.FromSeconds(2), cancellationToken: blackboard.rbUpdateCts.Token);
         }
     }
 }
