@@ -10,7 +10,7 @@ public class TurretDataSO : ScriptableObject
     public float damage;
     public float attackRange;
     public float fireRate;
-    public int maxBulletNum;
+    public int energyCost;
     
     // bullet
     public GameObject bullet;
@@ -21,5 +21,4 @@ public class TurretDataSO : ScriptableObject
     
     // 임시
     public float lookSpeed;
-    public float maxHealth;
 }
