@@ -30,15 +30,17 @@ public class MaterialCounter : BaseCounter
         }
     }
 
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IInteractAgent agent = null)
     {
-        int price = holdableObjectSO.price;
-        if (!parent.HasHoldableObject() && HasHoldableObject() && InGameDataManager.Instance.Purchasable(price))
+    	int price = holdableObjectSO.price;
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            GiveHoldableObject(parent);
-            InGameDataManager.Instance.UseGold(price);
-            StartCoroutine(SpawnHoldableObject());
-            TakeOffPlayerGlove(parent);
+            if (!parent.HasHoldableObject() && HasHoldableObject() && InGameDataManager.Instance.Purchasable(price))
+            {
+                GiveHoldableObject(parent);
+                StartCoroutine(SpawnHoldableObject());
+                TakeOffPlayerGlove(parent);
+            }
         }
     }
 
