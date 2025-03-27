@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -40,6 +42,8 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.SetPattern();
         blackboard.ResearchTarget();
         blackboard.SetPathfinder();
+        
+        UpdateRigidbody();
     }
 
     private void Update()
@@ -121,5 +125,14 @@ public class Enemy : MonoBehaviour, IDamageable
 
         //언 카운트
         EnemySpawner.Instance.enemyCountList.Remove(gameObject);
+    }
+
+    public async UniTask UpdateRigidbody()
+    {
+        while (true)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(40));
+            blackboard.rb.velocity += Vector3.zero;
+        }
     }
 }
