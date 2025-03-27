@@ -22,7 +22,9 @@ public class Turret_AttackState : BaseState<Turret>
     public override void UpdateState()
     {
         _timer += Time.deltaTime;
-        if (_turretData.target != null && !_turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost))
+        if (_turretData.target != null &&
+            _turretData.parentClearCounter != null &&
+            !_turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost))
         {
             _turretData.shootingStrategy.FollowTarget(_turretData.target);
             if (_turretData.fireRate <= _timer)
