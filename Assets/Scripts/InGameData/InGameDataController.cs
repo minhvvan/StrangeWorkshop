@@ -9,7 +9,6 @@ using UnityEngine;
 public class InGameDataController
 {
     private CancellationTokenSource _cancellationToken;
-    private bool _playing = false;
     
     [Header("Turret")] 
     private Dictionary<TurretType, int> _turretCounts;
@@ -59,16 +58,14 @@ public class InGameDataController
     public void ResumeGame()
     {
         _cancellationToken = new CancellationTokenSource();
-        _playing = true;
-        CheckPlayTime();
-        EarnGoldContinuously();
+        UniTask.Void(async () => await CheckPlayTime());
+        UniTask.Void(async () => await EarnGoldContinuously());
     }
 
     public void PauseGame()
     {
         _cancellationToken?.Cancel();
         _cancellationToken?.Dispose();
-        _playing = false;
     }
 
     public void ModifyInGameData(InGameDataType dataType, object value, object subType = null)

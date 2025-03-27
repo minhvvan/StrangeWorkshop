@@ -5,20 +5,20 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ClearCounter : BaseCounter
 {
-    [SerializeField] private float maxEnergy = 100f;
-    private float currentEnergy;
-    [SerializeField] private float chargeInterval = 1f;
-    [SerializeField] private float chargeSpeed = 10f;
+    [SerializeField] private float _maxEnergy = 100f;
+    private float _currentEnergy;
+    [SerializeField] private float _chargeInterval = 1f;
+    [SerializeField] private float _chargeSpeed = 10f;
     
-    private bool _hasTurret = false;
     private CancellationTokenSource _cancelChargeTokenSource;
 
     private void Awake()
     {
-        currentEnergy = maxEnergy;
+        _currentEnergy = _maxEnergy;
         _cancelChargeTokenSource = new CancellationTokenSource();
 
         Turret existedTurret = GetComponentInChildren<Turret>();
@@ -53,50 +53,49 @@ public class ClearCounter : BaseCounter
             {
                 GiveHoldableObject(parent);
                 TakeOffPlayerGlove(parent);
-                startCharging();
+                UniTask.Void(async () => await StartCharging());
             }
         }
     }
 
-    public async UniTask startCharging()
+    private async UniTask StartCharging()
     {
+        // counter 위에 아무것
         _cancelChargeTokenSource = new CancellationTokenSource();
-        while (currentEnergy < maxEnergy)
+        while (_currentEnergy < _maxEnergy)
         {
-            await UniTask.WaitForSeconds(chargeInterval, cancellationToken:_cancelChargeTokenSource.Token);
-            currentEnergy += chargeSpeed;
-            Debug.Log(currentEnergy);
+            await UniTask.WaitForSeconds(_chargeInterval, cancellationToken:_cancelChargeTokenSource.Token);
+            _currentEnergy += _chargeSpeed;
         }
 
         if (!_cancelChargeTokenSource.IsCancellationRequested)
         {
-            currentEnergy = maxEnergy;
+            _currentEnergy = _maxEnergy;
         }
     }
 
     public void UseEnergy(float energy)
     {
-        currentEnergy -= energy;
-        Debug.Log(currentEnergy);
+        _currentEnergy -= energy;
     }
 
     public void ChangeMaxEnergy(float dMaxEnergy)
     {
-        maxEnergy += dMaxEnergy;
+        _maxEnergy += dMaxEnergy;
     }
 
     public void ChangeChargeInterval(float dChargeInterval)
     {
-        chargeInterval += dChargeInterval;
+        _chargeInterval += dChargeInterval;
     }
 
     public void ChangeChargeSpeed(float dChargeSpeed)
     {
-        chargeSpeed += dChargeSpeed;
+        _chargeSpeed += dChargeSpeed;
     }
 
     public bool OutOfEnergy(float cost)
     {
-        return currentEnergy < cost;
+        return _currentEnergy < cost;
     }
 }

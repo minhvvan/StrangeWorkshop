@@ -73,7 +73,7 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
 
         if (returnAutomatically)
         {
-            ReturnVFX(vfxType, vfxObject, vfxDataSOs[vfxType].duration);
+            UniTask.Void(async () => await ReturnVFX(vfxType, vfxObject, vfxDataSOs[vfxType].duration));
         }
         return vfxObject;
     }
@@ -106,7 +106,7 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
 
         if (returnAutomatically)
         {
-            ReturnVFX(vfxType, vfxObject, vfxDataSOs[vfxType].duration);
+            UniTask.Void(async () => await ReturnVFX(vfxType, vfxObject, vfxDataSOs[vfxType].duration));
         }
         return vfxObject;
     }

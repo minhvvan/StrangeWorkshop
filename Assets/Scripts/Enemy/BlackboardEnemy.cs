@@ -32,11 +32,11 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     //비동기를 도중에 간섭할 수 있는 클래스.
     public CancellationTokenSource cts;
     public CancellationTokenSource autoResearchCts;
+    public CancellationTokenSource rbUpdateCts;
 
     ///킬 스위치, false가 되면 모든 동작이 멈춘다.
     public bool bEnable = true;
     private BossEndEventSO _bossEndEventSO;
-    
     
     ///방벽감지 및 공격
     private IAttackPattern _atkPattern;
@@ -102,6 +102,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     {
         //비동기 함수 Delay 즉시종료용
         cts = new CancellationTokenSource();
+        rbUpdateCts = new CancellationTokenSource();
             
         anim = GetComponent<Animator>();
         //부딫혔다고 빙빙 돌지않게.

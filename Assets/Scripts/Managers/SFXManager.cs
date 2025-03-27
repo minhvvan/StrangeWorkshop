@@ -75,7 +75,7 @@ public class SFXManager : SingletonDontDestroy<SFXManager>
 
         if (!source.loop)
         {
-            ReturnSFX(sfxType, source, source.clip.length);
+            UniTask.Void(async () => await ReturnSFX(sfxType, source, source.clip.length));
         }
 
         return source;
@@ -105,7 +105,7 @@ public class SFXManager : SingletonDontDestroy<SFXManager>
 
         if (!source.loop)
         {
-            ReturnSFX(sfxType, source, source.clip.length);
+            UniTask.Void(async () => await ReturnSFX(sfxType, source, source.clip.length));
         }
 
         return source;

@@ -15,7 +15,6 @@ public class PlaceTurretOnClearCounter : MonoBehaviour
     {            
         ClearCounter[] clearCounters = GameObject.FindObjectsOfType<ClearCounter>();
         cancelToken = new CancellationTokenSource();
-        float time = 0f;
 
         while (!cancelToken.IsCancellationRequested)
         {

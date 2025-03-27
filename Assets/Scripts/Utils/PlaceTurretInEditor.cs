@@ -13,7 +13,7 @@ public class PlaceTurretInEditor : Editor
         if (!Application.isPlaying)
         {
             turret = (PlaceTurretOnClearCounter)target;
-            turret.UpdateClosestCounter();
+            _ = turret.UpdateClosestCounter();
         }
     }
 
