@@ -15,9 +15,12 @@ public class DropItemManager : Singleton<DropItemManager>
     private Dictionary<ItemName, Queue<GameObject>> itemPools = new();
     private Dictionary<ItemName, DropItemSO> itemDatas = new();
     
+    public bool IsInitialized { get; private set; }
+    
     public async UniTask Initialize()
     {
         await LoadDropItems();
+        IsInitialized = true;
     }
 
     private async UniTask LoadDropItems()
