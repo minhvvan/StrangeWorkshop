@@ -9,10 +9,13 @@ public class SFXManager : SingletonDontDestroy<SFXManager>
 {
     Dictionary<SFXType, Queue<AudioSource>> sfxPools = new Dictionary<SFXType, Queue<AudioSource>>();
     Dictionary<SFXType, SFXDataSO> sfxDataSOs = new Dictionary<SFXType, SFXDataSO>();
+    
+    public bool IsInitialized { get; private set; }
 
     private async void Start()
     {
         await Initialize();
+        IsInitialized = true;
     }
     
     public async UniTask Initialize()

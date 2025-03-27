@@ -29,11 +29,12 @@ public class QuestManager : Singleton<QuestManager>
     public Action<Quest> OnQuestProgressUpdated;
     
 
-    async void Start()
+    void Awake()
     {
         availableQuests = new List<Quest>();
 
         Initialize();
+        IsInitialized = true;
     }
 
     public async UniTask Initialize()
@@ -44,7 +45,6 @@ public class QuestManager : Singleton<QuestManager>
         GroupingQuests(questListSO);
         
         await InitializeChapter(1);
-        IsInitialized = true;
     }
     
     public async UniTask InitializeChapter(int chapterIdx)

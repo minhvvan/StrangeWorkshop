@@ -11,9 +11,12 @@ public class VFXManager : SingletonDontDestroy<VFXManager>
     Dictionary<VFXType, Queue<GameObject>> vfxPools = new Dictionary<VFXType, Queue<GameObject>>();
     Dictionary<VFXType, VFXDataSO> vfxDataSOs = new Dictionary<VFXType, VFXDataSO>();
     
+    public bool IsInitialized { get; private set; }
+    
     private async void Start()
     {
         await Initialize();
+        IsInitialized = true;
     }
     
     public async UniTask Initialize()
