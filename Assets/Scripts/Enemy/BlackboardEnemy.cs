@@ -126,7 +126,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
         //자동 재검색 타이머 시작.
         AutoResearchTarget().Forget();
-        PriorityIncreaser().Forget();
+        //PriorityIncreaser().Forget();
         //최초 이후 재검색 대상시간은 10초.
         _researchTime = 5f;
     }
@@ -436,7 +436,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public void DropItem()
     {
         DropItemManager.Instance.GetDropItemByName
-            (ItemName.GOLD_PENNY, transform.position, duration: Mathf.Infinity);
+            (ItemName.GOLD_PENNY, transform.position);
     }
     
     public void OnBossEnd()
