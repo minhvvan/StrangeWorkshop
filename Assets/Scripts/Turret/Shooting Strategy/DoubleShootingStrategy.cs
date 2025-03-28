@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DoubleShootingStrategy : ShootingStrategy
 {
-    private bool _shootLeft = true;
-    
     public DoubleShootingStrategy(Turret turret) : base(turret) { }
 
     protected override void CreateBullet(GameObject target)

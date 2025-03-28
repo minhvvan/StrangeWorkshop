@@ -37,7 +37,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public bool bEnable = true;
     private BossEndEventSO _bossEndEventSO;
     
-    
     ///방벽감지 및 공격
     private IAttackPattern _atkPattern;
     private bool _bDetectedFromTower;

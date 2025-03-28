@@ -17,7 +17,7 @@ public abstract class ShootingStrategy
     {
         SFXManager.Instance.PlaySFX(SFXType.BULLET, _turret.transform.position);
         CreateBullet(target);
-        _turret.turretData.currentBulletNum--;
+        _turret.turretData.parentClearCounter.UseEnergy(_turret.turretData.energyCost);
     }
 
     public void FollowTarget(GameObject target)

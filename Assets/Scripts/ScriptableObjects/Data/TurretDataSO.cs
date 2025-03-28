@@ -10,16 +10,11 @@ public class TurretDataSO : ScriptableObject
     public float damage;
     public float attackRange;
     public float fireRate;
-    public int maxBulletNum;
+    public int energyCost;
     
     // bullet
     public GameObject bullet;
     
-    // 모든 turret 공통
-    public Color crashedColor;
-    public float fixTime;
-    
     // 임시
     public float lookSpeed;
-    public float maxHealth;
 }

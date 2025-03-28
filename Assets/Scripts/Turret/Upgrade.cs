@@ -104,8 +104,8 @@ public class Upgrade : MonoBehaviour
         _turret.turretData.damage += _upgrades[_currentUpgradeLevel].damage;
         _turret.turretData.fireRate -= _upgrades[_currentUpgradeLevel].fireRate;
         _turret.turretData.attackRange += _upgrades[_currentUpgradeLevel].attackRange;
-        _turret.turretActions.UpdateRangeEffectSize();
-        _turret.turretData.maxBulletNum += _upgrades[_currentUpgradeLevel].maxBulletNum;
+        TurretActions.UpdateRangeEffectSize(_turret);
+        // _turret.turretData.maxBulletNum += _upgrades[_currentUpgradeLevel].maxBulletNum;
         
         _currentUpgradeLevel++;
     }
