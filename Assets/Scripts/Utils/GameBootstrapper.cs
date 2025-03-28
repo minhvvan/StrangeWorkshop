@@ -51,7 +51,8 @@ public static class GameBootstrapper
             RecipeManager.Instance.Initialize().AsTask(),
             GameManager.Instance.Initialize().AsTask(),
             VFXManager.Instance.Initialize().AsTask(),
-            SFXManager.Instance.Initialize().AsTask()
+            SFXManager.Instance.Initialize().AsTask(),
+            DropItemManager.Instance.Initialize().AsTask()
         );
 
         EventManager.Instance.AddComponent<DontDestroyOnLoad>();
@@ -62,6 +63,7 @@ public static class GameBootstrapper
         VFXManager.Instance.AddComponent<DontDestroyOnLoad>();
         SFXManager.Instance.AddComponent<DontDestroyOnLoad>();
         QuestManager.Instance.AddComponent<DontDestroyOnLoad>();
+        DropItemManager.Instance.AddComponent<DontDestroyOnLoad>();
 
         isInitialized = true;
     }
@@ -76,6 +78,7 @@ public static class GameBootstrapper
         if (VFXManager.Instance) Object.Destroy(VFXManager.Instance.gameObject);
         if (SFXManager.Instance) Object.Destroy(SFXManager.Instance.gameObject);
         if(QuestManager.Instance) Object.Destroy(QuestManager.Instance.gameObject);
+        if(DropItemManager.Instance) Object.Destroy(DropItemManager.Instance.gameObject);
     }
 #endif
 }
