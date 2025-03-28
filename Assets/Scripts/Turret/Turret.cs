@@ -56,9 +56,13 @@ public class Turret : HoldableObject
     void Update()
     {
         if (!_isInitialized) return;
-        
-        TurretActions.UpdateTarget(this);
         _stateMachine.Update();
+    }
+
+    void FixedUpdate()
+    {
+        if (!_isInitialized) return;
+        TurretActions.UpdateTarget(this);
     }
 
     public override bool SetHoldableObjectParent(IHoldableObjectParent parent)
