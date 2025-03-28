@@ -27,11 +27,7 @@ public class Turret_IdleState : BaseState<Turret>
     private void ChangeState()
     {
         // 고장났는지 체크 -> 작동 가능한지 체크 -> target이 있는지 체크
-        if (_turretData.isCrashed)
-        {
-            _controller.SetState(_controller.crashState);
-        }
-        else if (!_turretData.isOnCounter || _turretData.currentBulletNum <= 0 || _turretData.isUpgrading)
+        if (_turretData.parentClearCounter == null || _turretData.isUpgrading)
         {
             _controller.SetState(_controller.notWorkingState);
         }

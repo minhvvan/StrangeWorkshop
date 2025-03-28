@@ -13,9 +13,14 @@ public class InGameDataManager : SingletonDontDestroy<InGameDataManager>
         inGameDataController.StartChapter();
     }
 
-    public void ModifyInGameData(InGameDataType dataType, object value, [CanBeNull] object subType = null)
+    public void ModifyInGameData(InGameDataType dataType, object value, object subType = null)
     {
         inGameDataController.ModifyInGameData(dataType, value, subType);
+    }
+
+    public object GetInGameData(InGameDataType dataType)
+    {
+        return inGameDataController.GetInGameData(dataType);
     }
 
     public void PauseGame()
