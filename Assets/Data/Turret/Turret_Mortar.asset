@@ -16,9 +16,6 @@ MonoBehaviour:
   damage: 30
   attackRange: 20
   fireRate: 2
-  maxBulletNum: 5
+  energyCost: 10
   bullet: {fileID: 1986743744459060, guid: caed3b3230fb5b44e8a533b81cd4c111, type: 3}
-  crashedColor: {r: 1, g: 0, b: 0, a: 0}
-  fixTime: 3
   lookSpeed: 100
-  maxHealth: 20
