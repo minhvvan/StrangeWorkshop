@@ -43,7 +43,11 @@ public class CharacterInteractionAlternate : BaseAction
 
     void HandleInteractionAlternate()
     {
-        if (!_controller.GetSelectedInteractableObject().IsUnityNull())
+        if (!_controller.GetHoldableObject().IsUnityNull())
+        {
+            _controller.GetHoldableObject().InteractAlternate(_controller);
+        }
+        else if (!_controller.GetSelectedInteractableObject().IsUnityNull())
         {
             _controller.GetSelectedInteractableObject().InteractAlternate(_controller);
         }
