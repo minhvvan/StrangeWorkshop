@@ -17,6 +17,6 @@ MonoBehaviour:
   itemValue: 50
   description: "\uACE8\uB4DC 50\uC744 \uC5BB\uC2B5\uB2C8\uB2E4."
   item: {fileID: 4538252541241175230, guid: 10385c58014e6bc478806841a00bd4eb, type: 3}
-  size: {x: 1, y: 1, z: 1}
+  size: {x: 2, y: 2, z: 2}
   duration: 30
   poolSize: 10

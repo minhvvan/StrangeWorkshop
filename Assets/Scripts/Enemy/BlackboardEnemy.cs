@@ -171,6 +171,12 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         }
     }
     
+    public void DropItem()
+    {
+        DropItemManager.Instance.GetDropItemByName
+            (ItemName.GOLD_PENNY, transform.position);
+    }
+    
     ///적 공격종류 선택
     public void SetPattern()
     {
@@ -430,12 +436,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
         //킬스위치 활성화
         bEnable = false;
-    }
-    
-    public void DropItem()
-    {
-        DropItemManager.Instance.GetDropItemByName
-            (ItemName.GOLD_PENNY, transform.position);
     }
     
     public void OnBossEnd()

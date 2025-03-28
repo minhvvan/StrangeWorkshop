@@ -98,7 +98,7 @@ public class DropItemManager : Singleton<DropItemManager>
         itemObject.transform.localScale = size ?? itemDatas[itemName].size;
         itemObject.transform.SetParent(parent ?? transform);
         itemObject.transform.position = position;
-        itemObject.transform.DORotate(new Vector3(0,360,0), 1f, RotateMode.FastBeyond360)
+        itemObject.transform.DORotate(new Vector3(0,360,0), 1f, RotateMode.LocalAxisAdd)
             .SetEase(Ease.Linear)
             .SetLoops(-1, LoopType.Restart);
         itemObject.SetActive(true);
@@ -120,7 +120,7 @@ public class DropItemManager : Singleton<DropItemManager>
     }
 
     //아이템 중 하나를 랜덤하게 생성합니다.
-    public GameObject GetRandomDropItems(Vector3 position, 
+    public GameObject GetRandomDropItem(Vector3 position, 
         Vector3? size = null, [CanBeNull] Transform parent = null, float? duration = null)
     {
         if (itemDatas.Count == 0) return null;
@@ -154,6 +154,4 @@ public class DropItemManager : Singleton<DropItemManager>
         
         return itemObject;
     }
-
-    
 }

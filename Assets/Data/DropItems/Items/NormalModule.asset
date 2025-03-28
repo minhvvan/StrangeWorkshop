@@ -17,6 +17,6 @@ MonoBehaviour:
   itemValue: 10
   description: "\uC77C\uBC18 \uBAA8\uB4C8\uC744 \uC5BB\uC2B5\uB2C8\uB2E4."
   item: {fileID: 7065947545599072006, guid: efab2098fd6713541b3cf5eae11bd1f7, type: 3}
-  size: {x: 1, y: 1, z: 1}
+  size: {x: 2, y: 2, z: 2}
   duration: 30
   poolSize: 5
