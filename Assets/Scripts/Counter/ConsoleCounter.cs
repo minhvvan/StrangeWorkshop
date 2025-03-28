@@ -50,6 +50,8 @@ public class ConsoleCounter : BaseCounter
                 _currentIndex = 0;
                 progressBar.ResetBar();
                 progressBar.gameObject.SetActive(false);
+                //TutorialEvent
+                TutorialEventManager.OnTurretMade?.Invoke();
             }
             //VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position);
         }

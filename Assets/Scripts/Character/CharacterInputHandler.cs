@@ -48,12 +48,14 @@ public class CharacterInputHandler : BaseInputHandler
         // 3) 상호작용
         if (Input.GetKeyDown(KeyCode.E))
         {
-            OnInteract?.Invoke();
-            
             if (tutorialManager.flag == true)
             {
                 tutorialManager.CloseTutorial();
+                Debug.Log("Close Tutorial");
             }
+            OnInteract?.Invoke();
+            
+            
             
         }
         if (Input.GetKeyDown(KeyCode.F))

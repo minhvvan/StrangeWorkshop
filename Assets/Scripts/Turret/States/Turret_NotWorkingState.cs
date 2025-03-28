@@ -31,7 +31,11 @@ public class Turret_NotWorkingState : BaseState<Turret>
     {
         // 총알이 있는가?
         if (_turretData.currentBulletNum > 0) _turretData.noAmmoImage.SetActive(false);
-        else _turretData.noAmmoImage.SetActive(true);
+        else
+        {
+            _turretData.noAmmoImage.SetActive(true);
+            TutorialEventManager.OnBulletEmpty?.Invoke();
+        }
         
         // 업그레이드중인가?
         // 중간에 crash 되도 업그레이드 진척도는 저장된다

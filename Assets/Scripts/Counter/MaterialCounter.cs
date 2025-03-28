@@ -31,6 +31,7 @@ public class MaterialCounter : BaseCounter
             GiveHoldableObject(parent);
             StartCoroutine(SpawnHoldableObject());
             TakeOffPlayerGlove(parent);
+            TutorialEventManager.OnFirstInteract?.Invoke();
         }
     }
 

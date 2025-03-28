@@ -15,19 +15,20 @@ public class TutorialManager : MonoBehaviour
     {
         ShowManualTutorial();
         TutorialEventManager.OnFirstInput += ShowCounterTutorial;
-        /*TutorialEventManager.OnFirstInteract += ShowTutorial;
-        TutorialEventManager.OnTurretMade += ShowTutorial;
-        TutorialEventManager.OnBulletEmpty += ShowTutorial;*/
+        TutorialEventManager.OnFirstInteract += ShowRecipeTutorial;
+        TutorialEventManager.OnTurretMade += ShowGloveTutorial;
+        TutorialEventManager.OnBulletEmpty += ShowBulletTutorial;
     }
 
     private void OnDestroy()
     {
-        TutorialEventManager.OnFirstInput -= ShowCounterTutorial;
-        /*TutorialEventManager.OnFirstInteract -= ShowTutorial;
-        TutorialEventManager.OnTurretMade -= ShowTutorial;
-        TutorialEventManager.OnBulletEmpty -= ShowTutorial;*/
+        
+        
+        
+        
     }
 
+    private int currentTutorialIndex = -1;
     // 튜토리얼 UI를 보여주고 게임을 일시정지합니다.
     public void ShowManualTutorial()
     {
@@ -35,35 +36,70 @@ public class TutorialManager : MonoBehaviour
         Time.timeScale = 0;
         
         Debug.Log("Tutorial Show");
+        currentTutorialIndex = 0;
         // 튜토리얼 UI 활성화 및 메시지 표시
-        tutorialUIPanel[0].SetActive(true);
+        tutorialUIPanel[currentTutorialIndex].SetActive(true);
         flag = true;
+        Debug.Log(steps);
     }
     
     public void ShowCounterTutorial()
     {
         // 게임 일시정지
         Time.timeScale = 0;
-        
+        currentTutorialIndex = 1;
         Debug.Log("Tutorial Show");
         // 튜토리얼 UI 활성화 및 메시지 표시
-        tutorialUIPanel[1].SetActive(true);
+        tutorialUIPanel[currentTutorialIndex].SetActive(true);
         flag = true;
+        
+        TutorialEventManager.OnFirstInput -= ShowCounterTutorial;
     }
 
+    public void ShowRecipeTutorial()
+    {
+        // 게임 일시정지
+        Time.timeScale = 0;
+        currentTutorialIndex = 2;
+        Debug.Log("Tutorial Show");
+        // 튜토리얼 UI 활성화 및 메시지 표시
+        tutorialUIPanel[currentTutorialIndex].SetActive(true);
+        flag = true;
+        
+        TutorialEventManager.OnFirstInteract -= ShowRecipeTutorial;
+    }
+    public void ShowGloveTutorial()
+    {
+        // 게임 일시정지
+        Time.timeScale = 0;
+        currentTutorialIndex = 3;
+        Debug.Log("Tutorial Show");
+        // 튜토리얼 UI 활성화 및 메시지 표시
+        tutorialUIPanel[currentTutorialIndex].SetActive(true);
+        flag = true;
+        
+        TutorialEventManager.OnTurretMade -= ShowGloveTutorial;
+    }
+    
+    public void ShowBulletTutorial()
+    {
+        // 게임 일시정지
+        Time.timeScale = 0;
+        currentTutorialIndex = 4;
+        Debug.Log("Tutorial Show");
+        // 튜토리얼 UI 활성화 및 메시지 표시
+        tutorialUIPanel[currentTutorialIndex].SetActive(true);
+        flag = true;
+        
+        TutorialEventManager.OnBulletEmpty -= ShowBulletTutorial;
+    }
     // UI의 버튼 등에서 호출하여 튜토리얼을 닫고 게임을 재개합니다.
     public void CloseTutorial()
     {
         // 튜토리얼 UI 비활성화
-        tutorialUIPanel[steps].SetActive(false);
-        steps++;
+        tutorialUIPanel[currentTutorialIndex].SetActive(false);
         flag = false;
         // 게임 재개
         Time.timeScale = 1;
-        
-        if (steps >= tutorialUIPanel.Length)
-        {
-            PlayerPrefs.SetInt("TutorialCompleted", 1);
-        }
     }
 }
