@@ -14,7 +14,7 @@ public class TurretDataSO : ScriptableObject
     // 스탯 배율
     public float damageMultiplier;
     public float attackRangeMultiplier;
-    public float fireRateMultiplier;
+    public float attackSpeedMultiplier;
     public float energyCostMultiplier;
     
     // 임시

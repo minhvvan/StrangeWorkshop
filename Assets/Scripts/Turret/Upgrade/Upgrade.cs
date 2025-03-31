@@ -29,6 +29,7 @@ public class Upgrade : MonoBehaviour
 
     public async UniTask UpgradeProgressively(UpgradeDataSO upgradeData)
     {
+        // upgrade 되는데에 시간 소요
         _upgradeProgress = 0f;
         GameObject _upgradeEff = VFXManager.Instance.TriggerVFX(VFXType.TURRETUPGRADE, _turret.gameObject.transform, returnAutomatically: false);
         while (_upgradeProgress < upgradeData.upgradeTime)
@@ -39,9 +40,10 @@ public class Upgrade : MonoBehaviour
         }
         _progressBar.ResetBar();
         DeactivateUpgradeBar();
+        
+        // 업그레이드 완료, 스탯 적용
         await ApplyStatUp(upgradeData);
         VFXManager.Instance.ReturnVFX(VFXType.TURRETUPGRADE, _upgradeEff);
-        // VFXManager.Instance.TriggerVFX(VFXType.UPGRADE1, _turret.transform);
         
         if(upgradeData.upgradeType == TurretUpgradeType.TurretType) Destroy(gameObject);
     }
@@ -49,20 +51,18 @@ public class Upgrade : MonoBehaviour
     private async UniTask ApplyStatUp(UpgradeDataSO upgradeData)
     {
         // 스탯 증가 적용
-        // currentupgradelevel 증가
         _turret.turretData.finalDamage = upgradeData.damage.ApplyTo(_turret.turretData.finalDamage, _turret.turretData.damageMultiplier);
-        _turret.turretData.finalFireRate = upgradeData.fireRate.ApplyTo(_turret.turretData.finalFireRate, _turret.turretData.fireRateMultiplier);
+        _turret.turretData.finalAttackSpeed = upgradeData.attackSpeed.ApplyTo(_turret.turretData.finalAttackSpeed, _turret.turretData.attackSpeedMultiplier);
         _turret.turretData.finalAttackRange = upgradeData.attackRange.ApplyTo(_turret.turretData.finalAttackRange, _turret.turretData.attackRangeMultiplier);
         TurretActions.UpdateRangeEffectSize(_turret);
         _turret.turretData.finalEnergyCost = upgradeData.energyCost.ApplyTo(_turret.turretData.finalEnergyCost, _turret.turretData.energyCostMultiplier);
 
+        // 터렛을 스위치하는경우
         if (upgradeData.switchingTurretType != TurretType.None || 
             _turret.turretData.turretType != upgradeData.switchingTurretType)
         {
             await SwitchTurretType(upgradeData.switchingTurretType);
         }
-        
-        // _currentUpgradeLevel++;
     }
 
     public void ActivateUpgradeBar()
@@ -115,9 +115,10 @@ public class Upgrade : MonoBehaviour
                 newTurret.turretData.parentClearCounter.SetHoldableObject(newTurret);
             }
 
+            // 터렛이 가진 스탯 배율에 따라 스탯 재조정
             newTurret.turretData.finalDamage = _turret.turretData.finalDamage / _turret.turretData.damageMultiplier * newTurret.turretData.damageMultiplier;
             newTurret.turretData.finalAttackRange = _turret.turretData.finalAttackRange / _turret.turretData.attackRangeMultiplier * newTurret.turretData.attackRangeMultiplier;
-            newTurret.turretData.finalFireRate = _turret.turretData.finalFireRate / _turret.turretData.fireRateMultiplier * newTurret.turretData.fireRateMultiplier;
+            newTurret.turretData.finalAttackSpeed = _turret.turretData.finalAttackSpeed / _turret.turretData.attackSpeedMultiplier * newTurret.turretData.attackSpeedMultiplier;
             newTurret.turretData.finalEnergyCost = _turret.turretData.finalEnergyCost / _turret.turretData.energyCostMultiplier * newTurret.turretData.energyCostMultiplier;
         }
     }

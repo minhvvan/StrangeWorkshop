@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,8 +17,8 @@ public class Turret_AttackState : BaseState<Turret>
 
     public override void Enter()
     {
-        // timer 초기화
-        _timer = _turretData.finalFireRate;
+        _turretData.attackRateCancelToken.Dispose();
+        _turretData.attackRateCancelToken = new CancellationTokenSource();
     }
 
     public override void UpdateState()
@@ -27,7 +29,7 @@ public class Turret_AttackState : BaseState<Turret>
             !_turretData.parentClearCounter.OutOfEnergy(_turretData.finalEnergyCost))
         {
             _turretData.shootingStrategy.FollowTarget(_turretData.target);
-            if (_turretData.finalFireRate <= _timer)
+            if (1 / _turretData.finalAttackSpeed <= _timer)
             {
                 _turretData.shootingStrategy.Shoot(_turretData.target);
                 _timer = 0f;
@@ -40,7 +42,7 @@ public class Turret_AttackState : BaseState<Turret>
     public override void Exit()
     {
         // timer 초기화
-        _timer = _turretData.finalFireRate;
+        SetTimer();
     }
     
     private void ChangeState()
@@ -54,5 +56,17 @@ public class Turret_AttackState : BaseState<Turret>
         {
             _controller.SetState(_controller.idleState);
         }
+    }
+
+    private async UniTask SetTimer()
+    {
+        float startTime = Time.time;
+        // attackState를 빠져나가도 timer가 일정시간동안은 유지되도록 설정
+        while (_timer < 1 / _turretData.finalAttackSpeed)
+        {
+            _timer += Time.time - startTime;
+            await UniTask.Yield(cancellationToken: _turretData.attackRateCancelToken.Token);
+        }
+
     }
 }

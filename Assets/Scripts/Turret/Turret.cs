@@ -73,6 +73,7 @@ public class Turret : HoldableObject
     void OnDestroy()
     {
         TurretManager.Instance.RemoveTurret(this);
+        turretData.attackRateCancelToken.Dispose();
     }
 
     public override bool SetHoldableObjectParent(IHoldableObjectParent parent)

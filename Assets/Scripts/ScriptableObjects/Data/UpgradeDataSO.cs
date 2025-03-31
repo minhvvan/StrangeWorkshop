@@ -7,7 +7,7 @@ using UnityEngine;
 public enum TurretUpgradeType
 {
     Damage,
-    FireRate,
+    AttackSpeed,
     AttackRange,
     EnergyCost,
     TurretType
@@ -45,7 +45,7 @@ public class UpgradeDataSO : ScriptableObject
     public int rarity;
 
     public StatModifier damage;
-    public StatModifier fireRate;
+    public StatModifier attackSpeed;
     public StatModifier attackRange;
     public StatModifier energyCost;
     public TurretType switchingTurretType;

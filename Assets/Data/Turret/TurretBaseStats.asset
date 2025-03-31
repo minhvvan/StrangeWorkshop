@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd5e55b7b0abf064a9c67f88bb392b75, type: 3}
   m_Name: TurretBaseStats
   m_EditorClassIdentifier: 
-  damage: 0
-  attackRange: 0
-  fireRate: 0
-  energyCost: 0
+  damage: 10
+  attackRange: 15
+  attackSpeed: 1
+  energyCost: 10

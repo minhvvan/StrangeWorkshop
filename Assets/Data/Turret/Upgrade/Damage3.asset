@@ -15,8 +15,16 @@ MonoBehaviour:
   upgradeType: 0
   upgradeTime: 5
   rarity: 3
-  damage: 15
-  fireRate: 0
-  attackRange: 0
-  energyCost: 0
-  turretType: 4
+  damage:
+    mode: 0
+    value: 15
+  attackSpeed:
+    mode: 0
+    value: 0
+  attackRange:
+    mode: 0
+    value: 0
+  energyCost:
+    mode: 0
+    value: 0
+  switchingTurretType: 0

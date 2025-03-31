@@ -10,13 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4390239665ac25f45a7c82bd23cf464b, type: 3}
-  m_Name: FireRate2
+  m_Name: AttackSpeed2
   m_EditorClassIdentifier: 
   upgradeType: 0
   upgradeTime: 5
   rarity: 2
-  damage: 0
-  fireRate: 0.2
-  attackRange: 0
-  energyCost: 0
-  turretType: 4
+  damage:
+    mode: 0
+    value: 0
+  attackSpeed:
+    mode: 0
+    value: 0.7
+  attackRange:
+    mode: 0
+    value: 0
+  energyCost:
+    mode: 0
+    value: 0
+  switchingTurretType: 0
