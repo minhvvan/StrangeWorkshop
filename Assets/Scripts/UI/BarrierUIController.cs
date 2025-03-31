@@ -52,14 +52,14 @@ public class BarrierUIController : MonoBehaviour, IGameUI
     public void Initialize()
     {
         if (!_barrierController) return;
-        _maxHealthText.text = $"{_barrierController.MaxHealth}";
-        UpdateBarrierTotalHealth(_barrierController.MaxHealth);
+        // _maxHealthText.text = $"{_barrierController.MaxHealth}";
+        // UpdateBarrierTotalHealth(_barrierController.MaxHealth);
     }
     
     private void UpdateBarrierTotalHealth(float totalHealth)
     {
         // 총 체력 UI 업데이트
-        _currentHealthText.text = $"{_barrierController.TotalHeath}";
-        _totalHealthBar.value = _barrierController.TotalHeath / _barrierController.MaxHealth;
+        // _currentHealthText.text = $"{_barrierController.TotalHeath}";
+        // _totalHealthBar.value = _barrierController.TotalHeath / _barrierController.MaxHealth;
     }
 }

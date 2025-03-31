@@ -9,14 +9,11 @@ using UnityEngine;
 public class BarrierController : MonoBehaviour
 {
     [Header("Data")] 
+    [SerializeField] float healthPerBarrier;
     private BarrierStatSO _barrierStat;
-    private float _totalHealth;
-    private float _maxHealth;
-    private bool _isDestroyed = true;
     public List<Barrier> Barriers { get; private set; }
-    public float TotalHeath => _totalHealth;
-    public float MaxHealth => _maxHealth;
 
+    private int _destroyedBarrierCount;
 
     [Header("Events")] 
     private InGameUIController _inGameUIController;
@@ -29,15 +26,6 @@ public class BarrierController : MonoBehaviour
 #if UNITY_EDITOR
         await UniTask.WaitUntil(() => GameBootstrapper.IsInitialized);
 #endif
-        //Init
-        _barrierStat = await DataManager.Instance.LoadDataAsync<BarrierStatSO>(Addresses.Data.Barrier.STAT);
-        if (_barrierStat)
-        {
-            _maxHealth = _barrierStat.totalHP;
-            _totalHealth = _barrierStat.totalHP;
-        }
-        _isDestroyed = false;
-        
         //Event
         _damagedEventSO = await DataManager.Instance.LoadDataAsync<BarrierDamagedEventSO>(Addresses.Events.Barrier.BARRIER_DAMAGED);
         _destroyEventSO = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROYED);
@@ -45,28 +33,28 @@ public class BarrierController : MonoBehaviour
         _destroyEventSO.AddListener(OnBarrierDestroy);
         Barriers = GetComponentsInChildren<Barrier>().ToList();
         
-        // _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
-        // _inGameUIController.RegisterGameUI(this);
+        //Init
+        _destroyedBarrierCount = 0;
+        for (var i = 0; i < Barriers.Count; i++)
+        {
+            Barriers[i].SetBarrierIndex(i);
+            Barriers[i].InitHealth(healthPerBarrier);
+        }
     }
 
     private void OnBarrierDamaged(float damage)
     {
-        if(_isDestroyed) return;
-
-        _totalHealth -= damage;
-
-        if (_totalHealth <= 0)
-        {
-            _totalHealth = 0;
-            _isDestroyed = true;
-            _destroyEventSO.Raise();
-        }
-        
-        OnBarrierHealthChangedAction?.Invoke(_totalHealth);
+        //TODO: 피격 처리
     }
 
-    private void OnBarrierDestroy()
+    private void OnBarrierDestroy(int index)
     {
-        GameManager.Instance.GameOver();
+        //TODO: Barriers[i] 파괴 UI Update
+        _destroyedBarrierCount++;
+        
+        if (_destroyedBarrierCount >= 3)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 }
