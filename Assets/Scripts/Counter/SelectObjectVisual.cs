@@ -19,10 +19,18 @@ public class SelectObjectVisual : MonoBehaviour
     public void Show()
     {
         _quickOutline.enabled = true;
+        if (gameObject.TryGetComponent<MaterialCounter>(out MaterialCounter materialCounter))
+        {
+            materialCounter.ActivatePriceTag();
+        }
     }
 
     public void Hide()
     {
         _quickOutline.enabled = false;
+        if (gameObject.TryGetComponent<MaterialCounter>(out MaterialCounter materialCounter))
+        {
+            materialCounter.DeactivatePriceTag();
+        }
     }
 }

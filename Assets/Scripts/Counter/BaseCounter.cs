@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SelectObjectVisual))]
-public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
+public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent, IInteractable
 {
     [SerializeField] private Transform counterTopPoint;
     
@@ -11,13 +11,18 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
     private IHoldableObjectParent _lastholdableObjectParent;
     
     // 상호작용, 키보드 e, 재료를 옮길 때 사용
-    public virtual void Interact(IHoldableObjectParent parent)
+    public virtual void Interact(IInteractAgent agent = null)
     {
         SetHoldableObjectParent(parent); 
     }
-    
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
     // 상호작용, 키도브 f, 가공 및 작업할 때 사용
-    public virtual void InteractAlternate(IHoldableObjectParent player)
+    public virtual void InteractAlternate(IInteractAgent agent = null)
     {
         SetHoldableObjectParent(player);
     }

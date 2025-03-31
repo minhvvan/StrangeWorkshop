@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b38e2ec6027d046b9942c4c502c992, type: 3}
   m_Name: EnemyMeleeTanker
   m_EditorClassIdentifier: 
-  enemytype: 1
   enemyPrefab: {fileID: 3771608433176732233, guid: 39d09eac9f81cbc4d901b5f70879ffae,
     type: 3}
-  animFirstDelay: 2
-  enemyName: MeleeTanker
-  hp: 50
-  armor: 4
-  attackDamage: 10
-  attackRange: 5
-  attackSpeed: 4.5
-  moveSpeed: 3
+  enemyStatus:
+    enemytype: 1
+    animFirstDelay: 2
+    enemyName: MeleeTanker
+    maxHp: 0
+    hp: 50
+    armor: 4
+    attackDamage: 10
+    attackRange: 5
+    attackSpeed: 4.5
+    moveSpeed: 3

@@ -5025,6 +5025,7 @@ GameObject:
   - component: {fileID: -8178343079146892514}
   - component: {fileID: -8169076707759231930}
   - component: {fileID: 1631575457615180938}
+  - component: {fileID: -6414908457421385450}
   m_Layer: 0
   m_Name: Turret_MissileDouble
   m_TagString: Untagged
@@ -5080,10 +5081,8 @@ MonoBehaviour:
   turretHead: {fileID: 4894621298927726}
   rangeEff: {fileID: 1968005088286794}
   renderers: []
-  noAmmoImage: {fileID: 1406676546509091608}
   muzzleMain: {fileID: 4372667440553698}
   muzzleSub: {fileID: 4535923597716192}
-  muzzleEff: {fileID: 1497772684437746, guid: 7a3aa3ccf9a17a14cb338122add5f6ef, type: 3}
   progressBarFix: {fileID: 4238232586580897824}
 --- !u!114 &1631575457615180938
 MonoBehaviour:
@@ -5099,6 +5098,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeData: {fileID: 11400000, guid: b0207262104ad054595de7ada9fc5acf, type: 2}
   _progressBar: {fileID: 5331212857831549301}
+--- !u!114 &-6414908457421385450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321377731327022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc665c063d5276745a67a6ae2f9ce7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1366799779227582
 GameObject:
   m_ObjectHideFlags: 0
@@ -10511,7 +10522,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4926611440433742
 Transform:
   m_ObjectHideFlags: 0
@@ -10942,15 +10953,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: FixBarUI
       objectReference: {fileID: 0}
-    - target: {fileID: 6919213944916446321, guid: 43cef140dfaba6341a0021c810e024ee,
+    - target: {fileID: 1033709537482491126, guid: 43cef140dfaba6341a0021c810e024ee,
         type: 3}
-      propertyPath: m_AnchorMax.x
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6919213944916446321, guid: 43cef140dfaba6341a0021c810e024ee,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6919213944916446321, guid: 43cef140dfaba6341a0021c810e024ee,
+        type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7772540962432339908, guid: 43cef140dfaba6341a0021c810e024ee,
         type: 3}

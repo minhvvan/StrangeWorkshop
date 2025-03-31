@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04a4595d7f145f54bb4ff79e93ae7018
+    m_Address: events/game/boss_end
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 08244c1cb6deb984ea0145cc2c0cb2a4
     m_Address: prefabs/enemy/spell_field
     m_ReadOnly: 0
@@ -49,6 +54,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b9c5148ef9ed07488fe1e2fda941a5f
     m_Address: data/quest/questlist
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 423e087e4852d5c4889e9fff8d1726dc
+    m_Address: prefabs/turrets/loot_bot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -87,15 +97,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
-    m_Address: data/chapters/chapter_1
   - m_GUID: ca8868471576f334faa629099e01a963
     m_Address: events/game/command_complete
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
+    m_Address: data/chapters/chapter_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd6c9b279d60a094eaebbd0b986559bc
     m_Address: events/barrier/damaged
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eed6fc212966cca41bb81e554f4be65f
+    m_Address: data/drops/dropitems
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

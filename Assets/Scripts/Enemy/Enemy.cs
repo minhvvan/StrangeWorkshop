@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -71,18 +74,26 @@ public class Enemy : MonoBehaviour, IDamageable
         
         if (blackboard.enemyStatus.hp <= 0)
         {
-            blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
-            blackboard.rb.isKinematic = true;
-            blackboard.cts?.Cancel();
-            blackboard.autoResearchCts?.Cancel();
-            blackboard.StopTracking();
-            blackboard.DestroyPattern();
-            blackboard.AnimDead();
-            VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
-            // turret이 타겟팅하지 않도록 설정
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            Destroy(gameObject, 3f);
+            OnDeath();
         }
+    }
+
+    public void OnDeath()
+    {
+        // turret이 타겟팅하지 않도록 설정
+        blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
+        VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
+
+        blackboard.rb.isKinematic = true;
+        blackboard.cts?.Cancel();
+        blackboard.autoResearchCts?.Cancel();
+        blackboard.StopTracking();
+        blackboard.DestroyPattern();
+        blackboard.AnimDead();
+        if (blackboard.thisBoss == BlackboardEnemy.IsBoss.BOSS) blackboard.OnBossEnd();
+        
+        blackboard.DropItem();
+        Destroy(gameObject, 3f);
     }
     
     //RayCast 시각화

@@ -11,6 +11,7 @@ public static class Addresses
             public const string STATE_CHANGED = "events/game/state_changed";
             public const string COMMAND_COMPLETE = "events/game/command_complete";
             public const string ENEMY_SPAWN = "events/game/enemy_spawn";
+            public const string BOSS_END = "events/game/boss_end";
             public const string WAVE_START = "events/game/wave_start";
             public const string WAVE_CLEAR = "events/game/wave_clear";
             public const string GAME_START = "events/game/game_start";
@@ -94,6 +95,11 @@ public static class Addresses
         {
             public const string QUESTLIST = "data/quest/questlist";
         }
+        
+        public static class Drops
+        {
+            public const string DROPITEMS = "data/drops/dropitems";
+        }
     }
     
     public static class Prefabs
@@ -106,11 +112,12 @@ public static class Addresses
             public const string MATERIAL = "prefabs/counters/material_counter";
         }
         
-        public static class Turrets
+        public static class Game
         {
             public const string BASIC = "prefabs/turrets/basic_turret";
             public const string MISSILE = "prefabs/turrets/missile_turret";
             public const string LASER = "prefabs/turrets/laser_turret";
+            public const string LOOTBOT = "prefabs/turrets/loot_bot";
         }
         
         public static class Effects
@@ -119,15 +126,10 @@ public static class Addresses
             public const string SPARK = "prefabs/effects/spark";
         }
         
-        public static class UI
-        {
-        }
-        
         public static class Enemy
         {
             public const string THROW_SWORD = "prefabs/enemy/throw_sword";
             public const string SPELL_FIELD = "prefabs/enemy/spell_field";
-            
         }
     }
 }

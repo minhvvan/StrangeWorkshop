@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
+public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, IInteractAgent
 {
     StateMachine _stateMachine;
 
@@ -57,9 +57,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     [SerializeField] private Transform holdableObjectHoldPoint;
     private Transform gloveObject;
     private HoldableObject _holdableObject;
-    private BaseCounter _selectedCounter;
-    
-    public  HoldableObject _selectedHoldableObject;
+    private IInteractable _selectedInteractable;
     
     [SerializeField] float playerInteractDistance = 1f;
     [SerializeField] LayerMask playerInteractLayerMask;
@@ -145,58 +143,36 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     private void HandleInteract()
     {
-        
         if (Physics.SphereCast(transform.position, 1f, transform.forward, out RaycastHit interactObject, playerInteractDistance, playerInteractLayerMask))
         {
-            if (interactObject.transform.TryGetComponent(out BaseCounter baseCounter))
+            if (interactObject.transform.TryGetComponent(out IInteractable interactable))
             {
-                if (baseCounter != _selectedCounter)
-                {
-                    SetSelectedCounter(baseCounter);
-                }
+                if (_selectedInteractable == interactable) return;
+                
+                _selectedInteractable?.GetGameObject().GetComponent<SelectObjectVisual>().Hide();
+                _selectedInteractable = interactable;
+                _selectedInteractable.GetGameObject().GetComponent<SelectObjectVisual>().Show();
             }
             else
             {
-                SetSelectedCounter(null);
-            }
-
-            if (interactObject.transform.TryGetComponent(out HoldableObject holdableObject))
-            {
-                SetSelectedHoldable(holdableObject);
-            }
-            else
-            {
-                SetSelectedHoldable(null);
+                ResetSelectedInteractable();
             }
         }
         else
         {
-            SetSelectedCounter(null);
-            SetSelectedHoldable(null);
+            ResetSelectedInteractable();
         }
     }
 
-    private void SetSelectedCounter(BaseCounter counter)
+    private void ResetSelectedInteractable()
     {
-        if (counter == _selectedCounter) return;
-        
-        _selectedCounter?.GetComponent<SelectObjectVisual>().Hide();
-        _selectedCounter = counter;
-        _selectedCounter?.GetComponent<SelectObjectVisual>().Show();
+        _selectedInteractable?.GetGameObject().GetComponent<SelectObjectVisual>().Hide();
+        _selectedInteractable = null;
     }
 
-    private void SetSelectedHoldable(HoldableObject holdableObject)
+    public IInteractable GetSelectedInteractableObject()
     {
-        if (holdableObject == _selectedHoldableObject) return;
-        
-        _selectedHoldableObject?.GetComponent<SelectObjectVisual>().Hide();
-        _selectedHoldableObject = holdableObject;
-        _selectedHoldableObject?.GetComponent<SelectObjectVisual>().Show();
-    }
-    
-    public BaseCounter GetSelectedCounter()
-    {
-        return _selectedCounter;
+        return _selectedInteractable;
     }
     
     public Transform GetHoldableObjectFollowTransform()
@@ -234,6 +210,11 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     public bool CanSetHoldableObject()
     {
         return gloveObject != null;
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 
     public void WearGlove(Transform glove)
