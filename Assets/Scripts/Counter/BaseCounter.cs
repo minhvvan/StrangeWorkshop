@@ -8,15 +8,18 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
     [SerializeField] private Transform counterTopPoint;
     
     private List<HoldableObject> _holdableObject = new();
+    private IHoldableObjectParent _lastholdableObjectParent;
     
     // 상호작용, 키보드 e, 재료를 옮길 때 사용
     public virtual void Interact(IHoldableObjectParent parent)
     {
+        SetHoldableObjectParent(parent); 
     }
     
     // 상호작용, 키도브 f, 가공 및 작업할 때 사용
     public virtual void InteractAlternate(IHoldableObjectParent player)
     {
+        SetHoldableObjectParent(player);
     }
     
     // 배치 포인트 반환
@@ -33,7 +36,7 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
 
     public void GiveHoldableObject(IHoldableObjectParent parent)
     {
-        if(!_holdableObject[^1].SetHoldableObjectParent(parent)) return;
+        if(!_holdableObject[^1].SetHoldableObjectParentWithAnimation(parent)) return;
         _holdableObject.Remove(_holdableObject[^1]);
     }
 
@@ -76,5 +79,15 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
         {
             player.TakeoffGlove();
         }
+    }
+
+    void SetHoldableObjectParent(IHoldableObjectParent parent)
+    {
+        _lastholdableObjectParent = parent;
+    }
+
+    public IHoldableObjectParent GetHoldableObjectParent()
+    {
+        return _lastholdableObjectParent;
     }
 }

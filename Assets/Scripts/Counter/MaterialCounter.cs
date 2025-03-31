@@ -13,7 +13,7 @@ public class MaterialCounter : BaseCounter
 
     void Start()
     {
-        HoldableObject.SpawnHoldableObject(holdableObjectSO, this);
+        HoldableObject.SpawnHoldableObject(holdableObjectSO, this, null);
     }
     
     private void Update()
@@ -37,6 +37,6 @@ public class MaterialCounter : BaseCounter
     IEnumerator SpawnHoldableObject()
     {
         yield return new WaitForSeconds(3f);
-        HoldableObject.SpawnHoldableObject(holdableObjectSO, this);
+        HoldableObject.SpawnHoldableObject(holdableObjectSO, this, GetHoldableObjectFollowTransform());
     }
 }

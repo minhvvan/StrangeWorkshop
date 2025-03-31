@@ -10,6 +10,7 @@ public class ProcessCounter : BaseCounter
 {
     public HoldableObjectSO burnSO;
     public ProgressBar progressBar;
+    [SerializeField] public GameObject[] minigamePrefab;
     
     [NonSerialized] public float burnTime = 5f;
     [NonSerialized] public ProcessRecipeSO currentRecipe;
@@ -20,6 +21,8 @@ public class ProcessCounter : BaseCounter
     [NonSerialized] public ProcessCounter_NoneState _noneState;
     [NonSerialized] public ProcessCounter_ProcessingState _processingState;
     [NonSerialized] public ProcessCounter_OverState _overState;
+
+    [NonSerialized] public ProcessCounter_MinigameState _minigameState;
     
     
     void Awake()
@@ -35,6 +38,9 @@ public class ProcessCounter : BaseCounter
 
     public override void Interact(IHoldableObjectParent parent)
     {
+        base.Interact(parent);
+    
+
         if (!HasHoldableObject())
         {
             if (parent.HasHoldableObject())
@@ -43,6 +49,11 @@ public class ProcessCounter : BaseCounter
                 currentRecipe = RecipeManager.Instance.FindProcessRecipe(parent.GetHoldableObject());
                 if (currentRecipe.IsUnityNull()) return;
                 parent.GiveHoldableObject(this);
+                SetState(_minigameState);
+                if(parent is SampleCharacterController player)
+                {
+                    player.SetState(player.interactState);
+                }
             }
         }
         else
@@ -62,13 +73,15 @@ public class ProcessCounter : BaseCounter
     }
 
     // 레시피가 존재하면 상호작용
-    public override void InteractAlternate(IHoldableObjectParent player)
-    {
-        if (!currentRecipe.IsUnityNull())
-        {
-            isWork = true;
-        }
-    }
+    // public override void InteractAlternate(IHoldableObjectParent player)
+    // {
+    //     if (!currentRecipe.IsUnityNull())
+    //     {
+    //         //base.Interact(player);
+    //         //isWork = true;
+    //         //SetState(_minigameState);
+    //     }
+    // }
     
     private void InitState()
     {
@@ -77,6 +90,8 @@ public class ProcessCounter : BaseCounter
         _noneState = new ProcessCounter_NoneState(this);
         _processingState = new ProcessCounter_ProcessingState(this);
         _overState = new ProcessCounter_OverState(this);
+
+        _minigameState = new ProcessCounter_MinigameState(this);
         
         _stateMachine.ChangeState(_noneState);
     }

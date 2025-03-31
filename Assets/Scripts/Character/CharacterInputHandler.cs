@@ -31,6 +31,13 @@ public class CharacterInputHandler : BaseInputHandler
 
     void DirectControl()
     {
+        //상호작용 시 이동 불가
+        if (_controller.isInteracting)
+        {
+            Horizontal = 0;
+            Vertical = 0;
+            return;
+        } 
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
         

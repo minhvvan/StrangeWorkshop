@@ -48,6 +48,8 @@ public class CharacterMovement : BaseAction
     /// </summary>
     void MoveCharacter()
     {
+        if(_controller.isInteracting) return;
+
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
         
