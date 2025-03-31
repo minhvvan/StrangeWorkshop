@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdableObjectSo: {fileID: 11400000, guid: 54288b72582b52e41afdb1f03973ab0a, type: 2}
+  _upgradeDataSO: {fileID: 11400000, guid: 30b68a9308309704fa7cd1d3362ed35c, type: 2}
 --- !u!54 &726572987363817105
 Rigidbody:
   m_ObjectHideFlags: 0

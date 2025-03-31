@@ -16,7 +16,7 @@ public class Turret_AttackState : BaseState<Turret>
     public override void Enter()
     {
         // timer 초기화
-        _timer = _turretData.fireRate;
+        _timer = _turretData.finalFireRate;
     }
 
     public override void UpdateState()
@@ -24,10 +24,10 @@ public class Turret_AttackState : BaseState<Turret>
         _timer += Time.deltaTime;
         if (_turretData.target != null &&
             _turretData.parentClearCounter != null &&
-            !_turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost))
+            !_turretData.parentClearCounter.OutOfEnergy(_turretData.finalEnergyCost))
         {
             _turretData.shootingStrategy.FollowTarget(_turretData.target);
-            if (_turretData.fireRate <= _timer)
+            if (_turretData.finalFireRate <= _timer)
             {
                 _turretData.shootingStrategy.Shoot(_turretData.target);
                 _timer = 0f;
@@ -40,13 +40,13 @@ public class Turret_AttackState : BaseState<Turret>
     public override void Exit()
     {
         // timer 초기화
-        _timer = _turretData.fireRate;
+        _timer = _turretData.finalFireRate;
     }
     
     private void ChangeState()
     {
         // 작동 가능한지 체크 -> target이 있는지 체크 
-        if (_turretData.parentClearCounter == null || _turretData.parentClearCounter.OutOfEnergy(_turretData.energyCost) || _turretData.isUpgrading)
+        if (_turretData.parentClearCounter == null || _turretData.parentClearCounter.OutOfEnergy(_turretData.finalEnergyCost) || _turretData.isUpgrading)
         {
             _controller.SetState(_controller.notWorkingState);
         }

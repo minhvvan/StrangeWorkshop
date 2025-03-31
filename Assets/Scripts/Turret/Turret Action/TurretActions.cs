@@ -19,15 +19,15 @@ public static class TurretActions
         }
     }
 
-    public static bool Upgrade(Turret turret)
+    public static async void Upgrade(Turret turret, UpgradeDataSO upgradeDataSO)
     {
-        if (turret.turretUpgrade.Upgradable())
-        {
-            turret.turretUpgrade.ActivateUpgradeBar();
-            turret.turretData.isUpgrading = true;
-            return true;
-        }
-        return false;
+        // if (turret.turretUpgrade.Upgradable())
+        // {
+        turret.turretUpgrade.ActivateUpgradeBar();
+        turret.turretData.isUpgrading = true;
+        await turret.turretUpgrade.UpgradeProgressively(upgradeDataSO);
+        turret.turretData.isUpgrading = false;
+        
     }
     
     public static void SetTargetStrategy(Turret turret, ITargetStrategy newStrategy)
@@ -42,14 +42,14 @@ public static class TurretActions
     
     public static void UpdateRangeEffectSize(Turret turret)
     {
-        float size = turret.turretData.attackRange * 2f;
+        float size = turret.turretData.finalAttackRange * 2f;
         turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);
     }
 
     public static void UpdateTarget(Turret turret)
     {
         int layerMask = LayerMask.GetMask("Enemy");
-        Collider[] hitColliders = Physics.OverlapSphere(turret.transform.position, turret.turretData.attackRange, layerMask);
+        Collider[] hitColliders = Physics.OverlapSphere(turret.transform.position, turret.turretData.finalAttackRange, layerMask);
         
         // no enemy in range
         if (hitColliders.Length <= 0)

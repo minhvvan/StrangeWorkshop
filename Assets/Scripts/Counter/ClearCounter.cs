@@ -51,7 +51,7 @@ public class ClearCounter : BaseCounter
                     }
                 }
                 
-                if (!parent.HasHoldableObject())
+                else if (!parent.HasHoldableObject())
                 {
                     GiveHoldableObject(parent);
                     TakeOffPlayerGlove(parent);
