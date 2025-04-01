@@ -38,7 +38,7 @@ public class ProcessCounter : BaseCounter
 
     public override void Interact(IInteractAgent agent = null)
     {
-		base.Interact(parent);
+		base.Interact(agent);
         if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
             if (!HasHoldableObject())

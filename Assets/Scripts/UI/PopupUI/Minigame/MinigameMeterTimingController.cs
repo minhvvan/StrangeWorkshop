@@ -302,7 +302,7 @@ public class MinigameMeterTimingController: MinigameBaseController
                 
                 if(_meterTimingfailCount >= meterTimingMaxFailCount)
                 {
-                    OnFail?.Invoke();                    
+                    OnCustomFail?.Invoke();                    
                     return;
                 }
             }

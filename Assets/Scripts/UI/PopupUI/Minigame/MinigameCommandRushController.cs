@@ -73,6 +73,13 @@ public class MinigameCommandRushController: MinigameBaseController
         {
             Destroy(child.gameObject);
         }
+
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+        }
+        _cts = null;
         commandRushItemSelector.SetActive(false);
     }
 

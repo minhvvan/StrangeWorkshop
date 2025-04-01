@@ -38,13 +38,12 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
 
     public virtual bool SetHoldableObjectParentWithAnimation(IHoldableObjectParent parent)
     {
-        // 부모 객체 설정
         parent.SetHoldableObject(this);
 
         if (TryGetComponent(out Collider col) && TryGetComponent(out Rigidbody rig))
         {
             col.isTrigger = true; 
-            rig.isKinematic = false; // 물리를 적용하여 힘을 줄 수 있도록 설정
+            rig.isKinematic = false;
 
             // 튕겨오르는 효과 추가
             float bounceForce = 20f;
@@ -53,7 +52,6 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
             rig.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
             rig.AddTorque(Random.insideUnitSphere * bounceTorque, ForceMode.Impulse);
 
-            // 일정 시간 후 손으로 이동하도록 설정
             StartCoroutine(MoveToHand(parent, rig, col));
         }
 
@@ -84,13 +82,16 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
 
         rig.isKinematic = true;
         col.isTrigger = true;
-
+        
+        transform.parent = null;
+        transform.localScale = Vector3.one * 2; //기본 사이즈로 보임(나중에 조정 필요)
         Transform target = parent.GetHoldableObjectFollowTransform();
         transform.parent = target;
 
         //float moveSpeed = 5f;
         float elapsedTime = 0f;
         float duration = 0.2f;
+
         Vector3 startPosition = transform.position;
         Quaternion startRotation = transform.rotation;
 
@@ -107,7 +108,7 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
     }
 
     //HoldableObject Spawn함수
-    public static HoldableObject SpawnHoldableObject(HoldableObjectSO holdableObjectSo, IHoldableObjectParent toHoldableObjectParent, Transform fromTransform = null)
+    public static HoldableObject SpawnHoldableObject(HoldableObjectSO holdableObjectSo, IHoldableObjectParent toHoldableObjectParent, Transform fromTransform)
     {
         GameObject holdableObjectTransform = Instantiate(holdableObjectSo.prefab, fromTransform);
         holdableObjectTransform.transform.localPosition = Vector3.zero;
@@ -116,7 +117,6 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
 
         HoldableObject holdableObject = holdableObjectTransform.GetComponent<HoldableObject>();
 
-        //holdableObject.SetHoldableObjectParentWithAnimation(holdableObjectParent);
         if(fromTransform == null)
         {
             holdableObject.SetHoldableObjectParent(toHoldableObjectParent);

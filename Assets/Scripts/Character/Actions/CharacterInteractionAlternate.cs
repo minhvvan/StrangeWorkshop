@@ -47,6 +47,10 @@ public class CharacterInteractionAlternate : BaseAction
         {
             _controller.GetSelectedInteractableObject().InteractAlternate(_controller);
         }
+        else
+        {
+            _controller.GetHoldableObject().InteractAlternate(_controller);
+        }
         
         OnHoldObjectAction?.Invoke(_controller.GetHoldableObject());
     }

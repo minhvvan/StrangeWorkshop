@@ -18,7 +18,7 @@ public class MaterialCounter : BaseCounter
 
     void Start()
     {
-        HoldableObject.SpawnHoldableObject(holdableObjectSO, this);
+        HoldableObject.SpawnHoldableObject(holdableObjectSO, this, GetHoldableObjectFollowTransform());
         priceText.text = $"${holdableObjectSO.price.ToString()}";
     }
     

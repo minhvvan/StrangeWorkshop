@@ -22,7 +22,7 @@ public class ProcessCounter_ProcessingState : BaseState<ProcessCounter>
         if (_currentTime >= _controller.currentRecipe.processTime)
         {
             _controller.ClearHoldableObject();
-            HoldableObject.SpawnHoldableObject(_controller.currentRecipe.output, _controller);
+            HoldableObject.SpawnHoldableObject(_controller.currentRecipe.output, _controller, _controller.GetHoldableObjectFollowTransform() );
             _controller.SetState(_controller._overState);
         }
         

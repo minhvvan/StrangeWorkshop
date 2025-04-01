@@ -31,7 +31,7 @@ public class ProcessCounter_BaseMinigame : BaseState<ProcessCounter>
 
     public override void Exit()
     {
-        if (_controller.GetHoldableObjectParent() is SampleCharacterController sampleCharacterController)
+        if (_controller.GetLastInteractionAgentParent() is SampleCharacterController sampleCharacterController)
         {
             sampleCharacterController.SetState(sampleCharacterController.idleState);
         }
@@ -86,7 +86,7 @@ public class ProcessCounter_BaseMinigame : BaseState<ProcessCounter>
     {
         _controller.ClearHoldableObject();
         //플레이어에게 직접 오브젝트를 넘겨주도록 구현
-        HoldableObject.SpawnHoldableObject(_controller.currentRecipe.output, _controller.GetHoldableObjectParent(), _controller.GetHoldableObjectFollowTransform());
+        HoldableObject.SpawnHoldableObject(_controller.currentRecipe.output, (IHoldableObjectParent)_controller.GetLastInteractionAgentParent(), _controller.GetHoldableObjectFollowTransform());
         _controller.SetState(_controller._noneState);
         
     }
@@ -95,7 +95,7 @@ public class ProcessCounter_BaseMinigame : BaseState<ProcessCounter>
     {
         //마지막에 상호작용하는 플레이어 변수 _controller.GetHoldableObjectParent()
         //우선적으로 돌려주자
-        _controller.GiveHoldableObject(_controller.GetHoldableObjectParent());
+        _controller.GiveHoldableObject( (IHoldableObjectParent)_controller.GetLastInteractionAgentParent());
         _controller.SetState(_controller._noneState);
     }
 }
