@@ -25,6 +25,6 @@ public class LootBotInteraction : BaseAction
     
     private void Interact()
     {
-        _lootBotBlackBoard._selectedInteractable.Interact(_lootBotBlackBoard.lootBot);
+        _lootBotBlackBoard._selectedInteractable?.Interact(_lootBotBlackBoard.lootBot);
     }
 }
