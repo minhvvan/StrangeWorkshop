@@ -131,5 +131,14 @@ public static class Addresses
             public const string THROW_SWORD = "prefabs/enemy/throw_sword";
             public const string SPELL_FIELD = "prefabs/enemy/spell_field";
         }
+
+        public static class Turret
+        {
+            public const string TURRET_GUN = "prefabs/turret/turret_gun";
+            public const string TURRET_MISSILE = "prefabs/turret/turret_missile";
+            public const string TURRET_MORTAR = "prefabs/turret/turret_mortar";
+            public const string TURRET_MISSILEDOUBLE = "prefabs/turret/turret_missiledouble";
+            
+        }
     }
 }

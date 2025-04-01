@@ -15,7 +15,6 @@ MonoBehaviour:
   inputs:
   - {fileID: 11400000, guid: f79526215eb859244af80e3adb3c3d34, type: 2}
   - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
-  - {fileID: 11400000, guid: 9d571fead3ea90e48942248965e5de3b, type: 2}
   output: {fileID: 11400000, guid: 54288b72582b52e41afdb1f03973ab0a, type: 2}
   craftNumberOfTimes: 5
   craftRecipeUI: {fileID: 8409750582007153381, guid: cabf7fe95ebeb0d41886a70f2b49a314,

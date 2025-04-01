@@ -5,15 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TurretStats", menuName = "SO/Turret/Stats")]
 public class TurretDataSO : ScriptableObject
 {
-    // turret 스탯
+    public TurretBaseStatSO turretBaseStatSO;
     public TurretType turretType;
-    public float damage;
-    public float attackRange;
-    public float fireRate;
-    public int energyCost;
     
     // bullet
     public GameObject bullet;
+    
+    // 스탯 배율
+    public float damageMultiplier;
+    public float attackRangeMultiplier;
+    public float attackSpeedMultiplier;
+    public float energyCostMultiplier;
     
     // 임시
     public float lookSpeed;

@@ -3,16 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Turret : HoldableObject
 {
+    // public UpgradeDataSO upgradeData;
+    
     // 터렛 정보를 담고있는 블랙보드
     public Blackboard_Turret turretData { get; private set; }
     public Upgrade turretUpgrade { get; private set; }
     
     StateMachine _stateMachine;
     
-    private bool _isInitialized = false;
+    [NonSerialized] public bool IsInitialized = false;
     // turret 캐싱
     [NonSerialized] public Turret_IdleState idleState;
     [NonSerialized] public Turret_AttackState attackState;
@@ -28,7 +31,9 @@ public class Turret : HoldableObject
         
         // turretmanager에 해당 turret 추가
         TurretManager.Instance.AddTurret(this);
-        _isInitialized = true;
+        IsInitialized = true;
+
+        // TestUpgrade();
     }
 
     private void InitComponents()
@@ -55,14 +60,20 @@ public class Turret : HoldableObject
     
     void Update()
     {
-        if (!_isInitialized) return;
+        if (!IsInitialized) return;
         _stateMachine.Update();
     }
 
     void FixedUpdate()
     {
-        if (!_isInitialized) return;
+        if (!IsInitialized) return;
         TurretActions.UpdateTarget(this);
+    }
+
+    void OnDestroy()
+    {
+        TurretManager.Instance.RemoveTurret(this);
+        turretData.attackRateCancelToken.Dispose();
     }
 
     public override bool SetHoldableObjectParent(IHoldableObjectParent parent)
@@ -79,15 +90,24 @@ public class Turret : HoldableObject
         return base.SetHoldableObjectParent(parent);
     }
     
-    public override bool Acceptable(HoldableObject objectType)
+    public override bool Acceptable(HoldableObject holdableObject)
     {
-        if (objectType.GetHoldableObjectSO().objectType == HoldableObjectType.Upgrade)
+        UpgradeDataSO upgradeData = ((UpgradeModuleObject)holdableObject).GetUpgradeDataSO();
+        if (holdableObject.GetHoldableObjectSO().objectType == HoldableObjectType.Upgrade && !turretData.isUpgrading)
         {
+            
             // upgrade 모듈이 놓였을때
-            return TurretActions.Upgrade(this);
+            TurretActions.Upgrade(this, upgradeData);
+            return true;
         }
         
         // upgrade module이 아니면 return false
         return false;
     }
+
+    // private async UniTask TestUpgrade()
+    // {
+    //     await UniTask.WaitForSeconds(15);
+    //     TurretActions.Upgrade(this, upgradeData);
+    // }
 }

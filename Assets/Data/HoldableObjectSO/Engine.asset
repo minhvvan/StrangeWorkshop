@@ -16,3 +16,4 @@ MonoBehaviour:
   objectName: Engine
   objectType: 4
   objectSprite: {fileID: 21300000, guid: 66268832b50b35e4ca66c38573453e85, type: 3}
+  price: 0
