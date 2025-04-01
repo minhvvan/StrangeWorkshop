@@ -76,8 +76,8 @@ public class Turret : HoldableObject
         turretData.attackRateCancelToken.Dispose();
     }
 
-    public override bool SetHoldableObjectParent(IHoldableObjectParent parent)
-    {
+    public override bool SetHoldableObjectParentWithAnimation(IHoldableObjectParent parent)
+    {   
         if (parent.GetType() == typeof(SampleCharacterController))
         {
             TurretActions.Hold(this);
@@ -87,7 +87,7 @@ public class Turret : HoldableObject
             TurretActions.Put(this, parent);
         }
         
-        return base.SetHoldableObjectParent(parent);
+        return base.SetHoldableObjectParentWithAnimation(parent);
     }
     
     public override bool Acceptable(HoldableObject holdableObject)

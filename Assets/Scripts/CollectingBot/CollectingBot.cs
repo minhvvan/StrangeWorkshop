@@ -64,7 +64,7 @@ public class CollectingBot : MonoBehaviour, IHoldableObjectParent, IInteractAgen
 
     public void GiveHoldableObject(IHoldableObjectParent parent)
     {
-        holdableObject.SetHoldableObjectParent(parent);
+        holdableObject.SetHoldableObjectParentWithAnimation(parent);
         holdableObject = null;
     }
 
