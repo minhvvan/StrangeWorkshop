@@ -1,0 +1,7 @@
+public interface IInteractKits
+{
+    void SetKitInfo(KitInfoSO kitInfo);
+    void SetKit(KitObject kit);
+    void UpgradeKit(int? upgradeValue = null);
+    void Excute(KitObject kit, int? cost = null);
+}
