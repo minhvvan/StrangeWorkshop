@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05d2c44ecdfe0841bae527544d3396c, type: 3}
   m_Name: Turret_Mortar
   m_EditorClassIdentifier: 
-  turretType: 2
-  damage: 30
-  attackRange: 20
-  fireRate: 2
-  energyCost: 10
+  turretBaseStatSO: {fileID: 11400000, guid: 8f31dde3899d03946bc0dc645fd9cb2e, type: 2}
+  turretType: 3
   bullet: {fileID: 1986743744459060, guid: caed3b3230fb5b44e8a533b81cd4c111, type: 3}
+  damageMultiplier: 1
+  attackRangeMultiplier: 0.8
+  attackSpeedMultiplier: 0.5
+  energyCostMultiplier: 2
   lookSpeed: 100

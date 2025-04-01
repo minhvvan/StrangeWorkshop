@@ -1,14 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public enum TurretType
 {
+    None,
     GUN,
     MISSILE,
     MORTAR,
-    MISSILEDOUBLE
+    MISSILEDOUBLE,
+    Max
 }
 
 public class Blackboard_Turret : MonoBehaviour
@@ -22,10 +25,16 @@ public class Blackboard_Turret : MonoBehaviour
     
     // turret 스탯
     [NonSerialized] public TurretType turretType;
-    [NonSerialized] public float damage;
-    [NonSerialized] public float attackRange;
-    [NonSerialized] public float fireRate;
-    [NonSerialized] public float energyCost;
+    [NonSerialized] public float finalDamage;
+    [NonSerialized] public float finalAttackRange;
+    [NonSerialized] public float finalAttackSpeed;
+    [NonSerialized] public float finalEnergyCost;
+    
+    // turret 스탯 배율
+    [NonSerialized] public float damageMultiplier;
+    [NonSerialized] public float attackRangeMultiplier;
+    [NonSerialized] public float attackSpeedMultiplier;
+    [NonSerialized] public float energyCostMultiplier;
     
     // bullet
     [NonSerialized] public GameObject bullet;
@@ -40,6 +49,9 @@ public class Blackboard_Turret : MonoBehaviour
     
     // parent
     [NonSerialized] public ClearCounter parentClearCounter;
+    
+    // cancellationToken
+    [NonSerialized] public CancellationTokenSource attackRateCancelToken;
     
     // caching
     [Header("caching")]
@@ -57,16 +69,25 @@ public class Blackboard_Turret : MonoBehaviour
         // stat 초기화
         lookSpeed = so.lookSpeed;
         turretType = so.turretType;
-        damage = so.damage;
-        attackRange = so.attackRange;
-        fireRate = so.fireRate;
+        finalDamage = so.turretBaseStatSO.damage * so.damageMultiplier;
+        finalAttackRange = so.turretBaseStatSO.attackRange * so.attackRangeMultiplier;
+        finalAttackSpeed = so.turretBaseStatSO.attackSpeed * so.attackSpeedMultiplier;
+        finalEnergyCost = so.turretBaseStatSO.energyCost * so.energyCostMultiplier;
         bullet = so.bullet;
-        energyCost = so.energyCost;
+        
+        // stat 배율 초기화
+        damageMultiplier = so.damageMultiplier;
+        attackRangeMultiplier = so.attackRangeMultiplier;
+        attackSpeedMultiplier = so.attackSpeedMultiplier;
+        energyCostMultiplier = so.energyCostMultiplier;
         
         // range effect
-        float size = attackRange * 2f;
+        float size = finalAttackRange * 2f;
         rangeEff.transform.localScale = new Vector3(size, size, 1f);
         rangeEff.SetActive(TurretManager.Instance.rangeEffOn);
+        
+        // canceltoken
+        attackRateCancelToken = new CancellationTokenSource();
         
         // BarUI
         progressBarFix.Initialize();
