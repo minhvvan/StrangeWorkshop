@@ -9,11 +9,13 @@ using UnityEngine.Serialization;
 
 public class ClearCounter : BaseCounter
 {
+    [SerializeField] private Barrier _outerBarrier;
     [SerializeField] private float _maxEnergy = 100f;
     private float _currentEnergy;
     [SerializeField] private float _chargeInterval = 1f;
     [SerializeField] private float _chargeSpeed = 10f;
-    
+    [SerializeField] private BarrierCounterUI _barrierCounterUI;
+
     private CancellationTokenSource _cancelChargeTokenSource;
 
     private void Awake()
@@ -27,9 +29,17 @@ public class ClearCounter : BaseCounter
             SetHoldableObject(existedTurret);
         }
     }
-    
+
+    private void Start()
+    {
+        _barrierCounterUI.InitMaxEnergy(_maxEnergy);
+        _barrierCounterUI.SetEnergy(_currentEnergy);
+    }
+
     public override void Interact(IInteractAgent agent = null)
     {
+        if(_outerBarrier.Destroyed) return;
+        
         if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
             if (!HasHoldableObject())
@@ -51,7 +61,7 @@ public class ClearCounter : BaseCounter
                     }
                 }
                 
-                if (!parent.HasHoldableObject())
+                else if (!parent.HasHoldableObject())
                 {
                     GiveHoldableObject(parent);
                     TakeOffPlayerGlove(parent);
@@ -69,17 +79,20 @@ public class ClearCounter : BaseCounter
         {
             await UniTask.WaitForSeconds(_chargeInterval, cancellationToken:_cancelChargeTokenSource.Token);
             _currentEnergy += _chargeSpeed;
+            _barrierCounterUI.SetEnergy(_currentEnergy);
         }
 
         if (!_cancelChargeTokenSource.IsCancellationRequested)
         {
             _currentEnergy = _maxEnergy;
+            _barrierCounterUI.SetEnergy(_currentEnergy);
         }
     }
 
     public void UseEnergy(float energy)
     {
         _currentEnergy -= energy;
+        _barrierCounterUI.SetEnergy(_currentEnergy);
     }
 
     public void ChangeMaxEnergy(float dMaxEnergy)

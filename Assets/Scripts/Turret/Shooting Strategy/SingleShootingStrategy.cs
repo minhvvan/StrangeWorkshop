@@ -11,7 +11,7 @@ public class SingleShootingStrategy : ShootingStrategy
         VFXManager.Instance.TriggerVFX(VFXType.MUZZLE, _turret.turretData.muzzleMain);
         GameObject missleGo = GameObject.Instantiate(_turret.turretData.bullet, _turret.turretData.muzzleMain);
         Bullet bullet = missleGo.GetComponent<Bullet>();
-        bullet.InitBullet(target.transform, _turret.turretData.damage);
+        bullet.InitBullet(target.transform, _turret.turretData.finalDamage);
     }
 
     protected override void RotateTurretHead(GameObject target)

@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4390239665ac25f45a7c82bd23cf464b, type: 3}
-  m_Name: Upgrade_Turret_MissileDouble
+  m_Name: AttackRange2
   m_EditorClassIdentifier: 
-  upgradeJackpotProbability: 0.125
+  upgradeType: 2
   upgradeTime: 5
-  upgrades:
-  - damage: 1
-    fireRate: 0.1
-    attackRange: 3
-    maxBulletNum: 3
-  - damage: 1
-    fireRate: 0.1
-    attackRange: 3
-    maxBulletNum: 3
-  - damage: 1
-    fireRate: 0.1
-    attackRange: 3
-    maxBulletNum: 3
+  rarity: 2
+  damage:
+    mode: 0
+    value: 0
+  attackSpeed:
+    mode: 0
+    value: 0
+  attackRange:
+    mode: 0
+    value: 10
+  energyCost:
+    mode: 0
+    value: 0
+  switchingTurretType: 0
