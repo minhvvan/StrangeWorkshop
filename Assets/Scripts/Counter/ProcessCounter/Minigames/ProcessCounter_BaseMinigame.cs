@@ -34,6 +34,7 @@ public class ProcessCounter_BaseMinigame : BaseState<ProcessCounter>
         if (_controller.GetLastInteractionAgentParent() is SampleCharacterController sampleCharacterController)
         {
             sampleCharacterController.SetState(sampleCharacterController.idleState);
+            _controller.SetLastInteractionAgentParent(null);
         }
     }
 

@@ -88,7 +88,7 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent, IInter
         }
     }
 
-    void SetLastInteractionAgentParent(IInteractAgent parent)
+    public void SetLastInteractionAgentParent(IInteractAgent parent)
     {
         _lastholdableObjectParent = parent;
     }
