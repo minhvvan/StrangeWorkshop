@@ -68,7 +68,7 @@ public class BarrierCounterUI : MonoBehaviour
             value => energySlider.value = value, newEnergy / _maxEnergy, animationDuration));
     
         _energySequence.Join(DOTween.To(() => currentDisplayedEnergy, 
-            energy => healthText.text = $"{energy} <color=#b3bedb> / {_maxEnergy}</color>", 
+            energy => energyText.text = $"{energy} <color=#b3bedb> / {_maxEnergy}</color>", 
             (int)newEnergy, animationDuration));
     }
 }

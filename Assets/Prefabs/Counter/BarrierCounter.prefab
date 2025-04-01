@@ -235,6 +235,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   counterTopPoint: {fileID: 8992596304271650175}
   _outerBarrier: {fileID: 1498582734441175833}
+  _maxEnergy: 100
+  _chargeInterval: 1
+  _chargeSpeed: 10
+  _barrierCounterUI: {fileID: 2357312998021707522}
 --- !u!65 &1384279509770799041
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -48,7 +48,6 @@ public class Barrier : MonoBehaviour, IDamageable
         _damagedEventSo.Raise(damage);
         
         _currentHealth -= damage;
-        UpdateUI();
         
         if (_currentHealth <= 0)
         {
@@ -57,6 +56,7 @@ public class Barrier : MonoBehaviour, IDamageable
             _destroyEventSo.Raise(_barrierIndex);
         }
         
+        UpdateUI();
         QuestManager.Instance.Notify(QuestType.ProtectBarrier, damage);
     }
 
