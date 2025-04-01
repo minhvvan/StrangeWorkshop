@@ -24,6 +24,9 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
             col.isTrigger = true;
             rig.isKinematic = true;
         }
+
+        transform.parent = null;
+        transform.localScale = Vector3.one;
         transform.parent = parent.GetHoldableObjectFollowTransform();
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;

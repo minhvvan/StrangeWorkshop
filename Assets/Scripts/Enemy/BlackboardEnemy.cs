@@ -37,7 +37,6 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public bool bEnable = true;
     private BossEndEventSO _bossEndEventSO;
     
-    
     ///방벽감지 및 공격
     private IAttackPattern _atkPattern;
     private bool _bDetectedFromTower;
@@ -126,7 +125,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
         //자동 재검색 타이머 시작.
         AutoResearchTarget().Forget();
-        PriorityIncreaser().Forget();
+        //PriorityIncreaser().Forget();
         //최초 이후 재검색 대상시간은 10초.
         _researchTime = 5f;
     }
@@ -170,6 +169,12 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
                     (Addresses.Events.Game.BOSS_END);
                 break;
         }
+    }
+    
+    public void DropItem()
+    {
+        DropItemManager.Instance.GetDropItemByName
+            (ItemName.GOLD_PENNY, transform.position);
     }
     
     ///적 공격종류 선택

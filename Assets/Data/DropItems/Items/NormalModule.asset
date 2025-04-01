@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5d96caa0dd487f82ba74f1430e45e1, type: 3}
+  m_Name: NormalModule
+  m_EditorClassIdentifier: 
+  itemType: 2
+  itemName: 3
+  itemValue: 10
+  description: "\uC77C\uBC18 \uBAA8\uB4C8\uC744 \uC5BB\uC2B5\uB2C8\uB2E4."
+  item: {fileID: 7065947545599072006, guid: efab2098fd6713541b3cf5eae11bd1f7, type: 3}
+  size: {x: 2, y: 2, z: 2}
+  duration: 30
+  poolSize: 5

@@ -36,38 +36,38 @@ public class InGameUIController : MonoBehaviour, IGameUI
     public async void RegisterGameUI(CraftCounter craftCounter)
     {
         await UniTask.WaitUntil(() => RecipeManager.Instance.IsInitialized);
-        _recipeUIController.Initialize(RecipeManager.Instance.GetCraftRecipeCollection);
+        await _recipeUIController.Initialize(RecipeManager.Instance.GetCraftRecipeCollection);
         craftCounter.OnObjectsChangedAction += _recipeUIController.UpdateUI;
         craftCounter.OnCraftCompleteAction += _recipeUIController.CraftComplete;
     }
 
-    public async void RegisterGameUI(EnemySpawner enemySpawner)
+    public void RegisterGameUI(EnemySpawner enemySpawner)
     {
         enemySpawner.OnWaveClearAction += _waveUIController.OnWaveClearPopup;
         enemySpawner.OnWaveAlertAction += _waveUIController.OnWaveAlertPopup;
     }
 
-    public async void RegisterGameUI(BarrierController barrierController)
+    public void RegisterGameUI(BarrierController barrierController)
     {
         _barrierUIController.SetBarrierController(barrierController);
     }
 
-    public async void RegisterGameUI(CharacterInteraction characterInteraction)
+    public void RegisterGameUI(CharacterInteraction characterInteraction)
     {
         characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
     }
-    public async void RegisterGameUI(CharacterInteractionAlternate characterInteraction)
+    public void RegisterGameUI(CharacterInteractionAlternate characterInteraction)
     {
         characterInteraction.OnHoldObjectAction += _equipmentUIController.UpdateEquipment;
     }
 
-    public async void RegisterGameUI(QuestManager questManager)
+    public void RegisterGameUI(QuestManager questManager)
     {
         _questUIController.Initialize();
         QuestManager.Instance.OnQuestProgressUpdated += _questUIController.UpdateQuestProgress;
     }
 
-    public async void RegisterGameUI(InGameDataController dataController)
+    public void RegisterGameUI(InGameDataController dataController)
     {
         dataController.OnGoldChanged += _chapterInfoUIController.UpdateGold;
     }

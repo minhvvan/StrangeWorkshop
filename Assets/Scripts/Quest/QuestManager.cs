@@ -33,18 +33,18 @@ public class QuestManager : Singleton<QuestManager>
     {
         availableQuests = new List<Quest>();
 
-        Initialize();
+        await Initialize();
+        IsInitialized = true;
     }
 
     public async UniTask Initialize()
     {
-        // await UniTask.WaitUntil(() => DataManager.Instance.IsIn
         QuestListSO questListSO = await DataManager.Instance.LoadDataAsync<QuestListSO>(Addresses.Data.Quest.QUESTLIST);
         await LoadCompletedQuests(questListSO);
         GroupingQuests(questListSO);
         
+        // Todo: chapter index 불러오기
         await InitializeChapter(1);
-        IsInitialized = true;
     }
     
     public async UniTask InitializeChapter(int chapterIdx)
@@ -83,7 +83,7 @@ public class QuestManager : Singleton<QuestManager>
         }
     }
 
-    async public void EndChapter()
+    public async void EndChapter()
     {
         foreach (var quest in availableQuests)
         {
@@ -91,15 +91,10 @@ public class QuestManager : Singleton<QuestManager>
                 _completedQuestIdsSet.Add(quest.id);
         }
         
-        SaveCompletedQuests();
-        
-        availableQuests.Clear();
-    }
-
-    async private void SaveCompletedQuests()
-    {
         CompletedQuests completedQuests = new CompletedQuests(_completedQuestIdsSet.ToList());
         await JsonDataHandler.SaveData("completed quests", completedQuests);
+        
+        availableQuests.Clear();
     }
 
     private void CheckQuestStatus(Quest quest)

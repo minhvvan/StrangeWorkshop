@@ -112,6 +112,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eed6fc212966cca41bb81e554f4be65f
+    m_Address: data/drops/dropitems
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f700a46a6e8ce474187d6947ebe33bdd
     m_Address: data/fx/vfxloader
     m_ReadOnly: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
@@ -42,8 +43,6 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.SetPattern();
         blackboard.ResearchTarget();
         blackboard.SetPathfinder();
-        
-        AwakeRigidbody(); // Unity에서 enemy의 rigidbody를 자동으로 sleep 상태로 만드는 것을 방지
     }
 
     private void Update()
@@ -81,7 +80,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void OnDeath()
     {
+        // turret이 타겟팅하지 않도록 설정
         blackboard.gameObject.layer = LayerMask.NameToLayer("Default");
+        VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
+
         blackboard.rb.isKinematic = true;
         blackboard.cts?.Cancel();
         blackboard.autoResearchCts?.Cancel();
@@ -89,15 +91,9 @@ public class Enemy : MonoBehaviour, IDamageable
         blackboard.DestroyPattern();
         blackboard.AnimDead();
         if (blackboard.thisBoss == BlackboardEnemy.IsBoss.BOSS) blackboard.OnBossEnd();
-        VFXManager.Instance.TriggerVFX(VFXType.ENEMYDEATH, transform.position);
-        // turret이 타겟팅하지 않도록 설정
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        
+        blackboard.DropItem();
         Destroy(gameObject, 3f);
-    }
-
-    public void DropTrophy()
-    {
-        //TODO: 처치시 전리품 드랍. 다양한 아이템을 떨굴 수 있게 만들기.
     }
     
     //RayCast 시각화
@@ -125,17 +121,5 @@ public class Enemy : MonoBehaviour, IDamageable
 
         //언 카운트
         EnemySpawner.Instance.enemyCountList.Remove(gameObject);
-    }
-
-    public async UniTask AwakeRigidbody()
-    {
-        while (true)
-        {
-            if (blackboard.rb.IsSleeping())
-            {
-                blackboard.rb.WakeUp();
-            }
-            await UniTask.Delay(TimeSpan.FromSeconds(2));
-        }
     }
 }
