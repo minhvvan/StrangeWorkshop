@@ -45,9 +45,9 @@ public class ConsoleCounter : BaseCounter
                 {
                     craftCounter.ClearHoldableObject();
                     var spawnHoldableObject = HoldableObject.SpawnHoldableObject(currentCraftRecipeSO.output, craftCounter, GetHoldableObjectFollowTransform());
-                    var defaultScale = spawnHoldableObject.transform.localScale;
-                    spawnHoldableObject.transform.localScale = Vector3.zero;
-                    spawnHoldableObject.transform.DOScale(defaultScale, 1f);
+                    // var defaultScale = spawnHoldableObject.transform.localScale;
+                    // spawnHoldableObject.transform.localScale = Vector3.zero;
+                    // spawnHoldableObject.transform.DOScale(defaultScale, 1f);
                     craftCounter.OnCraftCompleteAction?.Invoke(currentCraftRecipeSO.output);
                     _currentIndex = 0;
                     progressBar.ResetBar();

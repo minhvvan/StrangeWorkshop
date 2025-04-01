@@ -69,7 +69,9 @@ public class CraftCounter : BaseCounter
                 }
             
                 parent.GiveHoldableObject(this);
-                GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
+                //빙글빙글 돌게 만드는 로직 주석처리 - 애니메이션 효과 후 위치를 정해주기 위하여 - 해당 기능은 코드 정리 후 추가 해야할 듯 싶음
+                //GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
+
                 // 현재 만들 수 있는 레시피가 있으면 저장
                 _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
                 SetCurrentCraftIndex();

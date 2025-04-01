@@ -25,13 +25,11 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
             rig.isKinematic = true;
         }
 
-        transform.parent = null;
-        transform.localScale = Vector3.one;
         transform.parent = parent.GetHoldableObjectFollowTransform();
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
         transform.localScale = Vector3.zero;
-        StartCoroutine(ScaleZeroToOne(0.2f)); // 0.2초 동안 스케일을 0에서 1로 변경
+        StartCoroutine(ScaleZeroToOne(0.2f, parent.GetHoldableObjectFollowTransform())); // 0.2초 동안 스케일을 0에서 1로 변경
         
         return true;
     }
@@ -58,10 +56,11 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
         return true;
     }
 
-    IEnumerator ScaleZeroToOne(float duration)
+    IEnumerator ScaleZeroToOne(float duration, Transform parent)
     {
         Vector3 startScale = transform.localScale;
         Vector3 targetScale = Vector3.one;
+        transform.parent = null;
 
         float elapsedTime = 0f;
 
@@ -84,7 +83,7 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
         col.isTrigger = true;
         
         transform.parent = null;
-        transform.localScale = Vector3.one * 2; //기본 사이즈로 보임(나중에 조정 필요)
+        transform.localScale = Vector3.one;
         Transform target = parent.GetHoldableObjectFollowTransform();
         transform.parent = target;
 
@@ -110,10 +109,11 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
     //HoldableObject Spawn함수
     public static HoldableObject SpawnHoldableObject(HoldableObjectSO holdableObjectSo, IHoldableObjectParent toHoldableObjectParent, Transform fromTransform)
     {
-        GameObject holdableObjectTransform = Instantiate(holdableObjectSo.prefab, fromTransform);
+        GameObject holdableObjectTransform = Instantiate(holdableObjectSo.prefab);
+        holdableObjectTransform.transform.localScale = Vector3.one;
+        holdableObjectTransform.transform.parent = fromTransform;
         holdableObjectTransform.transform.localPosition = Vector3.zero;
         holdableObjectTransform.transform.localRotation = Quaternion.identity;
-        holdableObjectTransform.transform.localScale = Vector3.one;
 
         HoldableObject holdableObject = holdableObjectTransform.GetComponent<HoldableObject>();
 
@@ -139,7 +139,7 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
         if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
             if (parent.HasHoldableObject()) return;
-            SetHoldableObjectParent(parent);
+            SetHoldableObjectParentWithAnimation(parent);
         }
     }
 
