@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SampleCharacterController))]
 public class CharacterDash : BaseAction
 {
+    [SerializeField] private LayerMask collisionLayerMask;
+
     private SampleCharacterController _controller;
 
     void Awake()
@@ -86,7 +88,8 @@ public class CharacterDash : BaseAction
                 _controller.rb.position,
                 moveDir,
                 out RaycastHit hit,
-                2.0f
+                2.0f,
+                collisionLayerMask
             );
 
             if (isBlocked)

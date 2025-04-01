@@ -32,7 +32,6 @@ public class ChapterSequencer
 
     private void OnCommandCompleted()
     {
-        Debug.Log("OnCommandCompleted");
         ExecuteNextCommand();
     }
 
