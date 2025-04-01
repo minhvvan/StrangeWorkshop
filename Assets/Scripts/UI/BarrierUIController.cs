@@ -12,10 +12,9 @@ public class BarrierUIController : MonoBehaviour, IGameUI
     private RectTransform _root;
 
     [Header("UI Elements")]
-    [SerializeField] private Slider _totalHealthBar;
-    [SerializeField] private TMP_Text _currentHealthText;
-    [SerializeField] private TMP_Text _maxHealthText;
-
+    [SerializeField] List<Image> lifeImages;
+    [SerializeField] List<Sprite> lifeSprites;
+    
     private void Awake()
     {
         _root = transform.GetComponent<RectTransform>();
@@ -27,7 +26,7 @@ public class BarrierUIController : MonoBehaviour, IGameUI
         CleanUp();
         
         _barrierController = newBarrierController;
-        _barrierController.OnBarrierHealthChangedAction += UpdateBarrierTotalHealth;
+        _barrierController.OnBarrierDestroyed += UpdateLife;
         
         Initialize();
     }
@@ -52,14 +51,15 @@ public class BarrierUIController : MonoBehaviour, IGameUI
     public void Initialize()
     {
         if (!_barrierController) return;
-        _maxHealthText.text = $"{_barrierController.MaxHealth}";
-        UpdateBarrierTotalHealth(_barrierController.MaxHealth);
+
+        for (int i = 0; i < _barrierController.LifeCount; i++)
+        {
+            lifeImages[i].sprite = lifeSprites[0];
+        }
     }
     
-    private void UpdateBarrierTotalHealth(float totalHealth)
+    private void UpdateLife()
     {
-        // 총 체력 UI 업데이트
-        _currentHealthText.text = $"{_barrierController.TotalHeath}";
-        _totalHealthBar.value = _barrierController.TotalHeath / _barrierController.MaxHealth;
+        lifeImages[_barrierController.LifeCount].sprite = lifeSprites[1];
     }
 }
