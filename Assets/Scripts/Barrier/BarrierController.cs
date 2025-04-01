@@ -12,14 +12,13 @@ public class BarrierController : MonoBehaviour
     [SerializeField] float healthPerBarrier;
     private BarrierStatSO _barrierStat;
     public List<Barrier> Barriers { get; private set; }
-
-    private int _destroyedBarrierCount;
+    public int LifeCount { get; private set; }
 
     [Header("Events")] 
     private InGameUIController _inGameUIController;
     private BarrierDamagedEventSO _damagedEventSO;
     private BarrierDestroyEventSO _destroyEventSO;
-    public Action<float> OnBarrierHealthChangedAction;
+    public Action OnBarrierDestroyed;
 
     private async void Awake()
     {
@@ -34,12 +33,15 @@ public class BarrierController : MonoBehaviour
         Barriers = GetComponentsInChildren<Barrier>().ToList();
         
         //Init
-        _destroyedBarrierCount = 0;
+        LifeCount = Constants.LIFE_COUNT;
         for (var i = 0; i < Barriers.Count; i++)
         {
             Barriers[i].SetBarrierIndex(i);
             Barriers[i].InitHealth(healthPerBarrier);
         }
+        
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);
     }
 
     private void OnBarrierDamaged(float damage)
@@ -49,10 +51,10 @@ public class BarrierController : MonoBehaviour
 
     private void OnBarrierDestroy(int index)
     {
-        //TODO: Barriers[i] 파괴 UI Update
-        _destroyedBarrierCount++;
+        LifeCount--;
+        OnBarrierDestroyed?.Invoke();
         
-        if (_destroyedBarrierCount >= 3)
+        if (LifeCount <= 0)
         {
             GameManager.Instance.GameOver();
         }

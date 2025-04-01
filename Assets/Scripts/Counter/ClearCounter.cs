@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class ClearCounter : BaseCounter
 {
+    [SerializeField] private Barrier _outerBarrier;
+    
     public override void Interact(IInteractAgent agent = null)
     {
+        if(_outerBarrier.Destroyed) return;
+        
         if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
             if (!HasHoldableObject())

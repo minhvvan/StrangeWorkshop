@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class Barrier : MonoBehaviour, IDamageable
 {
-    private GameObject _barrierEff;
-    
     [Header("Event")] 
     private BarrierDamagedEventSO _damagedEventSo;
     private BarrierDestroyEventSO _destroyEventSo;
@@ -23,7 +21,10 @@ public class Barrier : MonoBehaviour, IDamageable
     private float _maxHealth;
     private float _currentHealth;
     private int _barrierIndex;
-    private bool _destroyed;
+    
+    private GameObject _barrierEff;
+
+    public bool Destroyed { get; private set; }
 
     private void Awake()
     {
@@ -35,13 +36,14 @@ public class Barrier : MonoBehaviour, IDamageable
 #if UNITY_EDITOR
         await UniTask.WaitUntil(() => GameBootstrapper.IsInitialized);
 #endif
-        _destroyed = false;
+        Destroyed = false;
         _damagedEventSo = await DataManager.Instance.LoadDataAsync<BarrierDamagedEventSO>(Addresses.Events.Barrier.BARRIER_DAMAGED);
+        _destroyEventSo = await DataManager.Instance.LoadDataAsync<BarrierDestroyEventSO>(Addresses.Events.Barrier.BARRIER_DESTROYED);
     }
 
     public void TakeDamage(float damage)
     {
-        if (_destroyed) return;
+        if (Destroyed) return;
         
         _damagedEventSo.Raise(damage);
         
@@ -50,7 +52,7 @@ public class Barrier : MonoBehaviour, IDamageable
         
         if (_currentHealth <= 0)
         {
-            _destroyed = true;
+            Destroyed = true;
             _currentHealth = 0;
             _destroyEventSo.Raise(_barrierIndex);
         }
@@ -86,11 +88,15 @@ public class Barrier : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+        
         UIAnimationUtility.PopupShow(_barrierCounterUIRect, duration:0.1f);
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+
         UIAnimationUtility.PopupHide(_barrierCounterUIRect, duration:0.1f);
     }
 }
