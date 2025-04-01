@@ -640,7 +640,7 @@ public class RangeMage : IAttackPattern
             {
                 //맞으면 1.25초 기절  <- //공중에 띄우고, 이동을 제어한다.
                 //_spellField.OnShockWave();
-                EnemyBb.player.isMoveable = false;
+                EnemyBb.player.ExitMoveable();
                 EnemyBb.player.rb.velocity = Vector3.zero;
                 
                 var vfxPos = EnemyBb.player.transform.position + new Vector3(0, 3.5f, 0);
@@ -648,12 +648,12 @@ public class RangeMage : IAttackPattern
                 
                 await UniTask.Delay((int)(1000 * airborneTime), cancellationToken: EnemyBb.cts.Token);
             
-                EnemyBb.player.isMoveable = true;
+                EnemyBb.player.EnterMoveable();
             }
         }
         finally
         {
-            EnemyBb.player.isMoveable = true;
+            EnemyBb.player.EnterMoveable();
         }
     }
     

@@ -30,16 +30,101 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
         transform.parent = parent.GetHoldableObjectFollowTransform();
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.zero;
+        StartCoroutine(ScaleZeroToOne(0.2f)); // 0.2초 동안 스케일을 0에서 1로 변경
         
         return true;
     }
 
-    //HoldableObject Spawn함수
-    public static HoldableObject SpawnHoldableObject(HoldableObjectSO holdableObjectSo, IHoldableObjectParent holdableObjectParent)
+    public virtual bool SetHoldableObjectParentWithAnimation(IHoldableObjectParent parent)
     {
-        GameObject holdableObjectTransform = Instantiate(holdableObjectSo.prefab);
+        parent.SetHoldableObject(this);
+
+        if (TryGetComponent(out Collider col) && TryGetComponent(out Rigidbody rig))
+        {
+            col.isTrigger = true; 
+            rig.isKinematic = false;
+
+            // 튕겨오르는 효과 추가
+            float bounceForce = 20f;
+            float bounceTorque = 10f;
+
+            rig.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+            rig.AddTorque(Random.insideUnitSphere * bounceTorque, ForceMode.Impulse);
+
+            StartCoroutine(MoveToHand(parent, rig, col));
+        }
+
+        return true;
+    }
+
+    IEnumerator ScaleZeroToOne(float duration)
+    {
+        Vector3 startScale = transform.localScale;
+        Vector3 targetScale = Vector3.one;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localScale = targetScale;
+    }
+
+
+    IEnumerator MoveToHand(IHoldableObjectParent parent, Rigidbody rig, Collider col)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        rig.isKinematic = true;
+        col.isTrigger = true;
+        
+        transform.parent = null;
+        transform.localScale = Vector3.one * 2; //기본 사이즈로 보임(나중에 조정 필요)
+        Transform target = parent.GetHoldableObjectFollowTransform();
+        transform.parent = target;
+
+        //float moveSpeed = 5f;
+        float elapsedTime = 0f;
+        float duration = 0.2f;
+
+        Vector3 startPosition = transform.position;
+        Quaternion startRotation = transform.rotation;
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(startPosition, target.position, elapsedTime / duration);
+            transform.rotation = Quaternion.Lerp(startRotation, target.rotation, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+    }
+
+    //HoldableObject Spawn함수
+    public static HoldableObject SpawnHoldableObject(HoldableObjectSO holdableObjectSo, IHoldableObjectParent toHoldableObjectParent, Transform fromTransform)
+    {
+        GameObject holdableObjectTransform = Instantiate(holdableObjectSo.prefab, fromTransform);
+        holdableObjectTransform.transform.localPosition = Vector3.zero;
+        holdableObjectTransform.transform.localRotation = Quaternion.identity;
+        holdableObjectTransform.transform.localScale = Vector3.one;
+
         HoldableObject holdableObject = holdableObjectTransform.GetComponent<HoldableObject>();
-        holdableObject.SetHoldableObjectParent(holdableObjectParent);
+
+        if(fromTransform == null)
+        {
+            holdableObject.SetHoldableObjectParent(toHoldableObjectParent);
+        }
+        else
+        {
+            holdableObject.SetHoldableObjectParentWithAnimation(toHoldableObjectParent);
+        }
 
         return holdableObject;
     }

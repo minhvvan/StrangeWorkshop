@@ -39,7 +39,7 @@ public class CharacterInteraction : BaseAction
     {
         if(_controller.inputHandler == null) return;
 
-        _controller.inputHandler.OnInteract -= HandleInteraction;        
+        _controller.inputHandler.OnInteract -= HandleInteraction;       
     }
 
     void HandleInteraction()
@@ -48,14 +48,14 @@ public class CharacterInteraction : BaseAction
         {
             _controller.GetSelectedInteractableObject().Interact(_controller);
         }
-
+    
         OnHoldObjectAction?.Invoke(_controller.GetHoldableObject());
     }
 
     private async void InitUI()
     {
-        // await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
-        // _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
-        // _inGameUIController.RegisterGameUI(this);
+        await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
+        _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
+        _inGameUIController.RegisterGameUI(this);
     }
 }
