@@ -34,10 +34,9 @@ public class EnemyPathfinder : MonoBehaviour
 
     private async UniTask Initialize()
     {
-        //_barrierController = GameObject.Find("Barrier").GetComponent<BarrierController>();
-        _barrierController = GameObject.Find("Base").GetComponent<BarrierController>();
+        _barrierController = FindObjectOfType<BarrierController>();
         
-        await UniTask.WaitUntil(() =>_barrierController.Barriers != null && _barrierController.Barriers.Count > 0);
+        await UniTask.WaitUntil(() =>_barrierController.Barriers is { Count: > 0 });
         foreach (var barrier in _barrierController.Barriers)
         {
             barrierPoints.Add(barrier.transform);

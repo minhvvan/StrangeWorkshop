@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using DG.Tweening;
 
 public class CameraManager : Singleton<CameraManager>
 {
@@ -10,6 +11,10 @@ public class CameraManager : Singleton<CameraManager>
     private CinemachineBrain _brain;
     private List<CinemachineVirtualCamera> _virtualCameras = new List<CinemachineVirtualCamera>();
     private Transform _originTarget;
+    
+    [SerializeField] private float _transitionDuration = 0.5f;
+    [SerializeField] private float _normalHeight = 21f;
+    [SerializeField] private float _elevatedHeight = 50f;
     
     protected override void Awake()
     {
@@ -24,6 +29,47 @@ public class CameraManager : Singleton<CameraManager>
         _mainCamera = Camera.main;
         _brain = _mainCamera?.GetComponent<CinemachineBrain>();
         InitializeVirtualCameras();
+    }
+    
+    private Tween _cameraTween;
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            TransitionCameraHeight(_elevatedHeight);
+        }
+        
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            TransitionCameraHeight(_normalHeight);
+        }
+    }
+    
+    private void TransitionCameraHeight(float targetHeight)
+    {
+        ICinemachineCamera activeVirtualCamera = _brain.ActiveVirtualCamera;
+        if (activeVirtualCamera is CinemachineVirtualCamera virtualCamera)
+        {
+            var transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            
+            if (transposer != null)
+            {
+                _cameraTween?.Kill();
+                
+                _cameraTween = DOTween.To(
+                    () => transposer.m_FollowOffset.y,
+                    (y) => 
+                    {
+                        Vector3 offset = transposer.m_FollowOffset;
+                        offset.y = y;
+                        transposer.m_FollowOffset = offset;
+                    },
+                    targetHeight,
+                    _transitionDuration
+                ).SetEase(Ease.OutQuad);
+            }
+        }
     }
 
     private void InitializeVirtualCameras()

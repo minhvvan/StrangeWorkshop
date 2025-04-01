@@ -66,7 +66,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         }
     }
 
-    [NonSerialized] public string layerName = "Barrier";
+    [NonSerialized] public string layerName = "BarrierCounter";
     public bool bDetectBarrier = false;
     public bool bCanPattern = false;
 

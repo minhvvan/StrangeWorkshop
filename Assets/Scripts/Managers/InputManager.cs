@@ -12,6 +12,8 @@ public class InputManager: Singleton<InputManager>
      private Stack<IControllable> _controlStack = new Stack<IControllable>();
      private InputData _currentInputData = new InputData();
 
+     public bool IsAcceptingInput { get; set; }
+
      protected override void Awake()
      {
           base.Awake();
@@ -21,6 +23,8 @@ public class InputManager: Singleton<InputManager>
 
      private void Update()
      {
+          if (!IsAcceptingInput) return;
+          
           // 입력 수집
           _currentInputData.moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
           _currentInputData.interactPressed = Input.GetButtonDown("Interact");
