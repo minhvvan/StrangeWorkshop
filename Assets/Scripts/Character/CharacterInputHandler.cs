@@ -26,6 +26,11 @@ public class CharacterInputHandler : BaseInputHandler
     {
         base.ProcessInput(input);
         
+        if (_controller.isInteracting)
+        {
+            OnControlEnd();
+            return;
+        }
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
         

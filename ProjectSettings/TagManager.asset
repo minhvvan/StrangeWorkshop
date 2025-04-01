@@ -9,6 +9,7 @@ TagManager:
   - FxTemporaire
   - Missile
   - PlayerEyes
+  - MinigameCanvas
   layers:
   - Default
   - TransparentFX

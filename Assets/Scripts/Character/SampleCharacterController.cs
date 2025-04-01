@@ -13,6 +13,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, I
     [NonSerialized] public Character_WalkState walkState;
     [NonSerialized] public Character_RunState runState;
     [NonSerialized] public Character_DashState dashState;
+    [NonSerialized] public Character_InteractState interactState;
 
     // ▼ 사용하는 액션들
     List<BaseAction> _actions = new List<BaseAction>();
@@ -30,7 +31,10 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, I
     public float runSpeed  = 10f;
     public float dashSpeed = 30f; // 대쉬 속도
 
-    [NonSerialized] public bool isMoveable = true;
+    //캐릭터의 조작 제어
+    [NonSerialized] public bool isMoveable = true; //캐릭터 이동가능 여부(스턴, 상태이상 등)
+    [NonSerialized] public bool isInteracting = false; //캐릭터 상호작용 중 여부
+
     
     [Header("Dash Timings")]
     [SerializeField] public float dashAccelTime = 0.5f;
@@ -84,6 +88,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, I
         walkState = new Character_WalkState(this);
         runState  = new Character_RunState(this);
         dashState = new Character_DashState(this);
+        interactState = new Character_InteractState(this);
 
         // 초기 상태
         _stateMachine.ChangeState(idleState);
@@ -182,7 +187,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, I
 
     public void GiveHoldableObject(IHoldableObjectParent parent)
     {
-        _holdableObject.SetHoldableObjectParent(parent);
+        _holdableObject.SetHoldableObjectParentWithAnimation(parent);
         _holdableObject = null;
     }
 
@@ -223,5 +228,42 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, I
         if (gloveObject != null)
             Destroy(gloveObject.gameObject);
         gloveObject = null;
+    }
+
+
+    /// <summary>
+    /// 이동불가능한 상호작용의 시작을 위한 함수
+    /// </summary>
+    public void EnterInteraction()
+    {
+        isInteracting = true;
+    }
+
+
+    /// <summary>
+    /// 이동불가능한 상호작용의 종료를 위한 함수
+    /// </summary>
+    public void ExitInteraction()
+    {
+        isInteracting = false;
+    }
+
+
+    /// <summary>
+    /// 이동불가능한 상태의 시작을 위한 함수 (CC기 맞았을때 사용)
+    /// </summary>
+    public void EnterMoveable()
+    {
+        isMoveable = true;
+        isInteracting = false;
+    }
+
+    /// <summary>
+    /// 이동불가능한 상태의 종료를 위한 함수
+    /// </summary>
+    public void ExitMoveable()
+    {
+        isMoveable = false;
+
     }
 }

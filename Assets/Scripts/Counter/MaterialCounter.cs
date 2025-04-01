@@ -18,7 +18,7 @@ public class MaterialCounter : BaseCounter
 
     void Start()
     {
-        HoldableObject.SpawnHoldableObject(holdableObjectSO, this);
+        HoldableObject.SpawnHoldableObject(holdableObjectSO, this, GetHoldableObjectFollowTransform());
         priceText.text = $"${holdableObjectSO.price.ToString()}";
     }
     
@@ -47,7 +47,7 @@ public class MaterialCounter : BaseCounter
     IEnumerator SpawnHoldableObject()
     {
         yield return new WaitForSeconds(3f);
-        HoldableObject.SpawnHoldableObject(holdableObjectSO, this);
+        HoldableObject.SpawnHoldableObject(holdableObjectSO, this, GetHoldableObjectFollowTransform());
     }
 
     public void ActivatePriceTag()
