@@ -4963,7 +4963,7 @@ GameObject:
   - component: {fileID: 710974490528305634}
   - component: {fileID: 8880889209685288614}
   - component: {fileID: 3763227741116832778}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5083,7 +5083,6 @@ MonoBehaviour:
   StartAnimTime: 0.155
   StopAnimTime: 0.423
   holdableObjectHoldPoint: {fileID: 7629501217366854623}
-  _selectedHoldableObject: {fileID: 0}
   playerInteractDistance: 3
   playerInteractLayerMask:
     serializedVersion: 2

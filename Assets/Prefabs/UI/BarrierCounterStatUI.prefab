@@ -267,6 +267,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8736813f8d2f53a48a6ef985c538ead5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrierHealthSlider: {fileID: 301535292403867165}
+  energySlider: {fileID: 4156697657014541618}
+  healthText: {fileID: 577814633416884332}
+  energyText: {fileID: 6695189325286377310}
+  animationDuration: 0.2
 --- !u!1 &2954226453940616146
 GameObject:
   m_ObjectHideFlags: 0

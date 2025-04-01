@@ -62,6 +62,8 @@ public class Barrier : MonoBehaviour, IDamageable
     {
         _maxHealth = health;
         _currentHealth = health;
+        _barrierCounterUI.InitMaxHealth(_maxHealth);
+        UpdateUI();
     }
 
     public void SetBarrierIndex(int i)
