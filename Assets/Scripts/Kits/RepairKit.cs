@@ -67,5 +67,8 @@ public class RepairKit : IInteractKits
         //연산처리
         obj.KitRemainingCost -= cost.Value;
         
+        //VFX
+        VFXManager.Instance.TriggerVFX(VFXType.COUNTERREPAIR, 
+            clearCounter.transform.position + new Vector3(0,2f,0));
     }
 }
