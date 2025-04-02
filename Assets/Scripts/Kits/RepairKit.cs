@@ -45,7 +45,7 @@ public class RepairKit : IInteractKits
         _kitObject.kitValue = _kitValues[level];
     }
     
-    public void Excute(KitObject obj, int? cost = null, SampleCharacterController player = null)
+    public void Excute(KitObject obj, SampleCharacterController player = null, int? cost = null)
     {
         cost = cost ?? 1;
         var clearCounter = (ClearCounter)player.GetSelectedInteractableObject();

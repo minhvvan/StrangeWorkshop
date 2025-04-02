@@ -12,7 +12,7 @@ public class KitObject : HoldableObject
     public KitType kitType;
     
     //
-    private Action<KitObject, int?,SampleCharacterController> _objective;
+    private Action<KitObject, SampleCharacterController, int?> _objective;
     private Action<int?> _upgradeKit;
     
     [Header("KitStat"), Tooltip("KitLevel에 따라 능력치가 다르게 설정됩니다.")]
@@ -77,7 +77,7 @@ public class KitObject : HoldableObject
     /// </summary>
     public void Excute(SampleCharacterController player)
     {
-        _objective?.Invoke(this, modifyCost != 0 ? modifyCost : null, player);
+        _objective?.Invoke(this, player, modifyCost != 0 ? modifyCost : null);
     }
 
     /// <summary>
