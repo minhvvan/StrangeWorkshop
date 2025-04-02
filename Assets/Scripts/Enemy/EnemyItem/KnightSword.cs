@@ -33,6 +33,7 @@ public class KnightSword : MonoBehaviour
         }
         else if (throwType == ThrowType.RangeAttack)
         {
+            DOTween.Kill(gameObject);
             Destroy(gameObject);
         }
     }
@@ -40,10 +41,5 @@ public class KnightSword : MonoBehaviour
     public void OnAction(Action action)
     {
         action?.Invoke();
-    }
-
-    private void OnDestroy()
-    {
-        
     }
 }

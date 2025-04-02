@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,19 +17,21 @@ public class Turret_AttackState : BaseState<Turret>
 
     public override void Enter()
     {
-        // timer 초기화
-        _timer = _controller.turretData.fireRate;
+        _turretData.attackRateCancelToken.Dispose();
+        _turretData.attackRateCancelToken = new CancellationTokenSource();
     }
 
     public override void UpdateState()
     {
         _timer += Time.deltaTime;
-        if (_controller.turretData.target != null && _controller.turretData.currentBulletNum > 0)
+        if (_turretData.target != null &&
+            _turretData.parentClearCounter != null &&
+            !_turretData.parentClearCounter.OutOfEnergy(_turretData.finalEnergyCost))
         {
-            _controller.turretData.shootingStrategy.FollowTarget(_controller.turretData.target);
-            if (_controller.turretData.fireRate <= _timer)
+            _turretData.shootingStrategy.FollowTarget(_turretData.target);
+            if (1 / _turretData.finalAttackSpeed <= _timer)
             {
-                _controller.turretData.shootingStrategy.Shoot(_controller.turretData.target);
+                _turretData.shootingStrategy.Shoot(_turretData.target);
                 _timer = 0f;
                 ChangeState();
             }
@@ -38,17 +42,13 @@ public class Turret_AttackState : BaseState<Turret>
     public override void Exit()
     {
         // timer 초기화
-        _timer = _controller.turretData.fireRate;
+        SetTimer();
     }
     
     private void ChangeState()
     {
         // 작동 가능한지 체크 -> target이 있는지 체크 
-        if (_turretData.isCrashed)
-        {
-            _controller.SetState(_controller.crashState);
-        }
-        else if (!_turretData.isOnCounter || _turretData.currentBulletNum <= 0 || _turretData.isUpgrading)
+        if (_turretData.parentClearCounter == null || _turretData.parentClearCounter.OutOfEnergy(_turretData.finalEnergyCost) || _turretData.isUpgrading)
         {
             _controller.SetState(_controller.notWorkingState);
         }
@@ -56,5 +56,17 @@ public class Turret_AttackState : BaseState<Turret>
         {
             _controller.SetState(_controller.idleState);
         }
+    }
+
+    private async UniTask SetTimer()
+    {
+        float startTime = Time.time;
+        // attackState를 빠져나가도 timer가 일정시간동안은 유지되도록 설정
+        while (_timer < 1 / _turretData.finalAttackSpeed)
+        {
+            _timer += Time.time - startTime;
+            await UniTask.Yield(cancellationToken: _turretData.attackRateCancelToken.Token);
+        }
+
     }
 }

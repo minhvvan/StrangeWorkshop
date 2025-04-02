@@ -9,15 +9,16 @@ TagManager:
   - FxTemporaire
   - Missile
   - PlayerEyes
+  - MinigameCanvas
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Barrier
+  - BarrierCounter
   - Water
   - UI
   - Enemy
-  - 
+  - Player
   - UIObject3D
   - 
   - PostProcess
@@ -27,9 +28,9 @@ TagManager:
   - 
   - Counter
   - HoldableObject
-  - 
-  - 
-  - 
+  - Gold
+  - LootBotInteract
+  - LootBot
   - 
   - 
   - 

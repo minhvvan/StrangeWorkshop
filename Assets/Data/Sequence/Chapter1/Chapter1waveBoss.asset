@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4517ede9d00f41708c6f811aefd36493, type: 3}
   m_Name: Chapter1waveBoss
   m_EditorClassIdentifier: 
+  startDelay: 0
+  completionDelay: 0
   waveNumber: 4
   duration: 1
+  waveType: 1
   enemySpawns:
   - enemyData: {fileID: 11400000, guid: 4de9afee6f56a3e4aaf342749b5e9442, type: 2}
     count: 1

@@ -12,9 +12,7 @@ Material:
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - USE_DISTANCE_FOG
-  - USE_HEIGHT_FOG
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -57,7 +55,6 @@ Material:
     - _Near: 0
     m_Colors: []
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6f656ab8114e939b71b289ffd9d7b2, type: 3}
   m_Name: Desert_FogSettings
   m_EditorClassIdentifier: 
-  useDistance: 1
+  useDistance: 0
   distanceGradient:
     serializedVersion: 2
     key0: {r: 0.5330188, g: 0.9453902, b: 1, a: 0.14509805}
@@ -104,7 +101,7 @@ MonoBehaviour:
   near: 0
   far: 188
   distanceFogIntensity: 0.5
-  useHeight: 1
+  useHeight: 0
   heightGradient:
     serializedVersion: 2
     key0: {r: 0.92759395, g: 0.6123621, b: 0.9339623, a: 0}

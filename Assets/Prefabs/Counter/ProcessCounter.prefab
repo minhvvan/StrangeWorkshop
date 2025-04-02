@@ -76,6 +76,9 @@ MonoBehaviour:
   counterTopPoint: {fileID: 3028466574229793643}
   burnSO: {fileID: 11400000, guid: 106eed5d93fc9a34aa5f31d29bebc612, type: 2}
   progressBar: {fileID: 1291641310616148818}
+  minigamePrefab:
+  - {fileID: 6688217571114456894, guid: 58f5e2fab973d474ab39bc7b7ea06955, type: 3}
+  - {fileID: 8395304425235918034, guid: 6a0859a7a9ad0447c890daaf61fe4f8b, type: 3}
 --- !u!114 &8448380636177546595
 MonoBehaviour:
   m_ObjectHideFlags: 0

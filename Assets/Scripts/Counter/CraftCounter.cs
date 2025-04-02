@@ -54,16 +54,18 @@ public class CraftCounter : BaseCounter
         }
     }
 
-    public override void Interact(IHoldableObjectParent parent)
+    public override void Interact(IInteractAgent agent = null)
     {
-        // 플레이어가 물체를 들고 있으면
-        if (parent.HasHoldableObject() && !_currentCraftRecipeSO.IsUnityNull())
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
-            // DeepCopy로 연산에 필요한 List생성 후 계산
-            List<HoldableObject> CompareList = new(GetHoldableObjectList())
+            // 플레이어가 물체를 들고 있으면
+            if (parent.HasHoldableObject())
             {
-                parent.GetHoldableObject()
-            };
+                // DeepCopy로 연산에 필요한 List생성 후 계산
+                List<HoldableObject> CompareList = new(GetHoldableObjectList())
+                {
+                    parent.GetHoldableObject()
+                };
             
             // 플레이어의 재료를 놓을 때 만들 수 있는 레시피가 있는 검사
             //List<CraftRecipeSO> recipeCandidates = RecipeManager.Instance.FindCraftRecipeCandidate(CompareList);
@@ -71,25 +73,29 @@ public class CraftCounter : BaseCounter
             {
                 return;
             }
+                parent.GiveHoldableObject(this);
+                //빙글빙글 돌게 만드는 로직 주석처리 - 애니메이션 효과 후 위치를 정해주기 위하여 - 해당 기능은 코드 정리 후 추가 해야할 듯 싶음
+                //GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
+
+                // 현재 만들 수 있는 레시피가 있으면 저장
+                _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
+                SetCurrentCraftIndex();
             
-            parent.GiveHoldableObject(this);
-            GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
-            // 현재 만들 수 있는 레시피가 있으면 저장
-            //_currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
-            
-            //var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
-            //OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
-        }
-        else
-        {
-            if (HasHoldableObject())
-            {
-                GiveHoldableObject(parent);
-               // _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
-                TakeOffPlayerGlove(parent);
-                
                 var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
-                //OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
+                OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
+            }
+            else
+            {
+                if (HasHoldableObject())
+                {
+                    GiveHoldableObject(parent);
+                    _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
+                    SetCurrentCraftIndex();
+                    TakeOffPlayerGlove(parent);
+                
+                    var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
+                    OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
+                }
             }
         }
     }

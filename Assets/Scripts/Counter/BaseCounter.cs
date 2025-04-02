@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SelectObjectVisual))]
-public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
+public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent, IInteractable
 {
     [SerializeField] private Transform counterTopPoint;
     
     private List<HoldableObject> _holdableObject = new();
+
+    // 상호작용 시, 마지막으로 상호작용한 agent를 저장하기 위한 변수 - ProcessCounter에서 사용
+    private IInteractAgent _lastholdableObjectParent;
     
     // 상호작용, 키보드 e, 재료를 옮길 때 사용
-    public virtual void Interact(IHoldableObjectParent parent)
+    public virtual void Interact(IInteractAgent agent = null)
     {
+        SetLastInteractionAgentParent(agent); 
     }
-    
-    // 상호작용, 키도브 f, 가공 및 작업할 때 사용
-    public virtual void InteractAlternate(IHoldableObjectParent player)
+
+    public GameObject GetGameObject()
     {
+        return gameObject;
+    }
+
+    // 상호작용, 키도브 f, 가공 및 작업할 때 사용
+    public virtual void InteractAlternate(IInteractAgent agent = null)
+    {
+        SetLastInteractionAgentParent(agent);
     }
     
     // 배치 포인트 반환
@@ -33,7 +43,7 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
 
     public void GiveHoldableObject(IHoldableObjectParent parent)
     {
-        if(!_holdableObject[^1].SetHoldableObjectParent(parent)) return;
+        if(!_holdableObject[^1].SetHoldableObjectParentWithAnimation(parent)) return;
         _holdableObject.Remove(_holdableObject[^1]);
     }
 
@@ -76,5 +86,15 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
         {
             player.TakeoffGlove();
         }
+    }
+
+    public void SetLastInteractionAgentParent(IInteractAgent parent)
+    {
+        _lastholdableObjectParent = parent;
+    }
+
+    public IInteractAgent GetLastInteractionAgentParent()
+    {
+        return _lastholdableObjectParent;
     }
 }

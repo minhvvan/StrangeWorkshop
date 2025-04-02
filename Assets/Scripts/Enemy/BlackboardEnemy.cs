@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Managers;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -34,6 +35,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
 
     ///킬 스위치, false가 되면 모든 동작이 멈춘다.
     public bool bEnable = true;
+    private BossEndEventSO _bossEndEventSO;
     
     ///방벽감지 및 공격
     private IAttackPattern _atkPattern;
@@ -64,7 +66,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         }
     }
 
-    [NonSerialized] public string layerName = "Barrier";
+    [NonSerialized] public string layerName = "BarrierCounter";
     public bool bDetectBarrier = false;
     public bool bCanPattern = false;
 
@@ -123,7 +125,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
         //자동 재검색 타이머 시작.
         AutoResearchTarget().Forget();
-        PriorityIncreaser().Forget();
+        //PriorityIncreaser().Forget();
         //최초 이후 재검색 대상시간은 10초.
         _researchTime = 5f;
     }
@@ -141,10 +143,16 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         enemyStatus.maxHp = enemyStatus.hp;
     }
 
-    public void SetTypeSetting()
+    public async UniTask SetTypeSetting()
     {
         switch (enemyStatus.enemytype)
         {
+            case EnemyType.MeleeBruiser:
+                //보스 테스트를 위한 임시 할당.
+                thisBoss = IsBoss.BOSS;
+                _bossEndEventSO = await DataManager.Instance.LoadDataAsync<BossEndEventSO>
+                    (Addresses.Events.Game.BOSS_END);
+                break;
             case EnemyType.MeleeFlanker:
                 useAutoResearch = false;
                 break;
@@ -157,8 +165,16 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
             case EnemyType.Chapter1Boss:
                 player = FindObjectOfType<SampleCharacterController>();
                 thisBoss = IsBoss.BOSS;
+                _bossEndEventSO = await DataManager.Instance.LoadDataAsync<BossEndEventSO>
+                    (Addresses.Events.Game.BOSS_END);
                 break;
         }
+    }
+    
+    public void DropItem()
+    {
+        DropItemManager.Instance.GetDropItemByName
+            (ItemName.GOLD_PENNY, transform.position);
     }
     
     ///적 공격종류 선택
@@ -171,7 +187,7 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
     public void DestroyPattern()
     {
         _atkPattern.ClearPattern();
-        Destroy(_atkPattern);
+        _atkPattern = null;
     }
     
     ///패턴 수행
@@ -420,5 +436,13 @@ public class BlackboardEnemy : MonoBehaviour, IBlackboardEnemy
         
         //킬스위치 활성화
         bEnable = false;
+    }
+    
+    public void OnBossEnd()
+    {
+        if (_bossEndEventSO != null)
+        {
+            _bossEndEventSO.Raise();
+        }
     }
 }

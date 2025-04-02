@@ -16,3 +16,4 @@ MonoBehaviour:
   objectName: Bolt
   objectType: 1
   objectSprite: {fileID: 21300000, guid: 5361d5472d5673046af96545ad6425b1, type: 3}
+  price: 1

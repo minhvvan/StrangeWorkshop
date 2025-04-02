@@ -16,3 +16,4 @@ MonoBehaviour:
   objectName: Ore
   objectType: 1
   objectSprite: {fileID: 21300000, guid: 6fcb6fc9e9649fd4b90b3c9a283a8568, type: 3}
+  price: 1

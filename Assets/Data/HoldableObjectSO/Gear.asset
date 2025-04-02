@@ -16,3 +16,4 @@ MonoBehaviour:
   objectName: Gear
   objectType: 1
   objectSprite: {fileID: 21300000, guid: 8787565723183f947bc3049c09aa5c12, type: 3}
+  price: 1

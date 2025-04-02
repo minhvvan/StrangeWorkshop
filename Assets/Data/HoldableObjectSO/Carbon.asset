@@ -16,3 +16,4 @@ MonoBehaviour:
   objectName: Carbon
   objectType: 1
   objectSprite: {fileID: 21300000, guid: d561bc9cb21f39c41934c85224ecb868, type: 3}
+  price: 1

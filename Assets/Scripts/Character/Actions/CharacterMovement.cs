@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SampleCharacterController))]
 public class CharacterMovement : BaseAction
 {
+    private static readonly int Speed = Animator.StringToHash("Speed");
+
     // 착지 여부 및 수직속도
     private bool isGrounded;
     private float verticalVel;
@@ -15,6 +17,7 @@ public class CharacterMovement : BaseAction
     // CapsuleCast에 사용할 임의 값 (실 게임에 맞게 조정)
     [SerializeField] private float capsuleHeight = 1.8f;
     [SerializeField] private float capsuleRadius = 0.5f;
+    [SerializeField] private LayerMask collisionLayerMask;
     
     // 필요한 컴포넌트
     private SampleCharacterController _controller;
@@ -46,8 +49,10 @@ public class CharacterMovement : BaseAction
     /// <summary>
     /// 입력값으로 이동/회전 처리 (이동속도 = walkSpeed 고정)
     /// </summary>
-    void MoveCharacter()
+    void MoveCharacter(InputData input)
     {
+        if(_controller.isInteracting) return;
+
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
         
@@ -69,12 +74,12 @@ public class CharacterMovement : BaseAction
         float inputMagnitude = Mathf.Clamp(inputDir.magnitude, 0f, 1f);
 
         // 정규화한 방향 벡터에 제한된 입력 크기를 곱해서 최종 이동 벡터 계산
-        Vector3 moveDir = inputDir.normalized * _controller.walkSpeed * inputMagnitude;
+        Vector3 moveDir = inputDir.normalized * (_controller.walkSpeed * inputMagnitude);
 
         // (선택) 애니메이션 블렌딩을 위한 속도
         float speed = inputDir.sqrMagnitude; // 0 ~ 1 범위
         _controller.anim.SetFloat(
-            "Blend",
+            Speed,
             speed,
             (speed > _controller.allowPlayerRotation) ? _controller.StartAnimTime : _controller.StopAnimTime,
             Time.deltaTime
@@ -91,7 +96,8 @@ public class CharacterMovement : BaseAction
             capsuleRadius,
             moveDir.normalized,
             out hit,
-            1.0f
+            1.0f,
+            collisionLayerMask
         );
         
         // 4) 최종 velocity 결정

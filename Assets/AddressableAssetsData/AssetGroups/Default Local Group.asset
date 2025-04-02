@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04a4595d7f145f54bb4ff79e93ae7018
+    m_Address: events/game/boss_end
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 08244c1cb6deb984ea0145cc2c0cb2a4
     m_Address: prefabs/enemy/spell_field
     m_ReadOnly: 0
@@ -42,13 +47,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2917c4bef95c3264ba35dc44b237042c
+    m_Address: prefabs/turret/turret_mortar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3321b19b2f084494280028cf7f74adc2
     m_Address: data/recipes/Process
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33c8b3ec670faa4429e33589396cc604
+    m_Address: prefabs/turret/turret_missile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b9c5148ef9ed07488fe1e2fda941a5f
     m_Address: data/quest/questlist
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 423e087e4852d5c4889e9fff8d1726dc
+    m_Address: prefabs/turrets/loot_bot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50e460daf762c9a4e900fb3b42e2558e
+    m_Address: prefabs/turret/turret_gun
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -69,6 +94,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7c4c16c8fd3514e488e8ddc788158dba
     m_Address: events/game/wave_start
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8851c842adf6d854696238653be65c37
+    m_Address: prefabs/turret/turret_missiledouble
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -104,6 +134,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd6c9b279d60a094eaebbd0b986559bc
     m_Address: events/barrier/damaged
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eed6fc212966cca41bb81e554f4be65f
+    m_Address: data/drops/dropitems
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

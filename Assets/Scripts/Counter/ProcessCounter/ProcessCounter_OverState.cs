@@ -32,7 +32,7 @@ public class ProcessCounter_OverState : BaseState<ProcessCounter>
         if (_currentTime >= _controller.burnTime)
         {
             _controller.ClearHoldableObject();
-            HoldableObject.SpawnHoldableObject(_controller.burnSO, _controller);
+            HoldableObject.SpawnHoldableObject(_controller.burnSO, _controller, _controller.GetHoldableObjectFollowTransform());
             _controller.SetState(_controller._noneState);
         }
     }

@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public abstract class BaseInputHandler : MonoBehaviour
+public abstract class BaseInputHandler : MonoBehaviour, IControllable
 {
 
     public Vector2 MovementInput { get; protected set; } 
@@ -20,13 +20,12 @@ public abstract class BaseInputHandler : MonoBehaviour
 
     
     //추가 input 필요하다면 상속받은 클래스에서 추가로 등록하여 사용
-    [NonSerialized] public Action OnActions; 
+    [NonSerialized] public Action<InputData> OnActions; 
 
 
     protected virtual void Update()
     {
         IsGrounded = CheckIfGrounded();
-        OnActions?.Invoke();
     }
 
     //나중에 발아래에 BoxCollider를 하나 넣어서 체크해도 좋아보임
@@ -54,5 +53,23 @@ public abstract class BaseInputHandler : MonoBehaviour
         // Debug.DrawRay(transform.position+ new Vector3(-0.5f, 0, 0), Vector3.down * groundCheckDistance, Color.red);
 
         return ret;
+    }
+
+    public virtual void OnControlStart()
+    {
+    }
+
+    public virtual void OnControlEnd()
+    {
+        MovementInput = Vector2.zero;
+        IsRunning = false;
+        Horizontal = 0f;
+        Vertical = 0f;
+        IsWalking = false;
+    }
+
+    public virtual void ProcessInput(InputData input)
+    {
+        OnActions?.Invoke(input);
     }
 }

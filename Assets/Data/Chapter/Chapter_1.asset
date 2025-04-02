@@ -18,9 +18,10 @@ MonoBehaviour:
   openingStory: {fileID: 11400000, guid: 2ab85dfcae4c63d4d9303c93f231b14f, type: 2}
   endingStory: {fileID: 0}
   sequence:
+  - {fileID: 11400000, guid: 7c63fa44d8dcaef44b2ef306f56ff5be, type: 2}
   - {fileID: 11400000, guid: 5d8a882c02c02864ca2e99c286073dc8, type: 2}
-  - {fileID: 11400000, guid: 6920fa7eef431614885cb9a8bf08b5c5, type: 2}
   - {fileID: 11400000, guid: 99a0317650282ad4bb8c3af22dfeab08, type: 2}
+  - {fileID: 11400000, guid: 43ffcefd5ad6a4d40b2408208446ce29, type: 2}
   - {fileID: 11400000, guid: f6210d264efebb84480da149a90fa97f, type: 2}
   - {fileID: 11400000, guid: fc8c33c58f4eb7d4b8a1ea8a5e790507, type: 2}
   - {fileID: 11400000, guid: 0fd5627bcbe07db43931377729ee004b, type: 2}

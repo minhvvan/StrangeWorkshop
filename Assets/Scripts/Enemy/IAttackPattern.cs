@@ -10,9 +10,10 @@ using Managers;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-public abstract class IAttackPattern : MonoBehaviour
+public abstract class IAttackPattern
 {
     protected Barrier TargetBarrier;
     protected BlackboardEnemy EnemyBb;
@@ -504,7 +505,7 @@ public class RangeNormal : IAttackPattern
     
     private void ThrowSword(float damage)
     {
-        var obj = Instantiate(swordPrefab, swordTransform.position, Quaternion.identity);
+        var obj = Object.Instantiate(swordPrefab, swordTransform.position, Quaternion.identity);
         var newTargetPos = TargetBarrier.transform.position;
         var targetDirection = newTargetPos - swordTransform.position;
         obj.transform.forward = targetDirection;
@@ -551,7 +552,7 @@ public class RangeNormal : IAttackPattern
 
     public override void ClearPattern()
     {
-        DOTween.Kill(gameObject);
+        
     }
 }
 
@@ -639,7 +640,7 @@ public class RangeMage : IAttackPattern
             {
                 //맞으면 1.25초 기절  <- //공중에 띄우고, 이동을 제어한다.
                 //_spellField.OnShockWave();
-                EnemyBb.player.isMoveable = false;
+                EnemyBb.player.ExitMoveable();
                 EnemyBb.player.rb.velocity = Vector3.zero;
                 
                 var vfxPos = EnemyBb.player.transform.position + new Vector3(0, 3.5f, 0);
@@ -647,18 +648,18 @@ public class RangeMage : IAttackPattern
                 
                 await UniTask.Delay((int)(1000 * airborneTime), cancellationToken: EnemyBb.cts.Token);
             
-                EnemyBb.player.isMoveable = true;
+                EnemyBb.player.EnterMoveable();
             }
         }
         finally
         {
-            EnemyBb.player.isMoveable = true;
+            EnemyBb.player.EnterMoveable();
         }
     }
     
     private void CastingSpell()
     {
-        _spellObject = Instantiate(_spellPrefab, EnemyBb.transform.position, Quaternion.identity);
+        _spellObject = Object.Instantiate(_spellPrefab, EnemyBb.transform.position, Quaternion.identity);
         _spellField = _spellObject.GetComponent<SpellField>();
         _spellField.sampleCharacterController = EnemyBb.player;
         //_spellField.force = _spellForce;
@@ -696,7 +697,7 @@ public class RangeMage : IAttackPattern
     
     public override void ClearPattern()
     {
-        Destroy(_spellField.gameObject);
+        Object.Destroy(_spellField.gameObject);
     }
 }
 
@@ -925,7 +926,7 @@ public class Chapter1Boss : IAttackPattern
             for (int j = 0; j < randomIndex.Count; j++)
             {
                 var gridOffset = new Vector3(grids[indexList[j]].x, grids[indexList[j]].y + 2f, grids[indexList[j]].z);
-                var obj = Instantiate(swordPrefab, gridOffset, Quaternion.identity);
+                var obj = Object.Instantiate(swordPrefab, gridOffset, Quaternion.identity);
                 var newTargetPos = new Vector3(_player.transform.position.x, _player.transform.position.y + 1f, _player.transform.position.z);
                 var targetDirection = newTargetPos - obj.transform.position;
                 obj.transform.forward = targetDirection;
@@ -948,7 +949,8 @@ public class Chapter1Boss : IAttackPattern
                 obj.transform.DOBlendableMoveBy(targetDirection * 2f, 2f).OnComplete(() =>
                 {
                     obj.SetActive(false);
-                    Destroy(obj, 4f);
+                    DOTween.Kill(obj);
+                    Object.Destroy(obj, 4f);
                     throwObjects.Remove(obj);
                 });
             }
@@ -1001,7 +1003,7 @@ public class Chapter1Boss : IAttackPattern
 
     public override void ClearPattern()
     {
-        DOTween.Kill(gameObject);
+        
     }
 }
 

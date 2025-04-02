@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
+public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent, IInteractAgent
 {
     StateMachine _stateMachine;
 
@@ -13,6 +13,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     [NonSerialized] public Character_WalkState walkState;
     [NonSerialized] public Character_RunState runState;
     [NonSerialized] public Character_DashState dashState;
+    [NonSerialized] public Character_InteractState interactState;
 
     // ▼ 사용하는 액션들
     List<BaseAction> _actions = new List<BaseAction>();
@@ -30,7 +31,10 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     public float runSpeed  = 10f;
     public float dashSpeed = 30f; // 대쉬 속도
 
-    [NonSerialized] public bool isMoveable = true;
+    //캐릭터의 조작 제어
+    [NonSerialized] public bool isMoveable = true; //캐릭터 이동가능 여부(스턴, 상태이상 등)
+    [NonSerialized] public bool isInteracting = false; //캐릭터 상호작용 중 여부
+
     
     [Header("Dash Timings")]
     [SerializeField] public float dashAccelTime = 0.5f;
@@ -53,9 +57,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
     [SerializeField] private Transform holdableObjectHoldPoint;
     private Transform gloveObject;
     private HoldableObject _holdableObject;
-    private BaseCounter _selectedCounter;
-    
-    public  HoldableObject _selectedHoldableObject;
+    private IInteractable _selectedInteractable;
     
     [SerializeField] float playerInteractDistance = 1f;
     [SerializeField] LayerMask playerInteractLayerMask;
@@ -86,6 +88,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
         walkState = new Character_WalkState(this);
         runState  = new Character_RunState(this);
         dashState = new Character_DashState(this);
+        interactState = new Character_InteractState(this);
 
         // 초기 상태
         _stateMachine.ChangeState(idleState);
@@ -140,58 +143,36 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     private void HandleInteract()
     {
-        
         if (Physics.SphereCast(transform.position, 1f, transform.forward, out RaycastHit interactObject, playerInteractDistance, playerInteractLayerMask))
         {
-            if (interactObject.transform.TryGetComponent(out BaseCounter baseCounter))
+            if (interactObject.transform.TryGetComponent(out IInteractable interactable))
             {
-                if (baseCounter != _selectedCounter)
-                {
-                    SetSelectedCounter(baseCounter);
-                }
+                if (_selectedInteractable == interactable) return;
+                
+                _selectedInteractable?.GetGameObject().GetComponent<SelectObjectVisual>().Hide();
+                _selectedInteractable = interactable;
+                _selectedInteractable.GetGameObject().GetComponent<SelectObjectVisual>().Show();
             }
             else
             {
-                SetSelectedCounter(null);
-            }
-
-            if (interactObject.transform.TryGetComponent(out HoldableObject holdableObject))
-            {
-                SetSelectedHoldable(holdableObject);
-            }
-            else
-            {
-                SetSelectedHoldable(null);
+                ResetSelectedInteractable();
             }
         }
         else
         {
-            SetSelectedCounter(null);
-            SetSelectedHoldable(null);
+            ResetSelectedInteractable();
         }
     }
 
-    private void SetSelectedCounter(BaseCounter counter)
+    private void ResetSelectedInteractable()
     {
-        if (counter == _selectedCounter) return;
-        
-        _selectedCounter?.GetComponent<SelectObjectVisual>().Hide();
-        _selectedCounter = counter;
-        _selectedCounter?.GetComponent<SelectObjectVisual>().Show();
+        _selectedInteractable?.GetGameObject().GetComponent<SelectObjectVisual>().Hide();
+        _selectedInteractable = null;
     }
 
-    private void SetSelectedHoldable(HoldableObject holdableObject)
+    public IInteractable GetSelectedInteractableObject()
     {
-        if (holdableObject == _selectedHoldableObject) return;
-        
-        _selectedHoldableObject?.GetComponent<SelectObjectVisual>().Hide();
-        _selectedHoldableObject = holdableObject;
-        _selectedHoldableObject?.GetComponent<SelectObjectVisual>().Show();
-    }
-    
-    public BaseCounter GetSelectedCounter()
-    {
-        return _selectedCounter;
+        return _selectedInteractable;
     }
     
     public Transform GetHoldableObjectFollowTransform()
@@ -206,7 +187,7 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
 
     public void GiveHoldableObject(IHoldableObjectParent parent)
     {
-        _holdableObject.SetHoldableObjectParent(parent);
+        _holdableObject.SetHoldableObjectParentWithAnimation(parent);
         _holdableObject = null;
     }
 
@@ -231,6 +212,11 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
         return gloveObject != null;
     }
 
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
     public void WearGlove(Transform glove)
     {
         glove.parent = GetHoldableObjectFollowTransform();
@@ -242,5 +228,42 @@ public class SampleCharacterController : MonoBehaviour, IHoldableObjectParent
         if (gloveObject != null)
             Destroy(gloveObject.gameObject);
         gloveObject = null;
+    }
+
+
+    /// <summary>
+    /// 이동불가능한 상호작용의 시작을 위한 함수
+    /// </summary>
+    public void EnterInteraction()
+    {
+        isInteracting = true;
+    }
+
+
+    /// <summary>
+    /// 이동불가능한 상호작용의 종료를 위한 함수
+    /// </summary>
+    public void ExitInteraction()
+    {
+        isInteracting = false;
+    }
+
+
+    /// <summary>
+    /// 이동불가능한 상태의 시작을 위한 함수 (CC기 맞았을때 사용)
+    /// </summary>
+    public void EnterMoveable()
+    {
+        isMoveable = true;
+        isInteracting = false;
+    }
+
+    /// <summary>
+    /// 이동불가능한 상태의 종료를 위한 함수
+    /// </summary>
+    public void ExitMoveable()
+    {
+        isMoveable = false;
+
     }
 }

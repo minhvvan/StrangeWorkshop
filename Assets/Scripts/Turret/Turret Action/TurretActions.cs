@@ -4,99 +4,59 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class TurretActions
+public static class TurretActions
 {
-    private Turret _turret;
-
-    public TurretActions(Turret turret)
+    public static void Hold(Turret turret)
     {
-        _turret = turret;
+        turret.turretData.parentClearCounter = null;
     }
 
-    public void Reload()
+    public static void Put(Turret turret, IHoldableObjectParent parent)
     {
-        _turret.turretData.currentBulletNum = _turret.turretData.maxBulletNum;
-    }
-
-    public void Hold()
-    {
-        _turret.turretData.isOnCounter = false;
-    }
-
-    public void Put()
-    {
-        _turret.turretData.isOnCounter = true;
-    }
-
-    public bool Upgrade()
-    {
-        if (_turret.turretUpgrade.Upgradable())
+        if (parent is ClearCounter)
         {
-            _turret.turretUpgrade.ActivateUpgradeBar();
-            _turret.turretData.isUpgrading = true;
-            return true;
-        }
-
-        return false;
-    }
-
-    public async UniTask Fix()
-    {
-        if (!_turret.turretData.isCrashed) return;
-        
-        ProgressBar progressBar = _turret.turretData.progressBarFix;
-        progressBar.gameObject.SetActive(true);
-        float fixProgress = 0f;
-        GameObject fixingEff = VFXManager.Instance.TriggerVFX(VFXType.TURRETFIX, _turret.gameObject.transform, returnAutomatically: false);
-        
-        // Todo: 수리 진척도 UI로 표시
-        while (_turret.turretData.isCrashed)
-        {
-            await UniTask.Yield();
-            fixProgress += Time.deltaTime;
-            progressBar.UpdateProgressBar(fixProgress);
-            if (fixProgress >= _turret.turretData.fixTime)
-            {
-                _turret.turretData.isCrashed = false;
-                progressBar.ResetBar();
-                progressBar.gameObject.SetActive(false);
-                VFXManager.Instance.ReturnVFX(VFXType.TURRETFIX, fixingEff);
-            }
+            turret.turretData.parentClearCounter = (ClearCounter)parent;
         }
     }
 
-    public void Crash()
+    public static async void Upgrade(Turret turret, UpgradeDataSO upgradeDataSO)
     {
-        _turret.turretData.isCrashed = true;
-    }
-
-    public void SetTargetStrategy(ITargetStrategy newStrategy)
-    {
-        _turret.turretData.targetStrategy = newStrategy;
-    }
-
-    public void SetShootingStrategy(ShootingStrategy newStrategy)
-    {
-        _turret.turretData.shootingStrategy = newStrategy;
+        // if (turret.turretUpgrade.Upgradable())
+        // {
+        turret.turretUpgrade.ActivateUpgradeBar();
+        turret.turretData.isUpgrading = true;
+        await turret.turretUpgrade.UpgradeProgressively(upgradeDataSO);
+        turret.turretData.isUpgrading = false;
+        
     }
     
-    public void UpdateRangeEffectSize()
+    public static void SetTargetStrategy(Turret turret, ITargetStrategy newStrategy)
     {
-        float size = _turret.turretData.attackRange * 2f;
-        _turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);
+        turret.turretData.targetStrategy = newStrategy;
+    }
+
+    public static void SetShootingStrategy(Turret turret, ShootingStrategy newStrategy)
+    {
+        turret.turretData.shootingStrategy = newStrategy;
     }
     
-    public void UpdateTarget()
+    public static void UpdateRangeEffectSize(Turret turret)
+    {
+        float size = turret.turretData.finalAttackRange * 2f;
+        turret.turretData.rangeEff.transform.localScale = new Vector3(size, size, 1f);
+    }
+
+    public static void UpdateTarget(Turret turret)
     {
         int layerMask = LayerMask.GetMask("Enemy");
-        Collider[] hitColliders = Physics.OverlapSphere(_turret.transform.position, _turret.turretData.attackRange, layerMask);
-
+        Collider[] hitColliders = Physics.OverlapSphere(turret.transform.position, turret.turretData.finalAttackRange, layerMask);
+        
         // no enemy in range
         if (hitColliders.Length <= 0)
         {
-            _turret.turretData.target = null;
+            turret.turretData.target = null;
             return;
         }
-        _turret.turretData.target = _turret.turretData.targetStrategy.SelectTarget(hitColliders, _turret);
+        turret.turretData.target = turret.turretData.targetStrategy.SelectTarget(hitColliders, turret);
     }
 }

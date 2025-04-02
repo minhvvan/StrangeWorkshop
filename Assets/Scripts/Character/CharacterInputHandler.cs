@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterInputHandler : BaseInputHandler
 {
+    private static readonly int Speed = Animator.StringToHash("Speed");
     SampleCharacterController _controller;
 
     // 필요 이벤트들
@@ -14,8 +15,6 @@ public class CharacterInputHandler : BaseInputHandler
     IEnumerator Start()
     {
         _controller = GetComponent<SampleCharacterController>();
-        OnActions += DirectControl;
-
         _controller.SetInputHandler(this);
 
         // 초기화 타이밍 문제 방지 (약간의 대기)
@@ -23,20 +22,21 @@ public class CharacterInputHandler : BaseInputHandler
         _controller.SetInputHandler(this);
     }
 
-    protected override void Update()
+    public override void ProcessInput(InputData input)
     {
-        // 상위 BaseInputHandler 로직
-        base.Update();
-    }
-
-    void DirectControl()
-    {
+        base.ProcessInput(input);
+        
+        if (_controller.isInteracting)
+        {
+            OnControlEnd();
+            return;
+        }
         //상태이상 활성화 시 종료
         if (!_controller.isMoveable) return;
         
         // 1) 이동 입력
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical   = Input.GetAxis("Vertical");
+        float horizontal = input.moveInput.X;
+        float vertical   = input.moveInput.Y;
 
         MovementInput = new Vector2(horizontal, vertical).normalized;
         Horizontal    = horizontal;
@@ -44,20 +44,28 @@ public class CharacterInputHandler : BaseInputHandler
         
         IsWalking = MovementInput.magnitude > 0.1f;
 
-        // 3) 상호작용
-        if (Input.GetKeyDown(KeyCode.E))
+        if (input.interactPressed)
         {
             OnInteract?.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+
+        if (input.interactAlternatePressed)
         {
             OnInteractAlternate?.Invoke();
         }
 
-        // 4) 대쉬
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (input.dashPressed)
         {
             OnDash?.Invoke();
         }
+    }
+
+    public override void OnControlEnd()
+    {
+        base.OnControlEnd();
+        
+        _controller.rb.velocity = Vector3.zero;
+        _controller.rb.angularVelocity = Vector3.zero;
+        _controller.anim.SetFloat(Speed, 0f);
     }
 }
