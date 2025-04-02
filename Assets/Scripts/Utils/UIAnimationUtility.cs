@@ -59,6 +59,19 @@ public static class UIAnimationUtility
         rect.gameObject.SetActive(true);
         sequence.Append(rect.DOAnchorPos(endPos, duration).SetEase(Ease.OutQuad)).OnComplete(()=>callback?.Invoke());
     }
+    
+    public static void SlideInDown(RectTransform rect, float duration = 0.5f, Action callback = null, bool ignoreTimeScale = false)
+    {
+        rect.DOKill();
+        var sequence = DOTween.Sequence();
+        sequence.SetLink(rect.gameObject);
+        sequence.SetUpdate(ignoreTimeScale);
+        
+        var endPos = rect.anchoredPosition;
+        rect.anchoredPosition = new Vector2(endPos.x, Screen.height);
+        rect.gameObject.SetActive(true);
+        sequence.Append(rect.DOAnchorPos(endPos, duration).SetEase(Ease.OutQuad)).OnComplete(()=>callback?.Invoke());
+    }
 
     public static void SlideOutRight(RectTransform rect, float duration = 0.5f, Action callback = null, bool ignoreTimeScale = false)
     {

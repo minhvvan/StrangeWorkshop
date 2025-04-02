@@ -72,6 +72,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f8aa402ab57eca42a0f76e04e985218
+    m_Address: data/recipes/Craft
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50e460daf762c9a4e900fb3b42e2558e
     m_Address: prefabs/turret/turret_gun
     m_ReadOnly: 0
@@ -84,11 +89,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 71fec69487acef041bc81adeb9d74df1
     m_Address: events/game/enemy_spawn
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 75c4dff732dbf484997a80e8f049612f
-    m_Address: data/recipes/Craft
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -112,8 +112,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b6ed4c7d74dbc7e499ac6322d84e22d1
-    m_Address: data/kits/repairkit
+  - m_GUID: b6880f713df919e49bca6e6b8835913d
+    m_Address: events/counter/recipe_selected
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -44,14 +44,17 @@ public class RecipeUIController : MonoBehaviour, IGameUI
             await DataManager.Instance.LoadDataAsync<ChapterRecipeSO>(Addresses.Data.UI.CHAPTER_RECIPE);
         
         // 모든 UI prefab pooling
-        foreach (CraftRecipeSO recipe in recipeCollectionSO.recipes)
-        {
-            RectTransform recipeUI = GameObject.Instantiate(recipe.craftRecipeUI, transform);
-            recipeUI.GameObject().SetActive(false);
-            _recipeUIs[recipe.output.objectName] = recipeUI;
-            _recipePartUIs[recipe.output.objectName] = recipeUI.GetComponent<RecipePartUI>();
-        }
-        UpdateUI(null, null);
+        
+        
+        
+        // foreach (CraftRecipeSO recipe in recipeCollectionSO.recipesCollection[CraftType.Bullet].recipes)
+        // {
+        //     RectTransform recipeUI = GameObject.Instantiate(recipe.craftRecipeUI, transform);
+        //     recipeUI.GameObject().SetActive(false);
+        //     _recipeUIs[recipe.output.objectName] = recipeUI;
+        //     _recipePartUIs[recipe.output.objectName] = recipeUI.GetComponent<RecipePartUI>();
+        // }
+        // UpdateUI(null, null);
     }
     
     public void ShowUI()

@@ -48,3 +48,7 @@ MonoBehaviour:
     prefab: {fileID: 4846724393624810698, guid: cb31086c326674b8499edfd79ee0fe41,
       type: 3}
     position: {x: 0, y: 0}
+  - type: 10
+    prefab: {fileID: 6994034152355268239, guid: d8b0f13df4ace264282e3088c1cdade9,
+      type: 3}
+    position: {x: 0, y: 0}

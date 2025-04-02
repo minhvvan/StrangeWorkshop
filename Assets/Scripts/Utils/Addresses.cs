@@ -23,6 +23,7 @@ public static class Addresses
         {
             public const string CRAFT_COMPLETE = "events/counter/craft_complete";
             public const string PROCESS_COMPLETE = "events/counter/process_complete";
+            public const string RECIPE_SELECTED = "events/counter/recipe_selected";
         }
         
         public static class Barrier
