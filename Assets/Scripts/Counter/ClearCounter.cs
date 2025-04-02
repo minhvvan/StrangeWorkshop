@@ -115,8 +115,8 @@ public class ClearCounter : BaseCounter
         return _currentEnergy < cost;
     }
 
-    public void RepairCounter(float value)
+    public bool RepairCounter(float value)
     {
-        _outerBarrier.Repair(value);
+        return _outerBarrier.Repair(value);
     }
 }

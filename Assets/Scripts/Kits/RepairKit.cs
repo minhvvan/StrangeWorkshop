@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 public class RepairKit : IInteractKits
@@ -18,9 +19,9 @@ public class RepairKit : IInteractKits
     public void SetKit(KitObject kit)
     {
         _kitObject = kit;
-        _kitObject.kitLevel = 1;
-        _kitObject.KitRemainingCost = _maxCosts[kit.kitLevel];
-        _kitObject.kitValue = _kitValues[kit.kitLevel];
+        var level = (_kitObject.kitLevel = 1) - 1;
+        _kitObject.KitRemainingCost = _maxCosts[level];
+        _kitObject.kitValue = _kitValues[level];
     }
 
     public void UpgradeKit(int? upgradeValue = null)
@@ -29,24 +30,42 @@ public class RepairKit : IInteractKits
 
         if ((_kitObject.kitLevel + upgradeValue.Value) > _maxLevel)
         {
-            Debug.LogError("이미 최대 레벨입니다.");
+            Debug.LogError("UpgradeKit: 이미 최대 레벨입니다.");
             return;
         }
         
         if (upgradeValue == 0)
         {
-            Debug.LogError("0이 아닌 값으로 호출해야 합니다.");
+            Debug.LogError("UpgradeKit: 0이 아닌 값으로 호출해야 합니다.");
             return;
         }
         
-        var level = _kitObject.kitLevel += upgradeValue.Value;
+        var level = (_kitObject.kitLevel += upgradeValue.Value) - 1;
         _kitObject.KitRemainingCost = _maxCosts[level];
         _kitObject.kitValue = _kitValues[level];
     }
     
-    public void Excute(KitObject obj, int? cost = null)
+    public void Excute(KitObject obj, int? cost = null, SampleCharacterController player = null)
     {
         cost = cost ?? 1;
+        var clearCounter = (ClearCounter)player.GetSelectedInteractableObject();
+        
+        //cost 체크
+        if (obj.KitRemainingCost - cost.Value < 0)
+        {
+            Debug.LogError("REPAIR: COST가 부족합니다.");
+            return;
+        }
+        
+        //수리동작 수행
+        if (!clearCounter.RepairCounter(_kitObject.kitValue))
+        {
+            Debug.LogError("REPAIR: 이미 내구도가 최대 입니다!");
+            return;
+        }
+        
+        //연산처리
         obj.KitRemainingCost -= cost.Value;
+        
     }
 }
