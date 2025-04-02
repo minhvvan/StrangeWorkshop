@@ -13,7 +13,9 @@ public class ConsoleCounter : BaseCounter
     private bool cooltime = true;
     private int _currentIndex;
     private float _currentTime;
+    private bool _isWork = false;
     private CraftRecipeSO _recipe;
+    
     
     void Awake()
     {
@@ -21,6 +23,26 @@ public class ConsoleCounter : BaseCounter
         progressBar.SetColor(Color.green);
         progressBar.ResetBar();
         progressBar.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (_isWork)
+        {
+            _currentTime += Time.deltaTime;
+            progressBar.UpdateProgressBar(_currentTime);
+            if (_currentTime >= _recipe.craftNumberOfTimes)
+            {
+                _currentTime = 0;
+                _isWork = false;
+                craftCounter.ClearHoldableObject();
+                var spawnHoldableObject = HoldableObject.SpawnHoldableObject(_recipe.output, craftCounter, GetHoldableObjectFollowTransform());
+                //craftCounter.OnCraftCompleteAction?.Invoke(_recipe.output);
+                _currentIndex = 0;
+                progressBar.ResetBar();
+                progressBar.gameObject.SetActive(false);
+            }
+        }
     }
     
     public override void Interact(IInteractAgent agent = null)
@@ -39,38 +61,13 @@ public class ConsoleCounter : BaseCounter
 
     public override void InteractAlternate(IInteractAgent agent = null)
     {
-        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
-        {
-            var currentCraftRecipeSO = craftCounter.GetCurrentCraftRecipeSO();
-        
-            if (!currentCraftRecipeSO.IsUnityNull())
-            {
-                var craftIndex = craftCounter.GetCraftIndex();
-                progressBar.gameObject.SetActive(true);
-                progressBar.SetBar(craftIndex);
-                if (craftIndex > _currentIndex && cooltime)
-                {
-                    _currentIndex++;
-                    progressBar.UpdateProgressBar(_currentIndex);
-                    CoolTime();
-                
-                    //UI 
-                }
+        _recipe = craftCounter.GetCurrentCraftRecipeSO();
 
-                if (craftIndex <= _currentIndex)
-                {
-                    craftCounter.ClearHoldableObject();
-                    var spawnHoldableObject = HoldableObject.SpawnHoldableObject(currentCraftRecipeSO.output, craftCounter, GetHoldableObjectFollowTransform());
-                    // var defaultScale = spawnHoldableObject.transform.localScale;
-                    // spawnHoldableObject.transform.localScale = Vector3.zero;
-                    // spawnHoldableObject.transform.DOScale(defaultScale, 1f);
-                    //craftCounter.OnCraftCompleteAction?.Invoke(currentCraftRecipeSO.output);
-                    _currentIndex = 0;
-                    progressBar.ResetBar();
-                    progressBar.gameObject.SetActive(false);
-                }
-                //VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position);
-            }
+        if (!_recipe.IsUnityNull() && RecipeManager.Instance.CanMake(craftCounter.GetHoldableObjectList(), _recipe))
+        {
+            _isWork = true;
+            progressBar.gameObject.SetActive(true);
+            progressBar.SetBar(_recipe.craftNumberOfTimes);   
         }
     }
 
