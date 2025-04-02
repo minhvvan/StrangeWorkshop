@@ -15,4 +15,4 @@ MonoBehaviour:
   prefab: {fileID: 1321377731327022, guid: 8851c842adf6d854696238653be65c37, type: 3}
   objectName: DoubleMissileTurret
   objectType: 3
-  objectSprite: {fileID: 21300000, guid: 240d9664252f5d8429df55bf9dc5a76a, type: 3}
+  objectSprite: {fileID: 21300000, guid: 83e983cf280f8f543b90a2c045a6612d, type: 3}

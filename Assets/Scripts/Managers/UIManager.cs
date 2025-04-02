@@ -20,6 +20,7 @@ public enum UIType
     ConfirmPopupUI,
     LoseEffectUI,
     DialogueUI,
+    RecipeSelectUI,
     Max,
 }
 
