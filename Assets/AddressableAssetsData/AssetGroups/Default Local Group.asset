@@ -72,6 +72,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f8aa402ab57eca42a0f76e04e985218
+    m_Address: data/recipes/Craft
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50e460daf762c9a4e900fb3b42e2558e
     m_Address: prefabs/turret/turret_gun
     m_ReadOnly: 0
@@ -79,11 +84,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7ec28c384f98488d9ef1e3ad96651
     m_Address: prefabs/enemy/throw_sword
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 587f87be7d8a8f34c815dd031023be61
-    m_Address: data/recipes/Craft
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

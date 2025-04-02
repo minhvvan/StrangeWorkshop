@@ -63,7 +63,7 @@ public class EquipmentUIController : MonoBehaviour, IGameUI
             // 겉으로 보기에 사이즈, 위치가 일정하도록 조정
             SetImagePivot(holdableObjectSO.objectSprite);
             _iconImage.sprite = holdableObjectSO.objectSprite;
-            _iconImage.SetNativeSize();
+            //_iconImage.SetNativeSize();
             // 영문 => 한글
             string switchedName = SwitchLanguage.Translate(holdableObjectSO.objectName);
             SetObjectNameFontSize(switchedName);
