@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -21,6 +22,8 @@ public class CraftCounter : BaseCounter
 
     private float roatateSpeed = 100f;
     
+    private RecipeSelectEvent _recipeSelectEvent;
+    
     [Header("Events")]
     public Action<List<CraftRecipeSO>, List<string>> OnObjectsChangedAction;
     public Action<HoldableObjectSO> OnCraftCompleteAction;
@@ -30,6 +33,9 @@ public class CraftCounter : BaseCounter
         await UniTask.WaitUntil(()=>UIManager.Instance.IsInitialized);
         _inGameUIController = UIManager.Instance.GetUI<InGameUIController>(UIType.InGameUI);
         _inGameUIController.RegisterGameUI(this);
+
+        _recipeSelectEvent = await DataManager.Instance.LoadDataAsync<RecipeSelectEvent>(Addresses.Events.Counter.RECIPE_SELECTED);
+        _recipeSelectEvent.AddListener(SetRecipe);
     }
 
     private void Update()
@@ -51,7 +57,7 @@ public class CraftCounter : BaseCounter
     public override void Interact(IHoldableObjectParent parent)
     {
         // 플레이어가 물체를 들고 있으면
-        if (parent.HasHoldableObject())
+        if (parent.HasHoldableObject() && !_currentCraftRecipeSO.IsUnityNull())
         {
             // DeepCopy로 연산에 필요한 List생성 후 계산
             List<HoldableObject> CompareList = new(GetHoldableObjectList())
@@ -60,8 +66,8 @@ public class CraftCounter : BaseCounter
             };
             
             // 플레이어의 재료를 놓을 때 만들 수 있는 레시피가 있는 검사
-            List<CraftRecipeSO> recipeCandidates = RecipeManager.Instance.FindCraftRecipeCandidate(CompareList);
-            if (recipeCandidates.Count <= 0)
+            //List<CraftRecipeSO> recipeCandidates = RecipeManager.Instance.FindCraftRecipeCandidate(CompareList);
+            if (!RecipeManager.Instance.WillMake(CompareList, _currentCraftRecipeSO))
             {
                 return;
             }
@@ -69,23 +75,21 @@ public class CraftCounter : BaseCounter
             parent.GiveHoldableObject(this);
             GetHoldableObject().gameObject.transform.position += new Vector3(Random.Range(0.5f, 4f), Random.Range(0.5f, 4f), Random.Range(0.5f, 4f));
             // 현재 만들 수 있는 레시피가 있으면 저장
-            _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
-            SetCurrentCraftIndex();
+            //_currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
             
-            var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
-            OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
+            //var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
+            //OnObjectsChangedAction?.Invoke(recipeCandidates, objectList);
         }
         else
         {
             if (HasHoldableObject())
             {
                 GiveHoldableObject(parent);
-                _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
-                SetCurrentCraftIndex();
+               // _currentCraftRecipeSO = RecipeManager.Instance.FindCanCraftRecipe(GetHoldableObjectList());
                 TakeOffPlayerGlove(parent);
                 
                 var objectList = GetHoldableObjectList().Select(x => x.GetHoldableObjectSO().objectName).ToList();
-                OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
+                //OnObjectsChangedAction?.Invoke(RecipeManager.Instance.FindCraftRecipeCandidate(GetHoldableObjectList()), objectList);
             }
         }
     }
@@ -118,10 +122,16 @@ public class CraftCounter : BaseCounter
         return _currentCraftRecipeSO;
     }
     
-    async void CoolTime()
+    // async void CoolTime()
+    // {
+    //     cooltime = false;
+    //     await UniTask.WaitForSeconds(0.3f);
+    //     cooltime = true;
+    // }
+
+    private void SetRecipe(CraftRecipeSO recipe)
     {
-        cooltime = false;
-        await UniTask.WaitForSeconds(0.3f);
-        cooltime = true;
+        _currentCraftRecipeSO = recipe;
+        Debug.Log(_currentCraftRecipeSO);
     }
 }

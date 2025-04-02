@@ -49,45 +49,46 @@ public class RecipeManager : Singleton<RecipeManager>
     }
     
     // Can CraftRecipe 검사
-    public CraftRecipeSO FindCanCraftRecipe(List<HoldableObject> inputs)
-    {
-        CraftRecipeSO result = null;
-        var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
-        foreach (var craftRecipe in craftRecipeCollection.recipes)
-        {
-            if (CanMake(inputList, craftRecipe))
-            {
-                result = craftRecipe;
-            }
-        }
-        return result;
-    }
+    // public CraftRecipeSO FindCanCraftRecipe(List<HoldableObject> inputs)
+    // {
+    //     CraftRecipeSO result = null;
+    //     var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
+    //     foreach (var craftRecipe in craftRecipeCollection.recipes)
+    //     {
+    //         if (CanMake(inputList, craftRecipe))
+    //         {
+    //             result = craftRecipe;
+    //         }
+    //     }
+    //     return result;
+    // }
+    //
+    // // WillMake CraftRecipe 검사
+    // public List<CraftRecipeSO> FindCraftRecipeCandidate(List<HoldableObject> inputs)
+    // {
+    //     // 레시피 후보군을 List로 전부 반환하도록 변경 완료
+    //     // 후보군이 있는지 확인할 때는 list 길이가 0보다 큰지 체크
+    //     List<CraftRecipeSO> result = new List<CraftRecipeSO>();
+    //
+    //     if (inputs.Count <= 0) return result; // inputs가 빈 리스트일때 예외처리
+    //     
+    //     var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
+    //     foreach (var craftrecipe in craftRecipeCollection.recipes)
+    //     {
+    //         if (WillMake(inputList, craftrecipe))
+    //         {
+    //             result.Add(craftrecipe);
+    //         }
+    //     }
+    //
+    //     return result;
+    // }
     
-    // WillMake CraftRecipe 검사
-    public List<CraftRecipeSO> FindCraftRecipeCandidate(List<HoldableObject> inputs)
-    {
-        // 레시피 후보군을 List로 전부 반환하도록 변경 완료
-        // 후보군이 있는지 확인할 때는 list 길이가 0보다 큰지 체크
-        List<CraftRecipeSO> result = new List<CraftRecipeSO>();
-
-        if (inputs.Count <= 0) return result; // inputs가 빈 리스트일때 예외처리
-        
-        var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
-        foreach (var craftrecipe in craftRecipeCollection.recipes)
-        {
-            if (WillMake(inputList, craftrecipe))
-            {
-                result.Add(craftrecipe);
-            }
-        }
-
-        return result;
-    }
-    
-    private bool WillMake(List<HoldableObjectSO> inputs, CraftRecipeSO craftRecipe)
+    public bool WillMake(List<HoldableObject> inputs, CraftRecipeSO craftRecipe)
     {
         ISet<int> inputSet = new HashSet<int>();
-        foreach (HoldableObjectSO input in inputs)
+        var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
+        foreach (HoldableObjectSO input in inputList)
         {
             int inputIndex = FindNotInSet(craftRecipe.inputs, input, inputSet);
             if (inputIndex < 0)
@@ -99,12 +100,13 @@ public class RecipeManager : Singleton<RecipeManager>
         return true;
     }
 
-    public bool CanMake(List<HoldableObjectSO> inputs, CraftRecipeSO craftRecipe)
+    public bool CanMake(List<HoldableObject> inputs, CraftRecipeSO craftRecipe)
     {
         ISet<int> inputSet = new HashSet<int>();
+        var inputList = inputs.Select(x => x.GetHoldableObjectSO()).ToList();
         foreach (HoldableObjectSO recipeInput in craftRecipe.inputs)
         {
-            int inputIndex = FindNotInSet(inputs, recipeInput, inputSet);
+            int inputIndex = FindNotInSet(inputList, recipeInput, inputSet);
             if (inputIndex < 0)
             {
                 return false;

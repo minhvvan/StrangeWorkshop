@@ -10,4 +10,5 @@ public class CraftRecipeSO : ScriptableObject
     public int craftNumberOfTimes;
     public RectTransform craftRecipeUI;
     public Sprite craftRecipeIcon;
+    public string craftRecipeName;
 }

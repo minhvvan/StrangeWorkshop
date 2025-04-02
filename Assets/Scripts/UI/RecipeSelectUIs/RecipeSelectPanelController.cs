@@ -17,22 +17,22 @@ public class RecipeSelectPanelController : MonoBehaviour, IGameUI
         _root = transform as RectTransform;
         _recipeCollection = RecipeManager.Instance.GetCraftRecipeCollection;
         
-        var recipes = RecipeManager.Instance.GetCraftRecipeCollection;
-        foreach (var recipe in recipes.recipes)
-        {
-            var recipeButton = Instantiate(selectRecipeButton, recipeSelectParent);
-            recipeButton.GetComponent<RecipeButton>().SetInitialize(recipe);
-        }
+        // var recipes = RecipeManager.Instance.GetCraftRecipeCollection;
+        // foreach (var recipe in recipes.recipes)
+        // {
+        //     var recipeButton = Instantiate(selectRecipeButton, recipeSelectParent);
+        //     recipeButton.GetComponent<RecipeButton>().SetInitialize(recipe);
+        // }
     }
     
     public void ShowUI()
     {
-        var recipes = RecipeManager.Instance.GetCraftRecipeCollection;
-        foreach (var recipe in recipes.recipes)
-        {
-            var recipeButton = Instantiate(selectRecipeButton, recipeSelectParent);
-            recipeButton.GetComponent<RecipeButton>().SetInitialize(recipe);
-        }
+        // var recipes = RecipeManager.Instance.GetCraftRecipeCollection;
+        // foreach (var recipe in recipes.recipes)
+        // {
+        //     var recipeButton = Instantiate(selectRecipeButton, recipeSelectParent);
+        //     recipeButton.GetComponent<RecipeButton>().SetInitialize(recipe);
+        // }
         UIAnimationUtility.SlideInDown(_root);
     }
 

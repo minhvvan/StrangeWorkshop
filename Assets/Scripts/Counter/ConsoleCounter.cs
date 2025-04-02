@@ -39,7 +39,7 @@ public class ConsoleCounter : BaseCounter
                 var defaultScale = spawnHoldableObject.transform.localScale;
                 spawnHoldableObject.transform.localScale = Vector3.zero;
                 spawnHoldableObject.transform.DOScale(defaultScale, 1f);
-                craftCounter.OnCraftCompleteAction?.Invoke(_recipe.output);
+                //craftCounter.OnCraftCompleteAction?.Invoke(_recipe.output);
                 _currentIndex = 0;
                 progressBar.ResetBar();
                 progressBar.gameObject.SetActive(false);
@@ -51,13 +51,17 @@ public class ConsoleCounter : BaseCounter
     {
         // TODO: UI창 띄어서 레시피 받기
         
+        UIManager.Instance.GetUI<CraftSelectUIController>(UIType.RecipeSelectUI).ShowUI();
     }
 
     public override void InteractAlternate(IHoldableObjectParent player)
     {
         _recipe = craftCounter.GetCurrentCraftRecipeSO();
-
-        if (_recipe != null)
+        
+        if(_recipe.IsUnityNull())
+            return;
+        
+        if (RecipeManager.Instance.CanMake(craftCounter.GetHoldableObjectList(), craftCounter.GetCurrentCraftRecipeSO()))
         {
             _isWork = true;
             progressBar.gameObject.SetActive(true);

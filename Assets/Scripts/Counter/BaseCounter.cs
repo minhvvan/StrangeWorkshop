@@ -64,7 +64,7 @@ public abstract class BaseCounter : MonoBehaviour, IHoldableObjectParent
         return true;
     }
 
-    protected List<HoldableObject> GetHoldableObjectList()
+    public List<HoldableObject> GetHoldableObjectList()
     {
         return _holdableObject;
     }

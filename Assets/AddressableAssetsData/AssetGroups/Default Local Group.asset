@@ -57,13 +57,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 71fec69487acef041bc81adeb9d74df1
-    m_Address: events/game/enemy_spawn
+  - m_GUID: 587f87be7d8a8f34c815dd031023be61
+    m_Address: data/recipes/Craft
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 75c4dff732dbf484997a80e8f049612f
-    m_Address: data/recipes/Craft
+  - m_GUID: 71fec69487acef041bc81adeb9d74df1
+    m_Address: events/game/enemy_spawn
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -82,15 +82,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6880f713df919e49bca6e6b8835913d
+    m_Address: events/counter/recipe_selected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c11132ab267656e4ca77c7c112e2cc84
     m_Address: data/chapters/chapter_list
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
-    m_Address: data/chapters/chapter_1
   - m_GUID: ca8868471576f334faa629099e01a963
     m_Address: events/game/command_complete
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d55f248cca58fd04eb3e83be8cd9c833
+    m_Address: data/chapters/chapter_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

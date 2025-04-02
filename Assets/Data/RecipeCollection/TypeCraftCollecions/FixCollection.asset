@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4585371c60cd793419d1591ef82d8eea, type: 3}
-  m_Name: CraftRecipeCollection
+  m_Name: FixCollection
   m_EditorClassIdentifier: 
   recipes:
-  - {fileID: 11400000, guid: 1c75830531c0f4344991e91969727105, type: 2}
   - {fileID: 11400000, guid: d80dfb390869955488d09e91609a5c7a, type: 2}
-  - {fileID: 11400000, guid: 2631fcc0b50d8544ca86161d832b0949, type: 2}
   - {fileID: 11400000, guid: e66fdbbdceef0b74c8535bc1a85d9d56, type: 2}
   - {fileID: 11400000, guid: f755861cfd9d4874f9bde3e05bb3f029, type: 2}
