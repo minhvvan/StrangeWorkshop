@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: CraftRecipeCollectionSO
   m_EditorClassIdentifier: 
   recipesCollection:
-    m_Keys: 
-    m_Values: []
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 11400000, guid: 73e6fab834825664595c9986a619ac27, type: 2}
+    - Key: 1
+      Value: {fileID: 11400000, guid: 119546c6c51dff440950b6d76958fa14, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: df94ada79872e95438a9ecb048c1952d, type: 2}

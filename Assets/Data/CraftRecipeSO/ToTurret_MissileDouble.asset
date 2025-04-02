@@ -23,3 +23,4 @@ MonoBehaviour:
   craftRecipeUI: {fileID: 8409750582007153381, guid: 34f84fc239900c140a48c9be90626d02,
     type: 3}
   craftRecipeIcon: {fileID: 21300000, guid: 83e983cf280f8f543b90a2c045a6612d, type: 3}
+  craftRecipeName: "\uBBF8\uC0AC\uC77C \uD130\uB81B"
