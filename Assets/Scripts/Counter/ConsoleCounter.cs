@@ -13,7 +13,6 @@ public class ConsoleCounter : BaseCounter
     private bool cooltime = true;
     private int _currentIndex;
     private float _currentTime;
-    private bool _isWork = false;
     private CraftRecipeSO _recipe;
     
     void Awake()
@@ -22,6 +21,20 @@ public class ConsoleCounter : BaseCounter
         progressBar.SetColor(Color.green);
         progressBar.ResetBar();
         progressBar.gameObject.SetActive(false);
+    }
+    
+    public override void Interact(IInteractAgent agent = null)
+    {
+        if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
+        {
+            if(agent is SampleCharacterController player)
+            {
+                player.SetState(player.interactState);
+                UIManager.Instance.GetUI<CraftSelectUIController>(UIType.RecipeSelectUI).ShowUI();
+                UIManager.Instance.GetUI<CraftSelectUIController>(UIType.RecipeSelectUI).OnHide += () => {player.SetState(player.idleState);};
+            }
+
+        }
     }
 
     public override void InteractAlternate(IInteractAgent agent = null)
@@ -51,7 +64,7 @@ public class ConsoleCounter : BaseCounter
                     // var defaultScale = spawnHoldableObject.transform.localScale;
                     // spawnHoldableObject.transform.localScale = Vector3.zero;
                     // spawnHoldableObject.transform.DOScale(defaultScale, 1f);
-                    craftCounter.OnCraftCompleteAction?.Invoke(currentCraftRecipeSO.output);
+                    //craftCounter.OnCraftCompleteAction?.Invoke(currentCraftRecipeSO.output);
                     _currentIndex = 0;
                     progressBar.ResetBar();
                     progressBar.gameObject.SetActive(false);
@@ -60,59 +73,8 @@ public class ConsoleCounter : BaseCounter
             }
         }
     }
-    
-    public override void Interact(IHoldableObjectParent plqyer)
-    {
-        // TODO: UI창 띄어서 레시피 받기
-        
-        UIManager.Instance.GetUI<CraftSelectUIController>(UIType.RecipeSelectUI).ShowUI();
-    }
 
-    public override void InteractAlternate(IHoldableObjectParent player)
-    {
-        _recipe = craftCounter.GetCurrentCraftRecipeSO();
-        
-        if(_recipe.IsUnityNull())
-            return;
-        
-        if (RecipeManager.Instance.CanMake(craftCounter.GetHoldableObjectList(), craftCounter.GetCurrentCraftRecipeSO()))
-        {
-            _isWork = true;
-            progressBar.gameObject.SetActive(true);
-            progressBar.SetBar(_recipe.craftNumberOfTimes);   
-        }
-        
-        // var currentCraftRecipeSO = craftCounter.GetCurrentCraftRecipeSO();
-        //
-        // if (!currentCraftRecipeSO.IsUnityNull())
-        // {
-        //     var craftIndex = craftCounter.GetCraftIndex();
-        //     progressBar.gameObject.SetActive(true);
-        //     progressBar.SetBar(craftIndex);
-        //     if (craftIndex > _currentIndex && cooltime)
-        //     {
-        //         _currentIndex++;
-        //         progressBar.UpdateProgressBar(_currentIndex);
-        //         CoolTime();
-        //         
-        //         //UI 
-        //     }
-        //
-        //     if (craftIndex <= _currentIndex)
-        //     {
-        //         craftCounter.ClearHoldableObject();
-        //         var spawnHoldableObject = HoldableObject.SpawnHoldableObject(currentCraftRecipeSO.output, craftCounter);
-        //         var defaultScale = spawnHoldableObject.transform.localScale;
-        //         spawnHoldableObject.transform.localScale = Vector3.zero;
-        //         spawnHoldableObject.transform.DOScale(defaultScale, 1f);
-        //         craftCounter.OnCraftCompleteAction?.Invoke(currentCraftRecipeSO.output);
-        //         _currentIndex = 0;
-        //         progressBar.ResetBar();
-        //         progressBar.gameObject.SetActive(false);
-        //     }
-        //     //VFXManager.Instance.TriggerVFX(VFXType.CRAFTCOUNTERWORKING, transform.position);
-        // }
-    }
+    
     
     async void CoolTime()
     {

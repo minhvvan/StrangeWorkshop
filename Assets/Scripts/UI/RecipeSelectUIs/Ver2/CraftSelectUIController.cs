@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -10,6 +11,8 @@ using UnityEngine.UI;
 
 public class CraftSelectUIController : MonoBehaviour, IGameUI
 {
+    public Action OnHide;
+    
     private RectTransform _root;
     private Vector2 _startPosition;
     
@@ -27,7 +30,7 @@ public class CraftSelectUIController : MonoBehaviour, IGameUI
     private Dictionary<CraftType, List<RecipeButton>> _recipeButtons = new Dictionary<CraftType, List<RecipeButton>>();
     private List<RecipeButton> _currentRecipeButtons = new List<RecipeButton>();
     private RecipeSelectEvent _recipeSelectEvent;
-
+    
     async void Awake()
     {
         Initialize();
@@ -54,6 +57,7 @@ public class CraftSelectUIController : MonoBehaviour, IGameUI
 
     public void HideUI()
     {
+        OnHide?.Invoke();
         UIAnimationUtility.SlideOutDown(_root);
     }
 
@@ -64,8 +68,10 @@ public class CraftSelectUIController : MonoBehaviour, IGameUI
         _craftCollectionSo = RecipeManager.Instance.GetCraftRecipeCollection;
         Button currentButton = null;
         
+        // collection의 key를 가져옴
         ICollection<CraftType> keys = _craftCollectionSo.recipesCollection.Keys;
 
+        // 모든 CraftRecipe 버튼을 만든다
         foreach (CraftType key in keys)
         {
             List<RecipeButton> recipeButtons = new List<RecipeButton>();
@@ -90,6 +96,8 @@ public class CraftSelectUIController : MonoBehaviour, IGameUI
                 recipeButton.gameObject.SetActive(false);
                 
                 navigation = currentButton.navigation;
+                
+                // 상단 CraftType의 버튼 네비게이션 달아주기
                 switch (key)
                 {
                     case CraftType.Fix:
@@ -110,6 +118,7 @@ public class CraftSelectUIController : MonoBehaviour, IGameUI
             _recipeButtons.Add(key, recipeButtons);
         }
         
+        // 초기 CraftType.Fix에 있는 것만 보여주기
         foreach (var recipeButton in _recipeButtons[CraftType.Fix])
         {
             recipeButton.gameObject.SetActive(true);
@@ -154,12 +163,12 @@ public class CraftSelectUIController : MonoBehaviour, IGameUI
         craftSelectImage.sprite = recipe.craftRecipeIcon;
         craftSelectText.text = recipe.craftRecipeName;
         
-        // TODO: CraftCounter에 Recipe전달
         _recipeSelectEvent.Raise(recipe);
         
         HideUI();
     }
     
+    // 처음 선택된 버튼
     private void SelectFirstUI()
     {
         if (_firstSelected != null)
