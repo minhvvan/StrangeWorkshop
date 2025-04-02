@@ -16,4 +16,4 @@ MonoBehaviour:
   vfxPrefab: {fileID: 147890, guid: b3f89307780eeba40b22539601d6b033, type: 3}
   poolSize: 0
   duration: 1
-  size: {x: 1, y: 1, z: 1}
+  size: {x: 4, y: 4, z: 4}
