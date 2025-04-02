@@ -15,5 +15,5 @@ MonoBehaviour:
   prefab: {fileID: 2719215754929610611, guid: 0b51d19d6d8d01a46b943cec8a21e3bf, type: 3}
   objectName: Gear
   objectType: 1
-  objectSprite: {fileID: 21300000, guid: 1a2bc2bc1358cc14794c1491f954b4b9, type: 3}
+  objectSprite: {fileID: 21300000, guid: 8787565723183f947bc3049c09aa5c12, type: 3}
   price: 1
