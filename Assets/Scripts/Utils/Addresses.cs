@@ -101,6 +101,11 @@ public static class Addresses
         {
             public const string DROPITEMS = "data/drops/dropitems";
         }
+
+        public static class Kits
+        {
+            public const string REPAIR = "data/kits/repairkit";
+        }
     }
     
     public static class Prefabs
