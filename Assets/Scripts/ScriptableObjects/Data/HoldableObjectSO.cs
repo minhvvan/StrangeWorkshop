@@ -8,7 +8,8 @@ public enum HoldableObjectType
     PartMaterial,
     Bullet,
     Turret,
-    Upgrade
+    Upgrade,
+    Kit
 }
 
 public enum PartMaterialType

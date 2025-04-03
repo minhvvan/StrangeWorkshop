@@ -134,7 +134,7 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
         return false;
     }
 
-    public void Interact(IInteractAgent agent = null)
+    public virtual void Interact(IInteractAgent agent = null)
     {
         if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
@@ -143,7 +143,7 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
         }
     }
 
-    public void InteractAlternate(IInteractAgent agent = null)
+    public virtual void InteractAlternate(IInteractAgent agent = null)
     {
         if (agent != null && agent.GetGameObject().TryGetComponent(out IHoldableObjectParent parent))
         {
@@ -152,7 +152,7 @@ public abstract class HoldableObject : MonoBehaviour, IInteractable
                 Debug.LogError("parent is null");
                 return;
             }
-            
+
             if (TryGetComponent(out Rigidbody rig) && TryGetComponent(out Collider col))
             {
                 parent.SetHoldableObject(null);

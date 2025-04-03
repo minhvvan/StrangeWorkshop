@@ -3040,6 +3040,8 @@ MonoBehaviour:
   _typeBackgroundImage: {fileID: 614751832962548258}
   _typeBackgrounds:
     _serializedList:
+    - Key: 5
+      Value: {fileID: 21300000, guid: 558674d6fc8059d4aa7f40fc78492b51, type: 3}
     - Key: 4
       Value: {fileID: 21300000, guid: 558674d6fc8059d4aa7f40fc78492b51, type: 3}
     - Key: 3

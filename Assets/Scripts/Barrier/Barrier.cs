@@ -73,12 +73,17 @@ public class Barrier : MonoBehaviour, IDamageable
         _barrierIndex = i;
     }
 
-    public void Repair(float amount)
+    public bool Repair(float amount)
     {
+        //현재 체력이 최대체력이거나 이미 파괴된 상태면 수리 호출 반려
+        if (Mathf.Approximately(_currentHealth, _maxHealth) || Destroyed) return false;
+        
         _currentHealth += amount;
-        _currentHealth = Mathf.Max(_currentHealth, _maxHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth,0, _maxHealth);
 
         UpdateUI();
+
+        return true;
     }
 
     private void UpdateUI()
