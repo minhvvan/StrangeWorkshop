@@ -14,10 +14,12 @@ public class KitObject : HoldableObject
     //
     private Action<KitObject, SampleCharacterController, int?> _objective;
     private Action<int?> _upgradeKit;
+    private Action<SampleCharacterController> _disposeAgent;
     
     [Header("KitStat"), Tooltip("KitLevel에 따라 능력치가 다르게 설정됩니다.")]
     public int kitLevel;
-    
+
+    private bool IsNoCost {get; set;}
     [SerializeField] private int _kitRemaningCost;
     
     /// <summary>
@@ -31,8 +33,8 @@ public class KitObject : HoldableObject
             if (value < 0) value = 0;
             
             _kitRemaningCost = value;
-            
-            if(_kitRemaningCost == 0) Dispose();
+
+            if (_kitRemaningCost == 0) IsNoCost = true;
         }
     }
     
@@ -46,6 +48,12 @@ public class KitObject : HoldableObject
     
     private async void Awake()
     {
+        await Initialize();
+    }
+
+    private async UniTask Initialize()
+    {
+        IsNoCost = false;
         await SetObjective();
     }
     
@@ -54,6 +62,8 @@ public class KitObject : HoldableObject
     /// </summary>
     private async UniTask SetObjective() 
     {
+        _disposeAgent = Dispose;
+        
         switch (kitType)
         {
             case KitType.REPAIR:
@@ -75,7 +85,7 @@ public class KitObject : HoldableObject
     /// <summary>
     /// 기본적으로 cost가 1씩 차감됩니다. modifyCost를 설정하면 그 값을 따릅니다.
     /// </summary>
-    public void Excute(SampleCharacterController player)
+    private void Excute(SampleCharacterController player)
     {
         _objective?.Invoke(this, player, modifyCost != 0 ? modifyCost : null);
     }
@@ -107,12 +117,15 @@ public class KitObject : HoldableObject
             
             //동작 수행
             Excute(player);
+            
+            //Cost 다썼다면 Clear(제거)
+            if(IsNoCost) Dispose(player);
         }
     }
 
-    //
-    public void Dispose()
+    //제거
+    private static void Dispose(SampleCharacterController player)
     {
-        Destroy(gameObject);
+        player.ClearHoldableObject();
     }
 }
